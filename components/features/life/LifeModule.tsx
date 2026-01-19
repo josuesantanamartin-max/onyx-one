@@ -3,9 +3,10 @@ import { useLifeStore } from '../../../store/useLifeStore';
 import { useUserStore } from '../../../store/useUserStore';
 import { useFinanceStore } from '../../../store/useFinanceStore';
 import { useFinanceControllers } from '../../../hooks/useFinanceControllers';
+import { analyzeLife } from '../../../services/geminiService';
 
 import {
-  Menu, Utensils, Plane, Lock, Baby, Home, Heart
+  Menu, Utensils, Plane, Lock, Baby, Home, Heart, Sparkles, Loader2, X
 } from 'lucide-react';
 import { Trip, Goal } from '../../../types';
 import { KitchenManager } from './KitchenManager';
@@ -26,7 +27,7 @@ const LIFE_TEXTS: any = {
 
 const LifeModule: React.FC<LifeModuleProps> = ({ onMenuClick }) => {
   // Store Hooks
-  const { setTrips } = useLifeStore();
+  const { setTrips, pantryItems, shoppingList, trips } = useLifeStore();
   const {
     lifeActiveTab: activeTab,
     setLifeActiveTab: setActiveTab,
@@ -76,6 +77,39 @@ const LifeModule: React.FC<LifeModuleProps> = ({ onMenuClick }) => {
     addSyncLog({ message: `Nuevo viaje creado: ${newTripData.destination}`, timestamp: Date.now(), type: "LIFE" });
   };
 
+  // AI Analysis State
+  const [isAnalyzing, setIsAnalyzing] = React.useState(false);
+  const [analysis, setAnalysis] = React.useState<string | null>(null);
+  const [isAnalysisVisible, setIsAnalysisVisible] = React.useState(false);
+
+  const handleLifeAnalysis = async () => {
+    setIsAnalyzing(true);
+    setAnalysis(null);
+    try {
+      // Convert ShoppingItem[] to Ingredient[] format
+      const shoppingAsIngredients = shoppingList.map(item => ({
+        ...item,
+        category: 'Other' as const
+      }));
+
+      const result = await analyzeLife(
+        pantryItems,
+        [], // mealPlans - not yet in store
+        shoppingAsIngredients,
+        trips,
+        language as 'ES' | 'EN' | 'FR'
+      );
+      setAnalysis(result);
+      setIsAnalysisVisible(true);
+    } catch (error) {
+      console.error('Life Analysis Error:', error);
+      setAnalysis('<strong>Error</strong><br>No se pudo generar el análisis. Por favor, intenta de nuevo.');
+      setIsAnalysisVisible(true);
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
   const NAV_ITEMS = [
     { id: 'kitchen', label: t.nav.kitchen, icon: Utensils },
     { id: 'spaces', label: t.nav.spaces, icon: Home },
@@ -106,6 +140,10 @@ const LifeModule: React.FC<LifeModuleProps> = ({ onMenuClick }) => {
             </button>
           )
         })}
+        <button onClick={handleLifeAnalysis} disabled={isAnalyzing} className="flex items-center gap-2 bg-gray-900 text-white hover:bg-gray-800 px-5 py-3 rounded-2xl transition-all shadow-lg font-bold text-sm ml-auto">
+          {isAnalyzing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4 text-yellow-300" />}
+          {isAnalyzing ? 'Analizando...' : 'Análisis IA'}
+        </button>
       </div>
 
       {/* Mobile Header */}
@@ -155,6 +193,34 @@ const LifeModule: React.FC<LifeModuleProps> = ({ onMenuClick }) => {
         {activeTab === 'vault' && <VaultManager />}
         {activeTab === 'family' && <FamilyManager />}
       </div>
+
+      {/* AI ANALYSIS MODAL */}
+      {isAnalysisVisible && analysis && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in" onClick={() => setIsAnalysisVisible(false)}>
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden max-h-[85vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
+            <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-white">
+              <h3 className="text-lg font-black text-gray-900 flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-yellow-500" />
+                Análisis de Vida IA
+              </h3>
+              <button onClick={() => setIsAnalysisVisible(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                <X className="w-5 h-5 text-gray-400" />
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto custom-scrollbar bg-gray-50/50">
+              <div
+                className="prose prose-sm prose-gray max-w-none text-gray-600 bg-white p-6 rounded-2xl shadow-sm border border-gray-100"
+                dangerouslySetInnerHTML={{ __html: analysis }}
+              />
+            </div>
+            <div className="p-4 bg-gray-50 border-t border-gray-100 flex justify-end">
+              <button onClick={() => setIsAnalysisVisible(false)} className="px-5 py-2.5 bg-gray-900 text-white text-xs font-bold uppercase tracking-widest rounded-xl hover:bg-gray-800 transition-colors">
+                Cerrar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

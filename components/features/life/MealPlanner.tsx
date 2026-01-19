@@ -514,11 +514,62 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
         setWeeklyPlan((prev: WeeklyPlanState) => {
             const day = prev[dateKey];
             if (!day) return prev;
+
+            // Get the recipe being removed
+            const removedRecipe = day[mealTime][index];
+
+            // Remove from plan
             const newList = [...day[mealTime]];
             newList.splice(index, 1);
-
             const newPlan = { ...prev, [dateKey]: { ...day, [mealTime]: newList } };
-            recalculateShoppingList(newPlan);
+
+            // Update shopping list quantities
+            if (removedRecipe && removedRecipe.ingredients) {
+                const { shoppingList, setShoppingList } = useLifeStore.getState();
+
+                // Calculate total quantities needed from remaining recipes
+                const remainingQuantities = new Map<string, number>();
+                Object.values(newPlan).forEach(dayPlan => {
+                    ['breakfast', 'lunch', 'dinner'].forEach(meal => {
+                        dayPlan[meal as MealTime]?.forEach(recipe => {
+                            recipe.ingredients?.forEach(ing => {
+                                const key = ing.name.toLowerCase();
+                                const current = remainingQuantities.get(key) || 0;
+                                remainingQuantities.set(key, current + (parseFloat(String(ing.quantity)) || 0));
+                            });
+                        });
+                    });
+                });
+
+                // Update shopping list: subtract quantities or remove if no longer needed
+                const updatedShoppingList = shoppingList.map(item => {
+                    const key = item.name.toLowerCase();
+                    const removedIngredient = removedRecipe.ingredients.find(
+                        ing => ing.name.toLowerCase() === key
+                    );
+
+                    if (removedIngredient) {
+                        const removedQty = parseFloat(String(removedIngredient.quantity)) || 0;
+                        const remainingQty = remainingQuantities.get(key) || 0;
+
+                        if (remainingQty > 0) {
+                            // Other recipes still need this ingredient, subtract the removed quantity
+                            return {
+                                ...item,
+                                quantity: Math.max(0, item.quantity - removedQty)
+                            };
+                        } else {
+                            // No other recipe needs this ingredient, mark for removal
+                            return null;
+                        }
+                    }
+
+                    return item;
+                }).filter(item => item !== null && item.quantity > 0);
+
+                setShoppingList(updatedShoppingList as typeof shoppingList);
+            }
+
             return newPlan;
         });
     };

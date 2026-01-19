@@ -4,7 +4,7 @@ import { useUserStore } from '../../../store/useUserStore';
 import { useFinanceStore } from '../../../store/useFinanceStore';
 import { useFinanceControllers } from '../../../hooks/useFinanceControllers';
 import { ShoppingItem, Ingredient, Recipe } from '../../../types';
-import { ShoppingCart, Copy, Plus, Check, ChefHat, Minus, X } from 'lucide-react';
+import { ShoppingCart, Copy, Plus, Check, ChefHat, Minus, X, ChevronDown } from 'lucide-react';
 
 interface ShoppingListProps {
    // All state managed via stores
@@ -67,6 +67,7 @@ export const ShoppingListComponent: React.FC<ShoppingListProps> = () => {
    const [shoppingItemName, setShoppingItemName] = useState('');
    const [shoppingItemQty, setShoppingItemQty] = useState('1');
    const [shoppingItemUnit, setShoppingItemUnit] = useState('pcs');
+   const [isPurchasedSectionExpanded, setIsPurchasedSectionExpanded] = useState(false);
 
    useEffect(() => {
       if (quickAction?.type === 'ADD_SHOPPING_ITEM') {
@@ -77,21 +78,29 @@ export const ShoppingListComponent: React.FC<ShoppingListProps> = () => {
    }, [quickAction, setQuickAction]);
 
    const groupedShoppingItems = useMemo(() => {
-      const groups: Record<string, ShoppingItem[]> = {};
+      const activeGroups: Record<string, ShoppingItem[]> = {};
+      const purchasedItems: ShoppingItem[] = [];
+
       shoppingList.forEach(item => {
-         let key = 'Otros';
-         if (shoppingViewMode === 'CATEGORY') {
-            key = item.category || getIngredientCategory(item.name); // Fallback to helper if missing
-         } else if (shoppingViewMode === 'RECIPE') {
-            // Use recipe name or 'Manual'
-            key = item.source?.recipeName || 'Extra (Manual)';
+         if (item.checked) {
+            // Purchased items go to a separate array
+            purchasedItems.push(item);
          } else {
-            key = 'Lista Completa';
+            // Active items are grouped normally
+            let key = 'Otros';
+            if (shoppingViewMode === 'CATEGORY') {
+               key = item.category || getIngredientCategory(item.name);
+            } else if (shoppingViewMode === 'RECIPE') {
+               key = item.source?.recipeName || 'Extra (Manual)';
+            } else {
+               key = 'Lista Completa';
+            }
+            if (!activeGroups[key]) activeGroups[key] = [];
+            activeGroups[key].push(item);
          }
-         if (!groups[key]) groups[key] = [];
-         groups[key].push(item);
       });
-      return groups;
+
+      return { activeGroups, purchasedItems };
    }, [shoppingList, shoppingViewMode]);
 
    const handleToggleShoppingItem = (id: string) => {
@@ -229,7 +238,7 @@ export const ShoppingListComponent: React.FC<ShoppingListProps> = () => {
                </div>
             ) : (
                <div className="space-y-8">
-                  {Object.entries(groupedShoppingItems).map(([group, items]: [string, ShoppingItem[]]) => (group !== 'null' && group !== 'undefined' && (
+                  {Object.entries(groupedShoppingItems.activeGroups).map(([group, items]: [string, ShoppingItem[]]) => (group !== 'null' && group !== 'undefined' && (
                      <div key={group} className="space-y-4">
                         <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] pb-3 sticky top-0 bg-white/80 backdrop-blur-md z-10 flex items-center gap-3">
                            {shoppingViewMode === 'CATEGORY' ? (
@@ -242,14 +251,13 @@ export const ShoppingListComponent: React.FC<ShoppingListProps> = () => {
                               <div
                                  key={item.id}
                                  onClick={() => handleToggleShoppingItem(item.id)}
-                                 className={`flex items-center justify-between p-6 rounded-[2rem] border transition-all duration-300 group cursor-pointer ${item.checked ? 'bg-emerald-50/50 border-emerald-200 shadow-inner' : 'bg-white border-gray-100 hover:border-emerald-200 hover:shadow-xl'}`}
+                                 className="flex items-center justify-between p-6 rounded-[2rem] border bg-white border-gray-100 hover:border-emerald-200 hover:shadow-xl transition-all duration-300 group cursor-pointer"
                               >
                                  <div className="flex items-center gap-5">
-                                    <div className={`w-8 h-8 rounded-2xl border-2 flex items-center justify-center transition-all duration-500 ${item.checked ? 'bg-emerald-500 border-emerald-500 rotate-[360deg] scale-110 shadow-lg' : 'border-gray-200 group-hover:border-emerald-400'}`}>
-                                       {item.checked && <Check className="w-5 h-5 text-white" />}
+                                    <div className="w-8 h-8 rounded-2xl border-2 border-gray-200 group-hover:border-emerald-400 flex items-center justify-center transition-all duration-500">
                                     </div>
                                     <div>
-                                       <p className={`font-black text-lg transition-all ${item.checked ? 'line-through text-gray-400 italic' : 'text-gray-900 group-hover:text-emerald-800'} uppercase tracking-tight`}>{item.name}</p>
+                                       <p className="font-black text-lg text-gray-900 group-hover:text-emerald-800 uppercase tracking-tight transition-all">{item.name}</p>
                                        <div className="flex gap-3 text-[9px] font-black uppercase tracking-widest text-gray-300 mt-1">
                                           {item.source?.type === 'RECIPE' && <span className="text-purple-400 flex items-center gap-1.5"><ChefHat className="w-3.5 h-3.5" /> Receta</span>}
                                           {item.category && <span className="flex items-center gap-1.5 opacity-60"><ShoppingCart className="w-3.5 h-3.5" /> {CATEGORY_DISPLAY_NAMES[language as string]?.[item.category] || item.category}</span>}
@@ -258,7 +266,7 @@ export const ShoppingListComponent: React.FC<ShoppingListProps> = () => {
                                  </div>
                                  <div className="flex items-center gap-4">
                                     <div className="text-right">
-                                       <p className={`text-2xl font-black ${item.checked ? 'text-gray-300' : 'text-gray-900'} leading-none`}>{item.quantity}</p>
+                                       <p className="text-2xl font-black text-gray-900 leading-none">{item.quantity}</p>
                                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">{item.unit}</p>
                                     </div>
                                     <div className="flex flex-col gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
@@ -271,6 +279,63 @@ export const ShoppingListComponent: React.FC<ShoppingListProps> = () => {
                         </div>
                      </div>
                   )))}
+
+                  {/* Purchased Items Section */}
+                  {groupedShoppingItems.purchasedItems.length > 0 && (
+                     <>
+                        {/* Separator */}
+                        {Object.keys(groupedShoppingItems.activeGroups).length > 0 && (
+                           <div className="flex items-center gap-4 my-8">
+                              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
+                              <Check className="w-5 h-5 text-emerald-500" />
+                              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
+                           </div>
+                        )}
+
+                        <div className="space-y-4">
+                           <button
+                              onClick={() => setIsPurchasedSectionExpanded(!isPurchasedSectionExpanded)}
+                              className="w-full text-[10px] font-black text-emerald-600 uppercase tracking-[0.3em] pb-3 sticky top-0 bg-white/80 backdrop-blur-md z-10 flex items-center justify-between gap-3 hover:text-emerald-700 transition-colors group cursor-pointer"
+                           >
+                              <div className="flex items-center gap-3">
+                                 <Check className="w-4 h-4" />
+                                 Productos Comprados ({groupedShoppingItems.purchasedItems.length})
+                              </div>
+                              <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${isPurchasedSectionExpanded ? 'rotate-180' : ''}`} />
+                           </button>
+                           {isPurchasedSectionExpanded && (
+                              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 animate-fade-in">
+                                 {groupedShoppingItems.purchasedItems.map(item => (
+                                    <div
+                                       key={item.id}
+                                       onClick={() => handleToggleShoppingItem(item.id)}
+                                       className="flex items-center justify-between p-6 rounded-[2rem] border bg-emerald-50/50 border-emerald-200 shadow-inner transition-all duration-300 group cursor-pointer hover:bg-emerald-50"
+                                    >
+                                       <div className="flex items-center gap-5">
+                                          <div className="w-8 h-8 rounded-2xl border-2 bg-emerald-500 border-emerald-500 flex items-center justify-center transition-all duration-500 rotate-[360deg] scale-110 shadow-lg">
+                                             <Check className="w-5 h-5 text-white" />
+                                          </div>
+                                          <div>
+                                             <p className="font-black text-lg line-through text-gray-400 italic uppercase tracking-tight transition-all">{item.name}</p>
+                                             <div className="flex gap-3 text-[9px] font-black uppercase tracking-widest text-gray-300 mt-1">
+                                                {item.source?.type === 'RECIPE' && <span className="text-purple-400 flex items-center gap-1.5"><ChefHat className="w-3.5 h-3.5" /> Receta</span>}
+                                                {item.category && <span className="flex items-center gap-1.5 opacity-60"><ShoppingCart className="w-3.5 h-3.5" /> {CATEGORY_DISPLAY_NAMES[language as string]?.[item.category] || item.category}</span>}
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div className="flex items-center gap-4">
+                                          <div className="text-right">
+                                             <p className="text-2xl font-black text-gray-300 leading-none">{item.quantity}</p>
+                                             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">{item.unit}</p>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 ))}
+                              </div>
+                           )}
+                        </div>
+                     </>
+                  )}
                </div>
             )}
          </div>

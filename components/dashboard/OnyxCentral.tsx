@@ -27,11 +27,6 @@ const GREETINGS = {
 const OnyxCentral: React.FC = () => {
     const [isEditingLayout, setIsEditingLayout] = useState(false);
 
-    // AI Analysis State
-    const [analysis, setAnalysis] = useState<string | null>(null);
-    const [isAnalyzing, setIsAnalyzing] = useState(false);
-    const [isAnalysisVisible, setIsAnalysisVisible] = useState(false);
-
     // NEW: Time navigation state (like FinanceSummary)
     const [timeMode, setTimeMode] = useState<'MONTH' | 'YEAR'>('MONTH');
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -99,19 +94,7 @@ const OnyxCentral: React.FC = () => {
         setFinanceActiveTab('transactions');
     };
 
-    const handleGeminiAnalysis = async () => {
-        setIsAnalyzing(true);
-        setAnalysis(null);
-        try {
-            const result = await analyzeFinances(transactions, accounts, debts, budgets, goals, language, currency);
-            setAnalysis(result);
-            setIsAnalysisVisible(true);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setIsAnalyzing(false);
-        }
-    };
+
 
     // --- DYNAMIC WIDGETS ---
     const sortedWidgets = useMemo(() => {
@@ -202,10 +185,6 @@ const OnyxCentral: React.FC = () => {
                     </div>
 
                     <div className="flex gap-2">
-                        <button onClick={handleGeminiAnalysis} disabled={isAnalyzing} className="flex items-center gap-2 bg-onyx-950 dark:bg-white text-white dark:text-onyx-950 hover:opacity-90 px-5 py-3 rounded-2xl transition-all shadow-lg font-bold text-sm">
-                            {isAnalyzing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4 text-yellow-300 dark:text-yellow-600" />}
-                            {isAnalyzing ? 'Analizando...' : 'Análisis AI'}
-                        </button>
 
                         <button
                             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
@@ -254,7 +233,15 @@ const OnyxCentral: React.FC = () => {
             <div className="space-y-8 max-w-7xl mx-auto">
                 {/* SMART INSIGHT WIDGET (Always Visible) */}
                 <div className="animate-fade-in-up">
-                    <SmartInsightWidget />
+                    <SmartInsightWidget onNavigate={(app, tab) => {
+                        if (app === 'LIFE') {
+                            setActiveApp('life');
+                            setLifeActiveTab(tab || 'kitchen-recipes');
+                        } else if (app === 'FINANCE') {
+                            setActiveApp('finance');
+                            setFinanceActiveTab(tab || 'transactions');
+                        }
+                    }} />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
@@ -289,33 +276,7 @@ const OnyxCentral: React.FC = () => {
                 </div>
             </div>
 
-            {/* AI ANALYSIS MODAL/DRAWER */}
-            {isAnalysisVisible && analysis && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in" onClick={() => setIsAnalysisVisible(false)}>
-                    <div className="bg-white dark:bg-onyx-900 rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden max-h-[85vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
-                        <div className="px-6 py-4 border-b border-gray-100 dark:border-onyx-800 flex justify-between items-center bg-white dark:bg-onyx-900">
-                            <h3 className="text-lg font-black text-blue-950 dark:text-blue-100 flex items-center gap-2">
-                                <Sparkles className="w-5 h-5 text-yellow-500" />
-                                {language === 'ES' ? 'Análisis Financiero IA' : 'AI Financial Analysis'}
-                            </h3>
-                            <button onClick={() => setIsAnalysisVisible(false)} className="p-2 hover:bg-gray-100 dark:hover:bg-onyx-800 rounded-full transition-colors">
-                                <X className="w-5 h-5 text-gray-400" />
-                            </button>
-                        </div>
-                        <div className="p-6 overflow-y-auto custom-scrollbar bg-gray-50/50 dark:bg-onyx-950/50">
-                            <div
-                                className="prose prose-sm prose-blue dark:prose-invert max-w-none text-gray-600 dark:text-gray-300 bg-white dark:bg-onyx-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-onyx-800"
-                                dangerouslySetInnerHTML={{ __html: analysis }}
-                            />
-                        </div>
-                        <div className="p-4 bg-gray-50 dark:bg-onyx-800 border-t border-gray-100 dark:border-onyx-700 flex justify-end">
-                            <button onClick={() => setIsAnalysisVisible(false)} className="px-5 py-2.5 bg-gray-900 dark:bg-white text-white dark:text-onyx-950 text-xs font-bold uppercase tracking-widest rounded-xl hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
-                                {language === 'ES' ? 'Cerrar' : 'Close'}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+
         </div>
     );
 };

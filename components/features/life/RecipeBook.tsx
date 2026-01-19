@@ -1,20 +1,22 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLifeStore } from '../../../store/useLifeStore';
 import { useUserStore } from '../../../store/useUserStore';
-import { Recipe, RecipeIngredient } from '../../../types';
-import { Search, Loader2, ScanLine, Plus, Clock, Flame, Pencil, Save, X, Trash2, ChefHat, Users, Sparkles, LayoutDashboard } from 'lucide-react';
+import { Recipe, RecipeIngredient, WeeklyPlanState } from '../../../types';
+import { Search, Loader2, ScanLine, Plus, Clock, Flame, Pencil, Save, X, Trash2, ChefHat, Users, Sparkles, LayoutDashboard, Calendar, CalendarPlus } from 'lucide-react';
 import { generateImage, generateRecipesFromIngredients, generateRecipesFromImage } from '../../../services/geminiService';
+import { PlanRecipeModal } from './PlanRecipeModal';
+import { CookingModeView } from './CookingModeView';
 
 interface RecipeBookProps {
-    onOpenCookNow: (recipe: Recipe) => void;
+    onNavigateToMealPlan?: () => void;
     initialRecipeToOpen?: Recipe | null;
     onClearInitialRecipe?: () => void;
 }
 
 const DEFAULT_FOOD_IMG = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop";
 
-export const RecipeBook: React.FC<RecipeBookProps> = ({ onOpenCookNow, initialRecipeToOpen, onClearInitialRecipe }) => {
-    const { recipes, setRecipes, pantryItems } = useLifeStore();
+export const RecipeBook: React.FC<RecipeBookProps> = ({ onNavigateToMealPlan, initialRecipeToOpen, onClearInitialRecipe }) => {
+    const { recipes, setRecipes, pantryItems, shoppingList, setShoppingList } = useLifeStore();
     const { language } = useUserStore();
 
     const [recipeSearchTerm, setRecipeSearchTerm] = useState('');
@@ -45,6 +47,10 @@ export const RecipeBook: React.FC<RecipeBookProps> = ({ onOpenCookNow, initialRe
     const [isChefGenerating, setIsChefGenerating] = useState(false);
     const [generatedRecipes, setGeneratedRecipes] = useState<Recipe[]>([]);
     const [isRecipeResultOpen, setIsRecipeResultOpen] = useState(false);
+
+    // New states for Planificar and Cocinar modals
+    const [planRecipe, setPlanRecipe] = useState<Recipe | null>(null);
+    const [cookingRecipe, setCookingRecipe] = useState<Recipe | null>(null);
 
     const handleOpenAddRecipe = () => {
         setEditingRecipeId(null);
@@ -150,6 +156,76 @@ export const RecipeBook: React.FC<RecipeBookProps> = ({ onOpenCookNow, initialRe
         alert("Receta guardada");
     };
 
+    // Handlers for new modals
+    const handleAddToMealPlan = (recipe: Recipe, date: string, meal: 'breakfast' | 'lunch' | 'dinner') => {
+        const { weeklyPlan, setWeeklyPlan } = useLifeStore.getState();
+
+        setWeeklyPlan((prev: WeeklyPlanState) => {
+            const newPlan = { ...prev };
+            if (!newPlan[date]) {
+                newPlan[date] = { breakfast: [], lunch: [], dinner: [] };
+            }
+
+            const newRecipe = { ...recipe, id: Math.random().toString(36).substr(2, 9) };
+
+            // Auto-assign course type
+            if (meal !== 'breakfast') {
+                const existing = newPlan[date][meal] || [];
+                const hasStarter = existing.some(r => r.courseType === 'STARTER');
+                newRecipe.courseType = hasStarter ? 'MAIN' : 'STARTER';
+            } else {
+                newRecipe.courseType = 'MAIN';
+            }
+
+            newPlan[date] = {
+                ...newPlan[date],
+                [meal]: [...(newPlan[date][meal] || []), newRecipe]
+            };
+
+            return newPlan;
+        });
+
+        alert(`${recipe.name} agregado al plan de comidas para ${meal === 'breakfast' ? 'desayuno' : meal === 'lunch' ? 'almuerzo' : 'cena'} el ${date}`);
+
+        if (onNavigateToMealPlan) {
+            onNavigateToMealPlan();
+        }
+    };
+
+    const handleAddToShoppingList = (recipe: Recipe) => {
+        // Add ingredients not in pantry to shopping list
+        const pantryNames = pantryItems.map(p => p.name.toLowerCase());
+        const missingIngredients = recipe.ingredients.filter(
+            ing => !pantryNames.includes(ing.name.toLowerCase())
+        );
+
+        const newShoppingItems = missingIngredients.map(ing => ({
+            id: Math.random().toString(36).substr(2, 9),
+            name: ing.name,
+            quantity: ing.quantity,
+            unit: ing.unit,
+            category: 'Other' as const,
+            checked: false
+        }));
+
+        setShoppingList([...shoppingList, ...newShoppingItems]);
+        alert(`${missingIngredients.length} ingredientes agregados a la lista de compra`);
+    };
+
+    const handleQuickAddToday = (recipe: Recipe) => {
+        // Quick add to today's next meal
+        const now = new Date();
+        const hour = now.getHours();
+        let meal: 'breakfast' | 'lunch' | 'dinner' = 'lunch';
+
+        if (hour < 11) meal = 'lunch';
+        else if (hour < 17) meal = 'dinner';
+        else meal = 'breakfast'; // Next day breakfast
+
+        const today = now.toISOString().split('T')[0];
+        handleAddToMealPlan(recipe, today, meal);
+    };
+
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') e.preventDefault();
     };
@@ -199,7 +275,14 @@ export const RecipeBook: React.FC<RecipeBookProps> = ({ onOpenCookNow, initialRe
                                 <div className="mt-auto flex gap-3">
                                     <button
                                         type="button"
-                                        onClick={(e) => { e.stopPropagation(); onOpenCookNow(recipe); }}
+                                        onClick={(e) => { e.stopPropagation(); setPlanRecipe(recipe); }}
+                                        className="flex-1 py-3.5 bg-blue-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-700 transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg"
+                                    >
+                                        <CalendarPlus className="w-4 h-4" /> Planificar
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={(e) => { e.stopPropagation(); setCookingRecipe(recipe); }}
                                         className="flex-1 py-3.5 bg-gray-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-600 transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg"
                                     >
                                         <Flame className="w-4 h-4" /> Cocinar
@@ -420,7 +503,13 @@ export const RecipeBook: React.FC<RecipeBookProps> = ({ onOpenCookNow, initialRe
                             {/* Actions Footer */}
                             <div className="p-8 bg-white border-t border-gray-100 flex gap-4">
                                 <button
-                                    onClick={() => { setViewRecipe(null); onOpenCookNow(viewRecipe); }}
+                                    onClick={() => { setViewRecipe(null); setPlanRecipe(viewRecipe); }}
+                                    className="flex-1 bg-blue-600 text-white py-5 rounded-3xl font-black text-xs uppercase tracking-[0.2em] shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3"
+                                >
+                                    <CalendarPlus className="w-5 h-5" /> Planificar
+                                </button>
+                                <button
+                                    onClick={() => { setViewRecipe(null); setCookingRecipe(viewRecipe); }}
                                     className="flex-1 bg-gradient-to-r from-gray-900 to-black text-white py-5 rounded-3xl font-black text-xs uppercase tracking-[0.2em] shadow-[0_20px_40px_rgba(0,0,0,0.2)] hover:shadow-[0_20px_40px_rgba(16,185,129,0.3)] hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3"
                                 >
                                     <Flame className="w-5 h-5 text-emerald-500" /> Comenzar a Cocinar
@@ -443,6 +532,24 @@ export const RecipeBook: React.FC<RecipeBookProps> = ({ onOpenCookNow, initialRe
                         </button>
                     </div>
                 </div>
+            )}
+
+            {/* Plan Recipe Modal */}
+            {planRecipe && (
+                <PlanRecipeModal
+                    recipe={planRecipe}
+                    onClose={() => setPlanRecipe(null)}
+                    onAddToMealPlan={(date, meal) => handleAddToMealPlan(planRecipe, date, meal)}
+                    onAddToShoppingList={() => handleAddToShoppingList(planRecipe)}
+                />
+            )}
+
+            {/* Cooking Mode View */}
+            {cookingRecipe && (
+                <CookingModeView
+                    recipe={cookingRecipe}
+                    onClose={() => setCookingRecipe(null)}
+                />
             )}
         </div>
     );

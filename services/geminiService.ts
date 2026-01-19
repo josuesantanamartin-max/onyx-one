@@ -2,6 +2,13 @@
 import { GoogleGenAI } from "@google/genai";
 import { Transaction, Account, Debt, Ingredient, Trip, Budget, Goal, Recipe } from '../types';
 
+// Gemini Model Configuration
+// Change this to switch between models easily:
+// - 'gemini-2.0-flash-exp' for Gemini 2.0 Flash (experimental, fast, works with current API)
+// - 'gemini-1.5-flash' for Gemini 1.5 Flash (stable, fast, cheaper)
+// Note: 'gemini-1.5-pro' is NOT supported in the current API version (v1beta)
+const GEMINI_MODEL = 'gemini-2.0-flash-exp';
+
 // Helper maps
 const CURRENCY_MAP = { EUR: '€', USD: '$', GBP: '£' };
 
@@ -221,7 +228,7 @@ export const analyzeFinances = async (
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: GEMINI_MODEL,
       contents: prompt,
     });
     return response.text || "No response generated.";
@@ -268,7 +275,7 @@ export const planTripWithAI = async (
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-preview',
+      model: GEMINI_MODEL,
       contents: prompt,
       config: { tools: [{ googleSearch: {} }] }
     });
@@ -323,7 +330,7 @@ export const parseReceiptImage = async (base64Image: string): Promise<Partial<In
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: GEMINI_MODEL,
       contents: {
         parts: [
           { inlineData: { mimeType: 'image/webp', data: base64Data } },
@@ -374,7 +381,7 @@ export const generateRecipesFromIngredients = async (
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: GEMINI_MODEL,
       contents: prompt,
     });
     const text = response.text || '';
@@ -421,7 +428,7 @@ export const generateRecipesFromImage = async (
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: GEMINI_MODEL,
       contents: {
         parts: [
           { inlineData: { mimeType: 'image/webp', data: cleanBase64 } },
@@ -515,7 +522,7 @@ export const generateMealPlan = async (
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: GEMINI_MODEL,
       contents: prompt,
     });
 
@@ -544,7 +551,7 @@ export const getRecipeDetails = async (recipeName: string, language: string): Pr
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: GEMINI_MODEL,
       contents: prompt
     });
     const text = response.text || '';
@@ -561,7 +568,7 @@ export const askAI = async (prompt: string): Promise<string> => {
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: GEMINI_MODEL,
       contents: prompt,
     });
     return response.text || "";
@@ -613,7 +620,7 @@ export const generateSmartInsight = async (
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: GEMINI_MODEL,
       contents: prompt,
     });
     const text = response.text || '';
@@ -640,7 +647,7 @@ export const suggestCategory = async (
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: GEMINI_MODEL,
       contents: prompt,
     });
     const text = response.text?.trim() || '';
@@ -650,5 +657,93 @@ export const suggestCategory = async (
   } catch (e) {
     console.error("Smart Categorization Error:", e);
     return null;
+  }
+};
+
+// --- LIFE ANALYSIS (Pantry, Meal Plans, Shopping, Trips) ---
+export const analyzeLife = async (
+  pantryItems: Ingredient[],
+  mealPlans: any[],
+  shoppingList: Ingredient[],
+  trips: Trip[],
+  language: 'ES' | 'EN' | 'FR'
+): Promise<string> => {
+  const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY as string });
+
+  if (!import.meta.env.VITE_GEMINI_API_KEY) {
+    return language === 'ES'
+      ? 'Error: No se ha encontrado la clave API de Gemini.'
+      : 'Error: Gemini API Key not found.';
+  }
+
+  const t = LANG_PROMPTS[language];
+
+  // Prepare pantry summary
+  const pantryCategories = pantryItems.reduce((acc, item) => {
+    acc[item.category] = (acc[item.category] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  const pantrySummary = Object.entries(pantryCategories)
+    .map(([cat, count]) => `- ${cat}: ${count} items`)
+    .join('\n');
+
+  // Prepare shopping list summary
+  const shoppingSummary = shoppingList.length > 0
+    ? shoppingList.slice(0, 10).map(item => `- ${item.name} (${item.quantity} ${item.unit})`).join('\n')
+    : 'No items in shopping list';
+
+  // Prepare meal plans summary
+  const mealPlansSummary = mealPlans.length > 0
+    ? `${mealPlans.length} meal plans created`
+    : 'No meal plans';
+
+  // Prepare trips summary
+  const tripsSummary = trips.length > 0
+    ? trips.map(t => `- ${t.destination} (${t.startDate} to ${t.endDate}): Budget ${t.budget}€`).join('\n')
+    : 'No trips planned';
+
+  const prompt = `
+    Act as an expert life management and household organization advisor.
+    Language: ${language}
+    
+    Analyze the following life management data for a user:
+    
+    PANTRY INVENTORY:
+    Total Items: ${pantryItems.length}
+    ${pantrySummary}
+    
+    SHOPPING LIST:
+    ${shoppingSummary}
+    
+    MEAL PLANNING:
+    ${mealPlansSummary}
+    
+    TRAVEL PLANS:
+    ${tripsSummary}
+    
+    INSTRUCTIONS:
+    Provide a concise analysis in simple HTML format (use <strong>, <ul>, <li>, <br>) covering:
+    
+    1. Pantry Status: Assess inventory health and identify missing essentials
+    2. Shopping Optimization: Suggest ways to optimize shopping based on pantry
+    3. Meal Planning: Comment on meal organization and variety
+    4. Travel Preparation: Advice on upcoming trips and budgeting
+    5. Waste Reduction: Tips to avoid food waste based on current inventory
+    6. Cost Savings: Actionable suggestions to save money on groceries and household
+    
+    Keep a helpful and encouraging tone. Do not use Markdown, use basic HTML tags.
+    IMPORTANT: Respond ONLY in ${language === 'ES' ? 'SPANISH' : language === 'FR' ? 'FRENCH' : 'ENGLISH'}.
+  `;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: GEMINI_MODEL,
+      contents: prompt,
+    });
+    return response.text || "No response generated.";
+  } catch (error) {
+    console.error("Gemini API Error (Life):", error);
+    return t.error;
   }
 };

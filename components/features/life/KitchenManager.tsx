@@ -38,7 +38,7 @@ export const KitchenManager: React.FC<KitchenManagerProps> = ({ view, onViewChan
                 return <Pantry />;
             case 'RECIPES':
                 return <RecipeBook
-                    onOpenCookNow={handleOpenCookNow}
+                    onNavigateToMealPlan={() => onViewChange('PLANNER')}
                     initialRecipeToOpen={recipeToOpen}
                     onClearInitialRecipe={() => setRecipeToOpen(null)}
                 />;

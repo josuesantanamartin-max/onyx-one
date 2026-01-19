@@ -6,7 +6,9 @@ import Debts from './Debts';
 import Goals from './Goals';
 import Accounts from './Accounts';
 import Budgets from './Budgets';
-import { Wallet, Menu, CreditCard, PieChart, Target, ReceiptEuro } from 'lucide-react';
+import { Wallet, Menu, CreditCard, PieChart, Target, ReceiptEuro, Sparkles, Loader2, X } from 'lucide-react';
+import { analyzeFinances } from '../../../services/geminiService';
+import { useFinanceStore } from '../../../store/useFinanceStore';
 
 interface FinanceModuleProps {
     onMenuClick: () => void;
@@ -18,7 +20,29 @@ const FinanceModule: React.FC<FinanceModuleProps> = ({ onMenuClick }) => {
     const {
         financeActiveTab: activeTab,
         setFinanceActiveTab: setActiveTab,
+        language, currency
     } = useUserStore();
+
+    const { transactions, accounts, debts, budgets, goals } = useFinanceStore();
+
+    // AI Analysis State
+    const [analysis, setAnalysis] = useState<string | null>(null);
+    const [isAnalyzing, setIsAnalyzing] = useState(false);
+    const [isAnalysisVisible, setIsAnalysisVisible] = useState(false);
+
+    const handleGeminiAnalysis = async () => {
+        setIsAnalyzing(true);
+        setAnalysis(null);
+        try {
+            const result = await analyzeFinances(transactions, accounts, debts, budgets, goals, language, currency);
+            setAnalysis(result);
+            setIsAnalysisVisible(true);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsAnalyzing(false);
+        }
+    };
 
     const renderNav = () => (
         <div className="bg-white border-b border-onyx-100 px-10 py-3 flex items-center gap-2 overflow-x-auto custom-scrollbar shrink-0 relative z-10 shadow-sm">
@@ -27,6 +51,10 @@ const FinanceModule: React.FC<FinanceModuleProps> = ({ onMenuClick }) => {
             <button onClick={() => setActiveTab('budgets')} className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === 'budgets' ? 'bg-onyx-950 text-white shadow-lg shadow-onyx-950/20 scale-105' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50'}`}>Presupuestos</button>
             <button onClick={() => setActiveTab('goals')} className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === 'goals' ? 'bg-onyx-950 text-white shadow-lg shadow-onyx-950/20 scale-105' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50'}`}>Metas</button>
             <button onClick={() => setActiveTab('debts')} className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === 'debts' ? 'bg-onyx-950 text-white shadow-lg shadow-onyx-950/20 scale-105' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50'}`}>Deudas</button>
+            <button onClick={handleGeminiAnalysis} disabled={isAnalyzing} className="flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 bg-blue-950 text-white hover:bg-blue-900 shadow-lg ml-auto">
+                {isAnalyzing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4 text-yellow-300" />}
+                {isAnalyzing ? 'Analizando...' : 'Análisis IA'}
+            </button>
         </div>
     );
 
@@ -62,6 +90,34 @@ const FinanceModule: React.FC<FinanceModuleProps> = ({ onMenuClick }) => {
                     {renderContent()}
                 </div>
             </div>
+
+            {/* AI ANALYSIS MODAL */}
+            {isAnalysisVisible && analysis && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in" onClick={() => setIsAnalysisVisible(false)}>
+                    <div className="bg-white dark:bg-onyx-900 rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden max-h-[85vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
+                        <div className="px-6 py-4 border-b border-gray-100 dark:border-onyx-800 flex justify-between items-center bg-white dark:bg-onyx-900">
+                            <h3 className="text-lg font-black text-blue-950 dark:text-blue-100 flex items-center gap-2">
+                                <Sparkles className="w-5 h-5 text-yellow-500" />
+                                {language === 'ES' ? 'Análisis Financiero IA' : 'AI Financial Analysis'}
+                            </h3>
+                            <button onClick={() => setIsAnalysisVisible(false)} className="p-2 hover:bg-gray-100 dark:hover:bg-onyx-800 rounded-full transition-colors">
+                                <X className="w-5 h-5 text-gray-400" />
+                            </button>
+                        </div>
+                        <div className="p-6 overflow-y-auto custom-scrollbar bg-gray-50/50 dark:bg-onyx-950/50">
+                            <div
+                                className="prose prose-sm prose-blue dark:prose-invert max-w-none text-gray-600 dark:text-gray-300 bg-white dark:bg-onyx-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-onyx-800"
+                                dangerouslySetInnerHTML={{ __html: analysis }}
+                            />
+                        </div>
+                        <div className="p-4 bg-gray-50 dark:bg-onyx-800 border-t border-gray-100 dark:border-onyx-700 flex justify-end">
+                            <button onClick={() => setIsAnalysisVisible(false)} className="px-5 py-2.5 bg-gray-900 dark:bg-white text-white dark:text-onyx-950 text-xs font-bold uppercase tracking-widest rounded-xl hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
+                                {language === 'ES' ? 'Cerrar' : 'Close'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

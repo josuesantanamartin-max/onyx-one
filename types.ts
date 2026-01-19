@@ -323,3 +323,4 @@ export interface SyncLog {
   timestamp: number;
   type: 'FINANCE' | 'KITCHEN' | 'LIFE' | 'SYSTEM';
 }
+

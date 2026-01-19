@@ -224,7 +224,6 @@ export const LandingLife: React.FC<LandingLifeProps> = ({ setShowLoginModal }) =
 
                 {/* CTA Section */}
                 <div className="bg-black text-white rounded-[3rem] p-12 text-center relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500 rounded-full blur-[120px] opacity-20"></div>
                     <div className="relative z-10">
                         <h2 className="text-4xl md:text-5xl font-bold mb-6">Diseña la vida que quieres vivir</h2>
                         <p className="text-gray-400 max-w-2xl mx-auto mb-10 text-lg">

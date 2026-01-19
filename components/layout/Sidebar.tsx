@@ -62,7 +62,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
         <div className="fixed inset-0 bg-onyx-950/20 backdrop-blur-sm z-30 md:hidden" onClick={() => setIsOpen && setIsOpen(false)} />
       )}
 
-      <div className={`fixed inset-y-0 left-0 w-72 bg-white dark:bg-onyx-950 border-r border-onyx-100 dark:border-onyx-800 h-screen flex flex-col transition-all duration-500 ease-in-out z-40 ${isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'} md:translate-x-0 md:static`}>
+      <div className={`fixed inset-y-0 left-0 w-72 bg-white dark:bg-onyx-950 border-r border-onyx-100 dark:border-onyx-800 h-screen flex flex-col transition-all duration-500 ease-in-out z-30 ${isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'} md:translate-x-0 md:static`}>
         <div className="p-10 pb-6 flex-1 flex flex-col">
           <div
             className="flex items-center gap-3.5 mb-14 cursor-pointer group"

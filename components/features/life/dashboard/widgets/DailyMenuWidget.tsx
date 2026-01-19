@@ -14,7 +14,6 @@ const DailyMenuWidget: React.FC<DailyMenuWidgetProps> = ({ onNavigate }) => {
 
     return (
         <div className="bg-white dark:bg-onyx-900 text-onyx-900 dark:text-white p-8 rounded-[2.5rem] relative overflow-hidden group border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-md transition-all h-full">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-50 rounded-full blur-[80px] -mr-20 -mt-20"></div>
             <div className="relative z-10">
                 <div className="flex justify-between items-start mb-8">
                     <div>

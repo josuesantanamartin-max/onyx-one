@@ -5,7 +5,11 @@ import { useLifeStore } from '../../store/useLifeStore';
 import { generateSmartInsight } from '../../services/geminiService';
 import { Lightbulb, ArrowRight, Sparkles, ChefHat } from 'lucide-react';
 
-const SmartInsightWidget: React.FC = () => {
+interface SmartInsightWidgetProps {
+    onNavigate?: (app: 'LIFE' | 'FINANCE', tab?: string, filter?: any) => void;
+}
+
+const SmartInsightWidget: React.FC<SmartInsightWidgetProps> = ({ onNavigate }) => {
     const { language } = useUserStore();
     const { transactions, currency } = useFinanceStore();
     const { pantryItems } = useLifeStore();
@@ -131,7 +135,16 @@ const SmartInsightWidget: React.FC = () => {
                         <span className="text-gray-400">Ahorro est.</span>
                         <p className="font-black text-emerald-600 dark:text-emerald-400 text-lg">{insight?.savingsEstimate}</p>
                     </div>
-                    <button className="text-xs font-bold bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-2 rounded-lg flex items-center gap-2 hover:opacity-90 transition-opacity">
+                    <button onClick={() => {
+                        // Smart navigation based on insight content
+                        if (insight.actionableRecipe && onNavigate) {
+                            // Navigate to Kitchen -> Recipe Book
+                            onNavigate('LIFE', 'kitchen-recipes');
+                        } else {
+                            // Fallback: dismiss widget
+                            setDismissed(true);
+                        }
+                    }} className="text-xs font-bold bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-2 rounded-lg flex items-center gap-2 hover:opacity-90 transition-opacity">
                         {language === 'ES' ? 'Ver Detalles' : 'View Details'} <ArrowRight className="w-3 h-3" />
                     </button>
                 </div>
