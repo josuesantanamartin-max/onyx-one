@@ -62,7 +62,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
         <div className="fixed inset-0 bg-onyx-950/20 backdrop-blur-sm z-30 md:hidden" onClick={() => setIsOpen && setIsOpen(false)} />
       )}
 
-      <div className={`fixed inset-y-0 left-0 w-72 bg-white border-r border-onyx-100 h-screen flex flex-col transition-all duration-500 ease-in-out z-40 ${isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'} md:translate-x-0 md:static`}>
+      <div className={`fixed inset-y-0 left-0 w-72 bg-white dark:bg-onyx-950 border-r border-onyx-100 dark:border-onyx-800 h-screen flex flex-col transition-all duration-500 ease-in-out z-40 ${isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'} md:translate-x-0 md:static`}>
         <div className="p-10 pb-6 flex-1 flex flex-col">
           <div
             className="flex items-center gap-3.5 mb-14 cursor-pointer group"
@@ -72,8 +72,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
               <Logo className="w-5 h-5 text-white" />
             </div>
             <div className="flex flex-col">
-              <span className="text-sm font-bold tracking-tight text-onyx-950 uppercase leading-none">Onyx <span className="text-indigo-primary">Suite</span></span>
-              <span className="text-[8px] font-bold text-onyx-300 uppercase tracking-[0.2em] mt-1.5">Premium Management</span>
+              <span className="text-sm font-bold tracking-tight text-onyx-950 dark:text-white uppercase leading-none">Onyx <span className="text-indigo-primary">Suite</span></span>
+              <span className="text-[8px] font-bold text-onyx-300 dark:text-onyx-600 uppercase tracking-[0.2em] mt-1.5">Premium Management</span>
             </div>
           </div>
 
@@ -86,8 +86,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
                   key={item.id}
                   onClick={() => handleLinkClick(item.id)}
                   className={`w-full flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all duration-300 relative group overflow-hidden ${isActive
-                    ? 'text-onyx-950 font-bold bg-onyx-50 border border-onyx-100 shadow-sm'
-                    : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50/50'
+                    ? 'text-onyx-950 dark:text-white font-bold bg-onyx-50 dark:bg-onyx-900 border border-onyx-100 dark:border-onyx-800 shadow-sm'
+                    : 'text-onyx-400 dark:text-onyx-500 hover:text-onyx-900 dark:hover:text-onyx-200 hover:bg-onyx-50/50 dark:hover:bg-onyx-900/50'
                     }`}
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
@@ -104,7 +104,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
           <div className="mt-auto space-y-2">
             <button
               onClick={() => handleLinkClick('settings')}
-              className={`w-full flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all duration-300 group ${activeApp === 'settings' ? 'text-onyx-950 font-bold bg-onyx-50 border border-onyx-100 shadow-sm' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50/50'}`}
+              className={`w-full flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all duration-300 group ${activeApp === 'settings' ? 'text-onyx-950 dark:text-white font-bold bg-onyx-50 dark:bg-onyx-900 border border-onyx-100 dark:border-onyx-800 shadow-sm' : 'text-onyx-400 dark:text-onyx-500 hover:text-onyx-900 dark:hover:text-onyx-200 hover:bg-onyx-50/50 dark:hover:bg-onyx-900/50'}`}
             >
               <Settings className={`w-5 h-5 transition-transform duration-500 group-hover:rotate-90 ${activeApp === 'settings' ? 'text-indigo-primary' : 'text-onyx-400'}`} />
               <span className="text-[13px] tracking-tight">{t.settings}</span>
@@ -120,9 +120,9 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
         </div>
 
         <div className="p-10 pt-0">
-          <div className="h-px bg-onyx-100 w-full mb-8"></div>
+          <div className="h-px bg-onyx-100 dark:bg-onyx-800 w-full mb-8"></div>
           <div
-            className="flex items-center gap-4 px-2 cursor-pointer group hover:bg-onyx-50 p-2 rounded-xl transition-all"
+            className="flex items-center gap-4 px-2 cursor-pointer group hover:bg-onyx-50 dark:hover:bg-onyx-900 p-2 rounded-xl transition-all"
             onClick={() => handleLinkClick('settings')}
           >
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 border border-onyx-100 flex items-center justify-center overflow-hidden shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform">
@@ -139,7 +139,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
               )}
             </div>
             <div className={`flex flex-col transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 md:opacity-100'}`}>
-              <span className="text-sm font-bold text-onyx-950 truncate max-w-[140px] group-hover:text-indigo-primary transition-colors">
+              <span className="text-sm font-bold text-onyx-950 dark:text-white truncate max-w-[140px] group-hover:text-indigo-primary transition-colors">
                 {userProfile?.full_name || 'Usuario Onyx'}
               </span>
               <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-wider">

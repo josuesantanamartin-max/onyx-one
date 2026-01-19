@@ -5,12 +5,15 @@ import { useFinanceStore } from '../../../store/useFinanceStore';
 import {
   User, CreditCard, Shield, Globe, Lock,
   Check, Coins, Star, Download, Smartphone, Plus, Trash2, Camera, Upload, Layers, Zap, ArrowRight, Pencil, Menu, ExternalLink,
-  Calendar, FileJson
+  Calendar, FileJson, Layout
 } from 'lucide-react';
 import { FamilyMember, CategoryStructure, AutomationRule } from '../../../types';
 import PricingSection from './PricingSection';
 import { stripeService } from '../../../services/stripeService';
 import { supabase } from '../../../services/supabaseClient';
+import { DEFAULT_WIDGETS } from '../../../constants';
+import PrivacyPolicy from '../../pages/PrivacyPolicy';
+import TermsOfService from '../../pages/TermsOfService';
 
 interface SettingsModuleProps {
   onMenuClick?: () => void;
@@ -27,16 +30,26 @@ const TEXTS: any = {
       automation: 'Automatización',
       subscription: 'Suscripción',
       billing: 'Facturación',
-      security: 'Seguridad'
+      security: 'Seguridad',
+      personalization: 'Personalización'
     },
     sections: {
       profileDesc: 'Gestiona tu identidad y los miembros de tu unidad familiar.',
       generalDesc: 'Idioma, moneda y configuración regional.',
+      persDesc: 'Temas, apariencia y organización del dashboard.',
       catDesc: 'Personaliza tu estructura de ingresos y gastos.',
       autoDesc: 'Crea reglas para automatizar alertas y categorización.',
       subDesc: 'Gestiona tu plan Onyx Suite.',
       billDesc: 'Métodos de pago y facturas.',
-      secDesc: 'Contraseñas y autenticación de dos factores.'
+      secDesc: 'Contraseñas, autenticación de dos factores y zona de peligro.'
+    },
+    personalization: {
+      theme: 'Tema de la Interfaz',
+      themeDesc: 'Elige cómo se ve Onyx Suite.',
+      layout: 'Diseño del Dashboard',
+      layoutDesc: 'Gestiona los widgets de tu pantalla principal.',
+      resetLayout: 'Restaurar Diseño Original',
+      resetLayoutDesc: 'Vuelve a la configuración inicial de widgets (visible y orden).'
     },
     plan: {
       current: 'Plan Actual',
@@ -78,16 +91,26 @@ const TEXTS: any = {
       automation: 'Automation',
       subscription: 'Subscription',
       billing: 'Billing',
-      security: 'Security'
+      security: 'Security',
+      personalization: 'Personalization'
     },
     sections: {
       profileDesc: 'Manage your identity and family unit members.',
       generalDesc: 'Language, currency and region.',
+      persDesc: 'Themes, appearance and dashboard organization.',
       catDesc: 'Customize your income and expense structure.',
       autoDesc: 'Create rules to automate alerts and categorization.',
       subDesc: 'Manage your Onyx Suite plan.',
       billDesc: 'Payment methods and invoices.',
-      secDesc: 'Passwords and 2FA.'
+      secDesc: 'Passwords, 2FA and danger zone.'
+    },
+    personalization: {
+      theme: 'Interface Theme',
+      themeDesc: 'Choose how Onyx Suite looks.',
+      layout: 'Dashboard Layout',
+      layoutDesc: 'Manage your home screen widgets.',
+      resetLayout: 'Reset Original Layout',
+      resetLayoutDesc: 'Return to initial widget configuration (visibility and order).'
     },
     plan: {
       current: 'Current Plan',
@@ -129,16 +152,26 @@ const TEXTS: any = {
       automation: 'Automatisation',
       subscription: 'Abonnement',
       billing: 'Facturation',
-      security: 'Sécurité'
+      security: 'Sécurité',
+      personalization: 'Personnalisation'
     },
     sections: {
       profileDesc: 'Gérez votre identité et les membres de la famille.',
       generalDesc: 'Langue, devise et région.',
+      persDesc: 'Thèmes, apparence et organisation du tableau de bord.',
       catDesc: 'Personnalisez votre structure de revenus et dépenses.',
       autoDesc: 'Créez des règles pour automatiser les alertes.',
       subDesc: 'Gérer votre plan Onyx Suite.',
       billDesc: 'Méthodes de paiement et factures.',
-      secDesc: 'Mots de passe et 2FA.'
+      secDesc: 'Mots de passe, 2FA et zone de danger.'
+    },
+    personalization: {
+      theme: 'Thème de l\'interface',
+      themeDesc: 'Choisissez l\'apparence d\'Onyx Suite.',
+      layout: 'Disposition du tableau de bord',
+      layoutDesc: 'Gérez vos widgets d\'écran d\'accueil.',
+      resetLayout: 'Rétablir la disposition',
+      resetLayoutDesc: 'Revenir à la configuration initiale des widgets.'
     },
     plan: {
       current: 'Plan Actuel',
@@ -177,10 +210,15 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
   const categoryFormRef = useRef<HTMLFormElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Legal Pages State
+  const [activeLegalPage, setActiveLegalPage] = useState<'PRIVACY' | 'TERMS' | null>(null);
+
   // Store Hooks
   const {
     language, setLanguage,
     currency, setCurrency,
+    theme, setTheme,
+    setDashboardWidgets,
     automationRules, setAutomationRules,
     subscription,
     userProfile, setUserProfile
@@ -283,6 +321,23 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
     } catch (error: any) {
       console.error('Error updating profile:', error);
       alert('Error al actualizar perfil: ' + error.message);
+    }
+  };
+
+  // --- DELETE ACCOUNT LOGIC ---
+  const handleDeleteAccount = async () => {
+    const confirmation = window.prompt(
+      language === 'ES'
+        ? "POR FAVOR ESCRIBE 'DELETE' PARA CONFIRMAR EL BORRADO DE TU CUENTA. ESTA ACCIÓN ES IRREVERSIBLE."
+        : "PLEASE TYPE 'DELETE' TO CONFIRM ACCOUNT DELETION. THIS ACTION IS IRREVERSIBLE."
+    );
+
+    if (confirmation === 'DELETE') {
+      const t = TEXTS[language as string] || TEXTS['ES'];
+      // Simulation for MVP
+      localStorage.clear();
+      alert(language === 'ES' ? 'Cuenta eliminada. Hasta siempre.' : 'Account deleted. Goodbye.');
+      window.location.reload();
     }
   };
 
@@ -421,15 +476,16 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
   };
 
   const renderSidebar = () => (
-    <div className="w-full md:w-64 bg-white border-r border-gray-100 flex-shrink-0 md:h-full overflow-y-auto">
+    <div className="w-full md:w-64 bg-white dark:bg-onyx-950 border-r border-gray-100 dark:border-onyx-800 flex-shrink-0 md:h-full overflow-y-auto">
       <div className="p-6">
-        <h2 className="text-xl font-bold text-gray-900">{t.title}</h2>
-        <p className="text-xs text-gray-500 uppercase tracking-wider mt-1">{t.subtitle}</p>
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white">{t.title}</h2>
+        <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-1">{t.subtitle}</p>
       </div>
       <nav className="px-3 space-y-1">
         {[
           { id: 'profile', icon: User, label: t.menu.profile },
           { id: 'general', icon: Globe, label: t.menu.general },
+          { id: 'personalization', icon: Layout, label: t.menu.personalization },
           { id: 'categories', icon: Layers, label: t.menu.categories },
           { id: 'automation', icon: Zap, label: t.menu.automation },
           { id: 'subscription', icon: Star, label: t.menu.subscription },
@@ -440,8 +496,8 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
             key={item.id}
             onClick={() => setActiveSection(item.id)}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${activeSection === item.id
-              ? 'bg-gray-100 text-gray-900'
-              : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700'
+              ? 'bg-gray-100 dark:bg-onyx-800 text-gray-900 dark:text-white'
+              : 'text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-onyx-900 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
           >
             <item.icon className="w-4 h-4" />
@@ -452,6 +508,14 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
     </div>
   );
 
+  if (activeLegalPage === 'PRIVACY') {
+    return <PrivacyPolicy onBack={() => setActiveLegalPage(null)} />;
+  }
+
+  if (activeLegalPage === 'TERMS') {
+    return <TermsOfService onBack={() => setActiveLegalPage(null)} />;
+  }
+
   const renderContent = () => {
     switch (activeSection) {
       case 'profile':
@@ -461,8 +525,8 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
             {/* 1. MINIMALIST HEADER (No Banner) */}
             <div className="flex flex-col md:flex-row items-center md:items-end gap-6 mb-12 animate-fade-in">
               <div className="relative group cursor-pointer" onClick={handleOpenProfileEdit}>
-                <div className="w-32 h-32 md:w-40 md:h-40 bg-white p-1 rounded-full shadow-lg border border-gray-100 relative">
-                  <div className="w-full h-full rounded-full bg-gray-200 overflow-hidden relative">
+                <div className="w-32 h-32 md:w-40 md:h-40 bg-white dark:bg-onyx-900 p-1 rounded-full shadow-lg border border-gray-100 dark:border-onyx-800 relative">
+                  <div className="w-full h-full rounded-full bg-gray-200 dark:bg-onyx-800 overflow-hidden relative">
                     {userProfile?.avatar_url ? (
                       <img src={userProfile.avatar_url} alt="Profile" className="w-full h-full object-cover transition-transform group-hover:scale-110" />
                     ) : (
@@ -483,7 +547,7 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
               </div>
 
               <div className="text-center md:text-left mb-2">
-                <h2 className="text-4xl font-black text-gray-900 tracking-tight leading-none mb-2">{userProfile?.full_name || 'Usuario Onyx'}</h2>
+                <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight leading-none mb-2">{userProfile?.full_name || 'Usuario Onyx'}</h2>
                 <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 text-gray-500 font-medium text-sm">
                   <span className="text-indigo-600 font-bold bg-indigo-50 px-2 py-0.5 rounded-md">@josue_onyx</span>
                   <span className="hidden md:inline text-gray-300">•</span>
@@ -494,8 +558,8 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
 
             {/* 2. STATS ROW */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
-              <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col items-center justify-center text-center hover:border-indigo-100 transition-all">
-                <span className="text-2xl font-black text-gray-900">{totalTransactions}</span>
+              <div className="bg-white dark:bg-onyx-900 p-4 rounded-2xl border border-gray-100 dark:border-onyx-800 shadow-sm flex flex-col items-center justify-center text-center hover:border-indigo-100 transition-all">
+                <span className="text-2xl font-black text-gray-900 dark:text-white">{totalTransactions}</span>
                 <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Transacciones</span>
               </div>
               <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col items-center justify-center text-center hover:border-indigo-100 transition-all">
@@ -645,127 +709,6 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
           </div>
         );
 
-      case 'categories':
-        return (
-          <div className="max-w-2xl space-y-8 animate-fade-in">
-            <div>
-              <h3 className="text-lg font-bold text-gray-900">{t.menu.categories}</h3>
-              <p className="text-sm text-gray-500">{t.sections.catDesc}</p>
-            </div>
-
-            <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
-              <form ref={categoryFormRef} onSubmit={handleSaveCategory} className="space-y-4 mb-8">
-                <div className="flex justify-between items-center mb-2">
-                  <h4 className="font-bold text-gray-900 text-sm">{editingCatId ? 'Editar Categoría' : 'Nueva Categoría'}</h4>
-                  {editingCatId && <button type="button" onClick={resetCategoryForm} className="text-xs text-gray-400 hover:text-gray-600">Cancelar</button>}
-                </div>
-                <div className="flex gap-3">
-                  <select value={newCatType} onChange={e => setNewCatType(e.target.value as any)} className="p-3 bg-gray-50 border border-gray-200 rounded-xl font-bold text-xs uppercase tracking-widest outline-none">
-                    <option value="EXPENSE">Gasto</option>
-                    <option value="INCOME">Ingreso</option>
-                  </select>
-                  <input required type="text" value={newCatName} onChange={e => setNewCatName(e.target.value)} placeholder="Nombre Categoría (ej: Jardinería)" className="flex-1 p-3 bg-gray-50 border border-gray-200 rounded-xl font-medium text-sm outline-none focus:ring-2 focus:ring-blue-500" />
-                </div>
-                <input type="text" value={newSubCat} onChange={e => setNewSubCat(e.target.value)} placeholder="Subcategorías separadas por coma (ej: Plantas, Herramientas, Riego)" className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl font-medium text-sm outline-none focus:ring-2 focus:ring-blue-500" />
-                <button type="submit" className={`w-full py-3 text-white rounded-xl font-bold text-xs uppercase tracking-widest transition-all ${editingCatId ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-900 hover:bg-black'}`}>
-                  {editingCatId ? 'Guardar Cambios' : 'Añadir Categoría'}
-                </button>
-              </form>
-
-              <div className="space-y-4">
-                {categories.map(cat => (
-                  <div key={cat.id} className="p-4 border border-gray-100 rounded-2xl hover:bg-gray-50 transition-all group">
-                    <div className="flex justify-between items-center mb-2">
-                      <div className="flex items-center gap-3">
-                        <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase ${cat.type === 'EXPENSE' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`}>{cat.type === 'EXPENSE' ? 'Gasto' : 'Ingreso'}</span>
-                        <span className="font-bold text-gray-900">{cat.name}</span>
-                      </div>
-                      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button onClick={() => handleEditCategoryClick(cat)} className="text-gray-300 hover:text-blue-500 p-2"><Pencil className="w-4 h-4" /></button>
-                        <button onClick={() => handleDeleteCategory(cat.id)} className="text-gray-300 hover:text-red-500 p-2"><Trash2 className="w-4 h-4" /></button>
-                      </div>
-                    </div>
-                    <div className="flex flex-wrap gap-1">
-                      {cat.subCategories.map(sub => (
-                        <span key={sub} className="text-[10px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded border border-gray-200">{sub}</span>
-                      ))}
-                      {cat.subCategories.length === 0 && <span className="text-[10px] text-gray-300 italic">Sin subcategorías</span>}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-
-      case 'automation':
-        return (
-          <div className="max-w-2xl space-y-8 animate-fade-in">
-            <div>
-              <h3 className="text-lg font-bold text-gray-900">{t.menu.automation}</h3>
-              <p className="text-sm text-gray-500">{t.sections.autoDesc}</p>
-            </div>
-
-            <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
-              <form onSubmit={handleAddRule} className="space-y-4 mb-8 bg-gray-50 p-4 rounded-2xl border border-gray-200">
-                <h4 className="font-bold text-gray-900 text-sm flex items-center gap-2"><Zap className="w-4 h-4 text-purple-600" /> Crear Regla (Motor de Reglas)</h4>
-
-                <div className="flex flex-col gap-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-gray-500 uppercase">SI (Trigger)</span>
-                    <select value={newRuleTrigger} onChange={e => setNewRuleTrigger(e.target.value as any)} className="flex-1 p-2 bg-white border border-gray-200 rounded-lg text-sm font-medium outline-none">
-                      <option value="TRANSACTION_OVER_AMOUNT">El gasto supera la cantidad de...</option>
-                      <option value="TRIP_CREATED">Se crea un nuevo viaje</option>
-                    </select>
-                  </div>
-
-                  {newRuleTrigger === 'TRANSACTION_OVER_AMOUNT' && (
-                    <div className="flex items-center gap-2 animate-fade-in">
-                      <span className="text-xs font-bold text-gray-500 uppercase">CANTIDAD (€)</span>
-                      <input type="number" value={newRuleThreshold} onChange={e => setNewRuleThreshold(e.target.value)} className="w-24 p-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-center outline-none" />
-                    </div>
-                  )}
-
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-gray-500 uppercase">ENTONCES</span>
-                    <select value={newRuleAction} onChange={e => setNewRuleAction(e.target.value as any)} className="flex-1 p-2 bg-white border border-gray-200 rounded-lg text-sm font-medium outline-none">
-                      {newRuleTrigger === 'TRANSACTION_OVER_AMOUNT' && <option value="SEND_ALERT">Enviar Alerta</option>}
-                      {newRuleTrigger === 'TRIP_CREATED' && <option value="CREATE_CATEGORY_FOR_TRIP">Crear Categoría del Viaje</option>}
-                    </select>
-                  </div>
-                </div>
-
-                <button type="submit" className="w-full py-3 bg-purple-600 text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-purple-700 transition-all mt-2">Añadir Automatización</button>
-              </form>
-
-              <div className="space-y-4">
-                {automationRules.map(rule => (
-                  <div key={rule.id} className="p-4 border border-gray-100 rounded-2xl hover:bg-gray-50 transition-all flex justify-between items-center">
-                    <div>
-                      <h5 className="font-bold text-gray-900 text-sm">{rule.name}</h5>
-                      <div className="flex gap-2 mt-1">
-                        <span className="text-[9px] bg-purple-50 text-purple-700 px-2 py-0.5 rounded uppercase font-black">{rule.trigger === 'TRANSACTION_OVER_AMOUNT' ? 'Gasto > X' : 'Nuevo Viaje'}</span>
-                        <ArrowRight className="w-3 h-3 text-gray-300" />
-                        <span className="text-[9px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded uppercase font-black">{rule.action === 'SEND_ALERT' ? 'Alerta' : 'Crear Categoría'}</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div
-                        onClick={() => handleToggleRule(rule.id)}
-                        className={`w-10 h-6 rounded-full p-1 cursor-pointer transition-colors ${rule.isActive ? 'bg-purple-600' : 'bg-gray-200'}`}
-                      >
-                        <div className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${rule.isActive ? 'translate-x-4' : 'translate-x-0'}`}></div>
-                      </div>
-                      <button onClick={() => handleDeleteRule(rule.id)} className="text-gray-300 hover:text-red-500"><Trash2 className="w-4 h-4" /></button>
-                    </div>
-                  </div>
-                ))}
-                {automationRules.length === 0 && <p className="text-center text-gray-400 text-xs italic py-4">No hay reglas activas.</p>}
-              </div>
-            </div>
-          </div>
-        );
-
       case 'general':
         return (
           <div className="max-w-2xl space-y-8 animate-fade-in">
@@ -778,10 +721,66 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
               <div className="flex items-center gap-3 mb-4"><div className="p-2 bg-blue-50 rounded-lg text-blue-600"><Coins className="w-5 h-5" /></div><h4 className="font-bold text-gray-900">Moneda Principal</h4></div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">{['EUR', 'USD', 'GBP'].map((curr) => (<button key={curr} onClick={() => setCurrency(curr as any)} className={`py-3 px-4 rounded-xl border font-bold flex items-center justify-center gap-2 transition-all ${currency === curr ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-500 border-gray-200 hover:bg-gray-50'}`}>{curr}{currency === curr && <Check className="w-4 h-4" />}</button>))}</div>
             </div>
-            <div className="bg-red-50 p-6 rounded-2xl border border-red-100">
-              <h4 className="font-bold text-red-900 mb-2">{t.resetZone}</h4>
-              <p className="text-xs text-red-700 mb-4">{t.resetDesc}</p>
-              <button onClick={handleResetSystem} className="bg-red-600 text-white px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-red-700">{t.resetBtn}</button>
+          </div>
+        );
+
+      case 'personalization':
+        return (
+          <div className="max-w-2xl space-y-8 animate-fade-in">
+            <div>
+              <h3 className="text-lg font-bold text-gray-900">{t.menu.personalization}</h3>
+              <p className="text-sm text-gray-500">{t.sections.persDesc}</p>
+            </div>
+
+            {/* Theme Section */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+              <h4 className="font-bold text-gray-900 mb-1">{t.personalization.theme}</h4>
+              <p className="text-xs text-gray-500 mb-4">{t.personalization.themeDesc}</p>
+
+              <div className="grid grid-cols-3 gap-3">
+                {[
+                  { id: 'light', label: 'Light', icon: '☀️', color: 'bg-amber-50 text-amber-600 border-amber-100' },
+                  { id: 'dark', label: 'Dark', icon: '🌙', color: 'bg-indigo-950 text-indigo-200 border-indigo-900' },
+                  { id: 'system', label: 'System', icon: '💻', color: 'bg-gray-100 text-gray-600 border-gray-200' }
+                ].map((mode) => (
+                  <button
+                    key={mode.id}
+                    onClick={() => setTheme(mode.id as any)}
+                    className={`p-4 rounded-xl border-2 flex flex-col items-center justify-center gap-2 transition-all group ${theme === mode.id || (theme === 'system' && mode.id === 'system')
+                      ? 'border-indigo-600 ring-2 ring-indigo-100'
+                      : 'border-transparent hover:bg-gray-50'
+                      }`}
+                  >
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl ${mode.color}`}>
+                      {mode.icon}
+                    </div>
+                    <span className={`text-xs font-bold uppercase tracking-wider ${theme === mode.id ? 'text-indigo-600' : 'text-gray-400'}`}>
+                      {mode.label}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Dashboard Layout Section */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+              <h4 className="font-bold text-gray-900 mb-1">{t.personalization.layout}</h4>
+              <p className="text-xs text-gray-500 mb-4">{t.personalization.layoutDesc}</p>
+
+              <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 flex items-center justify-between">
+                <div>
+                  <h5 className="font-bold text-gray-900 text-sm">{t.personalization.resetLayout}</h5>
+                  <p className="text-[10px] text-gray-500 mt-1">{t.personalization.resetLayoutDesc}</p>
+                </div>
+                <button
+                  onClick={() => {
+                    if (window.confirm('¿Resetear dashboard?')) setDashboardWidgets(DEFAULT_WIDGETS);
+                  }}
+                  className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-xs font-bold text-gray-700 hover:bg-gray-100 hover:text-black transition-colors shadow-sm"
+                >
+                  Reset
+                </button>
+              </div>
             </div>
           </div>
         );
@@ -899,16 +898,54 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
         return (
           <div className="max-w-2xl space-y-8 animate-fade-in">
             <div><h3 className="text-lg font-bold text-gray-900">{t.menu.security}</h3><p className="text-sm text-gray-500">{t.sections.secDesc}</p></div>
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-6">
+            <div className="bg-white dark:bg-onyx-900 p-6 rounded-2xl border border-gray-100 dark:border-onyx-800 shadow-sm space-y-6">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3"><div className="p-2 bg-purple-50 text-purple-600 rounded-lg"><Smartphone className="w-5 h-5" /></div><div><h4 className="font-bold text-gray-900">2-Factor Authentication</h4><p className="text-xs text-gray-500">Secure your account with 2FA.</p></div></div>
-                <div className="w-12 h-6 bg-gray-200 rounded-full p-1 cursor-pointer"><div className="w-4 h-4 bg-white rounded-full shadow-sm"></div></div>
+                <div className="flex items-center gap-3"><div className="p-2 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 rounded-lg"><Smartphone className="w-5 h-5" /></div><div><h4 className="font-bold text-gray-900 dark:text-white">2-Factor Authentication</h4><p className="text-xs text-gray-500 dark:text-gray-400">Secure your account with 2FA.</p></div></div>
+                <div className="w-12 h-6 bg-gray-200 dark:bg-onyx-700 rounded-full p-1 cursor-pointer"><div className="w-4 h-4 bg-white rounded-full shadow-sm"></div></div>
               </div>
-              <div className="border-t border-gray-50 pt-6">
+              <div className="border-t border-gray-50 dark:border-onyx-800 pt-6">
                 <button className="text-sm font-bold text-blue-600 hover:underline">Change Password</button>
               </div>
-              <div className="border-t border-gray-50 pt-6">
+              <div className="border-t border-gray-50 dark:border-onyx-800 pt-6">
                 <button className="text-sm font-bold text-red-600 hover:underline">Log out of all devices</button>
+              </div>
+
+              {/* LEGAL SECTION */}
+              <div className="border-t border-gray-50 dark:border-onyx-800 pt-6 space-y-4">
+                <h4 className="font-bold text-gray-900 dark:text-white flex items-center gap-2 text-sm uppercase tracking-wider">
+                  <Shield className="w-4 h-4 text-indigo-500" />
+                  {language === 'ES' ? 'Legal y Cumplimiento' : 'Legal & Compliance'}
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <button onClick={() => setActiveLegalPage('PRIVACY')} className="p-4 bg-gray-50 dark:bg-onyx-800 rounded-xl text-left hover:bg-indigo-50 dark:hover:bg-indigo-900/20 hover:text-indigo-700 dark:hover:text-indigo-400 transition-colors">
+                    <span className="font-bold text-sm block text-gray-900 dark:text-white">Privacy Policy</span>
+                    <span className="text-xs text-gray-400">Data usage & rights</span>
+                  </button>
+                  <button onClick={() => setActiveLegalPage('TERMS')} className="p-4 bg-gray-50 dark:bg-onyx-800 rounded-xl text-left hover:bg-indigo-50 dark:hover:bg-indigo-900/20 hover:text-indigo-700 dark:hover:text-indigo-400 transition-colors">
+                    <span className="font-bold text-sm block text-gray-900 dark:text-white">Terms of Service</span>
+                    <span className="text-xs text-gray-400">Licensing & agreement</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* DANGER ZONE */}
+              <div className="mt-8 pt-6 border-t border-red-50 dark:border-red-900/30">
+                <div className="bg-red-50 dark:bg-red-900/10 p-6 rounded-2xl border border-red-100 dark:border-red-900/30">
+                  <h4 className="font-bold text-red-900 dark:text-red-400 mb-2">{t.resetZone}</h4>
+                  <p className="text-xs text-red-700 dark:text-red-300 mb-4">
+                    {language === 'ES'
+                      ? 'Eliminar tu cuenta borrará permanentemente todos tus datos de nuestros servidores y de este dispositivo. No podrás recuperar esta información.'
+                      : 'Deleting your account will permanently wipe all your data from our servers and this device. You will not be able to recover this information.'}
+                  </p>
+                  <div className="flex gap-4">
+                    <button onClick={handleResetSystem} className="bg-white dark:bg-onyx-900 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-red-50 dark:hover:bg-red-900/20">
+                      {t.resetBtn}
+                    </button>
+                    <button onClick={handleDeleteAccount} className="bg-red-600 text-white px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-red-700 shadow-lg shadow-red-200 dark:shadow-none">
+                      {language === 'ES' ? 'ELIMINAR CUENTA' : 'DELETE ACCOUNT'}
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -920,13 +957,13 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-full bg-[#FAFAFA] relative">
-      <header className="md:hidden bg-white border-b border-gray-100 p-4 flex justify-between items-center z-10 sticky top-0 shrink-0">
-        <div className="flex items-center gap-2"><h2 className="font-bold text-lg">{t.title}</h2></div><button onClick={onMenuClick} className="text-gray-500 hover:text-gray-900"><Menu className="w-6 h-6" /></button>
+    <div className="flex flex-col md:flex-row h-full bg-gray-50 dark:bg-onyx-950 relative">
+      <header className="md:hidden bg-white dark:bg-onyx-950 border-b border-gray-100 dark:border-onyx-800 p-4 flex justify-between items-center z-10 sticky top-0 shrink-0">
+        <div className="flex items-center gap-2"><h2 className="font-bold text-lg text-gray-900 dark:text-white">{t.title}</h2></div><button onClick={onMenuClick} className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"><Menu className="w-6 h-6" /></button>
       </header>
       <div className="hidden md:block h-full">{renderSidebar()}</div>
-      <div className="md:hidden flex overflow-x-auto p-2 bg-white border-b border-gray-200 gap-2 shrink-0">{[{ id: 'profile', icon: User, label: t.menu.profile }, { id: 'general', icon: Globe, label: t.menu.general }, { id: 'categories', icon: Layers, label: t.menu.categories }, { id: 'automation', icon: Zap, label: t.menu.automation }, { id: 'subscription', icon: Star, label: t.menu.subscription }, { id: 'billing', icon: CreditCard, label: t.menu.billing }].map((item) => (<button key={item.id} onClick={() => setActiveSection(item.id)} className={`flex-shrink-0 px-3 py-2 rounded-full text-xs font-bold border transition-colors flex items-center gap-2 ${activeSection === item.id ? 'bg-black text-white border-black' : 'bg-white text-gray-600 border-gray-200'}`}><item.icon className="w-3 h-3" />{item.label}</button>))}</div>
-      <div className="flex-1 overflow-y-auto p-6 md:p-10">{renderContent()}</div>
+      <div className="md:hidden flex overflow-x-auto p-2 bg-white dark:bg-onyx-950 border-b border-gray-200 dark:border-onyx-800 gap-2 shrink-0">{[{ id: 'profile', icon: User, label: t.menu.profile }, { id: 'general', icon: Globe, label: t.menu.general }, { id: 'categories', icon: Layers, label: t.menu.categories }, { id: 'automation', icon: Zap, label: t.menu.automation }, { id: 'subscription', icon: Star, label: t.menu.subscription }, { id: 'billing', icon: CreditCard, label: t.menu.billing }].map((item) => (<button key={item.id} onClick={() => setActiveSection(item.id)} className={`flex-shrink-0 px-3 py-2 rounded-full text-xs font-bold border transition-colors flex items-center gap-2 ${activeSection === item.id ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white' : 'bg-white dark:bg-onyx-900 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-onyx-800'}`}><item.icon className="w-3 h-3" />{item.label}</button>))}</div>
+      <div className="flex-1 overflow-y-auto p-6 md:p-10 custom-scrollbar">{renderContent()}</div>
     </div>
   );
 };

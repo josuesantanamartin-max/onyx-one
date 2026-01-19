@@ -90,25 +90,25 @@ const BudgetStatusWidget: React.FC<BudgetStatusWidgetProps> = ({ budgets, transa
 
     if (sortedCategories.length === 0) {
         return (
-            <div className="bg-white p-8 rounded-onyx border border-onyx-100 shadow-sm">
+            <div className="bg-white dark:bg-onyx-900 p-8 rounded-onyx border border-onyx-100 dark:border-onyx-800 shadow-sm">
                 <div className="flex flex-col items-center justify-center text-center opacity-50 py-16">
-                    <Activity className="w-12 h-12 text-onyx-200 mb-3" />
-                    <p className="text-sm font-bold text-onyx-400 uppercase tracking-widest">Sin presupuestos activos</p>
-                    <p className="text-xs text-onyx-300 mt-1">Define presupuestos para controlar tus gastos</p>
+                    <Activity className="w-12 h-12 text-onyx-200 dark:text-onyx-700 mb-3" />
+                    <p className="text-sm font-bold text-onyx-400 dark:text-onyx-500 uppercase tracking-widest">Sin presupuestos activos</p>
+                    <p className="text-xs text-onyx-300 dark:text-onyx-600 mt-1">Define presupuestos para controlar tus gastos</p>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="bg-white p-8 rounded-onyx border border-onyx-100 shadow-sm hover:shadow-md transition-all">
+        <div className="bg-white dark:bg-onyx-900 p-8 rounded-onyx border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-md transition-all">
             <div className="flex justify-between items-center mb-8">
                 <div>
                     <div className="flex items-center gap-3 mb-2">
-                        <div className="p-2 bg-purple-50 text-purple-600 rounded-xl">
+                        <div className="p-2 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-xl">
                             <Activity className="w-5 h-5" />
                         </div>
-                        <h3 className="text-xl font-black text-onyx-950 tracking-tight">Control de Presupuestos</h3>
+                        <h3 className="text-xl font-black text-onyx-950 dark:text-white tracking-tight">Control de Presupuestos</h3>
                     </div>
                     <p className="text-xs font-semibold text-onyx-400 uppercase tracking-widest">
                         {timeMode === 'MONTH'
@@ -124,13 +124,13 @@ const BudgetStatusWidget: React.FC<BudgetStatusWidgetProps> = ({ budgets, transa
                     const hasSubcategories = data.subcategories.length > 0;
 
                     return (
-                        <div key={category} className="p-6 bg-onyx-50/50 rounded-2xl border border-onyx-100 hover:bg-white hover:shadow-sm transition-all">
+                        <div key={category} className="p-6 bg-onyx-50/50 dark:bg-onyx-800/50 rounded-2xl border border-onyx-100 dark:border-onyx-700 hover:bg-white dark:hover:bg-onyx-800 hover:shadow-sm transition-all">
                             {/* Category Row */}
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                 {/* Left: Category Summary */}
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between">
-                                        <span className="block text-xs font-black text-onyx-400 uppercase tracking-[0.15em]">
+                                        <span className="block text-xs font-black text-onyx-400 dark:text-onyx-500 uppercase tracking-[0.15em]">
                                             {category}
                                         </span>
                                         <span className={`text-2xl font-black ${categoryPercentage > 100 ? 'text-red-500' :
@@ -141,15 +141,15 @@ const BudgetStatusWidget: React.FC<BudgetStatusWidgetProps> = ({ budgets, transa
                                     </div>
 
                                     <div className="flex items-baseline gap-2">
-                                        <span className="text-xl font-bold text-onyx-950">
+                                        <span className="text-xl font-bold text-onyx-950 dark:text-white">
                                             {formatMoney(data.totalSpent)}
                                         </span>
-                                        <span className="text-sm font-bold text-onyx-400">
+                                        <span className="text-sm font-bold text-onyx-400 dark:text-onyx-500">
                                             de {formatMoney(data.totalLimit)}
                                         </span>
                                     </div>
 
-                                    <div className="w-full bg-onyx-100 h-3 rounded-full overflow-hidden">
+                                    <div className="w-full bg-onyx-100 dark:bg-onyx-700 h-3 rounded-full overflow-hidden">
                                         <div
                                             className={`h-full rounded-full transition-all duration-1000 ${categoryPercentage > 100 ? 'bg-gradient-to-r from-red-500 to-red-600' :
                                                 categoryPercentage > 80 ? 'bg-gradient-to-r from-amber-400 to-amber-500' :
@@ -160,7 +160,7 @@ const BudgetStatusWidget: React.FC<BudgetStatusWidgetProps> = ({ budgets, transa
                                     </div>
 
                                     {categoryPercentage > 100 && (
-                                        <div className="flex items-center gap-2 text-red-500 bg-red-50 px-3 py-2 rounded-xl border border-red-100">
+                                        <div className="flex items-center gap-2 text-red-500 bg-red-50 dark:bg-red-900/20 px-3 py-2 rounded-xl border border-red-100 dark:border-red-900/30">
                                             <AlertCircle className="w-4 h-4 shrink-0" />
                                             <p className="text-xs font-bold">
                                                 Excedido en {formatMoney(data.totalSpent - data.totalLimit)}
@@ -177,15 +177,15 @@ const BudgetStatusWidget: React.FC<BudgetStatusWidgetProps> = ({ budgets, transa
                                                 Subcategorías
                                             </span>
                                             {data.subcategories.sort((a, b) => b.percentage - a.percentage).map((sub, idx) => (
-                                                <div key={idx} className="flex items-center justify-between p-3 bg-white rounded-xl border border-onyx-100">
+                                                <div key={idx} className="flex items-center justify-between p-3 bg-white dark:bg-onyx-900 rounded-xl border border-onyx-100 dark:border-onyx-700">
                                                     <div className="flex-1">
-                                                        <p className="text-xs font-bold text-onyx-600">{sub.name}</p>
-                                                        <p className="text-[10px] text-onyx-400 mt-0.5">
+                                                        <p className="text-xs font-bold text-onyx-600 dark:text-onyx-300">{sub.name}</p>
+                                                        <p className="text-[10px] text-onyx-400 dark:text-onyx-500 mt-0.5">
                                                             {formatMoney(sub.spent)} / {formatMoney(sub.limit)}
                                                         </p>
                                                     </div>
                                                     <div className="flex items-center gap-3">
-                                                        <div className="w-20 bg-onyx-100 h-2 rounded-full overflow-hidden">
+                                                        <div className="w-20 bg-onyx-100 dark:bg-onyx-800 h-2 rounded-full overflow-hidden">
                                                             <div
                                                                 className={`h-full rounded-full ${sub.percentage > 100 ? 'bg-red-500' :
                                                                     sub.percentage > 80 ? 'bg-amber-500' : 'bg-emerald-500'

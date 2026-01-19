@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Onyx Scale (Grays/Blacks) - Default Light Mode */
+  --color-onyx-50: 248 250 252;
+  /* #F8FAFC */
+  --color-onyx-100: 241 245 249;
+  /* #F1F5F9 */
+  --color-onyx-200: 226 232 240;
+  /* #E2E8F0 */
+  --color-onyx-300: 203 213 225;
+  /* #CBD5E1 */
+  --color-onyx-400: 148 163 184;
+  /* #94A3B8 */
+  --color-onyx-500: 100 116 139;
+  /* #64748B */
+  --color-onyx-600: 71 85 105;
+  /* #475569 */
+  --color-onyx-700: 51 65 85;
+  /* #334155 */
+  --color-onyx-800: 30 41 59;
+  /* #1E293B */
+  --color-onyx-900: 15 23 42;
+  /* #0F172A */
+  --color-onyx-950: 2 6 23;
+  /* #020617 */
+
+  /* Indigo Primary */
+  --color-indigo-primary: 79 70 229;
+  /* #4F46E5 */
+  --color-indigo-soft: 238 242 255;
+  /* #EEF2FF */
+
+  /* Base Backgrounds & Text */
+  --bg-primary: 248 250 252;
+  /* onyx-50 */
+  --bg-card: 255 255 255;
+  /* white */
+  --text-primary: 2 6 23;
+  /* onyx-950 */
+  --text-secondary: 100 116 139;
+  /* onyx-500 */
+  --border-primary: 226 232 240;
+  /* onyx-200 */
+}
+
+[data-theme='dark'] {
+  /* Adjusted Brand Colors for Dark Mode */
+  /* Lighter Indigo for visibility on dark bg */
+  --color-indigo-primary: 99 102 241;
+  /* #6366F1 */
+  /* Dark Indigo for backgrounds/soft states */
+  --color-indigo-soft: 49 46 129;
+  /* #312E81 */
+
+  /* Base Backgrounds Mapping */
+  --bg-primary: 2 6 23;
+  /* onyx-950 */
+  --bg-card: 15 23 42;
+  /* onyx-900 */
+  --text-primary: 248 250 252;
+  /* onyx-50 */
+  --text-secondary: 148 163 184;
+  /* onyx-400 */
+  --border-primary: 30 41 59;
+  /* onyx-800 */
+}
+
+/* Global Styles moved from inline */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: rgb(var(--bg-primary));
+  color: rgb(var(--text-primary));
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--color-onyx-200));
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--color-onyx-300));
+}
+
+/* Animations */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+@keyframes slide-up-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: slide-up-fade 0.5s ease-out forwards;
+}

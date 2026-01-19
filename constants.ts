@@ -38,7 +38,9 @@ export const DEFAULT_WIDGETS: DashboardWidget[] = [
   { id: 'SPENDING_FORECAST', visible: true, order: 9 },
   { id: 'SHOPPING_LIST', visible: true, order: 10 },
   { id: 'TODAY_MENU', visible: true, order: 11 },
-  { id: 'RECENT_TRANSACTIONS', visible: true, order: 12 },
+  { id: 'FAMILY_AGENDA', visible: true, order: 12 },
+  { id: 'BUDGET_STATUS', visible: true, order: 13 },
+  { id: 'PROJECTION_WIDGET', visible: true, order: 14 },
 ];
 
 export const DEFAULT_RULES: AutomationRule[] = [

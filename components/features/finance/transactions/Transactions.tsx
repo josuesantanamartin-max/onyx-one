@@ -4,8 +4,9 @@ import { useUserStore } from '../../../../store/useUserStore';
 import { useFinanceControllers } from '../../../../hooks/useFinanceControllers';
 import { Transaction, QuickAction } from '@/types';
 import {
-  Plus, Database, FileUp, X, Upload, ArrowUpRight, ArrowDownRight, ArrowRightLeft, Repeat
+  Plus, Database, FileUp, X, Upload, ArrowUpRight, ArrowDownRight, ArrowRightLeft, Repeat, Sparkles, Loader2
 } from 'lucide-react';
+import { suggestCategory } from '../../../../services/geminiService';
 import TransactionFilters from './components/TransactionFilters';
 import TransactionStats from './components/TransactionStats';
 import TransactionList from './components/TransactionList';
@@ -220,6 +221,29 @@ const Transactions: React.FC<TransactionsProps> = ({
     setIsImportModalOpen(false);
   };
 
+  const [isSuggesting, setIsSuggesting] = useState(false);
+
+  const handleSmartCategorization = async () => {
+    const desc = isEditModalOpen ? editDescription : description;
+    if (!desc) return;
+
+    setIsSuggesting(true);
+    const availableCategories = categories.map(c => c.name);
+    const suggestion = await suggestCategory(desc, availableCategories);
+
+    if (suggestion) {
+      if (isEditModalOpen) {
+        setEditCategory(suggestion);
+        // Reset subcategory as it might not match
+        setEditSubCategory('');
+      } else {
+        setCategory(suggestion);
+        setSubCategory('');
+      }
+    }
+    setIsSuggesting(false);
+  };
+
   return (
     <div className="h-full overflow-y-auto custom-scrollbar p-12 pb-32 max-w-7xl mx-auto animate-fade-in">
       <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10 mb-12">
@@ -405,14 +429,25 @@ const Transactions: React.FC<TransactionsProps> = ({
 
                 <div className="col-span-1 md:col-span-2">
                   <label className="block text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3">Descripción / Concepto</label>
-                  <input
-                    required
-                    type="text"
-                    value={isEditModalOpen ? editDescription : description}
-                    onChange={e => isEditModalOpen ? setEditDescription(e.target.value) : setDescription(e.target.value)}
-                    className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-onyx-950 focus:bg-white focus:ring-4 focus:ring-indigo-primary/5 outline-none transition-all shadow-inner placeholder:text-onyx-200"
-                    placeholder="Ej: Compra mensual en Mercadona"
-                  />
+                  <div className="relative">
+                    <input
+                      required
+                      type="text"
+                      value={isEditModalOpen ? editDescription : description}
+                      onChange={e => isEditModalOpen ? setEditDescription(e.target.value) : setDescription(e.target.value)}
+                      className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-onyx-950 focus:bg-white focus:ring-4 focus:ring-indigo-primary/5 outline-none transition-all shadow-inner placeholder:text-onyx-200 pr-12"
+                      placeholder="Ej: Compra mensual en Mercadona"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleSmartCategorization}
+                      disabled={isSuggesting || !(isEditModalOpen ? editDescription : description)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-indigo-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      title="Auto-detectar categoría con IA"
+                    >
+                      {isSuggesting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Sparkles className="w-5 h-5" />}
+                    </button>
+                  </div>
                 </div>
               </div>
 

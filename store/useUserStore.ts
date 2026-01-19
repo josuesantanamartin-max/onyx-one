@@ -9,6 +9,7 @@ interface UserState {
     activeApp: string;
     language: Language;
     currency: 'EUR' | 'USD' | 'GBP';
+    theme: 'light' | 'dark' | 'system';
 
     financeActiveTab: string;
     lifeActiveTab: string;
@@ -39,6 +40,7 @@ interface UserActions {
     setActiveApp: (app: string) => void;
     setLanguage: (lang: Language) => void;
     setCurrency: (currency: 'EUR' | 'USD' | 'GBP') => void;
+    setTheme: (theme: 'light' | 'dark' | 'system') => void;
     setSubscription: (sub: UserState['subscription']) => void;
 
     setFinanceActiveTab: (tab: string) => void;
@@ -63,6 +65,7 @@ export const useUserStore = create<UserState & UserActions>()(
             activeApp: 'dashboard',
             language: 'ES',
             currency: 'EUR',
+            theme: 'light',
             financeActiveTab: 'transactions',
             lifeActiveTab: 'kitchen-dashboard',
             isSidebarOpen: false,
@@ -80,6 +83,7 @@ export const useUserStore = create<UserState & UserActions>()(
             setActiveApp: (v) => set({ activeApp: v }),
             setLanguage: (v) => set({ language: v }),
             setCurrency: (v) => set({ currency: v }),
+            setTheme: (v) => set({ theme: v }),
             setFinanceActiveTab: (v) => set({ financeActiveTab: v }),
             setLifeActiveTab: (v) => set({ lifeActiveTab: v }),
             setSidebarOpen: (v) => set({ isSidebarOpen: v }),
@@ -110,6 +114,7 @@ export const useUserStore = create<UserState & UserActions>()(
                 isDemoMode: state.isDemoMode,
                 language: state.language,
                 currency: state.currency,
+                theme: state.theme,
                 automationRules: state.automationRules,
                 dashboardWidgets: state.dashboardWidgets,
                 subscription: state.subscription

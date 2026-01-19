@@ -570,3 +570,85 @@ export const askAI = async (prompt: string): Promise<string> => {
     return "Error connecting to AI.";
   }
 };
+
+// --- SMART INSIGHTS (Cross-Module Intelligence) ---
+export const generateSmartInsight = async (
+  financialContext: {
+    topCategories: string[];
+    monthlySpending: number;
+    currency: string;
+  },
+  pantryItems: string[],
+  language: 'ES' | 'EN' | 'FR'
+): Promise<{
+  title: string;
+  insight: string;
+  savingsEstimate: string;
+  actionableRecipe?: { name: string; matchReason: string };
+} | null> => {
+  const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY as string });
+
+  const prompt = `
+    ACT as a financial lifestyle optimizer.
+    
+    INPUT DATA:
+    1. Financials: User spends most on [${financialContext.topCategories.join(', ')}]. Total monthly spend: ${financialContext.currency}${financialContext.monthlySpending}.
+    2. Pantry Inventory: [${pantryItems.join(', ')}].
+    
+    GOAL:
+    Find a specific correlation between their spending and their pantry to save money.
+    Example: "High restaurant spend" + "Pasta in pantry" -> "You spent €200 on dining out. You have pasta! Cook Carbonara tonight."
+    
+    OUTPUT FORMAT:
+    JSON Object ONLY:
+    {
+      "title": "Short, punchy title (e.g., 'Stop Ordering Out')",
+      "insight": "1-sentence specific observation.",
+      "savingsEstimate": "Estimated monthly savings (e.g., '€50-€100')",
+      "actionableRecipe": { "name": "Recipe Name", "matchReason": "Why this fits (e.g., 'Uses your heavy cream')" }
+    }
+    
+    Language: ${language}
+  `;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-flash-preview',
+      contents: prompt,
+    });
+    const text = response.text || '';
+    return JSON.parse(cleanJSON(text));
+  } catch (e) {
+    console.error("Smart Insight Error:", e);
+    return null;
+  }
+};
+// --- SMART CATEGORIZATION (Auto-tagging) ---
+export const suggestCategory = async (
+  description: string,
+  categories: string[]
+): Promise<string | null> => {
+  const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY as string });
+
+  const prompt = `
+    Match this transaction description to the best available category.
+    Description: "${description}"
+    Available Categories: ${categories.join(', ')}
+    
+    Return ONLY the exact category name from the list. If unsure, return "Otros".
+  `;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-flash-preview',
+      contents: prompt,
+    });
+    const text = response.text?.trim() || '';
+    // Security check: ensure the answer is actually in the list
+    if (categories.includes(text)) return text;
+    return null;
+  } catch (e) {
+    console.error("Smart Categorization Error:", e);
+    return null;
+  }
+};

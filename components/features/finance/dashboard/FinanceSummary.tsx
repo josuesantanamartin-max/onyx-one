@@ -333,10 +333,10 @@ const FinanceSummary: React.FC<FinanceSummaryProps> = ({ onViewTransactions: onN
             {/* HEADER ACCOUNTS GRID (No Scroll) */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {accounts.map(acc => (
-                    <div key={acc.id} onClick={() => onViewTransactions({ accountId: acc.id })} className={`p-5 rounded-2xl border cursor-pointer transition-all hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between h-32 relative overflow-hidden group ${acc.type === 'CREDIT' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-white border-gray-100 text-gray-900 shadow-sm'}`}>
+                    <div key={acc.id} onClick={() => onViewTransactions({ accountId: acc.id })} className={`p-5 rounded-2xl border cursor-pointer transition-all hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between h-32 relative overflow-hidden group ${acc.type === 'CREDIT' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-white dark:bg-onyx-900 border-gray-100 dark:border-onyx-800 text-gray-900 dark:text-white shadow-sm'}`}>
                         <div className="flex justify-between items-start relative z-10">
-                            <div className={`p-2.5 rounded-xl ${acc.type === 'CREDIT' ? 'bg-slate-800 text-blue-400' : 'bg-gray-50 text-gray-500'}`}><Wallet className="w-5 h-5" /></div>
-                            <span className={`text-[10px] font-black uppercase tracking-widest ${acc.type === 'CREDIT' ? 'text-slate-500' : 'text-gray-400'}`}>{acc.bankName}</span>
+                            <div className={`p-2.5 rounded-xl ${acc.type === 'CREDIT' ? 'bg-slate-800 text-blue-400' : 'bg-gray-50 dark:bg-onyx-800 text-gray-500 dark:text-gray-400'}`}><Wallet className="w-5 h-5" /></div>
+                            <span className={`text-[10px] font-black uppercase tracking-widest ${acc.type === 'CREDIT' ? 'text-slate-500' : 'text-gray-400 dark:text-gray-500'}`}>{acc.bankName}</span>
                         </div>
                         <div className="relative z-10 mt-auto">
                             <p className="text-xs font-bold truncate mb-0.5 opacity-60">{acc.name}</p>
@@ -350,7 +350,7 @@ const FinanceSummary: React.FC<FinanceSummaryProps> = ({ onViewTransactions: onN
 
             <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end gap-6 border-b border-gray-100 pb-6">
                 <div>
-                    <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
+                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
                         {language === 'ES' ? 'Resumen Financiero' : language === 'FR' ? 'Résumé Financier' : 'Financial Summary'}
                     </h2>
                     <p className="text-gray-500 mt-2 max-w-xl text-sm leading-relaxed">
@@ -359,15 +359,15 @@ const FinanceSummary: React.FC<FinanceSummaryProps> = ({ onViewTransactions: onN
                 </div>
                 <div className="flex items-center gap-4 w-full xl:w-auto">
                     <button onClick={() => setIsEditingLayout(!isEditingLayout)} className={`p-3 border rounded-2xl transition-colors shadow-sm active:scale-95 ${isEditingLayout ? 'bg-blue-600 text-white border-blue-600' : 'bg-white border-gray-100 text-gray-400 hover:bg-gray-50'}`}><Edit className="w-5 h-5" /></button>
-                    <div className="bg-white p-1.5 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-2">
-                        <div className="flex bg-gray-100 rounded-xl p-1">
-                            <button onClick={() => { setTimeMode('MONTH'); setSelectedDate(new Date()); }} className={`px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${timeMode === 'MONTH' ? 'bg-white shadow-sm text-blue-950' : 'text-gray-400 hover:text-gray-600'}`}>Mes</button>
-                            <button onClick={() => { setTimeMode('YEAR'); setSelectedDate(new Date()); }} className={`px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${timeMode === 'YEAR' ? 'bg-white shadow-sm text-blue-950' : 'text-gray-400 hover:text-gray-600'}`}>Año</button>
+                    <div className="bg-white dark:bg-onyx-900 p-1.5 rounded-2xl border border-gray-200 dark:border-onyx-800 shadow-sm flex items-center gap-2">
+                        <div className="flex bg-gray-100 dark:bg-onyx-800 rounded-xl p-1">
+                            <button onClick={() => { setTimeMode('MONTH'); setSelectedDate(new Date()); }} className={`px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${timeMode === 'MONTH' ? 'bg-white dark:bg-onyx-700 shadow-sm text-blue-950 dark:text-white' : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300'}`}>Mes</button>
+                            <button onClick={() => { setTimeMode('YEAR'); setSelectedDate(new Date()); }} className={`px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${timeMode === 'YEAR' ? 'bg-white dark:bg-onyx-700 shadow-sm text-blue-950 dark:text-white' : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300'}`}>Año</button>
                         </div>
                         <div className="flex items-center gap-2 px-2">
-                            <button onClick={handlePrevPeriod} className="p-1 hover:bg-gray-100 rounded-lg text-gray-500 transition-colors"><ChevronLeft className="w-4 h-4" /></button>
-                            <span className="text-sm font-bold text-gray-900 min-w-[120px] text-center capitalize">{periodLabel}</span>
-                            <button onClick={handleNextPeriod} className="p-1 hover:bg-gray-100 rounded-lg text-gray-500 transition-colors"><ChevronRight className="w-4 h-4" /></button>
+                            <button onClick={handlePrevPeriod} className="p-1 hover:bg-gray-100 dark:hover:bg-onyx-800 rounded-lg text-gray-500 dark:text-gray-400 transition-colors"><ChevronLeft className="w-4 h-4" /></button>
+                            <span className="text-sm font-bold text-gray-900 dark:text-white min-w-[120px] text-center capitalize">{periodLabel}</span>
+                            <button onClick={handleNextPeriod} className="p-1 hover:bg-gray-100 dark:hover:bg-onyx-800 rounded-lg text-gray-500 dark:text-gray-400 transition-colors"><ChevronRight className="w-4 h-4" /></button>
                         </div>
                     </div>
                     <button onClick={handleGeminiAnalysis} disabled={isAnalyzing} className="flex items-center gap-2 bg-blue-950 text-white hover:bg-blue-900 px-5 py-3 rounded-2xl transition-all shadow-lg font-bold text-sm">{isAnalyzing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4 text-yellow-300" />} {isAnalyzing ? 'Analizando...' : 'Análisis IA'}</button>
@@ -376,50 +376,50 @@ const FinanceSummary: React.FC<FinanceSummaryProps> = ({ onViewTransactions: onN
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {isVisible('HEALTH_SCORE') && (
-                    <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all group">
+                    <div className="bg-white dark:bg-onyx-900 p-6 rounded-2xl border border-gray-100 dark:border-onyx-800 shadow-sm hover:shadow-md transition-all group">
                         <div className="flex justify-between items-start mb-4">
-                            <div className="p-2 bg-gray-50 rounded-lg group-hover:bg-gray-100"><ShieldCheck className="w-5 h-5 text-gray-700" /></div>
+                            <div className="p-2 bg-gray-50 dark:bg-onyx-800 rounded-lg group-hover:bg-gray-100 dark:group-hover:bg-onyx-700"><ShieldCheck className="w-5 h-5 text-gray-700 dark:text-gray-300" /></div>
                             <div className="flex flex-col items-end gap-1">
                                 <span className={`text-[10px] font-black px-2 py-0.5 rounded border flex items-center gap-1 ${monthlyGrowth >= 0 ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-red-50 text-red-700 border-red-100'}`}>{monthlyGrowth >= 0 ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />} {Math.abs(monthlyGrowth).toFixed(1)}% vs mes ant.</span>
                             </div>
                         </div>
                         <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Patrimonio Neto</p>
-                        <h3 className="text-3xl font-black text-gray-900 mt-2 tracking-tight">{formatMoney(netWorth)}</h3>
+                        <h3 className="text-3xl font-black text-gray-900 dark:text-white mt-2 tracking-tight">{formatMoney(netWorth)}</h3>
                         <p className="text-[10px] text-gray-400 mt-2 italic">Total Activos - Pasivos</p>
                     </div>
                 )}
                 {isVisible('KPI_CARDS') && (
                     <>
-                        <div onClick={() => onViewTransactions({ type: 'INCOME' })} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer group">
+                        <div onClick={() => onViewTransactions({ type: 'INCOME' })} className="bg-white dark:bg-onyx-900 p-6 rounded-2xl border border-gray-100 dark:border-onyx-800 shadow-sm hover:shadow-md transition-all cursor-pointer group">
                             <div className="flex justify-between items-start mb-4">
-                                <div className="p-2 bg-green-50 rounded-lg"><TrendingUp className="w-5 h-5 text-green-600" /></div>
+                                <div className="p-2 bg-green-50 dark:bg-green-900/20 rounded-lg"><TrendingUp className="w-5 h-5 text-green-600 dark:text-green-400" /></div>
                                 <div className={`flex items-center text-xs font-bold ${incomeTrend >= 0 ? 'text-green-600' : 'text-red-500'}`}>{incomeTrend >= 0 ? <ArrowUpRight className="w-3 h-3 mr-1" /> : <ArrowDownRight className="w-3 h-3 mr-1" />} {Math.abs(incomeTrend).toFixed(0)}%</div>
                             </div>
                             <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Ingresos ({timeMode === 'MONTH' ? 'Mes' : 'Año'})</p>
-                            <h3 className="text-3xl font-black text-gray-900 mt-2 tracking-tight">{formatMoney(currentFlow.income)}</h3>
+                            <h3 className="text-3xl font-black text-gray-900 dark:text-white mt-2 tracking-tight">{formatMoney(currentFlow.income)}</h3>
                         </div>
-                        <div onClick={() => onViewTransactions({ type: 'EXPENSE' })} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer group">
+                        <div onClick={() => onViewTransactions({ type: 'EXPENSE' })} className="bg-white dark:bg-onyx-900 p-6 rounded-2xl border border-gray-100 dark:border-onyx-800 shadow-sm hover:shadow-md transition-all cursor-pointer group">
                             <div className="flex justify-between items-start mb-4">
-                                <div className="p-2 bg-red-50 rounded-lg"><TrendingDown className="w-5 h-5 text-red-600" /></div>
+                                <div className="p-2 bg-red-50 dark:bg-red-900/20 rounded-lg"><TrendingDown className="w-5 h-5 text-red-600 dark:text-red-400" /></div>
                                 <div className={`flex items-center text-xs font-bold ${expenseTrend <= 0 ? 'text-green-600' : 'text-red-500'}`}>{expenseTrend > 0 ? <ArrowUpRight className="w-3 h-3 mr-1" /> : <ArrowDownRight className="w-3 h-3 mr-1" />} {Math.abs(expenseTrend).toFixed(0)}%</div>
                             </div>
                             <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Gastos ({timeMode === 'MONTH' ? 'Mes' : 'Año'})</p>
-                            <h3 className="text-3xl font-black text-gray-900 mt-2 tracking-tight">{formatMoney(currentFlow.expense)}</h3>
+                            <h3 className="text-3xl font-black text-gray-900 dark:text-white mt-2 tracking-tight">{formatMoney(currentFlow.expense)}</h3>
                         </div>
                         {/* NEW BUDGET KPI CARD */}
-                        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all group">
+                        <div className="bg-white dark:bg-onyx-900 p-6 rounded-2xl border border-gray-100 dark:border-onyx-800 shadow-sm hover:shadow-md transition-all group">
                             <div className="flex justify-between items-start mb-4">
-                                <div className="p-2 bg-blue-50 rounded-lg"><Wallet className="w-5 h-5 text-blue-600" /></div>
+                                <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg"><Wallet className="w-5 h-5 text-blue-600 dark:text-blue-400" /></div>
                                 <div className={`flex items-center text-xs font-bold ${budgetMetrics.budgetHealth <= 100 ? 'text-green-600' : 'text-red-500'}`}>
                                     {budgetMetrics.budgetHealth.toFixed(1)}% Usado
                                 </div>
                             </div>
                             <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Presupuesto ({timeMode === 'MONTH' ? 'Mes' : 'Año'})</p>
                             <div className="flex items-baseline gap-2 mt-2">
-                                <h3 className="text-3xl font-black text-gray-900 tracking-tight">{formatMoney(currentFlow.expense)}</h3>
+                                <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">{formatMoney(currentFlow.expense)}</h3>
                                 <span className="text-sm font-bold text-gray-400">/ {formatMoney(budgetMetrics.totalBudgetLimit)}</span>
                             </div>
-                            <div className="w-full bg-gray-100 h-1.5 rounded-full mt-3 overflow-hidden">
+                            <div className="w-full bg-gray-100 dark:bg-onyx-700 h-1.5 rounded-full mt-3 overflow-hidden">
                                 <div className={`h-full rounded-full ${budgetMetrics.budgetHealth > 100 ? 'bg-red-500' : 'bg-blue-500'}`} style={{ width: `${Math.min(budgetMetrics.budgetHealth, 100)}%` }}></div>
                             </div>
                         </div>
@@ -480,15 +480,18 @@ const FinanceSummary: React.FC<FinanceSummaryProps> = ({ onViewTransactions: onN
 
             <div className="grid grid-cols-1 gap-6">
                 {isVisible('CHART_EVOLUTION') && (
-                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                        <h3 className="text-lg font-bold text-gray-900 mb-6">Evolución de Cuentas</h3>
+                    <div className="bg-white dark:bg-onyx-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-onyx-800">
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">Evolución de Cuentas</h3>
                         <div className="h-64">
                             <ResponsiveContainer width="100%" height="100%">
                                 <LineChart data={accountEvolutionData.data}>
-                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#374151" className="opacity-20" />
                                     <XAxis dataKey="name" stroke="#9ca3af" fontSize={10} tickLine={false} axisLine={false} />
                                     <YAxis stroke="#9ca3af" fontSize={10} tickLine={false} axisLine={false} tickFormatter={(val) => `${val / 1000}k`} />
-                                    <Tooltip formatter={(value: number) => formatMoney(value)} />
+                                    <Tooltip
+                                        formatter={(value: number) => formatMoney(value)}
+                                        contentStyle={{ backgroundColor: 'rgb(255, 255, 255)', borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+                                    />
                                     <Legend />
                                     {accountEvolutionData.accounts.map((acc, idx) => (
                                         <Line key={acc.id} type="monotone" dataKey={acc.name} stroke={ACC_COLORS[idx % ACC_COLORS.length]} strokeWidth={2} dot={false} />

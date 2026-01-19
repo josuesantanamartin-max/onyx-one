@@ -16,8 +16,8 @@ const ActiveDebtsWidget: React.FC<ActiveDebtsWidgetProps> = ({ debts, onNavigate
     return (
         <div>
             <div className="flex justify-between items-center mb-6 px-2">
-                <h3 className="text-xl font-bold text-onyx-950 tracking-tight flex items-center gap-3">
-                    <div className="p-2 bg-red-50 text-red-600 rounded-lg"><CreditCard className="w-5 h-5" /></div>
+                <h3 className="text-xl font-bold text-onyx-950 dark:text-white tracking-tight flex items-center gap-3">
+                    <div className="p-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg"><CreditCard className="w-5 h-5" /></div>
                     Deudas y Préstamos
                 </h3>
                 <button onClick={() => onNavigate('finance', 'debts')} className="text-xs font-bold text-onyx-400 hover:text-onyx-950 flex items-center gap-2 transition-colors group">
@@ -43,20 +43,20 @@ const ActiveDebtsWidget: React.FC<ActiveDebtsWidgetProps> = ({ debts, onNavigate
                         };
 
                         return (
-                            <div key={debt.id} onClick={() => onNavigate('finance', 'debts')} className="bg-white p-6 rounded-2xl border border-onyx-100 shadow-sm hover:shadow-md transition-all cursor-pointer group relative overflow-hidden flex flex-col md:flex-row md:items-center gap-6 min-h-[160px]">
-                                <div className="absolute top-0 right-0 w-48 h-full bg-gradient-to-l from-red-50/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            <div key={debt.id} onClick={() => onNavigate('finance', 'debts')} className="bg-white dark:bg-onyx-900 p-6 rounded-2xl border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-md transition-all cursor-pointer group relative overflow-hidden flex flex-col md:flex-row md:items-center gap-6 min-h-[160px]">
+                                <div className="absolute top-0 right-0 w-48 h-full bg-gradient-to-l from-red-50/20 dark:from-red-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
                                 <div className="flex items-center gap-5 md:w-1/3">
-                                    <div className="p-4 bg-red-50 text-red-600 rounded-2xl shadow-inner group-hover:scale-105 transition-transform">
+                                    <div className="p-4 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-2xl shadow-inner group-hover:scale-105 transition-transform">
                                         <DebtIcon className="w-7 h-7" />
                                     </div>
                                     <div>
-                                        <h4 className="text-xl font-black text-onyx-950 leading-none mb-1.5">{debt.name}</h4>
+                                        <h4 className="text-xl font-black text-onyx-950 dark:text-white leading-none mb-1.5">{debt.name}</h4>
                                         <div className="flex flex-wrap items-center gap-1.5">
-                                            <span className="text-[9px] font-black text-red-600 bg-red-50 px-1.5 py-0.5 rounded border border-red-100 uppercase tracking-tighter">
+                                            <span className="text-[9px] font-black text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 px-1.5 py-0.5 rounded border border-red-100 dark:border-red-800 uppercase tracking-tighter">
                                                 {debtTypeLabels[debt.type] || debt.type}
                                             </span>
-                                            <span className="text-[9px] font-black text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-100 uppercase">
+                                            <span className="text-[9px] font-black text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/30 px-1.5 py-0.5 rounded border border-amber-100 dark:border-amber-800 uppercase">
                                                 {debt.interestRate}%
                                             </span>
                                         </div>
@@ -67,21 +67,21 @@ const ActiveDebtsWidget: React.FC<ActiveDebtsWidgetProps> = ({ debts, onNavigate
                                     <div className="flex justify-between items-end gap-4">
                                         <div className="flex items-end gap-5">
                                             <div>
-                                                <p className="text-[9px] font-black text-red-900/40 uppercase tracking-widest mb-0.5">Pendiente</p>
-                                                <p className="text-2xl font-black text-red-600 tracking-tighter leading-none">{formatEUR(debt.remainingBalance)}</p>
+                                                <p className="text-[9px] font-black text-red-900/40 dark:text-red-300/40 uppercase tracking-widest mb-0.5">Pendiente</p>
+                                                <p className="text-2xl font-black text-red-600 dark:text-red-400 tracking-tighter leading-none">{formatEUR(debt.remainingBalance)}</p>
                                             </div>
-                                            <div className="h-8 w-px bg-onyx-100 mb-0.5"></div>
+                                            <div className="h-8 w-px bg-onyx-100 dark:bg-onyx-800 mb-0.5"></div>
                                             <div className="whitespace-nowrap">
-                                                <p className="text-[9px] font-black text-onyx-400 uppercase tracking-widest mb-0.5">Original</p>
-                                                <p className="text-base font-bold text-onyx-400 tracking-tight leading-none">{formatEUR(debt.originalAmount)}</p>
+                                                <p className="text-[9px] font-black text-onyx-400 dark:text-onyx-500 uppercase tracking-widest mb-0.5">Original</p>
+                                                <p className="text-base font-bold text-onyx-400 dark:text-onyx-500 tracking-tight leading-none">{formatEUR(debt.originalAmount)}</p>
                                             </div>
                                         </div>
                                         <div className="text-right shrink-0">
-                                            <span className="text-[11px] font-black text-onyx-600 bg-onyx-50 px-2.5 py-0.5 rounded-full border border-onyx-100">{progress.toFixed(0)}%</span>
+                                            <span className="text-[11px] font-black text-onyx-600 dark:text-onyx-300 bg-onyx-50 dark:bg-onyx-800 px-2.5 py-0.5 rounded-full border border-onyx-100 dark:border-onyx-700">{progress.toFixed(0)}%</span>
                                         </div>
                                     </div>
 
-                                    <div className="w-full bg-onyx-50 h-2.5 rounded-full overflow-hidden border border-onyx-100/50 relative">
+                                    <div className="w-full bg-onyx-50 dark:bg-onyx-800 h-2.5 rounded-full overflow-hidden border border-onyx-100/50 dark:border-onyx-700/50 relative">
                                         <div className="bg-gradient-to-r from-red-600 to-red-400 h-full transition-all duration-1000 shadow-[0_0_8px_rgba(220,38,38,0.15)]" style={{ width: `${progress}%` }}></div>
                                     </div>
 

@@ -75,14 +75,14 @@ const CategoryDistributionChart: React.FC<CategoryDistributionChartProps> = ({
     };
 
     return (
-        <div className="bg-white p-8 rounded-3xl border border-onyx-100 shadow-sm relative overflow-hidden group h-full flex flex-col">
+        <div className="bg-white dark:bg-onyx-900 p-8 rounded-3xl border border-onyx-100 dark:border-onyx-800 shadow-sm relative overflow-hidden group h-full flex flex-col">
             <div className="flex justify-between items-center mb-6 relative z-10 shrink-0">
                 <div>
-                    <h3 className="text-xl font-bold text-onyx-950 tracking-tight flex items-center gap-3">
-                        <div className="p-2 bg-indigo-50 text-indigo-primary rounded-lg"><PieChartIcon className="w-5 h-5" /></div>
+                    <h3 className="text-xl font-bold text-onyx-950 dark:text-white tracking-tight flex items-center gap-3">
+                        <div className="p-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-primary dark:text-indigo-400 rounded-lg"><PieChartIcon className="w-5 h-5" /></div>
                         Distribución de Gastos
                     </h3>
-                    <p className="text-xs font-semibold text-onyx-400 mt-2 uppercase tracking-[0.15em] flex items-center gap-2">
+                    <p className="text-xs font-semibold text-onyx-400 dark:text-onyx-500 mt-2 uppercase tracking-[0.15em] flex items-center gap-2">
                         <Filter className="w-3 h-3" />
                         {periodLabel}
                     </p>
@@ -93,7 +93,7 @@ const CategoryDistributionChart: React.FC<CategoryDistributionChartProps> = ({
             </div>
 
             {chartData.length === 0 ? (
-                <div className="flex-1 flex flex-col items-center justify-center text-onyx-300 relative z-10 min-h-[300px]">
+                <div className="flex-1 flex flex-col items-center justify-center text-onyx-300 dark:text-onyx-600 relative z-10 min-h-[300px]">
                     <PieChartIcon className="w-16 h-16 mx-auto mb-4 opacity-10" />
                     <p className="text-sm font-bold uppercase tracking-widest opacity-40">Sin datos en este periodo</p>
                 </div>
@@ -127,8 +127,8 @@ const CategoryDistributionChart: React.FC<CategoryDistributionChartProps> = ({
                             </PieChart>
                         </ResponsiveContainer>
                         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                            <span className="text-xs font-bold text-onyx-400 uppercase tracking-widest">Total</span>
-                            <span className="text-3xl font-black text-onyx-950 tracking-tight mt-1">{formatEUR(total)}</span>
+                            <span className="text-xs font-bold text-onyx-400 dark:text-onyx-500 uppercase tracking-widest">Total</span>
+                            <span className="text-3xl font-black text-onyx-950 dark:text-white tracking-tight mt-1">{formatEUR(total)}</span>
                         </div>
                     </div>
 
@@ -141,7 +141,7 @@ const CategoryDistributionChart: React.FC<CategoryDistributionChartProps> = ({
                             return (
                                 <div
                                     key={item.name}
-                                    className="p-5 bg-onyx-50/50 rounded-2xl border border-onyx-100/50 hover:bg-white hover:shadow-md transition-all group/item"
+                                    className="p-5 bg-onyx-50/50 dark:bg-onyx-800/50 rounded-2xl border border-onyx-100/50 dark:border-onyx-700/50 hover:bg-white dark:hover:bg-onyx-800 hover:shadow-md transition-all group/item"
                                 >
                                     {/* Category Header */}
                                     <div
@@ -149,13 +149,13 @@ const CategoryDistributionChart: React.FC<CategoryDistributionChartProps> = ({
                                         className="flex items-center justify-between mb-4 cursor-pointer"
                                     >
                                         <div className="flex items-center gap-4">
-                                            <div className="w-4 h-4 rounded-full shadow-sm ring-2 ring-white" style={{ backgroundColor: color }}></div>
-                                            <span className="text-base font-bold text-onyx-900 group-hover/item:text-indigo-primary transition-colors">{item.name}</span>
+                                            <div className="w-4 h-4 rounded-full shadow-sm ring-2 ring-white dark:ring-onyx-800" style={{ backgroundColor: color }}></div>
+                                            <span className="text-base font-bold text-onyx-900 dark:text-white group-hover/item:text-indigo-primary transition-colors">{item.name}</span>
                                         </div>
                                         <div className="text-right">
-                                            <p className="text-base font-black text-onyx-950 tracking-tight">{formatEUR(item.value)}</p>
+                                            <p className="text-base font-black text-onyx-950 dark:text-white tracking-tight">{formatEUR(item.value)}</p>
                                             <div className="flex items-center justify-end gap-2">
-                                                <div className="w-16 h-1.5 bg-onyx-200 rounded-full overflow-hidden">
+                                                <div className="w-16 h-1.5 bg-onyx-200 dark:bg-onyx-700 rounded-full overflow-hidden">
                                                     <div className="h-full rounded-full" style={{ width: `${percentage}%`, backgroundColor: color }}></div>
                                                 </div>
                                                 <span className="text-[10px] font-bold text-onyx-400">{percentage.toFixed(0)}%</span>
@@ -164,7 +164,7 @@ const CategoryDistributionChart: React.FC<CategoryDistributionChartProps> = ({
                                     </div>
 
                                     {/* Subcategories */}
-                                    <div className="space-y-2 pl-8 border-l-2 border-dashed border-onyx-100 ml-2">
+                                    <div className="space-y-2 pl-8 border-l-2 border-dashed border-onyx-100 dark:border-onyx-700 ml-2">
                                         {item.subcategories.slice(0, 5).map((sub, idx) => (
                                             <div
                                                 key={idx}
@@ -172,10 +172,10 @@ const CategoryDistributionChart: React.FC<CategoryDistributionChartProps> = ({
                                                     e.stopPropagation();
                                                     if (onFilter) onFilter(item.name, sub.name);
                                                 }}
-                                                className="flex justify-between items-center text-xs group/sub cursor-pointer hover:bg-onyx-100/50 p-1.5 rounded-lg -mx-1.5 transition-colors relative z-20"
+                                                className="flex justify-between items-center text-xs group/sub cursor-pointer hover:bg-onyx-100/50 dark:hover:bg-onyx-700/50 p-1.5 rounded-lg -mx-1.5 transition-colors relative z-20"
                                             >
-                                                <span className="text-onyx-500 font-medium group-hover/sub:text-indigo-primary transition-colors pointer-events-none">{sub.name}</span>
-                                                <span className="text-onyx-700 font-bold pointer-events-none">{formatEUR(sub.value)}</span>
+                                                <span className="text-onyx-500 dark:text-onyx-400 font-medium group-hover/sub:text-indigo-primary transition-colors pointer-events-none">{sub.name}</span>
+                                                <span className="text-onyx-700 dark:text-onyx-300 font-bold pointer-events-none">{formatEUR(sub.value)}</span>
                                             </div>
                                         ))}
                                         {item.subcategories.length > 5 && (
