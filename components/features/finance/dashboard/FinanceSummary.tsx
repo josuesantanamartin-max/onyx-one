@@ -16,6 +16,7 @@ import BudgetStatusWidget from './widgets/BudgetStatusWidget';
 import CategoryDistributionChart from './widgets/CategoryDistributionChart';
 import ActiveGoalsWidget from './widgets/ActiveGoalsWidget';
 import ActiveDebtsWidget from './widgets/ActiveDebtsWidget';
+import TimelineEvolutionWidget from './widgets/TimelineEvolutionWidget';
 
 const WIDGET_NAMES: Record<FinanceWidgetType, string> = {
     'HEALTH_SCORE': 'Puntuación Financiera',
@@ -501,6 +502,17 @@ const FinanceSummary: React.FC<FinanceSummaryProps> = ({ onViewTransactions: onN
                         </div>
                     </div>
                 )}
+            </div>
+
+            {/* Timeline Evolution Widget */}
+            <div className="grid grid-cols-1 gap-6">
+                <TimelineEvolutionWidget
+                    transactions={transactions}
+                    accounts={accounts}
+                    selectedDate={selectedDate}
+                    timeMode={timeMode}
+                    onNavigate={(app, tab) => setFinanceActiveTab(tab as any)}
+                />
             </div>
 
             {/* AI ANALYSIS MODAL/DRAWER */}

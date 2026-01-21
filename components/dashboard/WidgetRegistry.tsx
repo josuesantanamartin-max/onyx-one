@@ -8,10 +8,9 @@ import ActiveDebtsWidget from '../features/finance/dashboard/widgets/ActiveDebts
 import CategoryDistributionChart from '../features/finance/dashboard/widgets/CategoryDistributionChart';
 import BudgetStatusWidget from '../features/finance/dashboard/widgets/BudgetStatusWidget';
 import TransactionExplorer from '../features/finance/dashboard/widgets/TransactionExplorer';
-import TrendChart from '../features/finance/dashboard/widgets/TrendChart';
-import ComparisonChart from '../features/finance/dashboard/widgets/ComparisonChart';
 import SpendingForecast from '../features/finance/dashboard/widgets/SpendingForecast';
 import FinanceProjectionWidget from '../features/finance/FinanceProjectionWidget';
+import TimelineEvolutionWidget from '../features/finance/dashboard/widgets/TimelineEvolutionWidget';
 
 // Life Widgets
 import DailyMenuWidget from '../features/life/dashboard/widgets/DailyMenuWidget';
@@ -25,9 +24,7 @@ export const WIDGET_REGISTRY: Record<string, React.ComponentType<any>> = {
     'NET_WORTH': NetWorthCard,
     'MONTHLY_FLOW': MonthlyFlowWidget,
     'CATEGORY_CHART': CategoryDistributionChart,
-    'TREND_CHART': TrendChart,
     'EXPLORER': TransactionExplorer,
-    'COMPARISON_CHART': ComparisonChart,
     'ACTIVE_GOALS': ActiveGoalsWidget,
     'ACTIVE_DEBTS': ActiveDebtsWidget,
     'SPENDING_FORECAST': SpendingForecast,
@@ -36,6 +33,7 @@ export const WIDGET_REGISTRY: Record<string, React.ComponentType<any>> = {
     'FAMILY_AGENDA': FamilyAgendaWidget,
     'BUDGET_STATUS': BudgetStatusWidget,
     'PROJECTION_WIDGET': FinanceProjectionWidget,
+    'TIMELINE_EVOLUTION': TimelineEvolutionWidget,
 };
 
 // Widget Layout Configuration
@@ -43,9 +41,7 @@ export const WIDGET_CONFIG: Record<string, { colSpan: string; label: string }> =
     'NET_WORTH': { colSpan: 'col-span-12 lg:col-span-8', label: 'Patrimonio Neto' },
     'MONTHLY_FLOW': { colSpan: 'col-span-12 lg:col-span-4', label: 'Flujo Mensual' },
     'CATEGORY_CHART': { colSpan: 'col-span-12', label: 'Distribución Gastos' },
-    'TREND_CHART': { colSpan: 'col-span-12 lg:col-span-6', label: 'Tendencia Gastos' },
     'EXPLORER': { colSpan: 'col-span-12', label: 'Explorador Transacciones' },
-    'COMPARISON_CHART': { colSpan: 'col-span-12 lg:col-span-6', label: 'Comparativa Periodos' },
     'ACTIVE_GOALS': { colSpan: 'col-span-12 lg:col-span-6', label: 'Metas Activas' },
     'ACTIVE_DEBTS': { colSpan: 'col-span-12 lg:col-span-6', label: 'Deudas Activas' },
     'SPENDING_FORECAST': { colSpan: 'col-span-12 lg:col-span-6', label: 'Previsión Gastos' },
@@ -54,6 +50,7 @@ export const WIDGET_CONFIG: Record<string, { colSpan: string; label: string }> =
     'FAMILY_AGENDA': { colSpan: 'col-span-12 lg:col-span-4', label: 'Agenda Familiar' },
     'BUDGET_STATUS': { colSpan: 'col-span-12', label: 'Estado Presupuestos' },
     'PROJECTION_WIDGET': { colSpan: 'col-span-12 lg:col-span-8', label: 'Proyección Balance' },
+    'TIMELINE_EVOLUTION': { colSpan: 'col-span-12', label: 'Evolución Temporal' },
 };
 
 // Helper type for props passed to dynamic widgets

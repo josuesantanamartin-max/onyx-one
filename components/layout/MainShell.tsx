@@ -9,7 +9,7 @@ import { supabase } from '../../services/supabaseClient';
 const FinanceModule = React.lazy(() => import('../features/finance/FinanceModule'));
 const LifeModule = React.lazy(() => import('../features/life/LifeModule'));
 const SettingsModule = React.lazy(() => import('../features/settings/SettingsModule'));
-const OnyxCentral = React.lazy(() => import('../dashboard/OnyxCentral'));
+const CustomizableDashboard = React.lazy(() => import('../dashboard/CustomizableDashboard'));
 
 const MainShell: React.FC = () => {
     const {
@@ -36,7 +36,7 @@ const MainShell: React.FC = () => {
             <Suspense fallback={<ModuleLoader />}>
                 {(() => {
                     switch (activeApp) {
-                        case 'dashboard': return <OnyxCentral />;
+                        case 'dashboard': return <CustomizableDashboard />;
                         case 'finance': return <FinanceModule onMenuClick={() => setSidebarOpen(true)} onNavigate={handleGlobalNavigate} />;
                         case 'life': return <LifeModule onMenuClick={() => setSidebarOpen(true)} />;
                         case 'settings': return <SettingsModule onMenuClick={() => setSidebarOpen(true)} />;

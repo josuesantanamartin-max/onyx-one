@@ -1,4 +1,4 @@
-import { CategoryStructure, DashboardWidget, AutomationRule } from './types';
+import { CategoryStructure, DashboardWidget, AutomationRule, DashboardLayout } from './types';
 
 // --- PURE CONSTANTS ---
 
@@ -30,20 +30,68 @@ export const DEFAULT_WIDGETS: DashboardWidget[] = [
   { id: 'NET_WORTH', visible: true, order: 1 },
   { id: 'MONTHLY_FLOW', visible: true, order: 2 },
   { id: 'CATEGORY_CHART', visible: true, order: 3 },
-  { id: 'TREND_CHART', visible: true, order: 4 },
+  { id: 'TIMELINE_EVOLUTION', visible: true, order: 4 },
   { id: 'EXPLORER', visible: true, order: 5 },
-  { id: 'COMPARISON_CHART', visible: true, order: 6 },
-  { id: 'ACTIVE_GOALS', visible: true, order: 7 },
-  { id: 'ACTIVE_DEBTS', visible: true, order: 8 },
-  { id: 'SPENDING_FORECAST', visible: true, order: 9 },
+  { id: 'ACTIVE_GOALS', visible: true, order: 6 },
+  { id: 'ACTIVE_DEBTS', visible: true, order: 7 },
+  { id: 'SPENDING_FORECAST', visible: true, order: 8 },
+  { id: 'PROJECTION_WIDGET', visible: true, order: 9 },
   { id: 'SHOPPING_LIST', visible: true, order: 10 },
   { id: 'TODAY_MENU', visible: true, order: 11 },
   { id: 'FAMILY_AGENDA', visible: true, order: 12 },
   { id: 'BUDGET_STATUS', visible: true, order: 13 },
-  { id: 'PROJECTION_WIDGET', visible: true, order: 14 },
 ];
 
 export const DEFAULT_RULES: AutomationRule[] = [
   { id: 'rule_1', name: 'Alerta Gasto Alto (>200€)', trigger: 'TRANSACTION_OVER_AMOUNT', threshold: 200, action: 'SEND_ALERT', isActive: true },
   { id: 'rule_2', name: 'Categoría Viaje Automática', trigger: 'TRIP_CREATED', action: 'CREATE_CATEGORY_FOR_TRIP', isActive: true },
+];
+
+export const DEFAULT_LAYOUTS: DashboardLayout[] = [
+  {
+    id: 'default',
+    name: 'Vista Ejecutiva',
+    description: 'Vista rápida de métricas clave',
+    isDefault: true,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    widgets: [
+      { i: 'NET_WORTH', x: 0, y: 0, w: 6, h: 2, minW: 4, minH: 2 },
+      { i: 'MONTHLY_FLOW', x: 6, y: 0, w: 6, h: 2, minW: 4, minH: 2 },
+      { i: 'CATEGORY_CHART', x: 0, y: 2, w: 12, h: 3, minW: 6, minH: 2 },
+      { i: 'ACTIVE_GOALS', x: 0, y: 5, w: 6, h: 2, minW: 4, minH: 2 },
+      { i: 'ACTIVE_DEBTS', x: 6, y: 5, w: 6, h: 2, minW: 4, minH: 2 },
+    ],
+  },
+  {
+    id: 'detailed',
+    name: 'Vista Detallada',
+    description: 'Análisis profundo con todos los widgets',
+    isDefault: false,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    widgets: [
+      { i: 'NET_WORTH', x: 0, y: 0, w: 3, h: 2 },
+      { i: 'MONTHLY_FLOW', x: 3, y: 0, w: 3, h: 2 },
+      { i: 'ACTIVE_GOALS', x: 6, y: 0, w: 3, h: 2 },
+      { i: 'ACTIVE_DEBTS', x: 9, y: 0, w: 3, h: 2 },
+      { i: 'TIMELINE_EVOLUTION', x: 0, y: 2, w: 12, h: 3 },
+      { i: 'CATEGORY_CHART', x: 0, y: 5, w: 6, h: 3 },
+      { i: 'SPENDING_FORECAST', x: 6, y: 5, w: 6, h: 3 },
+      { i: 'RECENT_TRANSACTIONS', x: 0, y: 8, w: 12, h: 2 },
+    ],
+  },
+  {
+    id: 'minimal',
+    name: 'Vista Minimalista',
+    description: 'Solo lo esencial',
+    isDefault: false,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    widgets: [
+      { i: 'NET_WORTH', x: 0, y: 0, w: 12, h: 3 },
+      { i: 'MONTHLY_FLOW', x: 0, y: 3, w: 6, h: 2 },
+      { i: 'CATEGORY_CHART', x: 6, y: 3, w: 6, h: 2 },
+    ],
+  },
 ];

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { Language, QuickAction, AutomationRule, DashboardWidget, SyncLog } from '../types';
-import { DEFAULT_RULES, DEFAULT_WIDGETS } from '../constants';
+import { Language, QuickAction, AutomationRule, DashboardWidget, SyncLog, DashboardLayout } from '../types';
+import { DEFAULT_RULES, DEFAULT_WIDGETS, DEFAULT_LAYOUTS } from '../constants';
 
 interface UserState {
     isAuthenticated: boolean;
@@ -20,6 +20,11 @@ interface UserState {
     automationRules: AutomationRule[];
     dashboardWidgets: DashboardWidget[];
     syncLogs: SyncLog[];
+
+    // Dashboard Customization
+    dashboardLayouts: DashboardLayout[];
+    activeLayoutId: string;
+    isEditMode: boolean;
     userProfile: {
         id?: string;
         email?: string;
@@ -52,6 +57,14 @@ interface UserActions {
     setAutomationRules: (rules: AutomationRule[] | ((prev: AutomationRule[]) => AutomationRule[])) => void;
     setDashboardWidgets: (widgets: DashboardWidget[] | ((prev: DashboardWidget[]) => DashboardWidget[])) => void;
 
+    // Dashboard Layout Actions
+    setActiveLayout: (layoutId: string) => void;
+    saveLayout: (layout: DashboardLayout) => void;
+    deleteLayout: (layoutId: string) => void;
+    setEditMode: (enabled: boolean) => void;
+    addWidgetToLayout: (widgetId: string) => void;
+    removeWidgetFromLayout: (widgetId: string) => void;
+
     addSyncLog: (log: SyncLog) => void;
     setUserProfile: (profile: any) => void;
     setLastSyncTime: (time: string) => void;
@@ -74,6 +87,9 @@ export const useUserStore = create<UserState & UserActions>()(
             automationRules: DEFAULT_RULES,
             dashboardWidgets: DEFAULT_WIDGETS,
             syncLogs: [],
+            dashboardLayouts: DEFAULT_LAYOUTS,
+            activeLayoutId: 'default',
+            isEditMode: false,
             userProfile: null,
             subscription: { plan: 'FREE', status: 'NONE' },
             lastSyncTime: null,
@@ -98,6 +114,65 @@ export const useUserStore = create<UserState & UserActions>()(
                 dashboardWidgets: typeof updater === 'function' ? updater(state.dashboardWidgets) : updater
             })),
 
+            // Dashboard Layout Actions
+            setActiveLayout: (layoutId) => set({ activeLayoutId: layoutId }),
+
+            setEditMode: (enabled) => set({ isEditMode: enabled }),
+
+            saveLayout: (layout) => set((state) => {
+                const existing = state.dashboardLayouts.find(l => l.id === layout.id);
+                if (existing) {
+                    return {
+                        dashboardLayouts: state.dashboardLayouts.map(l =>
+                            l.id === layout.id ? { ...layout, updatedAt: new Date().toISOString() } : l
+                        )
+                    };
+                }
+                return {
+                    dashboardLayouts: [...state.dashboardLayouts, layout]
+                };
+            }),
+
+            deleteLayout: (layoutId) => set((state) => ({
+                dashboardLayouts: state.dashboardLayouts.filter(l => l.id !== layoutId)
+            })),
+
+            addWidgetToLayout: (widgetId) => set((state) => {
+                const activeLayout = state.dashboardLayouts.find(l => l.id === state.activeLayoutId);
+                if (!activeLayout) return state;
+
+                const maxY = Math.max(...activeLayout.widgets.map(w => w.y + w.h), 0);
+
+                const newWidget = {
+                    i: widgetId,
+                    x: 0,
+                    y: maxY,
+                    w: 6,
+                    h: 2,
+                };
+
+                return {
+                    dashboardLayouts: state.dashboardLayouts.map(l =>
+                        l.id === state.activeLayoutId
+                            ? { ...l, widgets: [...l.widgets, newWidget] }
+                            : l
+                    )
+                };
+            }),
+
+            removeWidgetFromLayout: (widgetId) => set((state) => {
+                const activeLayout = state.dashboardLayouts.find(l => l.id === state.activeLayoutId);
+                if (!activeLayout) return state;
+
+                return {
+                    dashboardLayouts: state.dashboardLayouts.map(l =>
+                        l.id === state.activeLayoutId
+                            ? { ...l, widgets: l.widgets.filter(w => w.i !== widgetId) }
+                            : l
+                    )
+                };
+            }),
+
             addSyncLog: (log) => set((state) => ({
                 syncLogs: [
                     log,
@@ -117,7 +192,9 @@ export const useUserStore = create<UserState & UserActions>()(
                 theme: state.theme,
                 automationRules: state.automationRules,
                 dashboardWidgets: state.dashboardWidgets,
-                subscription: state.subscription
+                subscription: state.subscription,
+                dashboardLayouts: state.dashboardLayouts,
+                activeLayoutId: state.activeLayoutId
             }),
         }
     )
