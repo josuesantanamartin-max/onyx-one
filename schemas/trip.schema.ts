@@ -36,9 +36,7 @@ const itineraryItemSchema = z.object({
     time: z.string().min(1, 'Time is required'),
     activity: z.string().min(1, 'Activity is required').max(200, 'Activity must be less than 200 characters'),
     location: z.string().optional(),
-    type: z.enum(['ACTIVITY', 'FOOD', 'TRANSPORT'], {
-        errorMap: () => ({ message: 'Invalid itinerary item type' }),
-    }),
+    type: z.enum(['ACTIVITY', 'FOOD', 'TRANSPORT']),
 });
 
 /**
@@ -48,32 +46,21 @@ export const tripSchema = z
     .object({
         id: z.string().optional(),
         destination: z
-            .string({
-                required_error: 'Destination is required',
-            })
+            .string()
             .min(1, 'Destination cannot be empty')
             .max(100, 'Destination must be less than 100 characters'),
         country: z
-            .string({
-                required_error: 'Country is required',
-            })
+            .string()
             .min(1, 'Country cannot be empty')
             .max(100, 'Country must be less than 100 characters'),
         startDate: z
-            .string({
-                required_error: 'Start date is required',
-            })
+            .string()
             .regex(/^\d{4}-\d{2}-\d{2}$/, 'Start date must be in YYYY-MM-DD format'),
         endDate: z
-            .string({
-                required_error: 'End date is required',
-            })
+            .string()
             .regex(/^\d{4}-\d{2}-\d{2}$/, 'End date must be in YYYY-MM-DD format'),
         budget: z
-            .number({
-                required_error: 'Budget is required',
-                invalid_type_error: 'Budget must be a number',
-            })
+            .number()
             .positive('Budget must be greater than 0')
             .finite('Budget must be a valid number'),
         spent: z
@@ -82,9 +69,7 @@ export const tripSchema = z
             .optional()
             .default(0),
         status: z
-            .enum(['UPCOMING', 'CURRENT', 'COMPLETED'], {
-                errorMap: () => ({ message: 'Invalid trip status' }),
-            })
+            .enum(['UPCOMING', 'CURRENT', 'COMPLETED'])
             .optional()
             .default('UPCOMING'),
         image: z.string().url('Image must be a valid URL').optional().default(''),

@@ -5,20 +5,13 @@ import { z } from 'zod';
  */
 const recipeIngredientSchema = z.object({
     name: z
-        .string({
-            required_error: 'Ingredient name is required',
-        })
+        .string()
         .min(1, 'Ingredient name cannot be empty'),
     quantity: z
-        .number({
-            required_error: 'Quantity is required',
-            invalid_type_error: 'Quantity must be a number',
-        })
+        .number()
         .positive('Quantity must be greater than 0'),
     unit: z
-        .string({
-            required_error: 'Unit is required',
-        })
+        .string()
         .min(1, 'Unit cannot be empty'),
 });
 
@@ -28,24 +21,16 @@ const recipeIngredientSchema = z.object({
 export const recipeSchema = z.object({
     id: z.string().optional(),
     name: z
-        .string({
-            required_error: 'Recipe name is required',
-        })
+        .string()
         .min(1, 'Recipe name cannot be empty')
         .max(200, 'Recipe name must be less than 200 characters'),
     prepTime: z
-        .number({
-            required_error: 'Preparation time is required',
-            invalid_type_error: 'Preparation time must be a number',
-        })
+        .number()
         .int('Preparation time must be an integer')
         .positive('Preparation time must be greater than 0')
         .max(1440, 'Preparation time must be less than 24 hours'),
     calories: z
-        .number({
-            required_error: 'Calories are required',
-            invalid_type_error: 'Calories must be a number',
-        })
+        .number()
         .int('Calories must be an integer')
         .nonnegative('Calories must be non-negative'),
     tags: z
@@ -59,18 +44,13 @@ export const recipeSchema = z.object({
         .optional()
         .default(0),
     baseServings: z
-        .number({
-            required_error: 'Base servings is required',
-            invalid_type_error: 'Base servings must be a number',
-        })
+        .number()
         .int('Base servings must be an integer')
         .positive('Base servings must be greater than 0')
         .max(100, 'Base servings must be less than 100'),
     image: z.string().url('Image must be a valid URL').optional(),
     courseType: z
-        .enum(['STARTER', 'MAIN', 'DESSERT', 'SIDE', 'DRINK'], {
-            errorMap: () => ({ message: 'Invalid course type' }),
-        })
+        .enum(['STARTER', 'MAIN', 'DESSERT', 'SIDE', 'DRINK'])
         .optional(),
     ingredients: z
         .array(recipeIngredientSchema)

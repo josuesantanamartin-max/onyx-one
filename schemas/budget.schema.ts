@@ -7,24 +7,15 @@ export const budgetSchema = z
     .object({
         id: z.string().optional(),
         category: z
-            .string({
-                required_error: 'Category is required',
-            })
+            .string()
             .min(1, 'Category cannot be empty'),
         subCategory: z.string().optional(),
         limit: z
-            .number({
-                required_error: 'Budget limit is required',
-                invalid_type_error: 'Limit must be a number',
-            })
+            .number()
             .positive('Budget limit must be greater than 0')
             .finite('Budget limit must be a valid number'),
-        period: z.enum(['MONTHLY', 'YEARLY', 'CUSTOM'], {
-            errorMap: () => ({ message: 'Period must be MONTHLY, YEARLY, or CUSTOM' }),
-        }),
-        budgetType: z.enum(['FIXED', 'PERCENTAGE'], {
-            errorMap: () => ({ message: 'Budget type must be FIXED or PERCENTAGE' }),
-        }),
+        period: z.enum(['MONTHLY', 'YEARLY', 'CUSTOM']),
+        budgetType: z.enum(['FIXED', 'PERCENTAGE']),
         percentage: z
             .number()
             .min(0, 'Percentage must be positive')

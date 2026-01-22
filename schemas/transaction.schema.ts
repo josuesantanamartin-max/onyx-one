@@ -5,36 +5,23 @@ import { z } from 'zod';
  */
 export const transactionSchema = z.object({
     id: z.string().optional(),
-    type: z.enum(['INCOME', 'EXPENSE'], {
-        errorMap: () => ({ message: 'Transaction type must be either INCOME or EXPENSE' }),
-    }),
+    type: z.enum(['INCOME', 'EXPENSE']),
     amount: z
-        .number({
-            required_error: 'Amount is required',
-            invalid_type_error: 'Amount must be a number',
-        })
+        .number()
         .positive('Amount must be greater than 0')
         .finite('Amount must be a valid number'),
     date: z
-        .string({
-            required_error: 'Date is required',
-        })
+        .string()
         .regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be in YYYY-MM-DD format'),
     category: z
-        .string({
-            required_error: 'Category is required',
-        })
+        .string()
         .min(1, 'Category cannot be empty'),
     subCategory: z.string().optional(),
     accountId: z
-        .string({
-            required_error: 'Account is required',
-        })
+        .string()
         .min(1, 'Account cannot be empty'),
     description: z
-        .string({
-            required_error: 'Description is required',
-        })
+        .string()
         .min(1, 'Description cannot be empty')
         .max(500, 'Description must be less than 500 characters'),
     isRecurring: z.boolean().optional(),
