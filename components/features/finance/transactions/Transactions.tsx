@@ -11,6 +11,9 @@ import TransactionFilters from './components/TransactionFilters';
 import TransactionStats from './components/TransactionStats';
 import TransactionList from './components/TransactionList';
 import CSVImportModal from './components/CSVImportModal';
+import { validateTransaction } from '../../../../schemas/transaction.schema';
+import { formatZodErrors } from '../../../../utils/validation';
+import { useErrorHandler } from '../../../../hooks/useErrorHandler';
 
 const formatEUR = (amount: number) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(amount);
 
@@ -77,6 +80,10 @@ const Transactions: React.FC<TransactionsProps> = ({
   const [editRecurring, setEditRecurring] = useState(false);
   const [editFrequency, setEditFrequency] = useState<'WEEKLY' | 'BIWEEKLY' | 'MONTHLY' | 'YEARLY'>('MONTHLY');
 
+  // Error handling
+  const { showError, showSuccess } = useErrorHandler();
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+
   useEffect(() => {
     if (quickAction) {
       if (quickAction.type === 'ADD_EXPENSE') {
@@ -142,11 +149,20 @@ const Transactions: React.FC<TransactionsProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Clear previous errors
+    setValidationErrors({});
+
     if (mode === 'TRANSFER') {
-      if (!accountId || !toAccountId || !amount) return;
+      if (!accountId || !toAccountId || !amount) {
+        showError(new Error('Por favor completa todos los campos requeridos'));
+        return;
+      }
       transfer(accountId, toAccountId, parseFloat(amount), date, linkedGoalId || undefined, description);
+      showSuccess('Transferencia realizada exitosamente');
     } else {
-      addTransaction({
+      // Validate transaction data
+      const transactionData = {
         type: mode as 'INCOME' | 'EXPENSE',
         amount: parseFloat(amount),
         date,
@@ -157,21 +173,38 @@ const Transactions: React.FC<TransactionsProps> = ({
         notes,
         isRecurring,
         frequency: isRecurring ? recurrenceFrequency : undefined
-      });
+      };
+
+      const result = validateTransaction(transactionData);
+
+      if (!result.success) {
+        const errors = formatZodErrors(result.error);
+        setValidationErrors(errors);
+        showError(new Error('Por favor corrige los errores de validación'));
+        return;
+      }
+
+      addTransaction(result.data as Omit<Transaction, 'id'>);
+      showSuccess(`${mode === 'INCOME' ? 'Ingreso' : 'Gasto'} registrado exitosamente`);
     }
+
     setIsFormOpen(false);
     resetAddForm();
   };
 
   const resetAddForm = () => {
     setAmount(''); setDescription(''); setCategory(''); setNotes(''); setIsRecurring(false);
+    setValidationErrors({});
   };
 
   const handleUpdateTransaction = (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingTransaction) return;
 
-    editTransaction({
+    // Clear previous errors
+    setValidationErrors({});
+
+    const updatedTransaction = {
       ...editingTransaction,
       amount: parseFloat(editAmount),
       date: editDate,
@@ -182,7 +215,20 @@ const Transactions: React.FC<TransactionsProps> = ({
       notes: editNotes,
       isRecurring: editRecurring,
       frequency: editRecurring ? editFrequency : undefined
-    });
+    };
+
+    // Validate updated transaction
+    const result = validateTransaction(updatedTransaction);
+
+    if (!result.success) {
+      const errors = formatZodErrors(result.error);
+      setValidationErrors(errors);
+      showError(new Error('Por favor corrige los errores de validación'));
+      return;
+    }
+
+    editTransaction(result.data as Transaction);
+    showSuccess('Transacción actualizada exitosamente');
     setIsEditModalOpen(false);
     setEditingTransaction(null);
   };
@@ -206,7 +252,7 @@ const Transactions: React.FC<TransactionsProps> = ({
     if (!targetAccountId) return; // Should not happen if accounts exist
 
     importedTransactions.forEach(t => {
-      addTransaction({
+      const transactionData = {
         type: t.type as 'INCOME' | 'EXPENSE',
         amount: t.amount || 0,
         date: t.date || new Date().toISOString().split('T')[0],
@@ -216,9 +262,16 @@ const Transactions: React.FC<TransactionsProps> = ({
         description: t.description || 'Importado via CSV',
         notes: t.notes || '',
         isRecurring: false,
-      });
+      };
+
+      // Validate before adding
+      const result = validateTransaction(transactionData);
+      if (result.success) {
+        addTransaction(result.data as Omit<Transaction, 'id'>);
+      }
     });
     setIsImportModalOpen(false);
+    showSuccess(`${importedTransactions.length} transacciones importadas exitosamente`);
   };
 
   const [isSuggesting, setIsSuggesting] = useState(false);

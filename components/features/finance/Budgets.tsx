@@ -9,6 +9,9 @@ import {
     ShoppingBag, Home, Car, Coffee, HeartPulse, Zap, Landmark, HelpCircle,
     Utensils, ChevronRight, Wand2, Check, RefreshCw, BarChart3, TrendingUp, AlertCircle, CalendarRange, Scale
 } from 'lucide-react';
+import { validateBudget } from '../../../schemas/budget.schema';
+import { formatZodErrors } from '../../../utils/validation';
+import { useErrorHandler } from '../../../hooks/useErrorHandler';
 
 interface BudgetsProps {
     onViewTransactions: (category: string, subCategory?: string) => void;
@@ -30,6 +33,9 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
         budgets, setBudgets,
         transactions, categories
     } = useFinanceStore();
+
+    const { showError, showSuccess } = useErrorHandler();
+    const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isAutoModalOpen, setIsAutoModalOpen] = useState(false);
@@ -220,6 +226,7 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
         setBudgetType('FIXED'); setPercentage(''); setStartDate(''); setEndDate('');
         setSelectedYear(new Date().getFullYear());
         setEditingId(null); setIsModalOpen(false);
+        setValidationErrors({});
     };
 
     const handleEditClick = (budget: Budget) => {
@@ -232,7 +239,10 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // ... (existing submit logic)
+
+        // Clear previous errors
+        setValidationErrors({});
+
         let finalStart = startDate;
         let finalEnd = endDate;
 
@@ -252,12 +262,25 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
             endDate: finalEnd || undefined
         };
 
-        if (editingId) {
-            setBudgets((prev: Budget[]) => prev.map(b => b.id === editingId ? { ...budgetData, id: editingId } : b));
-        } else {
-            const newBudget = { ...budgetData, id: Math.random().toString(36).substr(2, 9) };
-            setBudgets((prev: Budget[]) => [...prev, newBudget]);
+        // Validate budget data
+        const result = validateBudget(budgetData);
+
+        if (!result.success) {
+            const errors = formatZodErrors(result.error);
+            setValidationErrors(errors);
+            showError(new Error('Por favor corrige los errores de validación'));
+            return;
         }
+
+        if (editingId) {
+            setBudgets((prev: Budget[]) => prev.map(b => b.id === editingId ? { ...result.data, id: editingId } as Budget : b));
+            showSuccess('Presupuesto actualizado exitosamente');
+        } else {
+            const newBudget = { ...result.data, id: Math.random().toString(36).substr(2, 9) } as Budget;
+            setBudgets((prev: Budget[]) => [...prev, newBudget]);
+            showSuccess('Presupuesto creado exitosamente');
+        }
+
         resetForm();
     };
 

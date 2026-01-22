@@ -1,6 +1,7 @@
 
 import { supabase } from './supabaseClient';
 import { Transaction, Account, Budget, Goal, Debt, Ingredient, Recipe, ShoppingItem, WeeklyPlanState, FamilyMember } from '../types';
+import { AppError, ErrorCodes, handleError } from '../utils/errorHandler';
 
 export const syncService = {
     // --- FINANCE ---
