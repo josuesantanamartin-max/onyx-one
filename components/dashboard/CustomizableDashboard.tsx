@@ -9,9 +9,10 @@ import { useLifeStore } from '../../store/useLifeStore';
 import {
     Settings, ChevronLeft, ChevronRight, Coffee, Sunset, Moon
 } from 'lucide-react';
-import { DashboardLayout } from '../../types';
+import { DashboardLayout, WidgetCategory } from '../../types';
 
 import { WIDGET_REGISTRY, WIDGET_CONFIG, DashboardDataProps } from './WidgetRegistry';
+import { getWidgetCategory } from './widgetCategories';
 import WidgetWrapper from './WidgetWrapper';
 import LayoutSelector from './LayoutSelector';
 import WidgetGallery from './WidgetGallery';
@@ -19,6 +20,8 @@ import EditModeToolbar from './EditModeToolbar';
 import SmartInsightWidget from './SmartInsightWidget';
 import { useDashboardSync } from '../../hooks/useDashboardSync';
 import CreateLayoutModal from './CreateLayoutModal';
+import GlobalSearch from '../ui/GlobalSearch';
+import { Search } from 'lucide-react';
 
 const GREETINGS = {
     morning: { text: 'Buenos días', sub: 'Comienza tu día con éxito.', icon: Coffee },
@@ -27,6 +30,9 @@ const GREETINGS = {
 };
 
 const CustomizableDashboard: React.FC = () => {
+    // Search State
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+
     const {
         dashboardLayouts,
         activeLayoutId,
@@ -51,6 +57,20 @@ const CustomizableDashboard: React.FC = () => {
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [tempLayout, setTempLayout] = useState<Layout>([]);
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [activeCategory, setActiveCategory] = useState<WidgetCategory>('ALL');
+    const { hasCompletedOnboarding } = useUserStore();
+
+    // Check for tour on mount
+    React.useEffect(() => {
+        const hasSeenTour = localStorage.getItem('onyx_has_seen_tour');
+        if (hasCompletedOnboarding && !hasSeenTour) {
+            // Small delay to ensure render
+            setTimeout(() => {
+                import('./DashboardTour').then(mod => mod.startDashboardTour());
+                localStorage.setItem('onyx_has_seen_tour', 'true');
+            }, 1000);
+        }
+    }, [hasCompletedOnboarding]);
 
     const activeLayout = useMemo(
         () => dashboardLayouts.find(l => l.id === activeLayoutId),
@@ -130,6 +150,13 @@ const CustomizableDashboard: React.FC = () => {
         }));
     }, [activeLayout, isEditMode]);
 
+    const filteredGridLayout = useMemo(() => {
+        return gridLayout.filter(item => {
+            if (activeCategory === 'ALL') return true;
+            return getWidgetCategory(item.i) === activeCategory;
+        });
+    }, [gridLayout, activeCategory]);
+
     const handleLayoutChange = (newLayout: Layout) => {
         if (!isEditMode) return;
         setTempLayout(newLayout);
@@ -138,17 +165,24 @@ const CustomizableDashboard: React.FC = () => {
     const handleSaveLayout = () => {
         if (!activeLayout) return;
 
-        const updatedWidgets = tempLayout.map(item => ({
-            i: (item as any).i,
-            x: (item as any).x,
-            y: (item as any).y,
-            w: (item as any).w,
-            h: (item as any).h,
-            minW: (item as any).minW,
-            minH: (item as any).minH,
-            maxW: (item as any).maxW,
-            maxH: (item as any).maxH,
-        }));
+        // Create a map of updated items for faster lookup
+        const updatedItemsMap = new Map(tempLayout.map(item => [item.i, item]));
+
+        // Update only the widgets that were present in the tempLayout (currently visible/filtered)
+        // Keep the others as they were
+        const updatedWidgets = activeLayout.widgets.map(w => {
+            const updatedItem = updatedItemsMap.get(w.i);
+            if (updatedItem) {
+                return {
+                    ...w,
+                    x: updatedItem.x,
+                    y: updatedItem.y,
+                    w: updatedItem.w,
+                    h: updatedItem.h,
+                };
+            }
+            return w;
+        });
 
         saveLayout({
             ...activeLayout,
@@ -254,7 +288,7 @@ const CustomizableDashboard: React.FC = () => {
                     <div className="flex items-center gap-2 text-indigo-primary font-bold text-xs uppercase tracking-widest mb-1.5">
                         <greeting.icon className="w-4 h-4" /> {new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })}
                     </div>
-                    <h1 className="text-4xl font-black text-onyx-950 tracking-tight dark:text-white">Onyx Central</h1>
+                    <h1 id="header-title" className="text-4xl font-black text-onyx-950 tracking-tight dark:text-white">Onyx Central</h1>
                     <p className="text-sm font-medium text-onyx-400 mt-1">{greeting.text}, Josué. {greeting.sub}</p>
                 </div>
 
@@ -290,6 +324,15 @@ const CustomizableDashboard: React.FC = () => {
 
                     <div className="flex gap-2">
                         <button
+                            onClick={() => setIsSearchOpen(true)}
+                            className="p-3 rounded-2xl bg-white dark:bg-onyx-900 text-onyx-400 hover:text-indigo-primary dark:text-onyx-500 dark:hover:text-indigo-400 border border-onyx-100 dark:border-onyx-800 shadow-sm transition-all group"
+                            title="Buscar (CMD+K)"
+                        >
+                            <Search className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                        </button>
+
+                        <button
+                            id="theme-toggle"
                             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                             className="p-3 rounded-2xl bg-white dark:bg-onyx-900 text-onyx-400 hover:text-onyx-900 dark:text-onyx-500 dark:hover:text-onyx-200 border border-onyx-100 dark:border-onyx-800 shadow-sm transition-all"
                             title="Cambiar Tema"
@@ -301,6 +344,7 @@ const CustomizableDashboard: React.FC = () => {
 
                         {!isEditMode ? (
                             <button
+                                id="edit-mode-btn"
                                 onClick={() => setEditMode(true)}
                                 className="px-4 py-2 bg-indigo-primary text-white rounded-xl font-bold text-sm hover:bg-indigo-600 transition-colors shadow-sm flex items-center gap-2"
                             >
@@ -317,12 +361,45 @@ const CustomizableDashboard: React.FC = () => {
                 </div>
             </header>
 
+            {/* Category Filter Tabs */}
+            <div id="widget-filters" className="flex items-center gap-4 mb-8 max-w-7xl mx-auto">
+                <div className="bg-white dark:bg-onyx-900 p-1.5 rounded-xl border border-onyx-100 dark:border-onyx-800 shadow-sm inline-flex">
+                    <button
+                        onClick={() => setActiveCategory('ALL')}
+                        className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all ${activeCategory === 'ALL'
+                            ? 'bg-indigo-primary text-white shadow-sm'
+                            : 'text-onyx-400 hover:text-onyx-900 dark:text-onyx-500 dark:hover:text-onyx-200 hover:bg-onyx-50 dark:hover:bg-onyx-800'
+                            }`}
+                    >
+                        Todos
+                    </button>
+                    <button
+                        onClick={() => setActiveCategory('FINANCE')}
+                        className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all ${activeCategory === 'FINANCE'
+                            ? 'bg-indigo-primary text-white shadow-sm'
+                            : 'text-onyx-400 hover:text-onyx-900 dark:text-onyx-500 dark:hover:text-onyx-200 hover:bg-onyx-50 dark:hover:bg-onyx-800'
+                            }`}
+                    >
+                        Finanzas
+                    </button>
+                    <button
+                        onClick={() => setActiveCategory('LIFE')}
+                        className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all ${activeCategory === 'LIFE'
+                            ? 'bg-indigo-primary text-white shadow-sm'
+                            : 'text-onyx-400 hover:text-onyx-900 dark:text-onyx-500 dark:hover:text-onyx-200 hover:bg-onyx-50 dark:hover:bg-onyx-800'
+                            }`}
+                    >
+                        Vida
+                    </button>
+                </div>
+            </div>
+
             {/* Widget Gallery (only in edit mode) */}
             {isEditMode && <WidgetGallery />}
 
             <div className="space-y-8 max-w-7xl mx-auto">
                 {/* Smart Insight Widget (Always Visible) */}
-                <div className="animate-fade-in-up">
+                <div id="smart-insight-widget" className="animate-fade-in-up">
                     <SmartInsightWidget onNavigate={(app, tab) => {
                         if (app === 'LIFE') {
                             setActiveApp('life');
@@ -337,7 +414,7 @@ const CustomizableDashboard: React.FC = () => {
                 {/* Grid Layout */}
                 <GridLayout
                     className="layout"
-                    layout={gridLayout}
+                    layout={filteredGridLayout}
                     width={1200}
                     gridConfig={{
                         cols: 12,
@@ -352,7 +429,7 @@ const CustomizableDashboard: React.FC = () => {
                     }}
                     onLayoutChange={handleLayoutChange}
                 >
-                    {gridLayout.map((item) => {
+                    {filteredGridLayout.map((item) => {
                         const WidgetComponent = WIDGET_REGISTRY[(item as any).i];
                         if (!WidgetComponent) return null;
 
@@ -369,7 +446,12 @@ const CustomizableDashboard: React.FC = () => {
                     })}
                 </GridLayout>
             </div>
-        </div>
+
+            <GlobalSearch
+                isOpen={isSearchOpen}
+                onClose={() => setIsSearchOpen(false)}
+            />
+        </div >
     );
 };
 

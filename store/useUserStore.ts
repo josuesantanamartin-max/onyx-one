@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { Language, QuickAction, AutomationRule, DashboardWidget, SyncLog, DashboardLayout } from '../types';
+import { Language, QuickAction, AutomationRule, DashboardWidget, SyncLog, DashboardLayout, UserPersona, FamilyMember } from '../types';
 import { DEFAULT_RULES, DEFAULT_WIDGETS, DEFAULT_LAYOUTS } from '../constants';
 
 interface UserState {
@@ -30,13 +30,33 @@ interface UserState {
         email?: string;
         full_name?: string;
         avatar_url?: string;
+        persona_type?: UserPersona[];
+        familyMembers?: FamilyMember[];
     } | null;
+
+    // Saved Search & Filters
+    recentSearches: string[];
+    savedFilters: SavedFilter[];
+
+    // Onboarding State
+    hasCompletedOnboarding: boolean;
+    onboardingStep: number;
+
     subscription: {
         plan: 'FREE' | 'PRO' | 'BUSINESS';
         status: 'ACTIVE' | 'CANCELED' | 'PAST_DUE' | 'TRIAL' | 'NONE';
         expiryDate?: string;
     };
     lastSyncTime: string | null;
+    defaultShoppingAccount: string | null; // ID de cuenta preferida para compras de cocina
+}
+
+export interface SavedFilter {
+    id: string;
+    name: string;
+    query: string;
+    type: 'TRANSACTION' | 'GENERAL';
+    createdAt: string;
 }
 
 interface UserActions {
@@ -47,6 +67,17 @@ interface UserActions {
     setCurrency: (currency: 'EUR' | 'USD' | 'GBP') => void;
     setTheme: (theme: 'light' | 'dark' | 'system') => void;
     setSubscription: (sub: UserState['subscription']) => void;
+    setUserProfile: (profile: UserState['userProfile']) => void;
+
+    // Search Actions
+    addRecentSearch: (query: string) => void;
+    clearRecentSearches: () => void;
+    addSavedFilter: (filter: SavedFilter) => void;
+    removeSavedFilter: (filterId: string) => void;
+
+    // Onboarding Actions
+    completeOnboarding: () => void;
+    setOnboardingStep: (step: number) => void;
 
     setFinanceActiveTab: (tab: string) => void;
     setLifeActiveTab: (tab: string) => void;
@@ -66,8 +97,8 @@ interface UserActions {
     removeWidgetFromLayout: (widgetId: string) => void;
 
     addSyncLog: (log: SyncLog) => void;
-    setUserProfile: (profile: any) => void;
     setLastSyncTime: (time: string) => void;
+    setDefaultShoppingAccount: (accountId: string | null) => void;
 }
 
 export const useUserStore = create<UserState & UserActions>()(
@@ -91,8 +122,18 @@ export const useUserStore = create<UserState & UserActions>()(
             activeLayoutId: 'default',
             isEditMode: false,
             userProfile: null,
+
+            // Search Defaults
+            recentSearches: [],
+            savedFilters: [],
+
+            // Onboarding defaults
+            hasCompletedOnboarding: false,
+            onboardingStep: 0,
+
             subscription: { plan: 'FREE', status: 'NONE' },
             lastSyncTime: null,
+            defaultShoppingAccount: null,
 
             setAuthenticated: (v) => set({ isAuthenticated: v }),
             setDemoMode: (v) => set({ isDemoMode: v }),
@@ -100,6 +141,18 @@ export const useUserStore = create<UserState & UserActions>()(
             setLanguage: (v) => set({ language: v }),
             setCurrency: (v) => set({ currency: v }),
             setTheme: (v) => set({ theme: v }),
+            setUserProfile: (profile) => set({ userProfile: profile }),
+
+            // Search Actions Impl
+            addRecentSearch: (query) => set((state) => ({
+                recentSearches: [query, ...state.recentSearches.filter(s => s !== query)].slice(0, 5)
+            })),
+            clearRecentSearches: () => set({ recentSearches: [] }),
+            addSavedFilter: (filter) => set((state) => ({ savedFilters: [...state.savedFilters, filter] })),
+            removeSavedFilter: (id) => set((state) => ({ savedFilters: state.savedFilters.filter(f => f.id !== id) })),
+
+            completeOnboarding: () => set({ hasCompletedOnboarding: true }),
+            setOnboardingStep: (step) => set({ onboardingStep: step }),
             setFinanceActiveTab: (v) => set({ financeActiveTab: v }),
             setLifeActiveTab: (v) => set({ lifeActiveTab: v }),
             setSidebarOpen: (v) => set({ isSidebarOpen: v }),
@@ -179,8 +232,8 @@ export const useUserStore = create<UserState & UserActions>()(
                     ...state.syncLogs
                 ].slice(0, 50)
             })),
-            setUserProfile: (userProfile) => set({ userProfile }),
             setLastSyncTime: (lastSyncTime) => set({ lastSyncTime }),
+            setDefaultShoppingAccount: (accountId) => set({ defaultShoppingAccount: accountId }),
         }),
         {
             name: 'onyx_user_store',
@@ -194,7 +247,13 @@ export const useUserStore = create<UserState & UserActions>()(
                 dashboardWidgets: state.dashboardWidgets,
                 subscription: state.subscription,
                 dashboardLayouts: state.dashboardLayouts,
-                activeLayoutId: state.activeLayoutId
+                activeLayoutId: state.activeLayoutId,
+                hasCompletedOnboarding: state.hasCompletedOnboarding,
+                onboardingStep: state.onboardingStep,
+                defaultShoppingAccount: state.defaultShoppingAccount,
+                userProfile: state.userProfile,
+                recentSearches: state.recentSearches,
+                savedFilters: state.savedFilters,
             }),
         }
     )

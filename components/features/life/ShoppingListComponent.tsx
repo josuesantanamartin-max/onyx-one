@@ -5,6 +5,7 @@ import { useFinanceStore } from '../../../store/useFinanceStore';
 import { useFinanceControllers } from '../../../hooks/useFinanceControllers';
 import { ShoppingItem, Ingredient, Recipe } from '../../../types';
 import { ShoppingCart, Copy, Plus, Check, ChefHat, Minus, X, ChevronDown } from 'lucide-react';
+import { PurchaseConfirmationModal } from './PurchaseConfirmationModal';
 
 interface ShoppingListProps {
    // All state managed via stores
@@ -68,6 +69,9 @@ export const ShoppingListComponent: React.FC<ShoppingListProps> = () => {
    const [shoppingItemQty, setShoppingItemQty] = useState('1');
    const [shoppingItemUnit, setShoppingItemUnit] = useState('pcs');
    const [isPurchasedSectionExpanded, setIsPurchasedSectionExpanded] = useState(false);
+   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
+
+   const { defaultShoppingAccount, setDefaultShoppingAccount } = useUserStore();
 
    useEffect(() => {
       if (quickAction?.type === 'ADD_SHOPPING_ITEM') {
@@ -137,22 +141,29 @@ export const ShoppingListComponent: React.FC<ShoppingListProps> = () => {
       setShoppingItemName('');
    };
 
-   const calculateItemPrice = (qty: number, unit: string) => {
-      return qty * 1.5;
+   const handleOpenPurchaseModal = () => {
+      const itemsToBuy = shoppingList.filter(i => i.checked);
+      if (itemsToBuy.length === 0) {
+         alert('Por favor, selecciona al menos un item para comprar');
+         return;
+      }
+      setIsPurchaseModalOpen(true);
    };
 
-   const handleProcessPurchase = () => {
+   const handleConfirmPurchase = (totalPrice: number, accountId: string, saveAsDefault: boolean) => {
       const itemsToBuy = shoppingList.filter(i => i.checked);
       if (itemsToBuy.length === 0) return;
 
-      const estimatedCost = itemsToBuy.reduce((sum, item) => sum + calculateItemPrice(item.quantity, item.unit), 0);
-
+      // Añadir items a la despensa
       setPantryItems((prevPantry: Ingredient[]) => {
          const newPantry = [...prevPantry];
          itemsToBuy.forEach(boughtItem => {
             const pantryIndex = newPantry.findIndex(p => p.name.toLowerCase() === boughtItem.name.toLowerCase());
             if (pantryIndex > -1) {
-               newPantry[pantryIndex] = { ...newPantry[pantryIndex], quantity: newPantry[pantryIndex].quantity + boughtItem.quantity };
+               newPantry[pantryIndex] = {
+                  ...newPantry[pantryIndex],
+                  quantity: newPantry[pantryIndex].quantity + boughtItem.quantity
+               };
             } else {
                newPantry.push({
                   id: Math.random().toString(36).substr(2, 9),
@@ -167,19 +178,27 @@ export const ShoppingListComponent: React.FC<ShoppingListProps> = () => {
          return newPantry;
       });
 
-      if (accounts && accounts.length > 0) {
-         addTransaction({
-            type: 'EXPENSE',
-            amount: parseFloat(estimatedCost.toFixed(2)),
-            date: new Date().toISOString().split('T')[0],
-            category: 'Alimentación',
-            subCategory: 'Supermercado',
-            accountId: accounts[0].id,
-            description: `Compra Sincronizada: ${itemsToBuy.length} items de cocina`
-         });
+      // Crear transacción financiera
+      addTransaction({
+         type: 'EXPENSE',
+         amount: totalPrice,
+         date: new Date().toISOString().split('T')[0],
+         category: 'Alimentación',
+         subCategory: 'Supermercado',
+         accountId: accountId,
+         description: `Compra: ${itemsToBuy.length} items de cocina`
+      });
+
+      // Guardar cuenta predeterminada si el usuario lo solicita
+      if (saveAsDefault) {
+         setDefaultShoppingAccount(accountId);
       }
 
+      // Eliminar items comprados de la lista
       setShoppingList((prev: ShoppingItem[]) => prev.filter(i => !i.checked));
+
+      // Cerrar modal
+      setIsPurchaseModalOpen(false);
    };
 
    const handleCopyShoppingList = () => {
@@ -216,7 +235,7 @@ export const ShoppingListComponent: React.FC<ShoppingListProps> = () => {
             </div>
             <div className="flex gap-3 w-full md:w-auto">
                <button
-                  onClick={handleProcessPurchase}
+                  onClick={handleOpenPurchaseModal}
                   className="flex-1 md:flex-none bg-[#0D0D12] text-white px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] shadow-[0_20px_40px_rgba(0,0,0,0.2)] hover:shadow-[0_20px_40px_rgba(16,185,129,0.3)] hover:-translate-y-0.5 transition-all flex items-center justify-center gap-3 active:scale-95 border border-white/10"
                >
                   <Check className="w-5 h-5 text-emerald-500" /> Confirmar Compra
@@ -360,6 +379,16 @@ export const ShoppingListComponent: React.FC<ShoppingListProps> = () => {
                </div>
             </div>
          )}
+         {/* Purchase Confirmation Modal */}
+         <PurchaseConfirmationModal
+            isOpen={isPurchaseModalOpen}
+            onClose={() => setIsPurchaseModalOpen(false)}
+            items={shoppingList.filter(i => i.checked)}
+            accounts={accounts}
+            defaultAccountId={defaultShoppingAccount}
+            onConfirm={handleConfirmPurchase}
+         />
       </div>
    );
 };
+

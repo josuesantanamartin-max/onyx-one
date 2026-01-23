@@ -28,6 +28,7 @@ interface FinanceActions {
 
     // Shortcuts for common operations to reduce logic in components
     addTransaction: (transaction: Transaction) => Promise<void>;
+    addAccount: (account: Account) => Promise<void>;
     updateAccountBalance: (accountId: string, amount: number) => Promise<void>;
     loadFromCloud: () => Promise<void>;
 }
@@ -73,6 +74,14 @@ export const useFinanceStore = create<FinanceState & FinanceActions>()(
                     await syncService.saveTransaction(tx);
                 } catch (e) {
                     console.error("Failed to sync transaction:", e);
+                }
+            },
+            addAccount: async (account) => {
+                set((state) => ({ accounts: [...state.accounts, account] }));
+                try {
+                    await syncService.saveAccount(account);
+                } catch (e) {
+                    console.error("Failed to sync account:", e);
                 }
             },
             updateAccountBalance: async (accountId, amount) => {

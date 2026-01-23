@@ -89,7 +89,7 @@ const FinanceProjectionWidget = () => {
                             contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}
                             itemStyle={{ color: '#111827', fontWeight: 'bold' }}
                             labelStyle={{ color: '#6B7280', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.1em' }}
-                            formatter={(value: number) => [new Intl.NumberFormat('es-ES', { style: 'currency', currency }).format(value), 'Balance Estimado']}
+                            formatter={(value: number) => [new Intl.NumberFormat('es-ES', { style: 'currency', currency: currency || 'EUR' }).format(value), 'Balance Estimado']}
                         />
                         <ReferenceLine y={currentBalance} stroke="#E5E7EB" strokeDasharray="3 3" />
                         <Area
@@ -107,12 +107,12 @@ const FinanceProjectionWidget = () => {
             <div className="mt-4 flex items-center justify-between pt-4 border-t border-gray-50 dark:border-onyx-800">
                 <div>
                     <p className="text-[10px] uppercase font-bold text-gray-400 tracking-widest">Balance Actual</p>
-                    <p className="text-lg font-bold text-gray-900 dark:text-white">{new Intl.NumberFormat('es-ES', { style: 'currency', currency }).format(currentBalance)}</p>
+                    <p className="text-lg font-bold text-gray-900 dark:text-white">{new Intl.NumberFormat('es-ES', { style: 'currency', currency: currency || 'EUR' }).format(currentBalance)}</p>
                 </div>
                 <div className="text-right">
                     <p className="text-[10px] uppercase font-bold text-gray-400 tracking-widest">Estimado (+30d)</p>
                     <p className={`text-lg font-bold ${isPositive ? 'text-emerald-500' : 'text-red-500'}`}>
-                        {new Intl.NumberFormat('es-ES', { style: 'currency', currency }).format(projectedAmount)}
+                        {new Intl.NumberFormat('es-ES', { style: 'currency', currency: currency || 'EUR' }).format(projectedAmount)}
                     </p>
                 </div>
             </div>

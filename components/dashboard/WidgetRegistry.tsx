@@ -11,11 +11,23 @@ import TransactionExplorer from '../features/finance/dashboard/widgets/Transacti
 import SpendingForecast from '../features/finance/dashboard/widgets/SpendingForecast';
 import FinanceProjectionWidget from '../features/finance/FinanceProjectionWidget';
 import TimelineEvolutionWidget from '../features/finance/dashboard/widgets/TimelineEvolutionWidget';
+import AccountsSummaryWidget from '../features/finance/dashboard/widgets/AccountsSummaryWidget';
+
+// New Dashboard Widgets
+import FinancialHealthWidget from './widgets/FinancialHealthWidget';
+import UpcomingPaymentsWidget from './widgets/UpcomingPaymentsWidget';
+import AnnualComparisonWidget from './widgets/AnnualComparisonWidget';
+import MonthlyGoalsWidget from './widgets/MonthlyGoalsWidget';
 
 // Life Widgets
 import DailyMenuWidget from '../features/life/dashboard/widgets/DailyMenuWidget';
 import PantryStatusWidget from '../features/life/dashboard/widgets/PantryStatusWidget';
 import FamilyAgendaWidget from '../features/life/dashboard/widgets/FamilyAgendaWidget';
+import RecipeFavoritesWidget from '../features/life/dashboard/widgets/RecipeFavoritesWidget';
+import WeeklyPlanWidget from '../features/life/dashboard/widgets/WeeklyPlanWidget';
+import UpcomingTripsWidget from '../features/life/dashboard/widgets/UpcomingTripsWidget';
+import FamilyTasksWidget from '../features/life/dashboard/widgets/FamilyTasksWidget';
+import CriticalInventoryWidget from '../features/life/dashboard/widgets/CriticalInventoryWidget';
 
 // Types
 import { Transaction, Account, Debt, Goal, CategoryStructure, Budget } from '@/types';
@@ -34,6 +46,16 @@ export const WIDGET_REGISTRY: Record<string, React.ComponentType<any>> = {
     'BUDGET_STATUS': BudgetStatusWidget,
     'PROJECTION_WIDGET': FinanceProjectionWidget,
     'TIMELINE_EVOLUTION': TimelineEvolutionWidget,
+    'FINANCIAL_HEALTH': FinancialHealthWidget,
+    'UPCOMING_PAYMENTS': UpcomingPaymentsWidget,
+    'ANNUAL_COMPARISON': AnnualComparisonWidget,
+    'MONTHLY_GOALS': MonthlyGoalsWidget,
+    'RECIPE_FAVORITES': RecipeFavoritesWidget,
+    'WEEKLY_PLAN': WeeklyPlanWidget,
+    'UPCOMING_TRIPS': UpcomingTripsWidget,
+    'FAMILY_TASKS': FamilyTasksWidget,
+    'CRITICAL_INVENTORY': CriticalInventoryWidget,
+    'ACCOUNTS_SUMMARY': AccountsSummaryWidget,
 };
 
 // Widget Layout Configuration
@@ -51,6 +73,16 @@ export const WIDGET_CONFIG: Record<string, { colSpan: string; label: string }> =
     'BUDGET_STATUS': { colSpan: 'col-span-12', label: 'Estado Presupuestos' },
     'PROJECTION_WIDGET': { colSpan: 'col-span-12 lg:col-span-8', label: 'Proyección Balance' },
     'TIMELINE_EVOLUTION': { colSpan: 'col-span-12', label: 'Evolución Temporal' },
+    'FINANCIAL_HEALTH': { colSpan: 'col-span-12 lg:col-span-6', label: 'Salud Financiera' },
+    'UPCOMING_PAYMENTS': { colSpan: 'col-span-12 lg:col-span-6', label: 'Próximos Pagos' },
+    'ANNUAL_COMPARISON': { colSpan: 'col-span-12 lg:col-span-6', label: 'Comparativa Anual' },
+    'MONTHLY_GOALS': { colSpan: 'col-span-12 lg:col-span-6', label: 'Objetivos del Mes' },
+    'RECIPE_FAVORITES': { colSpan: 'col-span-12 lg:col-span-6', label: 'Recetas Favoritas' },
+    'WEEKLY_PLAN': { colSpan: 'col-span-12 lg:col-span-6', label: 'Plan Semanal' },
+    'UPCOMING_TRIPS': { colSpan: 'col-span-12 lg:col-span-6', label: 'Próximos Viajes' },
+    'FAMILY_TASKS': { colSpan: 'col-span-12 lg:col-span-6', label: 'Tareas Familiares' },
+    'CRITICAL_INVENTORY': { colSpan: 'col-span-12 lg:col-span-6', label: 'Inventario Crítico' },
+    'ACCOUNTS_SUMMARY': { colSpan: 'col-span-12 lg:col-span-4', label: 'Resumen Cuentas' },
 };
 
 // Helper type for props passed to dynamic widgets

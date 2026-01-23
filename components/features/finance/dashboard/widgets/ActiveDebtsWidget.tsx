@@ -43,7 +43,7 @@ const ActiveDebtsWidget: React.FC<ActiveDebtsWidgetProps> = ({ debts, onNavigate
                         };
 
                         return (
-                            <div key={debt.id} onClick={() => onNavigate('finance', 'debts')} className="bg-white dark:bg-onyx-900 p-6 rounded-2xl border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-md transition-all cursor-pointer group relative overflow-hidden flex flex-col md:flex-row md:items-center gap-6 min-h-[160px]">
+                            <div key={debt.id} onClick={() => onNavigate('finance', 'debts')} className="bg-white dark:bg-onyx-900 p-6 rounded-2xl border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-md transition-all cursor-pointer group relative overflow-hidden flex flex-col md:flex-row md:items-center gap-6 min-h-[160px] h-full flex flex-col">
                                 <div className="absolute top-0 right-0 w-48 h-full bg-gradient-to-l from-red-50/20 dark:from-red-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
                                 <div className="flex items-center gap-5 md:w-1/3">

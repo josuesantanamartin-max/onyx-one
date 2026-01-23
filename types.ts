@@ -1,6 +1,7 @@
 
 export type TransactionType = 'INCOME' | 'EXPENSE';
 export type Language = 'ES' | 'EN' | 'FR';
+export type UserPersona = 'STUDENT' | 'FREELANCER' | 'PROFESSIONAL' | 'FAMILY' | 'ENTREPRENEUR';
 export type QuickActionType = 'ADD_EXPENSE' | 'ADD_INCOME' | 'ADD_TRANSFER' | 'ADD_INGREDIENT' | 'ADD_SHOPPING_ITEM' | 'SCAN_RECEIPT' | 'ADD_TASK';
 
 export interface QuickAction {
@@ -146,6 +147,7 @@ export interface ShoppingItem {
     type: 'MANUAL' | 'RECIPE' | 'SMART_PLAN';
     recipeName?: string;
   };
+  estimatedPrice?: number; // Precio estimado por unidad en EUR
 }
 
 export interface Flight {
@@ -245,19 +247,19 @@ export interface AutomationRule {
 }
 
 // Global Dashboard Widgets
-export type WidgetType = 'NET_WORTH' | 'MONTHLY_FLOW' | 'ACTIVE_GOALS' | 'ACTIVE_DEBTS' | 'SHOPPING_LIST' | 'TODAY_MENU' | 'RECENT_TRANSACTIONS' | 'EXPLORER' | 'CATEGORY_CHART' | 'TREND_CHART' | 'COMPARISON_CHART' | 'SPENDING_FORECAST' | 'FAMILY_AGENDA' | 'BUDGET_STATUS' | 'PROJECTION_WIDGET' | 'TIMELINE_EVOLUTION';
+export type WidgetType = 'NET_WORTH' | 'MONTHLY_FLOW' | 'ACTIVE_GOALS' | 'ACTIVE_DEBTS' | 'SHOPPING_LIST' | 'TODAY_MENU' | 'RECENT_TRANSACTIONS' | 'EXPLORER' | 'CATEGORY_CHART' | 'TREND_CHART' | 'COMPARISON_CHART' | 'SPENDING_FORECAST' | 'FAMILY_AGENDA' | 'BUDGET_STATUS' | 'PROJECTION_WIDGET' | 'TIMELINE_EVOLUTION' | 'FINANCIAL_HEALTH' | 'UPCOMING_PAYMENTS' | 'ANNUAL_COMPARISON' | 'MONTHLY_GOALS' | 'RECIPE_FAVORITES' | 'WEEKLY_PLAN' | 'UPCOMING_TRIPS' | 'FAMILY_TASKS' | 'CRITICAL_INVENTORY' | 'ACCOUNTS_SUMMARY';
 
-// Finance Dashboard Widgets
+export type WidgetCategory = 'FINANCE' | 'LIFE' | 'ALL';
+
+export interface DashboardWidget {
+  id: string;
+  visible: boolean;
+  order: number;
+}
 export type FinanceWidgetType = 'HEALTH_SCORE' | 'KPI_CARDS' | 'BUDGET_GOALS_SUMMARY' | 'CHART_EVOLUTION' | 'CHART_FLOW' | 'TOP_EXPENSES' | 'RECENT_LIST';
 
 // Kitchen Dashboard Widgets
 export type KitchenWidgetType = 'STATS_ROW' | 'TODAY_MENU_CARD' | 'SHOPPING_LIST_CARD';
-
-export interface DashboardWidget {
-  id: WidgetType | FinanceWidgetType | KitchenWidgetType;
-  visible: boolean;
-  order: number;
-}
 
 export interface Task {
   id: string;
@@ -349,3 +351,135 @@ export interface DashboardLayout {
   updatedAt: string;
 }
 
+
+// --- COLLABORATIVE MODE / HOUSEHOLDS ---
+
+export interface HouseholdPermissions {
+  canEditBudgets: boolean;
+  canAddTransactions: boolean;
+  canManageMembers: boolean;
+  canInviteUsers: boolean;
+  canEditSettings: boolean;
+}
+
+export interface PermissionMatrix {
+  roles: {
+    ADMIN: HouseholdPermissions;
+    MEMBER: HouseholdPermissions;
+    VIEWER: HouseholdPermissions;
+  };
+}
+
+export interface HouseholdMember {
+  userId: string;
+  role: 'ADMIN' | 'MEMBER' | 'VIEWER';
+  joinedAt: string;
+  // Specific overrides or granular permissions
+  canViewAccounts: string[]; // List of Account IDs this user can view
+  canEditBudgets: boolean;
+  canAddTransactions: boolean;
+}
+
+export interface Household {
+  id: string;
+  name: string;
+  ownerId: string; // The creator/owner
+  currency: 'EUR' | 'USD' | 'GBP';
+  members: HouseholdMember[];
+  sharedAccounts: string[]; // List of Account IDs shared in this household
+  permissions: PermissionMatrix;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// --- RETIREMENT PLANNER ---
+
+export interface RetirementProjection {
+  totalSavings: number;
+  monthlyIncome: number;
+  yearsOfFunding: number;
+}
+
+export interface RetirementPlan {
+  id: string;
+  userId: string;
+  name: string; // e.g. "Early Retirement"
+  targetAge: number;
+  currentAge: number;
+  currentSavings: number;
+  monthlyContribution: number;
+  expectedReturn: number; // Percentage
+  inflationRate: number; // Percentage
+  targetMonthlyIncome: number;
+  projection?: RetirementProjection; // Calculated, not always stored? Or cached.
+  linkedGoalId?: string; // Integration with Goals
+  createdAt: string;
+  updatedAt: string;
+}
+
+// --- PREDICTIVE ANALYTICS ---
+
+export interface Forecast {
+  date: string;
+  amount: number;
+  confidence: number; // 0-1
+  modelUsed: 'LINEAR' | 'MOVING_AVERAGE' | 'AI';
+}
+
+export interface Anomaly {
+  id: string; // Transaction ID
+  date: string;
+  amount: number;
+  description: string;
+  severity: 'LOW' | 'MEDIUM' | 'HIGH';
+  reason: string;
+}
+
+export interface SavingOpportunity {
+  category: string;
+  potentialSavings: number;
+  suggestion: string;
+  difficulty: 'EASY' | 'MEDIUM' | 'HARD';
+}
+
+export interface CashFlowProjection {
+  weeks: {
+    weekStarting: string;
+    income: number;
+    expenses: number;
+    net: number;
+  }[];
+  minBalance: number;
+  riskLevel: 'LOW' | 'MEDIUM' | 'HIGH';
+}
+
+export interface SpendingPattern {
+  type: 'SEASONAL' | 'RECURRING' | 'SPIKE';
+  description: string;
+  frequency?: string;
+  detectedCategories: string[];
+}
+
+// --- VOICE ASSISTANT ---
+
+export type VoiceActionType =
+  | 'ADD_TRANSACTION'
+  | 'NAVIGATE'
+  | 'QUERY_DATA'
+  | 'CREATE_GOAL'
+  | 'UNKNOWN';
+
+export interface VoiceAction {
+  type: VoiceActionType;
+  confidence: number;
+  payload: any; // Flexible payload depending on type
+  rawText: string;
+}
+
+export interface VoiceState {
+  isListening: boolean;
+  isProcessing: boolean;
+  lastTranscript: string | null;
+  lastAction: VoiceAction | null;
+  error: string | null;
+}

@@ -402,7 +402,7 @@ const TimelineEvolutionWidget: React.FC<TimelineEvolutionWidgetProps> = ({
                 {/* Controls */}
                 <div className="flex flex-wrap items-center gap-3">
                     {/* View Mode Toggle */}
-                    <div className="bg-onyx-50 dark:bg-onyx-800 p-1 rounded-xl flex items-center gap-1">
+                    <div className="bg-onyx-50 dark:bg-onyx-800 p-1 rounded-xl flex items-center gap-1 h-full flex flex-col">
                         <button
                             onClick={() => { setViewMode('CATEGORIES'); setHiddenSeries(new Set()); handleCategoryChange(null); }}
                             className={`px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2 ${viewMode === 'CATEGORIES'
@@ -506,7 +506,7 @@ const TimelineEvolutionWidget: React.FC<TimelineEvolutionWidgetProps> = ({
 
                     {/* Range Selector (hidden for COMPARISON mode) */}
                     {viewMode !== 'COMPARISON' && (
-                        <div className="bg-onyx-50 dark:bg-onyx-800 p-1 rounded-xl flex items-center gap-1">
+                        <div className="bg-onyx-50 dark:bg-onyx-800 p-1 rounded-xl flex items-center gap-1 h-full flex flex-col">
                             {(['3M', '6M', '1Y', 'ALL'] as ChartRange[]).map(range => (
                                 <button
                                     key={range}

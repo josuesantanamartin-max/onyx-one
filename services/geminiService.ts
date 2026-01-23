@@ -747,3 +747,160 @@ export const analyzeLife = async (
     return t.error;
   }
 };
+// --- PREDICTIVE ML ANALYTICS ---
+export const analyzePredictive = async (
+  transactions: Transaction[],
+  requestType: 'ANOMALY' | 'FORECAST' | 'SAVINGS' | 'PATTERNS',
+  language: 'ES' | 'EN' | 'FR' = 'ES'
+): Promise<any> => {
+  const ai = createGeminiClient();
+  const today = new Date().toISOString().split('T')[0];
+
+  // Lightweight version of transaction data to save tokens
+  const data = JSON.stringify(transactions.map(t => ({
+    d: t.date,
+    a: t.amount,
+    c: t.category,
+    desc: t.description
+  })).slice(0, 300)); // Limit to last 300 tx
+
+  let prompt = '';
+
+  if (requestType === 'ANOMALY') {
+    prompt = `
+      Act as a Financial Anomaly Detection System.
+      Analyze these transactions: ${data}
+      
+      Identify transactions that are statistical outliers (unusually high amount for the category, or unexpected).
+      Return JSON array:
+      [
+        {
+          "id": "use description as id placeholder",
+          "date": "YYYY-MM-DD",
+          "amount": 0,
+          "description": "text",
+          "severity": "HIGH/MEDIUM/LOW",
+          "reason": "Why is this anomalous?"
+        }
+      ]
+      `;
+  } else if (requestType === 'SAVINGS') {
+    prompt = `
+      Act as a Cost Optimization Engine.
+      Analyze these transactions: ${data}
+      
+      Identify specific opportunities to save money based on recurring spending patterns.
+      Return JSON array:
+      [
+        {
+          "category": "Category Name",
+          "potentialSavings": 0,
+          "suggestion": "Actionable advice",
+          "difficulty": "EASY/MEDIUM/HARD"
+        }
+      ]
+    `;
+  } else if (requestType === 'PATTERNS') {
+    prompt = `
+      Act as a Spending Pattern Recognition Engine.
+      Analyze these transactions: ${data}
+      
+      Identify patterns like seasonal spikes, recurring subscriptions, or lifestyle inflation.
+      Return JSON array:
+      [
+        {
+          "type": "SEASONAL/RECURRING/SPIKE",
+          "description": "text",
+          "detectedCategories": ["cat1", "cat2"]
+        }
+      ]
+      `;
+  } else if (requestType === 'FORECAST') {
+    prompt = `
+      Act as a Financial Forecasting Engine.
+      Analyze these transactions: ${data}
+      Current Date: ${today}
+      
+      Predict the total expense for the NEXT 3 MONTHS based on history.
+      Return JSON array:
+      [
+        {
+          "date": "YYYY-MM-01",
+          "amount": 0 (estimated total),
+          "confidence": 0.0-1.0,
+          "modelUsed": "AI"
+        }
+      ]
+      `;
+  }
+
+  prompt += `\nResponse Format: JSON Array ONLY. Language: ${language}`;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: GEMINI_MODEL, // Leveraging the stronger model for reasoning
+      contents: prompt,
+    });
+
+    const text = response.text || '';
+    const jsonStr = cleanJSON(text);
+    return JSON.parse(jsonStr);
+  } catch (e) {
+    console.error("Predictive AI Error:", e);
+    return [];
+  }
+};
+
+// --- VOICE ASSISTANT ---
+export const processVoiceCommand = async (
+  transcript: string,
+  language: 'ES' | 'EN' | 'FR' = 'ES'
+): Promise<any> => {
+  const ai = createGeminiClient();
+  const today = new Date().toISOString().split('T')[0];
+
+  const prompt = `
+    Act as a Virtual Onyx Assistant.
+    Current Date: ${today}
+    User Voice Command: "${transcript}"
+    
+    Task: parsing the natural language command into a structured JSON Action.
+    
+    Allowed Action Types:
+    1. ADD_TRANSACTION: "Add expense 50 for food", "Spent 20 on taxi"
+       Payload: { amount: number, type: "EXPENSE" | "INCOME", category: string, description: string, date: "YYYY-MM-DD" }
+    
+    2. QUERY_DATA: "How much did I spend on food?", "Show my net worth"
+       Payload: { queryType: "SPENDING" | "NET_WORTH" | "BALANCE", parameters: object }
+       
+    3. CREATE_GOAL: "Save 5000 for vacation"
+       Payload: { name: string, targetAmount: number }
+       
+    4. NAVIGATE: "Go to kitchen", "Open settings"
+       Payload: { destination: string }
+       
+    5. UNKNOWN: If command is unclear.
+    
+    Return JSON Object ONLY:
+    {
+      "type": "ACTION_TYPE",
+      "confidence": 0.95,
+      "payload": { ... },
+      "rawText": "${transcript}"
+    }
+  `;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: GEMINI_MODEL,
+      contents: prompt,
+    });
+
+    const text = response.text || '';
+    const jsonStr = cleanJSON(text);
+    return JSON.parse(jsonStr);
+  } catch (e) {
+    console.error("Voice Processing Error:", e);
+    return { type: 'UNKNOWN', confidence: 0, rawText: transcript };
+  }
+};

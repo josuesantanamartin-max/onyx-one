@@ -3,6 +3,7 @@ import { supabase } from '../../services/supabaseClient';
 import { useUserStore } from '../../store/useUserStore';
 import { useFinanceStore } from '../../store/useFinanceStore';
 import OnyxLanding from '../layout/OnyxLanding';
+import OnboardingWizard from '../onboarding/OnboardingWizard';
 
 interface AuthGateProps {
     children: React.ReactNode;
@@ -13,7 +14,8 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
         isAuthenticated, setAuthenticated,
         isDemoMode, setDemoMode,
         language, setLanguage,
-        addSyncLog, setUserProfile
+        addSyncLog, setUserProfile,
+        hasCompletedOnboarding
     } = useUserStore();
 
     const { loadFromCloud } = useFinanceStore();
@@ -88,6 +90,11 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
 
     if (!isAuthenticated) {
         return <OnyxLanding onLogin={handleLogin} language={language} setLanguage={setLanguage} />;
+    }
+
+    // New: Check for Onboarding Completion check
+    if (!hasCompletedOnboarding) {
+        return <OnboardingWizard />;
     }
 
     return <>{children}</>;

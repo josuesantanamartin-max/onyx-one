@@ -60,6 +60,7 @@ export const CookingModeView: React.FC<CookingModeViewProps> = ({ recipe, onClos
     };
 
     const extractTimeFromStep = (step: string): number | null => {
+        if (!step) return null;
         // Try to extract time from step text (e.g., "10 minutos", "5 min")
         const match = step.match(/(\d+)\s*(minuto|min|minute)/i);
         return match ? parseInt(match[1]) : null;

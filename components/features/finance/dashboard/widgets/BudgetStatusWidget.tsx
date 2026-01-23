@@ -14,7 +14,7 @@ interface BudgetStatusWidgetProps {
 const BudgetStatusWidget: React.FC<BudgetStatusWidgetProps> = ({ budgets, transactions, currentIncome, currency, selectedDate, timeMode }) => {
 
     const formatMoney = (amount: number) => {
-        return new Intl.NumberFormat('de-DE', { style: 'currency', currency: currency, minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(amount);
+        return new Intl.NumberFormat('de-DE', { style: 'currency', currency: currency || 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(amount);
     };
 
     // Calculate spent amount for a given category and optional subcategory

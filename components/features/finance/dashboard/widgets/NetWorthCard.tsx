@@ -39,12 +39,12 @@ const NetWorthCard: React.FC<NetWorthCardProps> = ({ accounts, debts, monthlyInc
                     <div className="flex items-baseline gap-4 mt-2">
                         <h3 className="text-5xl font-bold text-onyx-950 dark:text-white tracking-tight">{formatEUR(netWorth)}</h3>
                         {cashFlow > 0 ? (
-                            <div className="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-bold flex items-center gap-1.5 border border-emerald-100/50">
+                            <div className="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-bold flex items-center gap-1.5 border border-emerald-100/50 h-full flex flex-col">
                                 <ArrowUpRight className="w-3.5 h-3.5" />
                                 <span className="translate-y-[0.5px]">+{savingsRate.toFixed(1)}%</span>
                             </div>
                         ) : (
-                            <div className="px-3 py-1 bg-red-50 text-red-600 rounded-lg text-[10px] font-bold flex items-center gap-1.5 border border-red-100/50">
+                            <div className="px-3 py-1 bg-red-50 text-red-600 rounded-lg text-[10px] font-bold flex items-center gap-1.5 border border-red-100/50 h-full flex flex-col">
                                 <ArrowDownRight className="w-3.5 h-3.5" />
                                 <span className="translate-y-[0.5px]">Déficit</span>
                             </div>

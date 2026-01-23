@@ -84,7 +84,7 @@ const SpendingForecast: React.FC<SpendingForecastProps> = ({ transactions }) => 
                     </div>
                 </div>
 
-                <div className="h-[220px] bg-onyx-50/30 rounded-3xl p-6 border border-onyx-100/50">
+                <div className="h-[220px] bg-onyx-50/30 rounded-3xl p-6 border border-onyx-100/50 h-full flex flex-col">
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={[
                             { name: 'Gasto Real', value: forecastData.currentMonthSpent },

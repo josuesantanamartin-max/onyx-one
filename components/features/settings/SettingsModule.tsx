@@ -785,7 +785,266 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
           </div>
         );
 
-      case 'subscription':
+      case 'categories':
+        return (
+          <div className="max-w-4xl space-y-8 animate-fade-in">
+            <div>
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white">{t.menu.categories}</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t.sections.catDesc}</p>
+            </div>
+
+            {/* Category Form */}
+            <form
+              ref={categoryFormRef}
+              onSubmit={handleSaveCategory}
+              className="bg-white dark:bg-onyx-900 p-6 rounded-2xl border border-gray-100 dark:border-onyx-800 shadow-sm space-y-4"
+            >
+              <h4 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                {editingCatId ? <Pencil className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                {editingCatId ? 'Editar Categoría' : 'Nueva Categoría'}
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="md:col-span-1">
+                  <label className="block text-[10px] font-black text-gray-400 uppercase mb-1">Nombre</label>
+                  <input
+                    type="text"
+                    value={newCatName}
+                    onChange={(e) => setNewCatName(e.target.value)}
+                    className="w-full p-3 bg-gray-50 dark:bg-onyx-800 border border-gray-200 dark:border-onyx-700 rounded-xl font-bold focus:ring-2 focus:ring-indigo-500 outline-none text-gray-900 dark:text-white"
+                    placeholder="Ej: Transporte"
+                    required
+                  />
+                </div>
+                <div className="md:col-span-1">
+                  <label className="block text-[10px] font-black text-gray-400 uppercase mb-1">Tipo</label>
+                  <div className="flex bg-gray-50 dark:bg-onyx-800 p-1 rounded-xl border border-gray-200 dark:border-onyx-700">
+                    <button
+                      type="button"
+                      onClick={() => setNewCatType('EXPENSE')}
+                      className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${newCatType === 'EXPENSE' ? 'bg-white dark:bg-onyx-700 shadow text-red-600' : 'text-gray-400 hover:text-gray-600'
+                        }`}
+                    >
+                      Gasto
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setNewCatType('INCOME')}
+                      className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${newCatType === 'INCOME' ? 'bg-white dark:bg-onyx-700 shadow text-green-600' : 'text-gray-400 hover:text-gray-600'
+                        }`}
+                    >
+                      Ingreso
+                    </button>
+                  </div>
+                </div>
+                <div className="md:col-span-1">
+                  <label className="block text-[10px] font-black text-gray-400 uppercase mb-1">Subcategorías (CSV)</label>
+                  <input
+                    type="text"
+                    value={newSubCat}
+                    onChange={(e) => setNewSubCat(e.target.value)}
+                    className="w-full p-3 bg-gray-50 dark:bg-onyx-800 border border-gray-200 dark:border-onyx-700 rounded-xl font-medium focus:ring-2 focus:ring-indigo-500 outline-none text-gray-900 dark:text-white"
+                    placeholder="Gasolina, Metro, Taxi..."
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end gap-3 pt-2">
+                {editingCatId && (
+                  <button
+                    type="button"
+                    onClick={resetCategoryForm}
+                    className="px-4 py-2 text-xs font-bold text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
+                  >
+                    Cancelar
+                  </button>
+                )}
+                <button
+                  type="submit"
+                  className="px-6 py-3 bg-indigo-600 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg hover:bg-indigo-700 transition-all flex items-center gap-2"
+                >
+                  <Check className="w-4 h-4" />
+                  {editingCatId ? 'Actualizar' : 'Guardar'}
+                </button>
+              </div>
+            </form>
+
+            {/* EXPENSE CATEGORIES */}
+            <div className="space-y-4">
+              <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest border-b border-gray-100 dark:border-onyx-800 pb-2">Gastos (Expenses)</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {categories.filter(c => c.type === 'EXPENSE').map(cat => (
+                  <div key={cat.id} className="group bg-white dark:bg-onyx-900 p-4 rounded-xl border border-gray-100 dark:border-onyx-800 hover:border-indigo-200 dark:hover:border-indigo-800 transition-all shadow-sm">
+                    <div className="flex justify-between items-start mb-2">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-red-50 dark:bg-red-900/20 flex items-center justify-center text-red-500">
+                          <Coins className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <h5 className="font-bold text-gray-900 dark:text-white">{cat.name}</h5>
+                          <p className="text-[10px] text-gray-400">{cat.subCategories.length} subcategorías</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button
+                          onClick={() => handleEditCategoryClick(cat)}
+                          className="p-1.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors"
+                        >
+                          <Pencil className="w-3 h-3" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteCategory(cat.id)}
+                          className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </button>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-1">
+                      {cat.subCategories.map((sub, idx) => (
+                        <span key={idx} className="px-2 py-1 bg-gray-50 dark:bg-onyx-800 text-gray-500 dark:text-gray-400 text-[10px] font-bold rounded-md border border-gray-100 dark:border-onyx-700">
+                          {sub}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* INCOME CATEGORIES */}
+            <div className="space-y-4 pt-4">
+              <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest border-b border-gray-100 dark:border-onyx-800 pb-2">Ingresos (Income)</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {categories.filter(c => c.type === 'INCOME').map(cat => (
+                  <div key={cat.id} className="group bg-white dark:bg-onyx-900 p-4 rounded-xl border border-gray-100 dark:border-onyx-800 hover:border-indigo-200 dark:hover:border-indigo-800 transition-all shadow-sm">
+                    <div className="flex justify-between items-start mb-2">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-500">
+                          <Coins className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <h5 className="font-bold text-gray-900 dark:text-white">{cat.name}</h5>
+                          <p className="text-[10px] text-gray-400">{cat.subCategories.length} subcategorías</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button
+                          onClick={() => handleEditCategoryClick(cat)}
+                          className="p-1.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors"
+                        >
+                          <Pencil className="w-3 h-3" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteCategory(cat.id)}
+                          className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </button>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-1">
+                      {cat.subCategories.map((sub, idx) => (
+                        <span key={idx} className="px-2 py-1 bg-gray-50 dark:bg-onyx-800 text-gray-500 dark:text-gray-400 text-[10px] font-bold rounded-md border border-gray-100 dark:border-onyx-700">
+                          {sub}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'automation':
+        return (
+          <div className="max-w-4xl space-y-8 animate-fade-in">
+            <div>
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white">{t.menu.automation}</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t.sections.autoDesc}</p>
+            </div>
+
+            {/* New Rule Form */}
+            <form onSubmit={handleAddRule} className="bg-indigo-900 text-white p-6 rounded-2xl shadow-lg relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-32 bg-indigo-500/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+              <h4 className="font-bold flex items-center gap-2 mb-6 relative z-10">
+                <Zap className="w-5 h-5 text-yellow-400" /> Nueva Regla
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 relative z-10">
+                <div className="md:col-span-2">
+                  <label className="block text-[10px] font-bold text-indigo-300 uppercase mb-1">Disparador</label>
+                  <select
+                    value={newRuleTrigger}
+                    onChange={(e) => setNewRuleTrigger(e.target.value as any)}
+                    className="w-full p-3 bg-indigo-800/50 border border-indigo-700 rounded-xl font-bold text-white outline-none focus:ring-2 focus:ring-indigo-400"
+                  >
+                    <option value="TRANSACTION_OVER_AMOUNT">Transacción mayor de...</option>
+                    <option value="TRIP_CREATED">Nuevo viaje creado</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-indigo-300 uppercase mb-1">Valor</label>
+                  <input
+                    type="number"
+                    value={newRuleThreshold}
+                    onChange={(e) => setNewRuleThreshold(e.target.value)}
+                    className="w-full p-3 bg-indigo-800/50 border border-indigo-700 rounded-xl font-bold text-white outline-none focus:ring-2 focus:ring-indigo-400"
+                    placeholder="100"
+                  />
+                </div>
+                <div className="flex items-end">
+                  <button type="submit" className="w-full py-3 bg-white text-indigo-900 rounded-xl font-black uppercase tracking-widest shadow-lg hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
+                    <Plus className="w-4 h-4" /> Crear
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <div className="grid grid-cols-1 gap-3">
+              {automationRules.map((rule) => (
+                <div key={rule.id} className={`p-4 rounded-xl border transition-all flex items-center justify-between ${rule.isActive
+                  ? 'bg-white dark:bg-onyx-900 border-indigo-200 dark:border-indigo-900 shadow-sm'
+                  : 'bg-gray-50 dark:bg-onyx-950 border-gray-100 dark:border-onyx-800 opacity-75'
+                  }`}>
+                  <div className="flex items-center gap-4">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${rule.isActive ? 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600' : 'bg-gray-200 dark:bg-onyx-800 text-gray-400'
+                      }`}>
+                      <Zap className="w-5 h-5 fill-current" />
+                    </div>
+                    <div>
+                      <h5 className="font-bold text-gray-900 dark:text-white">{rule.name}</h5>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <span className="text-[10px] bg-gray-100 dark:bg-onyx-800 px-2 py-0.5 rounded text-gray-500 font-bold uppercase">{rule.trigger}</span>
+                        {rule.threshold && <span className="text-xs text-gray-500 font-medium"> {'>'} {rule.threshold}€</span>}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => handleToggleRule(rule.id)}
+                      className={`relative w-12 h-6 rounded-full transition-colors ${rule.isActive ? 'bg-green-500' : 'bg-gray-300 dark:bg-onyx-700'
+                        }`}
+                    >
+                      <div className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${rule.isActive ? 'translate-x-6' : 'translate-x-0'
+                        }`} />
+                    </button>
+                    <button
+                      onClick={() => handleDeleteRule(rule.id)}
+                      className="p-2 text-gray-300 hover:text-red-500 transition-colors"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+              {automationRules.length === 0 && (
+                <div className="text-center py-10 bg-gray-50 dark:bg-onyx-900/50 rounded-2xl border-2 border-dashed border-gray-200 dark:border-onyx-800">
+                  <p className="text-gray-400 font-medium">No hay reglas activas</p>
+                </div>
+              )}
+            </div>
+          </div>
+        );
         return (
           <div className="max-w-4xl space-y-8 animate-fade-in">
             {subscription.plan === 'FREE' ? (
