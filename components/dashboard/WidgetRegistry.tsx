@@ -28,6 +28,7 @@ import WeeklyPlanWidget from '../features/life/dashboard/widgets/WeeklyPlanWidge
 import UpcomingTripsWidget from '../features/life/dashboard/widgets/UpcomingTripsWidget';
 import FamilyTasksWidget from '../features/life/dashboard/widgets/FamilyTasksWidget';
 import CriticalInventoryWidget from '../features/life/dashboard/widgets/CriticalInventoryWidget';
+import ShoppingListWidget from '../features/life/dashboard/widgets/ShoppingListWidget';
 
 // Types
 import { Transaction, Account, Debt, Goal, CategoryStructure, Budget } from '@/types';
@@ -42,6 +43,7 @@ export const WIDGET_REGISTRY: Record<string, React.ComponentType<any>> = {
     'SPENDING_FORECAST': SpendingForecast,
     'TODAY_MENU': DailyMenuWidget,
     'SHOPPING_LIST': PantryStatusWidget,
+    'SHOPPING_LIST_FULL': ShoppingListWidget,
     'FAMILY_AGENDA': FamilyAgendaWidget,
     'BUDGET_STATUS': BudgetStatusWidget,
     'PROJECTION_WIDGET': FinanceProjectionWidget,
@@ -69,6 +71,7 @@ export const WIDGET_CONFIG: Record<string, { colSpan: string; label: string }> =
     'SPENDING_FORECAST': { colSpan: 'col-span-12 lg:col-span-6', label: 'Previsión Gastos' },
     'TODAY_MENU': { colSpan: 'col-span-12 lg:col-span-8', label: 'Menú de Hoy' },
     'SHOPPING_LIST': { colSpan: 'col-span-12 lg:col-span-4', label: 'Despensa & Lista' },
+    'SHOPPING_LIST_FULL': { colSpan: 'col-span-12 lg:col-span-4', label: 'Lista de Compra Completa' },
     'FAMILY_AGENDA': { colSpan: 'col-span-12 lg:col-span-4', label: 'Agenda Familiar' },
     'BUDGET_STATUS': { colSpan: 'col-span-12', label: 'Estado Presupuestos' },
     'PROJECTION_WIDGET': { colSpan: 'col-span-12 lg:col-span-8', label: 'Proyección Balance' },

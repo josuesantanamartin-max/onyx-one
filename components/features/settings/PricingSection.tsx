@@ -1,12 +1,14 @@
-import React from 'react';
-import { Check, Zap, Rocket, Shield, Crown } from 'lucide-react';
+import React, { useState } from 'react';
+import { Check, Zap, Rocket, Shield, Crown, Loader2 } from 'lucide-react';
 import { useUserStore } from '../../../store/useUserStore';
 import { stripeService } from '../../../services/stripeService';
+import Toast from '../../common/Toast'; // Assuming Toast context or hook is available, or use alert for MVP
 
 const PRICE_ID_PRO = import.meta.env.VITE_STRIPE_PRO_PRICE_ID || 'price_123_test';
 
 const PricingSection: React.FC = () => {
     const { userProfile, subscription } = useUserStore();
+    const [isLoading, setIsLoading] = useState<string | null>(null);
 
     const plans = [
         {
@@ -70,7 +72,15 @@ const PricingSection: React.FC = () => {
         }
 
         if (planName === 'Pro') {
-            await stripeService.redirectToCheckout(PRICE_ID_PRO, userProfile.id);
+            setIsLoading('Pro');
+            try {
+                await stripeService.redirectToCheckout(PRICE_ID_PRO, userProfile.id);
+            } catch (error) {
+                console.error(error);
+                alert("Error al iniciar el pago. Por favor intenta de nuevo.");
+            } finally {
+                setIsLoading(null);
+            }
         } else if (planName === 'Business') {
             alert("Contacta con soporte para el plan Business.");
         }
@@ -131,13 +141,20 @@ const PricingSection: React.FC = () => {
 
                         <button
                             onClick={() => handleSubscribe(plan.name)}
-                            disabled={plan.disabled}
-                            className={`w-full py-4 rounded-2xl font-bold transition-all duration-300 ${plan.highlight
+                            disabled={plan.disabled || !!isLoading}
+                            className={`w-full py-4 rounded-2xl font-bold transition-all duration-300 flex items-center justify-center gap-2 ${plan.highlight
                                 ? 'bg-white text-black hover:bg-gray-100 disabled:opacity-50'
                                 : 'bg-black text-white hover:bg-gray-800 disabled:bg-gray-100 disabled:text-gray-400'
                                 }`}
                         >
-                            {plan.buttonText}
+                            {isLoading === plan.name ? (
+                                <>
+                                    <Loader2 className="w-5 h-5 animate-spin" />
+                                    Procesando...
+                                </>
+                            ) : (
+                                plan.buttonText
+                            )}
                         </button>
                     </div>
                 ))}

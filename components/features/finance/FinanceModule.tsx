@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import { useUserStore } from '../../../store/useUserStore';
-
+import { useFinanceStore } from '../../../store/useFinanceStore';
+import { analyzeFinances } from '../../../services/geminiService';
 import Transactions from './transactions/Transactions';
 import Debts from './Debts';
 import Goals from './Goals';
 import Accounts from './Accounts';
 import Budgets from './Budgets';
 import { Wallet, Menu, CreditCard, PieChart, Target, ReceiptEuro, Sparkles, Loader2, X } from 'lucide-react';
-import { analyzeFinances } from '../../../services/geminiService';
-import { useFinanceStore } from '../../../store/useFinanceStore';
+
+import { RetirementSimulator } from './RetirementSimulator';
+
+// ... inside renderNav ...
+// <button onClick={() => setActiveTab('retirement')} ...>Jubilación</button>
+
+// ... inside renderContent ...
+// case 'retirement': return <RetirementSimulator />;
 
 interface FinanceModuleProps {
     onMenuClick: () => void;
@@ -51,6 +58,7 @@ const FinanceModule: React.FC<FinanceModuleProps> = ({ onMenuClick }) => {
             <button onClick={() => setActiveTab('budgets')} className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === 'budgets' ? 'bg-onyx-950 text-white shadow-lg shadow-onyx-950/20 scale-105' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50'}`}>Presupuestos</button>
             <button onClick={() => setActiveTab('goals')} className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === 'goals' ? 'bg-onyx-950 text-white shadow-lg shadow-onyx-950/20 scale-105' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50'}`}>Metas</button>
             <button onClick={() => setActiveTab('debts')} className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === 'debts' ? 'bg-onyx-950 text-white shadow-lg shadow-onyx-950/20 scale-105' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50'}`}>Deudas</button>
+            <button onClick={() => setActiveTab('retirement')} className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === 'retirement' ? 'bg-onyx-950 text-white shadow-lg shadow-onyx-950/20 scale-105' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50'}`}>Jubilación</button>
             <button onClick={handleGeminiAnalysis} disabled={isAnalyzing} className="flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 bg-blue-950 text-white hover:bg-blue-900 shadow-lg ml-auto">
                 {isAnalyzing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4 text-yellow-300" />}
                 {isAnalyzing ? 'Analizando...' : 'Análisis IA'}
@@ -65,6 +73,7 @@ const FinanceModule: React.FC<FinanceModuleProps> = ({ onMenuClick }) => {
             case 'budgets': return <Budgets onViewTransactions={(c, s) => { setActiveTab('transactions'); }} />;
             case 'goals': return <Goals />;
             case 'debts': return <Debts />;
+            case 'retirement': return <RetirementSimulator />;
             default: return <Transactions />;
         }
     };

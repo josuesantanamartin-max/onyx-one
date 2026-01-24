@@ -1,0 +1,22 @@
+export type UserPersona = 'STUDENT' | 'FREELANCER' | 'PROFESSIONAL' | 'FAMILY' | 'ENTREPRENEUR';
+
+export interface GrowthRecord {
+    date: string;
+    height: number;
+    weight: number;
+}
+
+export interface FamilyMember {
+    id: string;
+    name: string;
+    relationship: string; // 'Mother', 'Father', 'Son', 'Daughter', etc.
+    role: 'PARENT' | 'CHILD' | 'MEMBER';
+    avatar: string;
+    balance: number;
+    weeklyAllowance: number;
+    birthDate?: string;
+    email?: string;
+    phone?: string;
+    isEmergencyContact?: boolean;
+    growthHistory: GrowthRecord[];
+}

@@ -14,6 +14,9 @@ import { supabase } from '../../../services/supabaseClient';
 import { DEFAULT_WIDGETS } from '../../../constants';
 import PrivacyPolicy from '../../pages/PrivacyPolicy';
 import TermsOfService from '../../pages/TermsOfService';
+import { HouseholdManager } from '../collaboration/HouseholdManager';
+import { MemberManagement } from '../collaboration/MemberManagement';
+import { HouseholdChat } from '../collaboration/HouseholdChat';
 
 interface SettingsModuleProps {
   onMenuClick?: () => void;
@@ -578,77 +581,35 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
 
             <hr className="border-gray-100" />
 
-            {/* 3. PROFILE ACTIONS & FORMS */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Left Col: Edit & Export */}
-              <div className="lg:col-span-1 space-y-6">
-                <div className="bg-indigo-50 p-6 rounded-3xl border border-indigo-100 space-y-4">
-                  <h4 className="font-bold text-indigo-900 flex items-center gap-2">
-                    <Shield className="w-5 h-5" /> Datos y Privacidad
-                  </h4>
-                  <p className="text-xs text-indigo-700/80 leading-relaxed">
-                    Eres dueño de tus datos. Exporta una copia completa de tu actividad financiera y familiar en formato JSON seguro.
-                  </p>
-                  <button onClick={handleExportData} className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-indigo-200 transition-all flex items-center justify-center gap-2">
-                    <FileJson className="w-4 h-4" /> Exportar Datos
-                  </button>
-                </div>
+            {/* 3. HOUSEHOLD & COLLABORATION (Real) */}
+            <div className="space-y-8">
+              <div className="bg-indigo-50 dark:bg-indigo-900/10 p-6 rounded-3xl border border-indigo-100 dark:border-indigo-800 space-y-4">
+                <h4 className="font-bold text-indigo-900 dark:text-indigo-200 flex items-center gap-2">
+                  <Shield className="w-5 h-5" /> Datos y Privacidad
+                </h4>
+                <p className="text-xs text-indigo-700/80 dark:text-indigo-300 leading-relaxed">
+                  Eres dueño de tus datos. Exporta una copia completa de tu actividad financiera y familiar en formato JSON seguro.
+                </p>
+                <button onClick={handleExportData} className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-indigo-200 transition-all flex items-center justify-center gap-2">
+                  <FileJson className="w-4 h-4" /> Exportar Datos
+                </button>
               </div>
 
-              {/* Right Col: Family Management */}
-              <div className="lg:col-span-2 space-y-6">
-                <div className="flex justify-between items-end">
-                  <div>
-                    <h4 className="font-bold text-gray-900 text-lg">Unidad Familiar</h4>
-                    <p className="text-sm text-gray-500 mt-1">Miembros que componen el hogar y sus roles.</p>
+              {/* Household Management */}
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Gestión del Hogar</h3>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="space-y-6">
+                    <HouseholdManager />
+                    <MemberManagement />
                   </div>
-                  <button onClick={() => setIsFamilyFormOpen(true)} className="flex items-center gap-2 text-xs font-black bg-gray-900 text-white px-4 py-2 rounded-xl uppercase tracking-widest hover:bg-black transition-colors shadow-lg">
-                    <Plus className="w-3 h-3" /> Añadir
-                  </button>
-                </div>
-
-                {isFamilyFormOpen && (
-                  <form onSubmit={handleAddMember} className="bg-white p-6 rounded-3xl border border-blue-100 shadow-lg space-y-6 relative overflow-hidden animate-fade-in-up">
-                    <div className="absolute top-0 left-0 w-full h-1 bg-blue-500"></div>
-                    <h5 className="font-bold text-gray-900">Nuevo Miembro</h5>
-                    <div className="flex gap-6">
-                      <div className="shrink-0">
-                        <div onClick={() => fileInputRef.current?.click()} className="w-24 h-24 rounded-full bg-gray-100 border-2 border-dashed border-gray-300 flex flex-col items-center justify-center text-gray-400 cursor-pointer hover:bg-gray-50 hover:border-blue-400 hover:text-blue-500 transition-all overflow-hidden relative group">
-                          {newMemberImage ? (<img src={newMemberImage} className="w-full h-full object-cover" alt="Preview" />) : (<><Camera className="w-6 h-6 mb-1" /><span className="text-[9px] font-bold uppercase">Foto</span></>)}
-                          <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><Upload className="w-6 h-6 text-white" /></div>
-                        </div>
-                        <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleImageUpload} />
-                      </div>
-                      <div className="flex-1 space-y-4">
-                        <div><label className="block text-[10px] font-black text-gray-400 uppercase mb-1">Nombre</label><input type="text" value={newMemberName} onChange={e => setNewMemberName(e.target.value)} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl font-bold focus:ring-2 focus:ring-blue-500 outline-none" required placeholder="Ej: Samuel" /></div>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div><label className="block text-[10px] font-black text-gray-400 uppercase mb-1">Rol</label><select value={newMemberRole} onChange={e => setNewMemberRole(e.target.value as any)} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl font-bold outline-none"><option value="PARENT">Padre/Madre</option><option value="CHILD">Hijo/a</option></select></div>
-                          <div><label className="block text-[10px] font-black text-gray-400 uppercase mb-1">Fecha Nacimiento</label><input type="date" value={newMemberBirth} onChange={e => setNewMemberBirth(e.target.value)} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl font-bold outline-none" /></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex justify-end gap-3 pt-2">
-                      <button type="button" onClick={() => { setIsFamilyFormOpen(false); setNewMemberImage(''); }} className="px-4 py-2 text-xs font-bold text-gray-500 hover:text-gray-900">Cancelar</button>
-                      <button type="submit" className="px-6 py-3 bg-blue-600 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg hover:bg-blue-700 transition-all">Guardar Miembro</button>
-                    </div>
-                  </form>
-                )}
-
-                <div className="grid grid-cols-1 gap-3">
-                  {familyMembers.map(member => (
-                    <div key={member.id} className="flex items-center justify-between p-4 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all group">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-xl shadow-inner border-2 border-white overflow-hidden">
-                          {member.avatar.startsWith('data:') || member.avatar.startsWith('http') ? <img src={member.avatar} className="w-full h-full object-cover" /> : <span className="text-2xl">{member.avatar}</span>}
-                        </div>
-                        <div><p className="font-bold text-gray-900">{member.name}</p><p className="text-xs text-gray-500 font-medium flex items-center gap-2"><span className={`px-2 py-0.5 rounded-md text-[9px] font-black uppercase ${member.role === 'PARENT' ? 'bg-blue-50 text-blue-700' : 'bg-yellow-50 text-yellow-700'}`}>{member.role === 'PARENT' ? 'Admin' : 'Junior'}</span>{member.birthDate && <span>{calculateAge(member.birthDate)} años</span>}</p></div>
-                      </div>
-                      <button onClick={() => handleDeleteMember(member.id)} className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all opacity-0 group-hover:opacity-100"><Trash2 className="w-5 h-5" /></button>
-                    </div>
-                  ))}
+                  <div className="lg:h-[600px]">
+                    <HouseholdChat />
+                  </div>
                 </div>
               </div>
             </div>
+
 
             {/* EDIT PROFILE MODAL (Styled) */}
             {isProfileEditOpen && (

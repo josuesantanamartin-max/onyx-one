@@ -1,49 +1,90 @@
 import { loadStripe } from '@stripe/stripe-js';
+import { createClient } from '@supabase/supabase-js';
 
 const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 export const stripePromise = STRIPE_PUBLISHABLE_KEY
     ? loadStripe(STRIPE_PUBLISHABLE_KEY)
     : null;
 
+// Initialize Supabase Client (if not already available globally, though typically imported from a store or config)
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 export const stripeService = {
     /**
-     * Redirige al usuario a Stripe Checkout para suscribirse a un plan PRO.
-     * En una implementación real, esto llamaría a una Supabase Edge Function
-     * que cree el Checkout Session de Stripe y devuelva la URL.
+     * Redirects the user to Stripe Checkout to subscribe to a PRO plan.
+     * Calls the 'create-checkout-session' Edge Function.
      */
-    async redirectToCheckout(priceId: string, userId: string) {
+    async redirectToCheckout(priceId: string, userId: string): Promise<void> {
         if (!stripePromise) {
-            console.error("Stripe not initialized. Check your environment variables.");
-            return;
+            console.error("Stripe not initialized. Missing VITE_STRIPE_PUBLISHABLE_KEY.");
+            throw new Error("Stripe configuration error");
         }
 
-        console.log(`Iniciando checkout para el plan: ${priceId} (Usuario: ${userId})`);
+        try {
+            console.log(`Initiating checkout for plan: ${priceId} (User: ${userId})`);
 
-        // Simulación: En un entorno real, aquí haríamos:
-        // const { data, error } = await supabase.functions.invoke('create-checkout-session', {
-        //     body: { priceId, userId }
-        // });
-        // window.location.assign(data.url);
+            const { data, error } = await supabase.functions.invoke('create-checkout-session', {
+                body: { priceId, userId, returnUrl: window.location.origin }
+            });
 
-        alert("Redirigiendo a Stripe Checkout (Simulado)... En una app real, aquí verías la pasarela de pago.");
+            if (error) {
+                console.error('Error invoking create-checkout-session:', error);
+                throw new Error("Failed to create checkout session");
+            }
 
-        // Simulación de éxito inmediato para desarrollo
-        return true;
+            if (!data?.url) {
+                console.error('No URL returned from checkout session');
+                throw new Error("Invalid response from payment server");
+            }
+
+            // Redirect to Stripe
+            window.location.href = data.url;
+
+        } catch (err) {
+            console.error("Payment Error:", err);
+            // Re-throw to be handled by the UI (e.g., show a toast)
+            throw err;
+        }
     },
 
     /**
-     * Redirige al portal de gestión de suscripciones de Stripe.
+     * Redirects to the Stripe Customer Portal for managing subscriptions.
+     * Calls the 'create-portal-session' Edge Function.
      */
-    async redirectToCustomerPortal(customerId: string) {
-        console.log(`Redirigiendo al portal de Stripe para el cliente: ${customerId}`);
+    async redirectToCustomerPortal(customerId?: string): Promise<void> {
+        try {
+            console.log(`Redirecting to portal for customer: ${customerId || 'current'}`);
 
-        // Simulación:
-        // const { data } = await supabase.functions.invoke('create-portal-link', {
-        //     body: { customerId }
-        // });
-        // window.location.assign(data.url);
+            const { data, error } = await supabase.functions.invoke('create-portal-session', {
+                body: { returnUrl: window.location.origin }
+            });
 
-        alert("Redirigiendo al Portal de Gestión (Simulado)...");
+            if (error) {
+                console.error('Error invoking create-portal-session:', error);
+                throw new Error("Failed to create portal session");
+            }
+
+            if (!data?.url) {
+                throw new Error("No URL returned from portal session");
+            }
+
+            window.location.href = data.url;
+        } catch (err) {
+            console.error("Portal Error:", err);
+            throw err;
+        }
+    },
+
+    /**
+     * Helper to check subscription status. 
+     * In a real app, this should sync via Webhooks to your Database,
+     * so you should query your User Profile table, not Stripe directly from frontend.
+     */
+    async getSubscriptionStatus(userId: string) {
+        // This is just a placeholder. Real status should come from `useUserStore`.
+        return null;
     }
 };

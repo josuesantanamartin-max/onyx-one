@@ -1,0 +1,104 @@
+export type TransactionType = 'INCOME' | 'EXPENSE';
+export type QuickActionType = 'ADD_EXPENSE' | 'ADD_INCOME' | 'ADD_TRANSFER' | 'ADD_INGREDIENT' | 'ADD_SHOPPING_ITEM' | 'SCAN_RECEIPT' | 'ADD_TASK';
+
+export interface QuickAction {
+    type: QuickActionType;
+    timestamp: number;
+}
+
+export interface CategoryStructure {
+    id: string;
+    name: string;
+    subCategories: string[];
+    color?: string;
+    icon?: string;
+    type: 'INCOME' | 'EXPENSE';
+}
+
+export interface Transaction {
+    id: string;
+    type: TransactionType;
+    amount: number;
+    date: string;
+    category: string;
+    subCategory?: string;
+    accountId: string;
+    description: string;
+    isRecurring?: boolean;
+    frequency?: 'WEEKLY' | 'BIWEEKLY' | 'MONTHLY' | 'YEARLY';
+    notes?: string;
+}
+
+export interface CadastralData {
+    referencia: string;
+    superficie?: number;
+    añoConstruccion?: number;
+    uso?: string;
+    localizacion?: {
+        bloque?: string;
+        escalera?: string;
+        planta?: string;
+        puerta?: string;
+    };
+    lastUpdated?: string;
+}
+
+export interface Account {
+    id: string;
+    name: string;
+    bankName?: string;
+    type: 'BANK' | 'INVESTMENT' | 'CASH' | 'CREDIT' | 'DEBIT' | 'WALLET' | 'ASSET';
+    balance: number;
+    currency: 'EUR' | 'USD' | 'GBP';
+    isRemunerated?: boolean;
+    tae?: number;
+    creditLimit?: number;
+    cutoffDay?: number;
+    paymentDay?: number;
+    linkedAccountId?: string;
+    cadastralReference?: string;
+    cadastralData?: CadastralData;
+}
+
+export interface Budget {
+    id: string;
+    category: string;
+    subCategory?: string;
+    limit: number;
+    period: 'MONTHLY' | 'YEARLY' | 'CUSTOM';
+    budgetType: 'FIXED' | 'PERCENTAGE';
+    percentage?: number;
+    startDate?: string;
+    endDate?: string;
+}
+
+export interface DebtPayment {
+    id: string;
+    date: string;
+    amount: number;
+}
+
+export interface Debt {
+    id: string;
+    name: string;
+    type: 'MORTGAGE' | 'LOAN' | 'CREDIT_CARD';
+    originalAmount: number;
+    remainingBalance: number;
+    interestRate: number;
+    minPayment: number;
+    dueDate: string; // Day of month for payment
+    startDate?: string; // Loan start date
+    endDate?: string;   // Loan maturity date
+    accountId?: string;
+    payments: DebtPayment[];
+}
+
+export interface Goal {
+    id: string;
+    name: string;
+    targetAmount: number;
+    currentAmount: number;
+    deadline?: string;
+    accountId?: string;
+    linkedTripId?: string;
+}
