@@ -74,7 +74,10 @@ const PricingSection: React.FC = () => {
         if (planName === 'Pro') {
             setIsLoading('Pro');
             try {
-                await stripeService.redirectToCheckout(PRICE_ID_PRO, userProfile.id);
+                await stripeService.createCheckoutSession({
+                    priceId: PRICE_ID_PRO,
+                    userId: userProfile.id
+                });
             } catch (error) {
                 console.error(error);
                 alert("Error al iniciar el pago. Por favor intenta de nuevo.");

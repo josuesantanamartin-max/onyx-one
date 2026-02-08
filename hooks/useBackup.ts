@@ -85,7 +85,7 @@ export const useBackup = () => {
         } finally {
             setIsRestoring(false);
         }
-    }; "
+    };
 
     const deleteBackup = (backupId: string): boolean => {
         const success = BackupService.deleteBackup(backupId);

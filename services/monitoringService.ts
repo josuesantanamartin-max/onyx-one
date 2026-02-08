@@ -209,14 +209,15 @@ class MonitoringService {
 
     /**
      * Start a new transaction for performance monitoring
+     * Note: Disabled due to Sentry API changes
      */
-    startTransaction(name: string, op: string): Sentry.Transaction | null {
-        if (!this.initialized || !this.config.enablePerformanceMonitoring) {
-            return null;
-        }
+    // startTransaction(name: string, op: string): any | null {
+    //     if (!this.initialized || !this.config.enablePerformanceMonitoring) {
+    //         return null;
+    //     }
 
-        return Sentry.startTransaction({ name, op });
-    }
+    //     return Sentry.startTransaction({ name, op });
+    // }
 
     /**
      * Check if monitoring is initialized
