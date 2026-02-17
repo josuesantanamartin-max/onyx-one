@@ -10,7 +10,7 @@ import { LandingLife } from './landing/LandingLife';
 import { LegalPage } from '../legal/LegalPage';
 
 interface OnyxLandingProps {
-  onLogin: (method: 'DEMO' | 'GOOGLE' | 'APPLE' | 'EMAIL' | 'NOTION', data?: { email: string, password: string, isRegister: boolean }) => void;
+  onLogin: (method: 'DEMO' | 'GOOGLE' | 'EMAIL' | 'NOTION', data?: { email: string, password: string, isRegister: boolean }) => void | Promise<void>;
   language: Language;
   setLanguage: (lang: Language) => void;
 }
