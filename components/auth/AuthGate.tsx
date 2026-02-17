@@ -35,7 +35,16 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
                     console.log("[AuthGate] Session found! Upgrading to real mode.", session.user.email);
                     setAuthenticated(true);
                     setDemoMode(false); // Force exit demo mode if we have a real session
-                    setUserProfile(session.user);
+
+                    // Map Supabase metadata to our store structure
+                    const profile = {
+                        id: session.user.id,
+                        email: session.user.email,
+                        full_name: session.user.user_metadata?.full_name || session.user.user_metadata?.name || 'Usuario Onyx',
+                        avatar_url: session.user.user_metadata?.avatar_url || session.user.user_metadata?.picture || '',
+                    };
+
+                    setUserProfile(profile);
                     loadFromCloud();
                     addSyncLog({ message: "Conectado a Onyx Cloud (Supabase)", timestamp: Date.now(), type: "SYSTEM" });
                 } else {
@@ -53,7 +62,15 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
                 if (session) {
                     setAuthenticated(true);
                     setDemoMode(false);
-                    setUserProfile(session.user);
+
+                    const profile = {
+                        id: session.user.id,
+                        email: session.user.email,
+                        full_name: session.user.user_metadata?.full_name || session.user.user_metadata?.name || 'Usuario Onyx',
+                        avatar_url: session.user.user_metadata?.avatar_url || session.user.user_metadata?.picture || '',
+                    };
+
+                    setUserProfile(profile);
                     loadFromCloud();
                 } else if (!isDemoMode) {
                     setAuthenticated(false);

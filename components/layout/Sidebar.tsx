@@ -153,7 +153,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
                 {userProfile?.full_name || 'Usuario Onyx'}
               </span>
               <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-wider">
-                {subscription?.plan || 'Free'} Plan
+                {subscription?.plan === 'FAMILIA' ? 'Premium' :
+                  subscription?.plan === 'PERSONAL' ? 'Pro' : 'Onyx Basic'}
               </span>
             </div>
           </div>

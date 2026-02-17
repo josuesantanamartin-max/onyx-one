@@ -561,7 +561,9 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
               <div className="text-center md:text-left mb-2">
                 <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight leading-none mb-2">{userProfile?.full_name || 'Usuario Onyx'}</h2>
                 <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 text-gray-500 font-medium text-sm">
-                  <span className="text-indigo-600 font-bold bg-indigo-50 px-2 py-0.5 rounded-md">@josue_onyx</span>
+                  <span className="text-indigo-600 font-bold bg-indigo-50 px-2 py-0.5 rounded-md">
+                    @{userProfile?.email?.split('@')[0] || 'onyx_user'}
+                  </span>
                   <span className="hidden md:inline text-gray-300">•</span>
                   <span>{userProfile?.email || 'user@onyxsuite.com'}</span>
                 </div>
@@ -1043,7 +1045,10 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
                       <Star className="w-10 h-10 text-yellow-400" />
                     </div>
                     <div>
-                      <h4 className="text-3xl font-black text-gray-900">Onyx {subscription.plan}</h4>
+                      <h4 className="text-3xl font-black text-gray-900 uppercase">
+                        Onyx {subscription.plan === 'FAMILIA' ? 'Premium' :
+                          subscription.plan === 'PERSONAL' ? 'Pro' : 'Basic'}
+                      </h4>
                       <p className="text-sm text-gray-500 font-medium mt-1">
                         Tu plan actual está activo hasta el <span className="text-gray-900 font-bold">{subscription.expiryDate || '12 Oct 2025'}</span>
                       </p>
