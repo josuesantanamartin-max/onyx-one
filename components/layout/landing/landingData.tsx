@@ -75,7 +75,10 @@ export const LANDING_TEXTS = {
         perMonth: "/ mes",
         singlePayment: "Pago Anual Único",
         loginGoogle: "Continuar con Google",
-        loginApple: "Continuar con Apple"
+        loginApple: "Continuar con Apple",
+        footerPrivacy: "Privacidad",
+        footerTerms: "Términos",
+        footerTwitter: "Twitter"
     },
     EN: {
         heroBadge: "Onyx Suite 2.0: Integral Smart System",
@@ -139,7 +142,10 @@ export const LANDING_TEXTS = {
         perMonth: "/ month",
         singlePayment: "Single Annual Payment",
         loginGoogle: "Continue with Google",
-        loginApple: "Continue with Apple"
+        loginApple: "Continue with Apple",
+        footerPrivacy: "Privacy",
+        footerTerms: "Terms",
+        footerTwitter: "Twitter"
     },
     FR: {
         heroBadge: "Onyx Suite 2.0 : Système Intégral Intelligent",
@@ -203,7 +209,10 @@ export const LANDING_TEXTS = {
         perMonth: "/ mois",
         singlePayment: "Paiement Annuel Unique",
         loginGoogle: "Continuer avec Google",
-        loginApple: "Continuer avec Apple"
+        loginApple: "Continuer avec Apple",
+        footerPrivacy: "Confidentialité",
+        footerTerms: "Conditions",
+        footerTwitter: "Twitter"
     }
 };
 

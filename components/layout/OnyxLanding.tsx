@@ -241,7 +241,7 @@ const OnyxLanding: React.FC<OnyxLandingProps> = ({ onLogin, language, setLanguag
         )}
       </main>
 
-      <LandingFooter onNavigate={navigateTo} />
+      <LandingFooter onNavigate={navigateTo} t={t} />
     </div>
   );
 };

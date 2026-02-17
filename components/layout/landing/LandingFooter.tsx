@@ -4,9 +4,10 @@ import { LegalPage } from '../../legal/LegalPage';
 
 interface LandingFooterProps {
     onNavigate: (view: 'HOME' | 'FINANCE' | 'LIFE') => void;
+    t: any;
 }
 
-export const LandingFooter: React.FC<LandingFooterProps> = ({ onNavigate }) => {
+export const LandingFooter: React.FC<LandingFooterProps> = ({ onNavigate, t }) => {
     const [showLegalModal, setShowLegalModal] = useState<'privacy' | 'terms' | null>(null);
 
     return (
@@ -30,15 +31,15 @@ export const LandingFooter: React.FC<LandingFooterProps> = ({ onNavigate }) => {
                             onClick={() => setShowLegalModal('privacy')}
                             className="hover:text-black transition-colors"
                         >
-                            Privacy
+                            {t.footerPrivacy}
                         </button>
                         <button
                             onClick={() => setShowLegalModal('terms')}
                             className="hover:text-black transition-colors"
                         >
-                            Terms
+                            {t.footerTerms}
                         </button>
-                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-black">Twitter</a>
+                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-black">{t.footerTwitter}</a>
                     </div>
                 </div>
             </footer>
