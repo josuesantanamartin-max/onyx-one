@@ -60,9 +60,31 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
             setAuthenticated(true);
             addSyncLog({ message: "Modo Demo activado (Local)", timestamp: Date.now(), type: "SYSTEM" });
         } else if (method === 'GOOGLE' && supabase) {
-            await supabase.auth.signInWithOAuth({ provider: 'google' });
+            try {
+                const { error } = await supabase.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: {
+                        redirectTo: window.location.origin
+                    }
+                });
+                if (error) throw error;
+            } catch (error: any) {
+                alert(`Error al iniciar sesión con Google: ${error.message}`);
+                console.error(error);
+            }
         } else if (method === 'NOTION' && supabase) {
-            await supabase.auth.signInWithOAuth({ provider: 'notion' });
+            try {
+                const { error } = await supabase.auth.signInWithOAuth({
+                    provider: 'notion',
+                    options: {
+                        redirectTo: window.location.origin
+                    }
+                });
+                if (error) throw error;
+            } catch (error: any) {
+                alert(`Error al iniciar sesión con Notion: ${error.message}`);
+                console.error(error);
+            }
         } else if (method === 'EMAIL' && supabase && data) {
             try {
                 if (data.isRegister) {
