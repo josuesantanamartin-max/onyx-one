@@ -71,7 +71,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
             className="flex items-center gap-3.5 mb-14 cursor-pointer group"
             onClick={() => handleLinkClick('dashboard')}
           >
-            <div className="w-10 h-10 bg-onyx-950 rounded-xl flex items-center justify-center transition-all duration-500 group-hover:scale-105 group-hover:rotate-3 shadow-lg shadow-onyx-950/20">
+            <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-violet-700 rounded-xl flex items-center justify-center transition-all duration-500 group-hover:scale-105 group-hover:rotate-3 shadow-lg shadow-indigo-500/30">
               <Logo className="w-5 h-5 text-white" />
             </div>
             <div className="flex flex-col">
