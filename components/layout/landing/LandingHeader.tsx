@@ -25,8 +25,10 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
     return (
         <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-xl border-b border-gray-100 z-50">
             <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-                <div className="flex items-center gap-2 group cursor-pointer" onClick={() => onNavigate('HOME')}>
-                    <Logo className="w-8 h-8 text-black group-hover:rotate-12 transition-transform duration-300" />
+                <div className="flex items-center gap-2.5 group cursor-pointer" onClick={() => onNavigate('HOME')}>
+                    <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-violet-700 rounded-lg flex items-center justify-center shadow-md shadow-indigo-500/25 group-hover:scale-105 group-hover:rotate-3 transition-all duration-300">
+                        <Logo className="w-4 h-4 text-white" />
+                    </div>
                     <span className="text-lg font-bold tracking-tight">ONYX <span className="text-gray-400 font-normal">SUITE</span></span>
                 </div>
                 <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-500">

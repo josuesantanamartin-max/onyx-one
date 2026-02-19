@@ -21,9 +21,11 @@ export const LandingFooter: React.FC<LandingFooterProps> = ({ onNavigate, t }) =
 
             <footer className="py-12 px-6 border-t border-gray-100 bg-white">
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-                    <div className="flex items-center gap-2" onClick={() => onNavigate('HOME')}>
-                        <Logo className="w-6 h-6 text-black cursor-pointer" />
-                        <span className="font-bold tracking-tight cursor-pointer">ONYX INC.</span>
+                    <div className="flex items-center gap-2.5 cursor-pointer group" onClick={() => onNavigate('HOME')}>
+                        <div className="w-7 h-7 bg-gradient-to-br from-indigo-500 to-violet-700 rounded-lg flex items-center justify-center shadow-sm shadow-indigo-500/20 group-hover:scale-105 transition-all duration-300">
+                            <Logo className="w-3.5 h-3.5 text-white" />
+                        </div>
+                        <span className="font-bold tracking-tight">ONYX INC.</span>
                     </div>
                     <div className="text-sm text-gray-500">&copy; {new Date().getFullYear()} Onyx System. Made for better living.</div>
                     <div className="flex gap-6 text-sm font-medium text-gray-600">
