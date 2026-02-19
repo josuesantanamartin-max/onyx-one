@@ -249,14 +249,23 @@ const Transactions: React.FC<TransactionsProps> = ({
 
   const handleBatchImport = (importedTransactions: Partial<Transaction>[]) => {
     const targetAccountId = filterAccountId || accounts[0]?.id;
-    if (!targetAccountId) return; // Should not happen if accounts exist
+    if (!targetAccountId) return;
+
+    // Find the newest transaction date to adjust the view
+    let newestDate = filterDate;
 
     importedTransactions.forEach(t => {
+      const txDate = t.date || new Date().toISOString().split('T')[0];
+      if (txDate.startsWith(txDate.slice(0, 7)) && txDate > newestDate) {
+        // Simplistic check to move to the month of imported data
+      }
+
+      // Better: collect all months and pick the most frequent or highest one
       const transactionData = {
-        id: crypto.randomUUID(), // Generate unique ID
+        id: crypto.randomUUID(),
         type: t.type as 'INCOME' | 'EXPENSE',
         amount: t.amount || 0,
-        date: t.date || new Date().toISOString().split('T')[0],
+        date: txDate,
         category: t.category || 'Otros',
         subCategory: t.subCategory || '',
         accountId: targetAccountId,
@@ -265,15 +274,26 @@ const Transactions: React.FC<TransactionsProps> = ({
         isRecurring: false,
       };
 
-      // Validate before adding
       const result = validateTransaction(transactionData);
       if (result.success) {
-        // Here result.data will include the id because it's in the input data
         addTransaction(result.data as Transaction);
       }
     });
+
+    // Auto-adjust filterDate if imported transactions are in a different month
+    if (importedTransactions.length > 0) {
+      const dates = importedTransactions.map(t => t.date).filter(Boolean) as string[];
+      if (dates.length > 0) {
+        const latestImported = dates.sort().reverse()[0];
+        const latestMonth = latestImported.slice(0, 7);
+        if (latestMonth !== filterDate) {
+          setFilterDate(latestMonth);
+        }
+      }
+    }
+
     setIsImportModalOpen(false);
-    showSuccess(`${importedTransactions.length} transacciones importadas exitosamente`);
+    showSuccess(`${importedTransactions.length} transacciones importadas. Vista actualizada al mes de los movimientos.`);
   };
 
   const [isSuggesting, setIsSuggesting] = useState(false);

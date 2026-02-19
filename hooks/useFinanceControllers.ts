@@ -1,6 +1,7 @@
 // Logic extracted from App.tsx to manage complex interactions between stores
 import { useFinanceStore } from '../store/useFinanceStore';
 import { useUserStore } from '../store/useUserStore';
+import { syncService } from '../services/syncService';
 import { Transaction, Trip, Goal } from '../types';
 
 export const useFinanceControllers = () => {
@@ -25,23 +26,41 @@ export const useFinanceControllers = () => {
         });
     };
 
-    const addTransaction = (newTransaction: Omit<Transaction, 'id'>, isSync = false) => {
-        const transaction: Transaction = { ...newTransaction, id: Math.random().toString(36).substr(2, 9) };
+    const addTransaction = async (newTransaction: Omit<Transaction, 'id'> & { id?: string }, isSync = false) => {
+        const transaction: Transaction = {
+            ...newTransaction,
+            id: newTransaction.id || Math.random().toString(36).substr(2, 9)
+        };
+
         if (transaction.type === 'EXPENSE') runAutomation('TRANSACTION_OVER_AMOUNT', transaction);
 
         setTransactions((prev) => [transaction, ...prev]);
 
+        // Sync to cloud
+        try {
+            await syncService.saveTransaction(transaction);
+        } catch (e) {
+            console.error("Failed to sync new transaction:", e);
+        }
+
         const selectedAccount = accounts.find(a => a.id === transaction.accountId);
         if (selectedAccount) {
+            const amountImpact = transaction.type === 'INCOME' ? transaction.amount : -transaction.amount;
             setAccounts((prev) => prev.map(acc => {
                 if (selectedAccount.type === 'DEBIT' && selectedAccount.linkedAccountId && acc.id === selectedAccount.linkedAccountId) {
-                    return { ...acc, balance: acc.balance + (transaction.type === 'INCOME' ? transaction.amount : -transaction.amount) };
+                    return { ...acc, balance: acc.balance + amountImpact };
                 }
                 if (acc.id === transaction.accountId) {
-                    return { ...acc, balance: acc.balance + (transaction.type === 'INCOME' ? transaction.amount : -transaction.amount) };
+                    return { ...acc, balance: acc.balance + amountImpact };
                 }
                 return acc;
             }));
+
+            // Sync updated account balance
+            if (selectedAccount) {
+                const updatedAcc = { ...selectedAccount, balance: selectedAccount.balance + amountImpact };
+                syncService.saveAccount(updatedAcc).catch(e => console.error("Failed to sync account balance:", e));
+            }
         }
 
         if (isSync) addSyncLog({ message: `Gasto sincronizado: ${newTransaction.description} (${newTransaction.amount}€)`, timestamp: Date.now(), type: "FINANCE" });
@@ -51,7 +70,7 @@ export const useFinanceControllers = () => {
         }
     };
 
-    const transfer = (fromAccountId: string, toAccountId: string, amount: number, date: string, goalId?: string, description?: string) => {
+    const transfer = async (fromAccountId: string, toAccountId: string, amount: number, date: string, goalId?: string, description?: string) => {
         const fromAccount = accounts.find(a => a.id === fromAccountId);
         const toAccount = accounts.find(a => a.id === toAccountId);
         if (!fromAccount || !toAccount) return;
@@ -60,57 +79,88 @@ export const useFinanceControllers = () => {
         const incoming: Transaction = { id: Math.random().toString(36).substr(2, 9), type: 'INCOME', amount, date, category: 'Transferencia', subCategory: 'Desde otra cuenta', accountId: toAccountId, description: description || `Recibido de ${fromAccount.name}` };
 
         setTransactions((prev) => [incoming, outgoing, ...prev]);
+
+        // Sync transfers
+        try {
+            await Promise.all([
+                syncService.saveTransaction(outgoing),
+                syncService.saveTransaction(incoming)
+            ]);
+        } catch (err: any) {
+            console.error("Failed to sync transfer transactions:", err);
+        }
+
         setAccounts((prev) => prev.map(acc => {
-            if (acc.id === fromAccountId) return { ...acc, balance: acc.balance - amount };
-            if (acc.id === toAccountId) return { ...acc, balance: acc.balance + amount };
+            if (acc.id === fromAccountId) {
+                const updated = { ...acc, balance: acc.balance - amount };
+                syncService.saveAccount(updated).catch((err: any) => console.error("Failed to sync account:", err));
+                return updated;
+            }
+            if (acc.id === toAccountId) {
+                const updated = { ...acc, balance: acc.balance + amount };
+                syncService.saveAccount(updated).catch((err: any) => console.error("Failed to sync account:", err));
+                return updated;
+            }
             return acc;
         }));
 
         if (goalId) {
             const goal = goals.find(g => g.id === goalId);
             if (goal) {
-                setGoals((prev) => prev.map(g => g.id === goalId ? { ...g, currentAmount: g.currentAmount + amount } : g));
+                const updatedGoal = { ...goal, currentAmount: goal.currentAmount + amount };
+                setGoals((prev) => prev.map(g => g.id === goalId ? updatedGoal : g));
+                syncService.saveGoal(updatedGoal).catch((err: any) => console.error("Failed to sync goal:", err));
                 addSyncLog({ message: `Meta actualizada: ${goal.name} (+${amount}€)`, timestamp: Date.now(), type: "FINANCE" });
             }
         }
         addSyncLog({ message: `Traspaso exitoso: ${amount}€ de ${fromAccount.name} a ${toAccount.name}`, timestamp: Date.now(), type: "FINANCE" });
     };
 
-    const editTransaction = (updatedTransaction: Transaction) => {
+    const editTransaction = async (updatedTransaction: Transaction) => {
         const oldTransaction = transactions.find(t => t.id === updatedTransaction.id);
         if (!oldTransaction) return;
 
-        // Revert old balance
-        setAccounts((prev) => prev.map(acc => {
-            if (acc.id === oldTransaction.accountId) return { ...acc, balance: acc.balance - (oldTransaction.type === 'INCOME' ? oldTransaction.amount : -oldTransaction.amount) };
-            return acc;
-        }));
-
-        // Apply new balance (async safe way: doing it in one step would be better but keeping App.tsx logic)
-        // Wait, map runs sequentially in state updates? No, best to combine logic if possible or do chain.
-        // But here I can just do one map if I have access to both.
-        // Simplify: just doing what App.tsx did.
-        // Actually App.tsx did two setAccounts calls.
-
+        // Revert old balance and apply new
         setAccounts((prev) => prev.map(acc => {
             let newBalance = acc.balance;
-            if (acc.id === oldTransaction.accountId) newBalance -= (oldTransaction.type === 'INCOME' ? oldTransaction.amount : -oldTransaction.amount); // Revert
-            if (acc.id === updatedTransaction.accountId) newBalance += (updatedTransaction.type === 'INCOME' ? updatedTransaction.amount : -updatedTransaction.amount); // Apply
-            return { ...acc, balance: newBalance };
+            let changed = false;
+            if (acc.id === oldTransaction.accountId) {
+                newBalance -= (oldTransaction.type === 'INCOME' ? oldTransaction.amount : -oldTransaction.amount);
+                changed = true;
+            }
+            if (acc.id === updatedTransaction.accountId) {
+                newBalance += (updatedTransaction.type === 'INCOME' ? updatedTransaction.amount : -updatedTransaction.amount);
+                changed = true;
+            }
+            if (changed) {
+                const updatedAcc = { ...acc, balance: newBalance };
+                syncService.saveAccount(updatedAcc).catch(err => console.error("Failed to sync account:", err));
+                return updatedAcc;
+            }
+            return acc;
         }));
 
         setTransactions((prev) => prev.map(t => t.id === updatedTransaction.id ? updatedTransaction : t));
+        syncService.saveTransaction(updatedTransaction).catch((err: any) => console.error("Failed to sync transaction:", err));
+
         addSyncLog({ message: `Transacción actualizada: ${updatedTransaction.description}`, timestamp: Date.now(), type: "FINANCE" });
     };
 
-    const deleteTransaction = (id: string) => {
+    const deleteTransaction = async (id: string) => {
         const transaction = transactions.find(t => t.id === id);
         if (!transaction) return;
+
         setAccounts((prev) => prev.map(acc => {
-            if (acc.id === transaction.accountId) return { ...acc, balance: acc.balance - (transaction.type === 'INCOME' ? transaction.amount : -transaction.amount) };
+            if (acc.id === transaction.accountId) {
+                const updated = { ...acc, balance: acc.balance - (transaction.type === 'INCOME' ? transaction.amount : -transaction.amount) };
+                syncService.saveAccount(updated).catch((err: any) => console.error("Failed to sync account:", err));
+                return updated;
+            }
             return acc;
         }));
         setTransactions((prev) => prev.filter(t => t.id !== id));
+        syncService.deleteTransaction(id).catch((err: any) => console.error("Failed to sync deletion:", err));
+
         addSyncLog({ message: `Transacción eliminada: ${transaction.description}`, timestamp: Date.now(), type: "FINANCE" });
     };
 

@@ -34,6 +34,16 @@ const Goals: React.FC<GoalsProps> = () => {
 
   const formatEUR = (amount: number) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(amount);
 
+  const formatTimeRemaining = (totalMonths: number) => {
+    if (totalMonths === Infinity || isNaN(totalMonths)) return '∞';
+    const years = Math.floor(totalMonths / 12);
+    const months = totalMonths % 12;
+
+    if (years === 0) return `${months} ${months === 1 ? 'mes' : 'meses'}`;
+    if (months === 0) return `${years} ${years === 1 ? 'año' : 'años'}`;
+    return `${years} ${years === 1 ? 'año' : 'años'} y ${months} ${months === 1 ? 'mes' : 'meses'}`;
+  };
+
   const resetForm = () => {
     setFormName(''); setFormTarget(''); setFormCurrent(''); setFormDeadline(''); setFormAccountId(''); setEditingId(null); setIsFormOpen(false);
   };
@@ -328,7 +338,9 @@ const Goals: React.FC<GoalsProps> = () => {
                       <div>
                         <p className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-1">Alcanzarás tu meta en</p>
                         <div className="text-3xl font-black">
-                          {(typeof simMonthly === 'number' && simMonthly > 0) ? Math.ceil((selectedGoal.targetAmount - selectedGoal.currentAmount) / simMonthly) : '∞'} <span className="text-sm opacity-50">meses</span>
+                          {typeof simMonthly === 'number' && simMonthly > 0
+                            ? formatTimeRemaining(Math.ceil((selectedGoal.targetAmount - selectedGoal.currentAmount) / simMonthly))
+                            : '∞'}
                         </div>
                       </div>
                       {(typeof simMonthly === 'number' && simMonthly > 0) && <p className="text-[10px] text-indigo-300 font-bold bg-indigo-500/10 px-3 py-1 rounded-lg">

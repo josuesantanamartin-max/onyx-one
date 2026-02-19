@@ -2,7 +2,6 @@
 import { supabase } from './supabaseClient';
 import { Transaction, Account, Budget, Goal, Debt, Ingredient, Recipe, ShoppingItem, FamilyMember } from '../types';
 import { WeeklyPlan } from '../types/life';
-import { AppError, ErrorCodes, handleError } from '../utils/errorHandler';
 
 export const syncService = {
     // --- FINANCE ---
@@ -47,6 +46,12 @@ export const syncService = {
         if (error) throw error;
     },
 
+    async deleteTransaction(id: string) {
+        if (!supabase) return;
+        const { error } = await supabase.from('finance_transactions').delete().eq('id', id);
+        if (error) throw error;
+    },
+
     async fetchBudgets() {
         if (!supabase) return [];
         const { data, error } = await supabase.from('finance_budgets').select('*');
@@ -84,6 +89,12 @@ export const syncService = {
             user_id: user.id,
             updated_at: new Date().toISOString()
         });
+        if (error) throw error;
+    },
+
+    async deleteGoal(id: string) {
+        if (!supabase) return;
+        const { error } = await supabase.from('finance_goals').delete().eq('id', id);
         if (error) throw error;
     },
 
