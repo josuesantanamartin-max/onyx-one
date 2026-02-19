@@ -32,9 +32,9 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
                     <span className="text-lg font-bold tracking-tight">ONYX <span className="text-gray-400 font-normal">SUITE</span></span>
                 </div>
                 <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-500">
-                    <button onClick={() => onNavigate('HOME')} className={`hover:text-black transition-colors ${currentView === 'HOME' ? 'text-black' : ''}`}>Inicio</button>
-                    <button onClick={() => onNavigate('FINANCE')} className={`hover:text-black transition-colors ${currentView === 'FINANCE' ? 'text-black' : ''}`}>Finanzas</button>
-                    <button onClick={() => onNavigate('LIFE')} className={`hover:text-black transition-colors ${currentView === 'LIFE' ? 'text-black' : ''}`}>Vida</button>
+                    <button onClick={() => onNavigate('HOME')} className={`hover:text-indigo-600 transition-colors font-medium ${currentView === 'HOME' ? 'text-indigo-600' : ''}`}>Inicio</button>
+                    <button onClick={() => onNavigate('FINANCE')} className={`hover:text-indigo-600 transition-colors font-medium ${currentView === 'FINANCE' ? 'text-indigo-600' : ''}`}>Finanzas</button>
+                    <button onClick={() => onNavigate('LIFE')} className={`hover:text-indigo-600 transition-colors font-medium ${currentView === 'LIFE' ? 'text-indigo-600' : ''}`}>Vida</button>
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="relative">
@@ -52,7 +52,7 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
                         )}
                     </div>
                     <button onClick={() => setShowLoginModal(true)} className="text-sm font-bold text-gray-900 hover:text-gray-600 hidden md:block">{t.btnEnter}</button>
-                    <button onClick={() => setShowLoginModal(true)} className="bg-black text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-800 transition-all active:scale-95">{t.ctaStart}</button>
+                    <button onClick={() => setShowLoginModal(true)} className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-5 py-2 rounded-full text-sm font-bold hover:from-indigo-500 hover:to-violet-500 transition-all active:scale-95 shadow-md shadow-indigo-500/20">{t.ctaStart}</button>
                 </div>
             </div>
         </nav>

@@ -81,7 +81,7 @@ export const LandingFinance: React.FC<LandingFinanceProps> = ({ setShowLoginModa
                         { value: 'IA Integrada', label: 'Análisis Inteligente' }
                     ].map((stat, i) => (
                         <div key={i} className="text-center p-6 bg-white rounded-2xl border border-gray-100 shadow-sm">
-                            <div className="text-3xl font-black text-blue-600 mb-1">{stat.value}</div>
+                            <div className="text-3xl font-black text-indigo-600 mb-1">{stat.value}</div>
                             <div className="text-xs font-bold text-gray-500 uppercase tracking-wider">{stat.label}</div>
                         </div>
                     ))}
@@ -97,9 +97,9 @@ export const LandingFinance: React.FC<LandingFinanceProps> = ({ setShowLoginModa
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {features.map((feature, i) => (
-                            <div key={i} className="bg-white p-6 rounded-2xl border border-gray-100 hover:shadow-xl hover:border-blue-100 transition-all group">
-                                <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-100 transition-colors">
-                                    <feature.icon className="w-6 h-6 text-blue-600" />
+                            <div key={i} className="bg-white p-6 rounded-2xl border border-gray-100 hover:shadow-xl hover:border-indigo-100 transition-all group">
+                                <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-indigo-100 transition-colors">
+                                    <feature.icon className="w-6 h-6 text-indigo-600" />
                                 </div>
                                 <h3 className="text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
                                 <p className="text-sm text-gray-600 leading-relaxed">{feature.desc}</p>
@@ -230,16 +230,18 @@ export const LandingFinance: React.FC<LandingFinanceProps> = ({ setShowLoginModa
                 </div>
 
                 {/* CTA Section */}
-                <div className="bg-black text-white rounded-[3rem] p-12 text-center relative overflow-hidden">
+                <div className="bg-gradient-to-br from-indigo-900 to-violet-950 text-white rounded-[3rem] p-12 text-center relative overflow-hidden shadow-2xl shadow-indigo-500/20">
+                    <div className="absolute top-0 left-1/4 w-[300px] h-[200px] bg-indigo-500/20 rounded-full blur-[80px] pointer-events-none" />
+                    <div className="absolute bottom-0 right-1/4 w-[300px] h-[200px] bg-violet-500/20 rounded-full blur-[80px] pointer-events-none" />
                     <div className="relative z-10">
                         <h2 className="text-4xl md:text-5xl font-bold mb-6">Toma el control de tu futuro financiero hoy</h2>
-                        <p className="text-gray-400 max-w-2xl mx-auto mb-10 text-lg">
-                            Únete a miles de personas que han pasado del caos financiero a la claridad total con Onyx Finanzas.
+                        <p className="text-indigo-300 max-w-2xl mx-auto mb-10 text-lg">
+                            Únete a quienes han pasado del caos financiero a la claridad total con Onyx Finanzas.
                         </p>
-                        <button onClick={() => setShowLoginModal(true)} className="bg-white text-black px-10 py-5 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-[0_0_40px_rgba(255,255,255,0.3)] inline-flex items-center gap-3">
+                        <button onClick={() => setShowLoginModal(true)} className="bg-white text-indigo-900 px-10 py-5 rounded-2xl font-bold text-lg hover:bg-indigo-50 hover:-translate-y-1 transition-all shadow-xl inline-flex items-center gap-3">
                             Comenzar Gratis <ArrowRight className="w-5 h-5" />
                         </button>
-                        <p className="text-sm text-gray-500 mt-6">Sin tarjeta de crédito requerida • Configuración en 2 minutos</p>
+                        <p className="text-sm text-indigo-400 mt-6">Sin tarjeta de crédito requerida • Configuración en 2 minutos</p>
                     </div>
                 </div>
             </div>
