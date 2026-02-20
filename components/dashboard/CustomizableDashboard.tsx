@@ -164,11 +164,35 @@ const CustomizableDashboard: React.FC = () => {
     const handleLayoutChange = (newLayout: Layout) => {
         if (!isEditMode) return;
 
+        // Map current tempLayout by id for fast lookup
+        const currentById = new Map(tempLayout.map(w => [w.i, w]));
+
+        // Detect if this change comes from ADDING a new widget
+        // (newLayout has more items than tempLayout)
+        const newIds = newLayout
+            .map(item => item.i)
+            .filter(id => !currentById.has(id));
+
+        if (newIds.length > 0) {
+            // New widget(s) added — preserve EXACT dimensions of existing widgets
+            // and only append the truly new items from newLayout
+            const preserved = tempLayout; // keep existing as-is
+            const newItems = newLayout
+                .filter(item => newIds.includes(item.i))
+                .map(item => ({
+                    ...item,
+                    visible: true,
+                }));
+            setTempLayout([...preserved, ...newItems]);
+            return;
+        }
+
+        // Normal drag/resize change — merge keeping visibility flag
         const mergedLayout = newLayout.map(item => {
-            const original = gridLayout.find(w => w.i === item.i);
+            const original = currentById.get(item.i);
             return {
                 ...item,
-                visible: original?.visible ?? true
+                visible: original?.visible ?? true,
             };
         });
 
