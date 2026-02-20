@@ -232,14 +232,47 @@ export const useUserStore = create<UserState & UserActions>()(
                 const activeLayout = state.dashboardLayouts.find(l => l.id === state.activeLayoutId);
                 if (!activeLayout) return state;
 
-                const maxY = Math.max(...activeLayout.widgets.map(w => w.y + w.h), 0);
+                const existingWidgets = activeLayout.widgets;
+                const COLS = 12;
+                const newW = 6;
+                const newH = 2;
+
+                // Find the first free position (row by row, col by col) that doesn't overlap any existing widget
+                const collides = (x: number, y: number, w: number, h: number) =>
+                    existingWidgets.some(widget =>
+                        x < widget.x + widget.w &&
+                        x + w > widget.x &&
+                        y < widget.y + widget.h &&
+                        y + h > widget.y
+                    );
+
+                let foundX = 0;
+                let foundY = 0;
+                const maxY = Math.max(...existingWidgets.map(w => w.y + w.h), 0);
+
+                outer: for (let row = 0; row <= maxY; row++) {
+                    for (let col = 0; col <= COLS - newW; col++) {
+                        if (!collides(col, row, newW, newH)) {
+                            foundX = col;
+                            foundY = row;
+                            break outer;
+                        }
+                    }
+                }
+
+                // If no gap found, place below all existing widgets
+                if (collides(foundX, foundY, newW, newH)) {
+                    foundX = 0;
+                    foundY = maxY;
+                }
 
                 const newWidget = {
                     i: widgetId,
-                    x: 0,
-                    y: maxY,
-                    w: 6,
-                    h: 2,
+                    x: foundX,
+                    y: foundY,
+                    w: newW,
+                    h: newH,
+                    static: false,
                 };
 
                 return {

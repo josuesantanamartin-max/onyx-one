@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import GridLayout from 'react-grid-layout';
+import GridLayout, { noCompactor } from 'react-grid-layout';
 import type { Layout, LayoutItem } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -468,6 +468,7 @@ const CustomizableDashboard: React.FC = () => {
                             resizeConfig={{
                                 enabled: isEditMode,
                             }}
+                            compactor={noCompactor}
                             onLayoutChange={handleLayoutChange}
                             // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             onResizeStop={handleResizeStop as any}
