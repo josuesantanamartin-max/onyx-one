@@ -44,16 +44,18 @@ interface FinanceActions {
     deleteDebt: (id: string) => void;
     updateAccountBalance: (accountId: string, amount: number) => Promise<void>;
     loadFromCloud: () => Promise<void>;
+    setMockData: () => void;
+    clearAllData: () => void;
 }
 
 export const useFinanceStore = create<FinanceState & FinanceActions>()(
     persist(
         (set) => ({
-            transactions: MOCK_TRANSACTIONS,
-            accounts: MOCK_ACCOUNTS,
-            budgets: MOCK_BUDGETS,
-            goals: MOCK_GOALS,
-            debts: MOCK_DEBTS,
+            transactions: [],
+            accounts: [],
+            budgets: [],
+            goals: [],
+            debts: [],
             categories: INITIAL_CATEGORIES,
             widgets: DEFAULT_FINANCE_WIDGETS,
             currency: 'EUR',
@@ -188,15 +190,33 @@ export const useFinanceStore = create<FinanceState & FinanceActions>()(
                         syncService.fetchDebts(),
                     ]);
 
-                    if (accounts.length > 0) set({ accounts });
-                    if (transactions.length > 0) set({ transactions: transactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) });
-                    if (budgets.length > 0) set({ budgets });
-                    if (goals.length > 0) set({ goals });
-                    if (debts.length > 0) set({ debts });
+                    // We overwrite even if empty to ensure the UI reflects the cloud state
+                    // (especially important when switching accounts or devices)
+                    set({
+                        accounts,
+                        transactions: transactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
+                        budgets,
+                        goals,
+                        debts
+                    });
                 } catch (e) {
                     console.error("Failed to load from cloud:", e);
                 }
-            }
+            },
+            setMockData: () => set({
+                transactions: MOCK_TRANSACTIONS,
+                accounts: MOCK_ACCOUNTS,
+                budgets: MOCK_BUDGETS,
+                goals: MOCK_GOALS,
+                debts: MOCK_DEBTS,
+            }),
+            clearAllData: () => set({
+                transactions: [],
+                accounts: [],
+                budgets: [],
+                goals: [],
+                debts: [],
+            })
         }),
         {
             name: 'onyx_finance_store',

@@ -90,16 +90,13 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
                     name: meal.recipeName,
                     baseServings: meal.servings,
                     prepTime: 30, // Default or fetch? Ideally we should store full recipe or fetch it.
-                    // Storing minimal info in PlannedMeal. 
-                    // This is a limitation of the refactor: we lost the full recipe object in the store.
-                    // We need to fetch from 'recipes' list if possible.
-                    calories: 0,
-                    image: undefined,
-                    ingredients: [],
-                    instructions: [],
+                    calories: meal.calories || 0,
+                    image: meal.image,
+                    ingredients: meal.ingredients || [],
+                    instructions: meal.instructions || [],
                     tags: [],
                     rating: 0,
-                    courseType: 'MAIN' // We need to store courseType in PlannedMeal! 
+                    courseType: meal.courseType,
                 };
 
                 // WAIT. PlannedMeal in types/life.ts needs to hold all recipe data OR we need to lookup?
@@ -186,6 +183,7 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
     const [copiedDay, setCopiedDay] = useState<{ plan: any, date: string } | null>(null);
     const [quickAddTarget, setQuickAddTarget] = useState<{ date: string, meal: MealTime } | null>(null);
     const [quickAddSearch, setQuickAddSearch] = useState('');
+    const [dragOverSlot, setDragOverSlot] = useState<{ date: string; meal: MealTime } | null>(null);
 
     // Shopping List Integration
     const [itemsToBuy, setItemsToBuy] = useState<any[]>([]);
@@ -305,7 +303,7 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
 
     const handlePasteDay = (targetDateKey: string) => {
         if (!copiedDay) return;
-        setWeeklyPlan(prev => {
+        setWeeklyPlan((prev: WeeklyPlanState) => {
             const newPlan = {
                 ...prev,
                 [targetDateKey]: JSON.parse(JSON.stringify(copiedDay.plan)) // Deep copy
@@ -319,7 +317,7 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
 
     const handleClearDay = (dateKey: string) => {
         if (window.confirm('¿Borrar todo el plan de este día?')) {
-            setWeeklyPlan(prev => {
+            setWeeklyPlan((prev: WeeklyPlanState) => {
                 const newPlan = { ...prev };
                 delete newPlan[dateKey];
                 recalculateShoppingList(newPlan);
@@ -333,7 +331,7 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
         if (!quickAddTarget) return;
         const { date, meal } = quickAddTarget;
 
-        setWeeklyPlan(prev => {
+        setWeeklyPlan((prev: WeeklyPlanState) => {
             const newPlan = { ...prev };
             if (!newPlan[date]) newPlan[date] = { breakfast: [], lunch: [], dinner: [] };
 
@@ -341,7 +339,7 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
             // Auto-course logic
             if (meal !== 'breakfast') {
                 const existing = newPlan[date][meal] || [];
-                const hasStarter = existing.some(r => r.courseType === 'STARTER');
+                const hasStarter = existing.some((r: Recipe) => r.courseType === 'STARTER');
                 newRecipe.courseType = hasStarter ? 'MAIN' : 'STARTER';
             } else {
                 newRecipe.courseType = 'MAIN';
@@ -384,14 +382,24 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
         e.dataTransfer.effectAllowed = origin ? 'move' : 'copy';
     };
 
-    const handleDragOver = (e: React.DragEvent) => {
+    const handleDragOver = (e: React.DragEvent, targetDate: string, targetMeal: MealTime) => {
         e.preventDefault();
-        // Just accept it, let the browser/OS decide cursor or force it if needed
-        // e.dataTransfer.dropEffect = 'move'; 
+        e.dataTransfer.dropEffect = 'copy';
+        setDragOverSlot(prev =>
+            prev?.date === targetDate && prev?.meal === targetMeal ? prev : { date: targetDate, meal: targetMeal }
+        );
+    };
+
+    const handleDragLeave = (e: React.DragEvent) => {
+        // Only clear if actually leaving the slot (not entering a child)
+        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+            setDragOverSlot(null);
+        }
     };
 
     const handleDrop = (e: React.DragEvent, targetDateKey: string, targetMeal: MealTime) => {
         e.preventDefault();
+        setDragOverSlot(null);
         const data = e.dataTransfer.getData('application/json');
         if (!data) return;
 
@@ -414,12 +422,11 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
                 }
                 const targetDay = newPlan[targetDateKey];
 
-                // Auto-assign course type based on existing items if not set
                 const recipeToAdd = origin ? recipe : { ...recipe, id: Math.random().toString(36).substr(2, 9) };
 
                 if (!recipeToAdd.courseType && targetMeal !== 'breakfast') {
                     const existing = targetDay[targetMeal] || [];
-                    const hasStarter = existing.some(r => r.courseType === 'STARTER');
+                    const hasStarter = existing.some((r: Recipe) => r.courseType === 'STARTER');
                     recipeToAdd.courseType = hasStarter ? 'MAIN' : 'STARTER';
                 } else if (!recipeToAdd.courseType) {
                     recipeToAdd.courseType = 'MAIN';
@@ -432,8 +439,6 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
 
                 return newPlan;
             });
-
-            // Smart list handled inside setter
 
         } catch (error) {
             console.error("Error processing drop:", error);
@@ -663,32 +668,57 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
         });
     };
 
+    // Meal type config for colors
+    const MEAL_CONFIG = {
+        breakfast: { label: 'Desayuno', accent: 'amber', icon: <Coffee className="w-3 h-3" /> },
+        lunch: { label: 'Almuerzo', accent: 'emerald', icon: <Sunset className="w-3 h-3" /> },
+        dinner: { label: 'Cena', accent: 'indigo', icon: <Moon className="w-3 h-3" /> },
+    };
+
+    const MEAL_COLORS: Record<string, { bg: string; text: string; border: string; dropBg: string; dropBorder: string }> = {
+        breakfast: { bg: 'bg-amber-50', text: 'text-amber-600', border: 'border-amber-200', dropBg: 'bg-amber-50/80', dropBorder: 'border-amber-400' },
+        lunch: { bg: 'bg-emerald-50', text: 'text-emerald-600', border: 'border-emerald-200', dropBg: 'bg-emerald-50/80', dropBorder: 'border-emerald-400' },
+        dinner: { bg: 'bg-indigo-50', text: 'text-indigo-600', border: 'border-indigo-200', dropBg: 'bg-indigo-50/80', dropBorder: 'border-indigo-400' },
+    };
+
     return (
-        <div className="h-full flex flex-col space-y-6 animate-fade-in pb-20 relative">
-            <div className="flex justify-between items-center shrink-0 flex-wrap gap-4">
-                <div className="flex items-center gap-4">
-                    <div className="flex bg-white/80 backdrop-blur-xl border border-white/40 rounded-2xl p-1.5 shadow-sm">
-                        <button onClick={handlePrevPlanner} className="p-2.5 hover:bg-emerald-50 rounded-xl text-gray-500 transition-colors"><ChevronLeft className="w-5 h-5" /></button>
-                        <div className="px-6 flex items-center font-black text-xs text-gray-700 uppercase tracking-widest min-w-[140px] justify-center">
-                            {viewMode === 'month' ? plannerDate.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }) : `Semana del ${days[0]?.toLocaleDateString()}`}
+        <div className="h-full flex flex-col space-y-5 animate-fade-in pb-20 relative">
+            <div className="flex justify-between items-center shrink-0 flex-wrap gap-3">
+                <div className="flex items-center gap-3">
+                    {/* Navigation */}
+                    <div className="flex bg-white border border-gray-100 rounded-2xl p-1 shadow-sm">
+                        <button onClick={handlePrevPlanner} className="p-2 hover:bg-gray-50 rounded-xl text-gray-400 hover:text-gray-700 transition-colors"><ChevronLeft className="w-4 h-4" /></button>
+                        <div className="px-4 flex items-center font-black text-xs text-gray-800 min-w-[160px] justify-center">
+                            {viewMode === 'month'
+                                ? plannerDate.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }).replace(/^./, s => s.toUpperCase())
+                                : `${days[0]?.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })} — ${days[days.length - 1]?.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}`
+                            }
                         </div>
-                        <button onClick={handleNextPlanner} className="p-2.5 hover:bg-emerald-50 rounded-xl text-gray-500 transition-colors"><ChevronRight className="w-5 h-5" /></button>
+                        <button onClick={handleNextPlanner} className="p-2 hover:bg-gray-50 rounded-xl text-gray-400 hover:text-gray-700 transition-colors"><ChevronRight className="w-4 h-4" /></button>
                     </div>
+
+                    {/* Today Button */}
+                    <button
+                        onClick={() => setPlannerDate(new Date())}
+                        className="px-4 py-2 bg-white border border-gray-100 rounded-xl text-[10px] font-black text-gray-500 hover:text-emerald-600 hover:border-emerald-200 hover:bg-emerald-50 transition-all shadow-sm uppercase tracking-widest"
+                    >
+                        Hoy
+                    </button>
 
                     {/* View Mode Selector */}
-                    <div className="flex bg-gray-100 rounded-2xl p-1">
-                        <button onClick={() => setViewMode('week')} className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${viewMode === 'week' ? 'bg-white shadow-sm text-emerald-600' : 'text-gray-400 hover:text-gray-600'}`}>Semana</button>
-                        <button onClick={() => setViewMode('biweek')} className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${viewMode === 'biweek' ? 'bg-white shadow-sm text-emerald-600' : 'text-gray-400 hover:text-gray-600'}`}>Quincena</button>
-                        <button onClick={() => setViewMode('month')} className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${viewMode === 'month' ? 'bg-white shadow-sm text-emerald-600' : 'text-gray-400 hover:text-gray-600'}`}>Mes</button>
+                    <div className="flex bg-gray-100 rounded-xl p-1">
+                        <button onClick={() => setViewMode('week')} className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${viewMode === 'week' ? 'bg-white shadow-sm text-emerald-600' : 'text-gray-400 hover:text-gray-600'}`}>Semana</button>
+                        <button onClick={() => setViewMode('biweek')} className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${viewMode === 'biweek' ? 'bg-white shadow-sm text-emerald-600' : 'text-gray-400 hover:text-gray-600'}`}>Quincena</button>
+                        <button onClick={() => setViewMode('month')} className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${viewMode === 'month' ? 'bg-white shadow-sm text-emerald-600' : 'text-gray-400 hover:text-gray-600'}`}>Mes</button>
                     </div>
 
-                    <button onClick={() => setIsAiMenuOpen(true)} className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] hover:shadow-[0_10px_25px_rgba(147,51,234,0.3)] hover:-translate-y-0.5 transition-all active:scale-95 shadow-lg">
-                        <Wand2 className="w-4 h-4" /> IA
+                    <button onClick={() => setIsAiMenuOpen(true)} className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-5 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:shadow-[0_8px_20px_rgba(147,51,234,0.3)] hover:-translate-y-0.5 transition-all active:scale-95 shadow-md">
+                        <Wand2 className="w-3.5 h-3.5" /> IA
                     </button>
                 </div>
 
-                <button onClick={() => setIsRecipeDrawerOpen(!isRecipeDrawerOpen)} className={`flex items-center gap-3 px-6 py-3 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] transition-all active:scale-95 ${isRecipeDrawerOpen ? 'bg-emerald-600 text-white shadow-[0_10px_25px_rgba(16,185,129,0.3)]' : 'bg-white border border-gray-100 text-gray-600 hover:bg-gray-50 shadow-sm'}`}>
-                    <BookOpen className="w-4 h-4" /> {isRecipeDrawerOpen ? 'Cerrar' : 'Recetario'}
+                <button onClick={() => setIsRecipeDrawerOpen(!isRecipeDrawerOpen)} className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] transition-all active:scale-95 ${isRecipeDrawerOpen ? 'bg-emerald-600 text-white shadow-[0_8px_20px_rgba(16,185,129,0.25)]' : 'bg-white border border-gray-100 text-gray-500 hover:bg-gray-50 shadow-sm'}`}>
+                    <BookOpen className="w-3.5 h-3.5" /> {isRecipeDrawerOpen ? 'Cerrar' : 'Recetario'}
                 </button>
             </div>
 
@@ -699,68 +729,87 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
                 </div>
             )}
 
-            <div className="flex-1 flex overflow-hidden gap-6">
+            <div className="flex-1 flex overflow-hidden gap-4">
                 <div className="flex-1 overflow-y-auto custom-scrollbar pr-2">
-                    <div className={`gap-5 transition-all duration-500 ${viewMode === 'week' || viewMode === 'biweek' ? 'grid grid-cols-7 min-w-[1200px]' : 'grid grid-cols-7 gap-2'}`}>
+                    <div className={`gap-3 transition-all duration-500 ${viewMode === 'week' || viewMode === 'biweek' ? 'grid grid-cols-7 min-w-[1200px]' : 'grid grid-cols-7 gap-2'}`}>
                         {days.map(date => {
                             const dateKey = date.toISOString().split('T')[0];
                             const dayPlan = weeklyPlan[dateKey] || { breakfast: [], lunch: [], dinner: [] };
                             const isToday = new Date().toDateString() === date.toDateString();
                             const isCurrentMonth = viewMode === 'month' ? date.getMonth() === plannerDate.getMonth() : true;
+                            const totalItems = Object.values(dayPlan).reduce((s, arr) => s + arr.length, 0);
 
                             return (
-                                <div key={dateKey} className={`rounded-[2.5rem] border flex flex-col gap-3 transition-all duration-500 relative group/day 
-                                    ${viewMode === 'month' ? 'min-h-[150px] p-2' : viewMode === 'biweek' ? 'min-h-[300px] p-3' : 'min-h-[500px] p-5'}
-                                    ${!isCurrentMonth ? 'opacity-40 bg-gray-50 grayscale' : isToday ? 'bg-emerald-50/40 border-emerald-200 shadow-inner' : 'bg-white/60 backdrop-blur-md border-white/80 shadow-sm'}
+                                <div key={dateKey} className={`rounded-3xl border flex flex-col gap-2 transition-all duration-300 relative group/day
+                                    ${viewMode === 'month' ? 'min-h-[130px] p-2' : viewMode === 'biweek' ? 'min-h-[280px] p-3' : 'min-h-[480px] p-4'}
+                                    ${!isCurrentMonth ? 'opacity-35 bg-gray-50 grayscale' : isToday ? 'bg-white border-emerald-300 shadow-[0_0_0_2px_rgba(16,185,129,0.15),0_4px_16px_rgba(16,185,129,0.08)]' : 'bg-white border-gray-100 shadow-sm hover:shadow-md hover:border-gray-200'}
                                 `}>
-                                    <div className="text-center pb-2 border-b border-gray-100/50 flex justify-between items-center relative">
-                                        <div className="w-8"></div> {/* Spacer */}
+                                    {/* Day Header */}
+                                    <div className={`flex justify-between items-center pb-2 ${viewMode !== 'month' ? 'border-b border-gray-50' : ''}`}>
                                         <div>
-                                            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-gray-400 mb-1">{date.toLocaleDateString(language === 'ES' ? 'es-ES' : language === 'FR' ? 'fr-FR' : 'en-US', { weekday: 'short' })}</p>
-                                            <p className={`font-black ${viewMode === 'month' ? 'text-lg' : 'text-2xl'} ${isToday ? 'text-emerald-600' : 'text-gray-900'}`}>{date.getDate()}</p>
-                                        </div>
-                                        <div className="w-8 flex justify-end">
-                                            <div className="relative group/menu-wrapper">
-                                                <button
-                                                    onClick={(e) => { e.stopPropagation(); setOpenDayMenuId(openDayMenuId === dateKey ? null : dateKey) }}
-                                                    className={`p-1.5 rounded-full text-gray-300 hover:text-gray-600 transition-colors ${openDayMenuId === dateKey ? 'bg-gray-100 text-gray-600' : 'hover:bg-gray-100'}`}
-                                                >
-                                                    <MoreHorizontal className="w-4 h-4" />
-                                                </button>
-                                                {openDayMenuId === dateKey && (
-                                                    <div className="absolute right-0 top-full mt-2 bg-white rounded-xl shadow-xl border border-gray-100 p-1.5 w-32 z-50 animate-fade-in-up" onClick={e => e.stopPropagation()}>
-                                                        <button onClick={() => handleCopyDay(dateKey)} className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-50 text-[10px] font-bold text-gray-600 flex items-center gap-2"><Copy className="w-3 h-3" /> Copiar Día</button>
-                                                        {copiedDay && <button onClick={() => handlePasteDay(dateKey)} className="w-full text-left px-3 py-2 rounded-lg hover:bg-emerald-50 text-[10px] font-bold text-emerald-600 flex items-center gap-2"><ClipboardPaste className="w-3 h-3" /> Pegar</button>}
-                                                        <button onClick={() => handleClearDay(dateKey)} className="w-full text-left px-3 py-2 rounded-lg hover:bg-red-50 text-[10px] font-bold text-red-600 flex items-center gap-2"><Trash2 className="w-3 h-3" /> Limpiar</button>
-                                                    </div>
-                                                )}
+                                            <p className={`text-[9px] font-black uppercase tracking-[0.25em] mb-0.5 ${isToday ? 'text-emerald-500' : 'text-gray-300'}`}>
+                                                {date.toLocaleDateString(language === 'ES' ? 'es-ES' : language === 'FR' ? 'fr-FR' : 'en-US', { weekday: 'short' })}
+                                            </p>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className={`font-black leading-none ${viewMode === 'month' ? 'text-base' : 'text-xl'} ${isToday ? 'text-emerald-600' : 'text-gray-800'}`}>
+                                                    {date.getDate()}
+                                                </span>
+                                                {isToday && <span className="text-[7px] font-black bg-emerald-500 text-white px-1.5 py-0.5 rounded-full uppercase tracking-wider">Hoy</span>}
+                                                {totalItems > 0 && viewMode === 'month' && <span className="text-[7px] font-bold bg-gray-100 text-gray-400 px-1.5 py-0.5 rounded-full">{totalItems}</span>}
                                             </div>
+                                        </div>
+                                        <div className="relative">
+                                            <button
+                                                onClick={(e) => { e.stopPropagation(); setOpenDayMenuId(openDayMenuId === dateKey ? null : dateKey); }}
+                                                className={`p-1 rounded-lg text-gray-200 hover:text-gray-500 hover:bg-gray-50 transition-all opacity-0 group-hover/day:opacity-100 ${openDayMenuId === dateKey ? '!opacity-100 bg-gray-100 text-gray-500' : ''}`}
+                                            >
+                                                <MoreHorizontal className="w-3.5 h-3.5" />
+                                            </button>
+                                            {openDayMenuId === dateKey && (
+                                                <div className="absolute right-0 top-full mt-1 bg-white rounded-xl shadow-xl border border-gray-100 p-1 w-28 z-50 animate-fade-in-up" onClick={e => e.stopPropagation()}>
+                                                    <button onClick={() => handleCopyDay(dateKey)} className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-50 text-[10px] font-bold text-gray-600 flex items-center gap-2"><Copy className="w-3 h-3" /> Copiar</button>
+                                                    {copiedDay && <button onClick={() => handlePasteDay(dateKey)} className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-emerald-50 text-[10px] font-bold text-emerald-600 flex items-center gap-2"><ClipboardPaste className="w-3 h-3" /> Pegar</button>}
+                                                    <button onClick={() => handleClearDay(dateKey)} className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-red-50 text-[10px] font-bold text-red-600 flex items-center gap-2"><Trash2 className="w-3 h-3" /> Limpiar</button>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
 
                                     {(['breakfast', 'lunch', 'dinner'] as MealTime[]).map(meal => {
+                                        const mealCfg = MEAL_CONFIG[meal];
+                                        const mealColors = MEAL_COLORS[meal];
                                         const items = dayPlan[meal] || [];
                                         const sortedIndices = items.map((_, i) => i).sort((a, b) => {
                                             const typeA = items[a].courseType || 'MAIN';
                                             const typeB = items[b].courseType || 'MAIN';
                                             return COURSE_ORDER.indexOf(typeA) - COURSE_ORDER.indexOf(typeB);
                                         });
+                                        const isDropTarget = dragOverSlot?.date === dateKey && dragOverSlot?.meal === meal;
 
-                                        if (viewMode === 'month' && items.length === 0) return null; // Save space in month view
+                                        if (viewMode === 'month' && items.length === 0) return null;
 
                                         return (
                                             <div
                                                 key={meal}
-                                                onDragOver={handleDragOver}
+                                                onDragOver={(e) => handleDragOver(e, dateKey, meal)}
+                                                onDragLeave={handleDragLeave}
                                                 onDrop={(e) => handleDrop(e, dateKey, meal)}
-                                                className={`grow shrink-0 rounded-3xl border-2 border-dashed p-2 flex flex-col gap-2 transition-all duration-300 relative group/slot 
-                                                    ${viewMode === 'month' ? 'min-h-[40px] border-emerald-50' : 'min-h-[140px] p-3'}
-                                                    ${items.length === 0 ? (viewMode === 'month' ? 'hidden' : 'bg-gray-50/30 border-gray-100') : 'bg-white border-transparent shadow-sm'} 
-                                                    hover:bg-emerald-50/50 hover:border-emerald-300 hover:shadow-md`}
+                                                className={`grow shrink-0 rounded-2xl border flex flex-col gap-1.5 transition-all duration-200 relative group/slot
+                                                    ${viewMode === 'month' ? 'min-h-[36px] p-1.5' : 'min-h-[130px] p-2.5'}
+                                                    ${isDropTarget
+                                                        ? `${mealColors.dropBg} ${mealColors.dropBorder} border-2 shadow-md scale-[1.01]`
+                                                        : items.length === 0
+                                                            ? 'bg-gray-50/60 border-dashed border-gray-100 hover:border-gray-200 hover:bg-gray-50'
+                                                            : 'bg-white border-gray-100 shadow-sm hover:border-gray-200'
+                                                    }`}
                                             >
-                                                <div className="flex justify-between items-center px-1">
-                                                    <span className="text-[8px] font-black text-gray-300 uppercase tracking-[0.2em] group-hover/slot:text-emerald-400 transition-colors">{meal === 'breakfast' ? 'Desayuno' : meal === 'lunch' ? 'Almuerzo' : 'Cena'}</span>
-                                                </div>
+                                                {/* Meal label */}
+                                                {viewMode !== 'month' && (
+                                                    <div className={`flex items-center gap-1 px-1 ${items.length > 0 ? mealColors.text : 'text-gray-300'} transition-colors group-hover/slot:${mealColors.text}`}>
+                                                        {mealCfg.icon}
+                                                        <span className="text-[8px] font-black uppercase tracking-[0.2em]">{mealCfg.label}</span>
+                                                    </div>
+                                                )}
 
                                                 {sortedIndices.map((originalIndex) => {
                                                     const recipe = items[originalIndex];
@@ -769,27 +818,27 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
                                                             key={`${recipe.id}-${originalIndex}`}
                                                             draggable
                                                             onDragStart={(e) => handleDragStart(e, recipe, { date: dateKey, meal, index: originalIndex })}
-                                                            className={`bg-white rounded-2xl shadow-sm border border-gray-100 group relative hover:shadow-xl hover:scale-[1.02] transition-all
-                                                                ${viewMode === 'month' ? 'p-1.5' : 'p-3'}
+                                                            className={`bg-white rounded-xl border border-gray-100 group relative cursor-grab active:cursor-grabbing hover:shadow-md hover:scale-[1.02] transition-all select-none
+                                                                ${viewMode === 'month' ? 'p-1' : 'p-2'}
                                                             `}
                                                         >
-                                                            <div className="flex gap-2 items-center cursor-pointer" onClick={() => handleRecipeClick(recipe)}>
+                                                            <div className="flex gap-2 items-center" onClick={() => handleRecipeClick(recipe)} style={{ cursor: 'pointer' }}>
                                                                 {viewMode !== 'month' && (
-                                                                    <div className="w-12 h-12 rounded-xl bg-gray-50 overflow-hidden shrink-0 relative shadow-inner">
+                                                                    <div className="w-12 h-12 rounded-xl bg-gray-50 overflow-hidden shrink-0 shadow-sm ring-1 ring-gray-100">
                                                                         {loadingRecipeId === recipe.id ? (
                                                                             <div className="w-full h-full flex items-center justify-center bg-gray-100/50"><Loader2 className="w-4 h-4 animate-spin text-emerald-500" /></div>
                                                                         ) : (
-                                                                            <img src={recipe.image || DEFAULT_FOOD_IMG} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                                                            <img src={recipe.image || DEFAULT_FOOD_IMG} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                                                                         )}
                                                                     </div>
                                                                 )}
                                                                 <div className="flex-1 min-w-0">
-                                                                    <div className="flex justify-between items-center mb-0.5">
-                                                                        <span className={`text-[6px] font-black px-1.5 py-0.5 rounded-full uppercase tracking-widest ${recipe.courseType === 'STARTER' ? 'bg-blue-50 text-blue-500' : recipe.courseType === 'DESSERT' ? 'bg-pink-50 text-pink-500' : 'bg-emerald-50 text-emerald-500'}`}>
+                                                                    {viewMode !== 'month' && (
+                                                                        <span className={`text-[7px] font-black px-1 py-0.5 rounded-md uppercase tracking-widest ${recipe.courseType === 'STARTER' ? 'bg-blue-50 text-blue-500' : recipe.courseType === 'DESSERT' ? 'bg-pink-50 text-pink-500' : 'bg-gray-50 text-gray-400'}`}>
                                                                             {COURSE_LABELS[recipe.courseType || 'MAIN']}
                                                                         </span>
-                                                                    </div>
-                                                                    <h5 className="text-[10px] font-black text-gray-800 leading-tight line-clamp-1 group-hover:text-emerald-700 transition-colors uppercase tracking-tight">{recipe.name}</h5>
+                                                                    )}
+                                                                    <h5 className={`font-black text-gray-800 leading-snug line-clamp-2 group-hover:text-emerald-700 transition-colors mt-1 ${viewMode === 'month' ? 'text-[9px]' : 'text-[13px] tracking-tight'}`}>{recipe.name}</h5>
                                                                 </div>
                                                             </div>
 

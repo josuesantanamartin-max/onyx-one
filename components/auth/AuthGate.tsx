@@ -18,7 +18,7 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
         hasCompletedOnboarding
     } = useUserStore();
 
-    const { loadFromCloud } = useFinanceStore();
+    const { loadFromCloud, setMockData, clearAllData } = useFinanceStore();
 
     // --- AUTH INITIALIZATION ---
     useEffect(() => {
@@ -52,6 +52,7 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
                     // Only apply demo mode if NO real session exists
                     if (isDemoMode) {
                         console.log("[AuthGate] Falling back to Demo Mode.");
+                        setMockData();
                         setAuthenticated(true);
                     }
                 }
@@ -75,20 +76,23 @@ const AuthGate: React.FC<AuthGateProps> = ({ children }) => {
                 } else if (!isDemoMode) {
                     setAuthenticated(false);
                     setUserProfile(null);
+                    clearAllData(); // Clear sensitive data if logging out
                 }
             });
 
             return () => subscription.unsubscribe();
         } else if (isDemoMode) {
+            setMockData();
             setAuthenticated(true);
         }
-    }, [isDemoMode, setAuthenticated, setDemoMode, addSyncLog, setUserProfile, loadFromCloud]);
+    }, [isDemoMode, setAuthenticated, setDemoMode, addSyncLog, setUserProfile, loadFromCloud, setMockData, clearAllData]);
 
     const handleLogin = async (method: 'DEMO' | 'GOOGLE' | 'EMAIL' | 'NOTION', data?: { email: string, password: string, isRegister: boolean }) => {
         console.log(`[AuthGate] handleLogin called with method: ${method}`);
 
         if (method === 'DEMO') {
             setDemoMode(true);
+            setMockData();
             setAuthenticated(true);
             addSyncLog({ message: "Modo Demo activado (Local)", timestamp: Date.now(), type: "SYSTEM" });
         } else if (method === 'GOOGLE' && supabase) {

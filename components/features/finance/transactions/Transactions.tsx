@@ -193,7 +193,14 @@ const Transactions: React.FC<TransactionsProps> = ({
   };
 
   const resetAddForm = () => {
-    setAmount(''); setDescription(''); setCategory(''); setNotes(''); setIsRecurring(false);
+    setAmount('');
+    setDescription('');
+    setCategory('');
+    setSubCategory('');
+    setToAccountId('');
+    setLinkedGoalId('');
+    setNotes('');
+    setIsRecurring(false);
     setValidationErrors({});
   };
 

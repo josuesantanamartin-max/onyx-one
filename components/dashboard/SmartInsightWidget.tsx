@@ -150,13 +150,19 @@ const SmartInsightWidget: React.FC<SmartInsightWidgetProps> = ({ onNavigate }) =
                 </p>
 
                 {insight?.actionableRecipe && (
-                    <div className="bg-gray-50 dark:bg-onyx-800 rounded-2xl p-4 flex items-center gap-4 mb-4">
-                        <div className="p-2 bg-white dark:bg-onyx-700 rounded-full shadow-sm">
-                            <ChefHat className="w-5 h-5 text-orange-500" />
-                        </div>
-                        <div className="flex-1">
-                            <h4 className="font-bold text-gray-900 dark:text-white text-sm">{insight.actionableRecipe.name}</h4>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">{insight.actionableRecipe.matchReason}</p>
+                    <div className="bg-gray-50 dark:bg-onyx-800 rounded-2xl p-4 flex flex-col gap-2 mb-4">
+                        <h3 className="text-sm font-black text-onyx-950 uppercase tracking-[0.2em] flex items-center gap-2">
+                            <Sparkles className="w-4 h-4 text-amber-500" />
+                            Onyx AI: Insights
+                        </h3>
+                        <div className="flex items-center gap-4">
+                            <div className="p-2 bg-white dark:bg-onyx-700 rounded-full shadow-sm">
+                                <ChefHat className="w-5 h-5 text-orange-500" />
+                            </div>
+                            <div className="flex-1">
+                                <h4 className="font-bold text-gray-900 dark:text-white text-sm">{insight.actionableRecipe.name}</h4>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">{insight.actionableRecipe.matchReason}</p>
+                            </div>
                         </div>
                     </div>
                 )}

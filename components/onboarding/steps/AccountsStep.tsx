@@ -25,21 +25,50 @@ const AccountsStep: React.FC = () => {
     // Form for new account
     const [isAdding, setIsAdding] = useState(false);
     const [newAccountName, setNewAccountName] = useState('');
+    const [newBankName, setNewBankName] = useState('');
     const [newAccountType, setNewAccountType] = useState('BANK');
     const [newAccountBalance, setNewAccountBalance] = useState('0');
+    const [isRemunerated, setIsRemunerated] = useState(false);
+    const [tae, setTae] = useState('0');
+    const [addLinkedCard, setAddLinkedCard] = useState(false);
 
     const handleAddToList = () => {
         if (!newAccountName.trim()) return;
-        setAccountsToCreate([
-            ...accountsToCreate,
-            {
-                name: newAccountName,
-                type: newAccountType as any,
-                balance: parseFloat(newAccountBalance) || 0,
-                currency: 'EUR' // Default, assuming user selected currency in prev step globally, but for now hardcoded or passed
-            }
-        ]);
+
+        const newAccounts = [...accountsToCreate];
+        const mainId = Math.random().toString(36).substr(2, 9);
+
+        newAccounts.push({
+            id: mainId,
+            name: newAccountName,
+            bankName: newBankName,
+            type: newAccountType as any,
+            balance: parseFloat(newAccountBalance) || 0,
+            isRemunerated: isRemunerated,
+            tae: isRemunerated ? parseFloat(tae) : undefined,
+            currency: 'EUR'
+        });
+
+        if (addLinkedCard && newAccountType === 'BANK') {
+            newAccounts.push({
+                name: `Tarjeta ${newAccountName}`,
+                bankName: newBankName,
+                type: 'CREDIT',
+                balance: 0,
+                currency: 'EUR',
+                linkedAccountId: mainId
+            });
+        }
+
+        setAccountsToCreate(newAccounts);
+
+        // Reset form
         setNewAccountName('');
+        setNewBankName('');
+        setNewAccountBalance('0');
+        setIsRemunerated(false);
+        setTae('0');
+        setAddLinkedCard(false);
         setIsAdding(false);
     };
 
@@ -102,35 +131,114 @@ const AccountsStep: React.FC = () => {
 
             {/* Add Custom Account inline */}
             {isAdding ? (
-                <div className="w-full bg-gray-50 dark:bg-onyx-800/50 p-4 rounded-xl mb-6 animate-scale-in">
-                    <div className="flex gap-2 mb-2">
-                        <input
-                            value={newAccountName}
-                            onChange={e => setNewAccountName(e.target.value)}
-                            placeholder="Nombre de cuenta"
-                            className="flex-1 p-2 rounded-lg border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900"
-                            autoFocus
-                        />
-                        <select
-                            value={newAccountType}
-                            onChange={(e) => setNewAccountType(e.target.value)}
-                            className="p-2 rounded-lg border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 outline-none"
-                        >
-                            {ACCOUNT_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
-                        </select>
+                <div className="w-full bg-gray-50 dark:bg-onyx-800/50 p-6 rounded-2xl mb-6 animate-scale-in border border-indigo-100 dark:border-indigo-900/30">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div className="space-y-1">
+                            <label className="text-xs font-bold text-gray-500 ml-1 uppercase">Nombre Personalizado</label>
+                            <input
+                                value={newAccountName}
+                                onChange={e => setNewAccountName(e.target.value)}
+                                placeholder="Ej: Mi Cuenta Ahorro"
+                                className="w-full p-3 rounded-xl border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+                                autoFocus
+                            />
+                        </div>
+                        <div className="space-y-1">
+                            <label className="text-xs font-bold text-gray-500 ml-1 uppercase">Tipo de Cuenta</label>
+                            <select
+                                value={newAccountType}
+                                onChange={(e) => setNewAccountType(e.target.value)}
+                                className="w-full p-3 rounded-xl border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 outline-none focus:ring-2 focus:ring-indigo-500"
+                            >
+                                {ACCOUNT_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+                            </select>
+                        </div>
                     </div>
-                    <div className="flex gap-2">
-                        <input
-                            type="number"
-                            value={newAccountBalance}
-                            onChange={e => setNewAccountBalance(e.target.value)}
-                            placeholder="Saldo Inicial"
-                            className="flex-1 p-2 rounded-lg border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900"
-                        />
-                        <button onClick={handleAddToList} className="bg-indigo-600 text-white px-4 py-2 rounded-lg font-bold text-sm">
-                            Guardar
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div className="space-y-1">
+                            <label className="text-xs font-bold text-gray-500 ml-1 uppercase">Banco (Opcional)</label>
+                            <input
+                                value={newBankName}
+                                onChange={e => setNewBankName(e.target.value)}
+                                placeholder="Ej: Santander, BBVA..."
+                                className="w-full p-3 rounded-xl border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+                            />
+                        </div>
+                        <div className="space-y-1">
+                            <label className="text-xs font-bold text-gray-500 ml-1 uppercase">Saldo Inicial</label>
+                            <div className="relative">
+                                <input
+                                    type="number"
+                                    value={newAccountBalance}
+                                    onChange={e => setNewAccountBalance(e.target.value)}
+                                    placeholder="0.00"
+                                    className="w-full p-3 pr-10 rounded-xl border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+                                />
+                                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">€</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {newAccountType === 'BANK' && (
+                        <div className="space-y-4 mb-6 p-4 bg-indigo-50/50 dark:bg-indigo-900/10 rounded-xl border border-indigo-100 dark:border-indigo-900/20">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <Settings2 className="w-4 h-4 text-indigo-600" />
+                                    <span className="text-sm font-bold text-indigo-900 dark:text-indigo-100">Opciones Extra</span>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-wrap gap-6">
+                                <label className="flex items-center gap-2 cursor-pointer group">
+                                    <input
+                                        type="checkbox"
+                                        checked={isRemunerated}
+                                        onChange={e => setIsRemunerated(e.target.checked)}
+                                        className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                    />
+                                    <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-indigo-600 transition-colors">¿Cuenta remunerada?</span>
+                                </label>
+
+                                <label className="flex items-center gap-2 cursor-pointer group">
+                                    <input
+                                        type="checkbox"
+                                        checked={addLinkedCard}
+                                        onChange={e => setAddLinkedCard(e.target.checked)}
+                                        className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                    />
+                                    <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-indigo-600 transition-colors">¿Añadir tarjeta asociada?</span>
+                                </label>
+                            </div>
+
+                            {isRemunerated && (
+                                <div className="flex items-center gap-3 animate-fade-in">
+                                    <span className="text-sm text-gray-500">TAE (%)</span>
+                                    <input
+                                        type="number"
+                                        step="0.01"
+                                        value={tae}
+                                        onChange={e => setTae(e.target.value)}
+                                        className="w-20 p-2 rounded-lg border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 outline-none focus:ring-2 focus:ring-indigo-500"
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    <div className="flex justify-end gap-3 pt-2">
+                        <button
+                            onClick={() => setIsAdding(false)}
+                            className="px-6 py-2.5 rounded-xl text-gray-500 font-bold hover:bg-gray-100 dark:hover:bg-onyx-700 transition-all"
+                        >
+                            Cancelar
                         </button>
-                        <button onClick={() => setIsAdding(false)} className="text-gray-500 px-4 py-2 text-sm">Cancel</button>
+                        <button
+                            onClick={handleAddToList}
+                            className="px-8 py-2.5 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 shadow-lg shadow-indigo-200 dark:shadow-none transition-all"
+                        >
+                            Añadir a la lista
+                        </button>
                     </div>
                 </div>
             ) : (

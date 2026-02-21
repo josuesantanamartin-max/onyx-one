@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useFinanceStore } from '../../../store/useFinanceStore';
 import { Goal } from '../../../types';
-import { Calculator, Calendar, Target, Plus, Clock, Pencil, Trash2, Sparkles, Banknote, Plane, Car, Home, Heart, Baby, PiggyBank, TrendingUp } from 'lucide-react';
+import { Calculator, Calendar, Target, Plus, Clock, Pencil, Trash2, Sparkles, Banknote, Plane, Car, Home, Heart, Baby, PiggyBank, TrendingUp, GripVertical } from 'lucide-react';
 
 interface GoalsProps {
   // All state managed via stores
@@ -11,6 +11,41 @@ const Goals: React.FC<GoalsProps> = () => {
   const { goals, setGoals, accounts } = useFinanceStore();
 
   const [selectedGoalId, setSelectedGoalId] = useState<string | null>(null);
+
+  // Drag-to-reorder state
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+
+  const handleDragStart = (e: React.DragEvent, index: number) => {
+    setDragIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOverIndex(index);
+  };
+
+  const handleDrop = (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault();
+    if (dragIndex === null || dragIndex === dropIndex) {
+      setDragIndex(null);
+      setDragOverIndex(null);
+      return;
+    }
+    const reordered = [...goals];
+    const [moved] = reordered.splice(dragIndex, 1);
+    reordered.splice(dropIndex, 0, moved);
+    setGoals(() => reordered);
+    setDragIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleDragEnd = () => {
+    setDragIndex(null);
+    setDragOverIndex(null);
+  };
 
   // Effect to select first goal on load
   React.useEffect(() => {
@@ -145,20 +180,21 @@ const Goals: React.FC<GoalsProps> = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
 
         {/* SIDEBAR LIST */}
-        <div className="lg:col-span-4 space-y-6">
+        <div className="md:col-span-4 space-y-6">
           <div className="flex items-center justify-between pb-4 border-b border-onyx-100">
             <h3 className="font-bold text-onyx-950 text-lg">Tus Metas</h3>
             <span className="text-xs font-bold bg-onyx-100 px-2 py-1 rounded-lg text-onyx-500">{goals.length} Activas</span>
           </div>
 
           <div className="space-y-3">
-            {goals.map(goal => {
+            {goals.map((goal, index) => {
               const progress = Math.min((goal.currentAmount / goal.targetAmount) * 100, 100);
               const isSelected = selectedGoalId === goal.id;
               const isCompleted = progress >= 100;
+              const isDraggedOver = dragOverIndex === index && dragIndex !== index;
 
               // Icon Logic
               let GoalIcon = Target;
@@ -171,8 +207,23 @@ const Goals: React.FC<GoalsProps> = () => {
               else if (lowerName.includes('fondo') || lowerName.includes('ahorro')) GoalIcon = PiggyBank;
 
               return (
-                <div key={goal.id} onClick={() => setSelectedGoalId(goal.id)} className={`p-5 rounded-2xl border cursor-pointer transition-all duration-300 group relative overflow-hidden ${isSelected ? 'bg-onyx-950 text-white border-onyx-950 shadow-xl scale-[1.02]' : 'bg-white text-onyx-950 border-onyx-100 hover:border-indigo-200 hover:bg-slate-50'}`}>
-                  <div className="flex justify-between items-center mb-3">
+                <div
+                  key={goal.id}
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, index)}
+                  onDragOver={(e) => handleDragOver(e, index)}
+                  onDrop={(e) => handleDrop(e, index)}
+                  onDragEnd={handleDragEnd}
+                  onClick={() => setSelectedGoalId(goal.id)}
+                  className={`p-5 rounded-2xl border cursor-pointer transition-all duration-300 group relative overflow-hidden select-none
+                    ${isSelected ? 'bg-onyx-950 text-white border-onyx-950 shadow-xl scale-[1.02]' : 'bg-white text-onyx-950 border-onyx-100 hover:border-indigo-200 hover:bg-slate-50'}
+                    ${isDraggedOver ? 'border-indigo-400 border-2 scale-[1.01] shadow-md shadow-indigo-200' : ''}
+                    ${dragIndex === index ? 'opacity-50' : ''}`}
+                >
+                  <div className={`absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing ${isSelected ? 'text-white/30' : 'text-onyx-300'}`}>
+                    <GripVertical className="w-4 h-4" />
+                  </div>
+                  <div className="flex justify-between items-center mb-3 pl-3">
                     <div className="flex items-center gap-3">
                       <div className={`p-2 rounded-xl ${isSelected ? 'bg-white/10' : 'bg-onyx-50 text-onyx-500'}`}><GoalIcon className="w-5 h-5" /></div>
                       <div>
@@ -201,7 +252,7 @@ const Goals: React.FC<GoalsProps> = () => {
         </div>
 
         {/* MAIN CONTENT */}
-        <div className="lg:col-span-8 space-y-6">
+        <div className="md:col-span-8 space-y-6">
           {isFormOpen ? (
             <div className="bg-white p-10 rounded-onyx shadow-xl border border-onyx-100 animate-fade-in relative overflow-hidden w-full">
               <div className="flex justify-between items-center mb-8 pb-8 border-b border-onyx-50">
@@ -254,14 +305,14 @@ const Goals: React.FC<GoalsProps> = () => {
           ) : selectedGoal ? (
             <>
               {/* DETAIL CARD */}
-              <div className="bg-white p-10 rounded-3xl shadow-sm border border-onyx-100 relative overflow-hidden group hover:shadow-lg transition-all duration-500">
-                <div className="flex justify-between items-start mb-10 relative z-10">
+              <div className="bg-white p-6 md:p-8 lg:p-10 rounded-3xl shadow-sm border border-onyx-100 relative overflow-hidden group hover:shadow-lg transition-all duration-500">
+                <div className="flex justify-between items-start mb-6 md:mb-10 relative z-10">
                   <div>
                     <div className="flex items-center gap-3 mb-4">
                       <div className="p-2 bg-onyx-950 text-white rounded-lg"><Target className="w-4 h-4" /></div>
                       <p className="text-xs font-bold text-onyx-400 uppercase tracking-[0.2em]">Meta Seleccionada</p>
                     </div>
-                    <h3 className="text-5xl font-black text-onyx-950 tracking-tight mb-2">{selectedGoal.name}</h3>
+                    <h3 className="text-2xl md:text-3xl lg:text-5xl font-black text-onyx-950 tracking-tight mb-2">{selectedGoal.name}</h3>
                     <div className="flex flex-col gap-1">
                       {selectedGoal.deadline && <p className="text-sm font-bold text-onyx-400 flex items-center gap-2"><Clock className="w-4 h-4" /> Objetivo: {new Date(selectedGoal.deadline).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })}</p>}
                       {selectedGoal.accountId && (() => {

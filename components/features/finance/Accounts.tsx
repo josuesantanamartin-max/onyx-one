@@ -4,7 +4,7 @@ import { Account, CadastralData, Transaction } from '../../../types';
 import {
   Wallet, CreditCard, Banknote, Landmark, Plus, Pencil, Trash2, X,
   TrendingUp, ShieldCheck, CircuitBoard, ArrowRightLeft, Wifi, Layers, Search, CheckCircle,
-  ArrowUpRight, ArrowDownRight, ArrowRight
+  ArrowUpRight, ArrowDownRight, ArrowRight, GripVertical
 } from 'lucide-react';
 import { useFinanceControllers } from '../../../hooks/useFinanceControllers';
 import { fetchCadastralData, isValidCadastralReference } from '../../../services/catastroService';
@@ -18,6 +18,10 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
   const { transfer } = useFinanceControllers();
 
   const [selectedAccountId, setSelectedAccountId] = useState<string | null>(null);
+
+  // Drag-to-reorder state
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
   // Initialize selection
   useEffect(() => {
@@ -173,6 +177,41 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
     resetForm();
   };
 
+  // Drag handlers — operate on visible accounts only
+  const visibleAccounts = accounts.filter(a => a.type !== 'CREDIT' && a.type !== 'DEBIT');
+
+  const handleDragStart = (e: React.DragEvent, index: number) => {
+    setDragIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOverIndex(index);
+  };
+
+  const handleDrop = (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault();
+    if (dragIndex === null || dragIndex === dropIndex) {
+      setDragIndex(null);
+      setDragOverIndex(null);
+      return;
+    }
+    const reordered = [...visibleAccounts];
+    const [moved] = reordered.splice(dragIndex, 1);
+    reordered.splice(dropIndex, 0, moved);
+    const hidden = accounts.filter(a => a.type === 'CREDIT' || a.type === 'DEBIT');
+    setAccounts(() => [...reordered, ...hidden]);
+    setDragIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleDragEnd = () => {
+    setDragIndex(null);
+    setDragOverIndex(null);
+  };
+
   const getIcon = (type: string) => {
     switch (type) {
       case 'BANK': return <Landmark className="w-5 h-5" />;
@@ -318,23 +357,39 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
 
         {/* SIDEBAR LIST */}
-        <div className="lg:col-span-4 space-y-6">
+        <div className="md:col-span-4 space-y-6">
           <div className="flex items-center justify-between pb-4 border-b border-onyx-100">
             <h3 className="font-bold text-onyx-950 text-lg">Tus Cuentas</h3>
             <span className="text-xs font-bold bg-onyx-100 px-2 py-1 rounded-lg text-onyx-500">{accounts.filter(a => a.type !== 'CREDIT' && a.type !== 'DEBIT').length} Activas</span>
           </div>
 
           <div className="space-y-3">
-            {accounts.filter(a => a.type !== 'CREDIT' && a.type !== 'DEBIT').map(account => {
+            {visibleAccounts.map((account, index) => {
               const isSelected = selectedAccountId === account.id;
-              const isRemunerated = account.isRemunerated;
+              const isRemuneratedAcc = account.isRemunerated;
+              const isDraggedOver = dragOverIndex === index && dragIndex !== index;
 
               return (
-                <div key={account.id} onClick={() => setSelectedAccountId(account.id)} className={`p-5 rounded-2xl border cursor-pointer transition-all duration-300 group relative overflow-hidden ${isSelected ? 'bg-onyx-950 text-white border-onyx-950 shadow-xl scale-[1.02]' : 'bg-white text-onyx-950 border-onyx-100 hover:border-indigo-200 hover:bg-slate-50'}`}>
-                  <div className="flex justify-between items-center mb-1">
+                <div
+                  key={account.id}
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, index)}
+                  onDragOver={(e) => handleDragOver(e, index)}
+                  onDrop={(e) => handleDrop(e, index)}
+                  onDragEnd={handleDragEnd}
+                  onClick={() => setSelectedAccountId(account.id)}
+                  className={`p-5 rounded-2xl border cursor-pointer transition-all duration-300 group relative overflow-hidden select-none
+                    ${isSelected ? 'bg-onyx-950 text-white border-onyx-950 shadow-xl scale-[1.02]' : 'bg-white text-onyx-950 border-onyx-100 hover:border-indigo-200 hover:bg-slate-50'}
+                    ${isDraggedOver ? 'border-indigo-400 border-2 scale-[1.01] shadow-md shadow-indigo-200' : ''}
+                    ${dragIndex === index ? 'opacity-50' : ''}`}
+                >
+                  <div className={`absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing ${isSelected ? 'text-white/30' : 'text-onyx-300'}`}>
+                    <GripVertical className="w-4 h-4" />
+                  </div>
+                  <div className="flex justify-between items-center mb-1 pl-3">
                     <div className="flex items-center gap-3">
                       <div className={`p-2 rounded-xl ${isSelected ? 'bg-white/10' : 'bg-onyx-50 text-onyx-500'}`}>{getIcon(account.type)}</div>
                       <div>
@@ -343,9 +398,9 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="text-right mt-2">
+                  <div className="text-right mt-2 pl-3">
                     <p className={`font-bold text-lg leading-none`}>{formatEUR(account.balance)}</p>
-                    {isRemunerated && account.tae && <p className={`text-[9px] font-bold uppercase tracking-widest mt-1 ${isSelected ? 'text-emerald-300' : 'text-emerald-600'}`}>{account.tae}% TAE</p>}
+                    {isRemuneratedAcc && account.tae && <p className={`text-[9px] font-bold uppercase tracking-widest mt-1 ${isSelected ? 'text-emerald-300' : 'text-emerald-600'}`}>{account.tae}% TAE</p>}
                   </div>
                   {isSelected && <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>}
                 </div>
@@ -355,7 +410,7 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
         </div>
 
         {/* MAIN DETAIL CONTENT */}
-        <div className="lg:col-span-8 space-y-6">
+        <div className="md:col-span-8 space-y-6">
           {isModalOpen ? (
             <div className="bg-white p-10 rounded-onyx shadow-xl border border-onyx-100 animate-fade-in relative overflow-hidden w-full">
               <div className="flex justify-between items-center mb-8 pb-8 border-b border-onyx-50">
@@ -440,11 +495,11 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
           ) : selectedAccount ? (
             <div className="space-y-8">
               {/* DETAIL HEADER CARD */}
-              <div className="bg-white p-10 rounded-3xl shadow-sm border border-onyx-100 relative overflow-hidden group hover:shadow-lg transition-all duration-500">
-                <div className="flex justify-between items-start mb-8 relative z-10">
+              <div className="bg-white p-6 md:p-8 lg:p-10 rounded-3xl shadow-sm border border-onyx-100 relative overflow-hidden group hover:shadow-lg transition-all duration-500">
+                <div className="flex justify-between items-start mb-6 md:mb-8 relative z-10">
                   <div>
                     <p className="text-xs font-bold text-onyx-400 uppercase tracking-[0.2em] mb-1">{selectedAccount.bankName || getAccountTypeLabel(selectedAccount.type)}</p>
-                    <h3 className="text-4xl font-black text-onyx-950 tracking-tight mb-2">{selectedAccount.name}</h3>
+                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-onyx-950 tracking-tight mb-2">{selectedAccount.name}</h3>
                     {selectedAccount.isRemunerated && selectedAccount.tae && (
                       <div className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
                         <TrendingUp className="w-3 h-3" />
@@ -460,16 +515,16 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
 
                 {/* STATS COMPARISON */}
                 {stats && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 relative z-10">
                     {/* Month Comparison */}
-                    <div className="bg-onyx-50/50 p-6 rounded-2xl border border-onyx-100/50">
+                    <div className="bg-onyx-50/50 p-4 md:p-6 rounded-2xl border border-onyx-100/50">
                       <p className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3">Vs Mes Pasado</p>
-                      <div className="flex items-end justify-between">
+                      <div className="flex items-end justify-between gap-2">
                         <div>
                           <p className="text-xs font-semibold text-onyx-400 mb-1">Final Mes Pasado</p>
-                          <p className="text-xl font-bold text-onyx-600">{formatEUR(stats.prevMonthBalance)}</p>
+                          <p className="text-base md:text-lg font-bold text-onyx-600">{formatEUR(stats.prevMonthBalance)}</p>
                         </div>
-                        <div className={`flex items-center gap-1 text-sm font-black px-3 py-1.5 rounded-lg ${stats.isMonthUp ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
+                        <div className={`flex items-center gap-1 text-xs md:text-sm font-black px-2 md:px-3 py-1.5 rounded-lg shrink-0 ${stats.isMonthUp ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
                           {stats.isMonthUp ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                           {formatEUR(Math.abs(stats.monthDiff))}
                         </div>
@@ -477,14 +532,14 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
                     </div>
 
                     {/* Year Comparison */}
-                    <div className="bg-onyx-50/50 p-6 rounded-2xl border border-onyx-100/50">
+                    <div className="bg-onyx-50/50 p-4 md:p-6 rounded-2xl border border-onyx-100/50">
                       <p className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3">Vs Año Anterior</p>
-                      <div className="flex items-end justify-between">
+                      <div className="flex items-end justify-between gap-2">
                         <div>
                           <p className="text-xs font-semibold text-onyx-400 mb-1">Inicio de Año</p>
-                          <p className="text-xl font-bold text-onyx-600">{formatEUR(stats.yearStartBalance)}</p>
+                          <p className="text-base md:text-lg font-bold text-onyx-600">{formatEUR(stats.yearStartBalance)}</p>
                         </div>
-                        <div className={`flex items-center gap-1 text-sm font-black px-3 py-1.5 rounded-lg ${stats.isYearUp ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
+                        <div className={`flex items-center gap-1 text-xs md:text-sm font-black px-2 md:px-3 py-1.5 rounded-lg shrink-0 ${stats.isYearUp ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
                           {stats.isYearUp ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                           {formatEUR(Math.abs(stats.yearDiff))}
                         </div>
@@ -494,23 +549,23 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
                     {/* Remunerated Stats */}
                     {selectedAccount.isRemunerated && selectedAccount.tae && (
                       <>
-                        <div className="bg-emerald-50/50 p-6 rounded-2xl border border-emerald-100/50">
+                        <div className="bg-emerald-50/50 p-4 md:p-6 rounded-2xl border border-emerald-100/50">
                           <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest mb-3">Rentabilidad Anual (Est.)</p>
                           <div className="flex items-end justify-between">
                             <div>
                               <p className="text-xs font-semibold text-emerald-400 mb-1">{selectedAccount.tae}% TAE</p>
-                              <p className="text-xl font-bold text-emerald-700">+{formatEUR(selectedAccount.balance * (selectedAccount.tae / 100))}</p>
+                              <p className="text-base md:text-lg font-bold text-emerald-700">+{formatEUR(selectedAccount.balance * (selectedAccount.tae / 100))}</p>
                             </div>
                             <div className="p-2 bg-emerald-100 text-emerald-600 rounded-lg"><TrendingUp className="w-4 h-4" /></div>
                           </div>
                         </div>
 
-                        <div className="bg-emerald-50/50 p-6 rounded-2xl border border-emerald-100/50">
+                        <div className="bg-emerald-50/50 p-4 md:p-6 rounded-2xl border border-emerald-100/50">
                           <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest mb-3">Rentabilidad Mensual</p>
                           <div className="flex items-end justify-between">
                             <div>
                               <p className="text-xs font-semibold text-emerald-400 mb-1">Aprox.</p>
-                              <p className="text-xl font-bold text-emerald-700">+{formatEUR((selectedAccount.balance * (selectedAccount.tae / 100)) / 12)}</p>
+                              <p className="text-base md:text-lg font-bold text-emerald-700">+{formatEUR((selectedAccount.balance * (selectedAccount.tae / 100)) / 12)}</p>
                             </div>
                             <div className="p-2 bg-emerald-100 text-emerald-600 rounded-lg"><TrendingUp className="w-4 h-4" /></div>
                           </div>
@@ -520,10 +575,10 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
                   </div>
                 )}
 
-                <div className="flex justify-between items-end mt-8 pt-8 border-t border-onyx-100 relative z-10">
+                <div className="flex justify-between items-end mt-6 md:mt-8 pt-6 md:pt-8 border-t border-onyx-100 relative z-10">
                   <div>
                     <p className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-2">Saldo Actual</p>
-                    <h2 className={`text-6xl font-black tracking-tighter ${selectedAccount.type === 'CREDIT' && selectedAccount.balance < 0 ? 'text-red-500' : 'text-onyx-950'}`}>{formatEUR(selectedAccount.balance)}</h2>
+                    <h2 className={`text-3xl md:text-4xl lg:text-6xl font-black tracking-tighter ${selectedAccount.type === 'CREDIT' && selectedAccount.balance < 0 ? 'text-red-500' : 'text-onyx-950'}`}>{formatEUR(selectedAccount.balance)}</h2>
                   </div>
                   <div>
                     <button onClick={() => onViewTransactions(selectedAccount.id)} className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-indigo-primary hover:text-indigo-700 transition-colors">

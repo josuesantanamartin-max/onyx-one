@@ -183,7 +183,12 @@ export const RecipeBook: React.FC<RecipeBookProps> = ({ onNavigateToMealPlan, in
             recipeId: recipe.id,
             recipeName: recipe.name,
             servings: recipe.baseServings,
-            completed: false
+            completed: false,
+            courseType: recipe.courseType || 'MAIN',
+            calories: recipe.calories || 0,
+            image: recipe.image,
+            ingredients: recipe.ingredients || [],
+            instructions: recipe.instructions || [],
         };
 
         if (existingPlanIndex >= 0) {

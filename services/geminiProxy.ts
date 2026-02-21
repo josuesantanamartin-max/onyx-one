@@ -28,13 +28,15 @@ class GeminiProxy {
 
     constructor(model: string = 'gemini-2.0-flash-exp') {
         this.model = model;
+        // @ts-ignore
         this.isDevelopment = import.meta.env.DEV || import.meta.env.MODE === 'development';
 
         // In development, create direct client
         if (this.isDevelopment) {
+            // @ts-ignore
             const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
             if (apiKey) {
-                this.directClient = new GoogleGenAI({ apiKey });
+                this.directClient = new GoogleGenAI(apiKey);
             }
         }
     }
@@ -43,13 +45,11 @@ class GeminiProxy {
         // Development: Use direct API
         if (this.isDevelopment && this.directClient) {
             try {
-                const response = await this.directClient.models.generateContent({
-                    model: request.model || this.model,
-                    contents: request.contents,
-                    config: request.config,
-                });
+                const model = this.directClient.getGenerativeModel({ model: request.model || this.model });
+                const response = await model.generateContent(request.contents);
+                const result = await response.response;
                 return {
-                    text: response.text || '',
+                    text: result.text() || '',
                 };
             } catch (error) {
                 console.error('Gemini API Error (Direct):', error);

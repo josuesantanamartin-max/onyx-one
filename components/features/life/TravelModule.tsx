@@ -266,9 +266,9 @@ const TravelModule: React.FC<TravelModuleProps> = () => {
                            <h3 className="text-xl font-black text-gray-900 tracking-tight">Vuelos & Transporte</h3>
                            <button className="text-[10px] font-black uppercase tracking-widest text-rose-600 bg-rose-50 px-3 py-1 rounded-lg hover:bg-rose-100">+ Añadir</button>
                         </div>
-                        {selectedTrip.flights.length > 0 ? (
+                        {(selectedTrip.flights?.length ?? 0) > 0 ? (
                            <div className="space-y-4">
-                              {selectedTrip.flights.map(flight => (
+                              {selectedTrip.flights?.map(flight => (
                                  <div key={flight.id} className="bg-white border border-gray-100 rounded-3xl p-6 shadow-sm hover:shadow-md transition-all relative overflow-hidden">
                                     <div className="absolute top-0 right-0 bg-gray-50 px-4 py-2 rounded-bl-2xl text-[10px] font-black uppercase tracking-widest text-gray-400">{flight.airline} • {flight.flightNumber}</div>
                                     <div className="flex items-center justify-between mt-4">
@@ -310,9 +310,9 @@ const TravelModule: React.FC<TravelModuleProps> = () => {
                            <h3 className="text-xl font-black text-gray-900 tracking-tight">Alojamiento</h3>
                            <button className="text-[10px] font-black uppercase tracking-widest text-rose-600 bg-rose-50 px-3 py-1 rounded-lg hover:bg-rose-100">+ Añadir</button>
                         </div>
-                        {selectedTrip.accommodations.length > 0 ? (
+                        {(selectedTrip.accommodations?.length ?? 0) > 0 ? (
                            <div className="grid grid-cols-1 gap-4">
-                              {selectedTrip.accommodations.map(acc => (
+                              {selectedTrip.accommodations?.map(acc => (
                                  <div key={acc.id} className="flex flex-col gap-4 p-4 bg-white border border-gray-100 rounded-3xl hover:shadow-md transition-all">
                                     <div className="flex gap-4">
                                        <div className="w-20 h-20 bg-gray-100 rounded-2xl flex items-center justify-center shrink-0">
@@ -398,7 +398,7 @@ const TravelModule: React.FC<TravelModuleProps> = () => {
                   <div className="px-8 pt-6 pb-2">
                      <div className="flex bg-gray-50 p-1 rounded-2xl border border-gray-100">
                         <button onClick={() => setCreateMode('MANUAL')} className={`flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${createMode === 'MANUAL' ? 'bg-white shadow-md text-gray-900' : 'text-gray-400 hover:text-gray-600'}`}>Manual</button>
-                        <button onClick={() => setCreateMode('AI')} className={`flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${createMode === 'AI' ? 'bg-white shadow-md text-purple-600' : 'text-gray-400 hover:text-gray-600'}`}><Wand2 className="w-3 h-3" /> Planificador IA</button>
+                        <button onClick={() => setCreateMode('AI')} className={`flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${createMode === 'AI' ? 'bg-white shadow-md text-purple-600' : 'text-gray-400 hover:text-gray-600'}`}><Wand2 className="w-3 h-3" /> Onyx AI: Viajes</button>
                      </div>
                   </div>
 
@@ -406,7 +406,7 @@ const TravelModule: React.FC<TravelModuleProps> = () => {
                      <div className="p-8 space-y-6">
                         <div className="text-center mb-4">
                            <div className="w-16 h-16 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-4"><Sparkles className="w-8 h-8 text-purple-600" /></div>
-                           <h4 className="text-lg font-black text-gray-900">Diseñador de Experiencias</h4>
+                           <h4 className="text-lg font-black text-gray-900">Onyx AI: Diseñador de Experiencias</h4>
                            <p className="text-sm text-gray-500 mt-2">Describe tu viaje ideal y la IA se encargará de buscar vuelos reales, hoteles y crear tu agenda.</p>
                         </div>
                         <div>

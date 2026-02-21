@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useFinanceStore } from '../../../store/useFinanceStore';
 import { useFinanceControllers } from '../../../hooks/useFinanceControllers';
 import { Debt, Transaction } from '../../../types';
-import { Calculator, Home, Car, CreditCard, Plus, Banknote, Clock, X, History, Flame, CalendarRange, PieChart, Sparkles, Trash2 } from 'lucide-react';
+import { Calculator, Home, Car, CreditCard, Plus, Banknote, Clock, X, History, Flame, CalendarRange, PieChart, Sparkles, Trash2, GripVertical } from 'lucide-react';
 
 interface DebtsProps {
     // All state now managed via stores
@@ -17,6 +17,41 @@ const Debts: React.FC<DebtsProps> = () => {
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
     const [paymentAmount, setPaymentAmount] = useState('');
     const [selectedAccountId, setSelectedAccountId] = useState(accounts[0]?.id || '');
+
+    // Drag-to-reorder state
+    const [dragIndex, setDragIndex] = useState<number | null>(null);
+    const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+
+    const handleDragStart = (e: React.DragEvent, index: number) => {
+        setDragIndex(index);
+        e.dataTransfer.effectAllowed = 'move';
+    };
+
+    const handleDragOver = (e: React.DragEvent, index: number) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        setDragOverIndex(index);
+    };
+
+    const handleDrop = (e: React.DragEvent, dropIndex: number) => {
+        e.preventDefault();
+        if (dragIndex === null || dragIndex === dropIndex) {
+            setDragIndex(null);
+            setDragOverIndex(null);
+            return;
+        }
+        const reordered = [...debts];
+        const [moved] = reordered.splice(dragIndex, 1);
+        reordered.splice(dropIndex, 0, moved);
+        setDebts(() => reordered);
+        setDragIndex(null);
+        setDragOverIndex(null);
+    };
+
+    const handleDragEnd = () => {
+        setDragIndex(null);
+        setDragOverIndex(null);
+    };
 
     // Add Debt Form State
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -207,22 +242,38 @@ const Debts: React.FC<DebtsProps> = () => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
                 {/* SIDEBAR LIST */}
-                <div className="lg:col-span-4 space-y-6">
+                <div className="md:col-span-4 space-y-6">
                     <div className="flex items-center justify-between pb-4 border-b border-onyx-100">
                         <h3 className="font-bold text-onyx-950 text-lg">Tus Deudas</h3>
                         <span className="text-xs font-bold bg-onyx-100 px-2 py-1 rounded-lg text-onyx-500">{debts.length} Activas</span>
                     </div>
 
                     <div className="space-y-3">
-                        {debts.map(debt => {
+                        {debts.map((debt, index) => {
                             const progress = ((debt.originalAmount - debt.remainingBalance) / debt.originalAmount) * 100;
                             const isSelected = selectedDebtId === debt.id;
+                            const isDraggedOver = dragOverIndex === index && dragIndex !== index;
 
                             return (
-                                <div key={debt.id} onClick={() => setSelectedDebtId(debt.id)} className={`p-5 rounded-2xl border cursor-pointer transition-all duration-300 group relative overflow-hidden ${isSelected ? 'bg-onyx-950 text-white border-onyx-950 shadow-xl scale-[1.02]' : 'bg-white text-onyx-950 border-onyx-100 hover:border-indigo-200 hover:bg-slate-50'}`}>
-                                    <div className="flex justify-between items-center mb-3">
+                                <div
+                                    key={debt.id}
+                                    draggable
+                                    onDragStart={(e) => handleDragStart(e, index)}
+                                    onDragOver={(e) => handleDragOver(e, index)}
+                                    onDrop={(e) => handleDrop(e, index)}
+                                    onDragEnd={handleDragEnd}
+                                    onClick={() => setSelectedDebtId(debt.id)}
+                                    className={`p-5 rounded-2xl border cursor-pointer transition-all duration-300 group relative overflow-hidden select-none
+                                        ${isSelected ? 'bg-onyx-950 text-white border-onyx-950 shadow-xl scale-[1.02]' : 'bg-white text-onyx-950 border-onyx-100 hover:border-indigo-200 hover:bg-slate-50'}
+                                        ${isDraggedOver ? 'border-indigo-400 border-2 scale-[1.01] shadow-md shadow-indigo-200' : ''}
+                                        ${dragIndex === index ? 'opacity-50' : ''}`}
+                                >
+                                    <div className={`absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing ${isSelected ? 'text-white/30' : 'text-onyx-300'}`}>
+                                        <GripVertical className="w-4 h-4" />
+                                    </div>
+                                    <div className="flex justify-between items-center mb-3 pl-3">
                                         <div className="flex items-center gap-3">
                                             <div className={`p-2 rounded-xl ${isSelected ? 'bg-white/10' : 'bg-onyx-50'}`}>{getIcon(debt.type)}</div>
                                             <div>
@@ -252,17 +303,17 @@ const Debts: React.FC<DebtsProps> = () => {
                 </div>
 
                 {selectedDebt && (
-                    <div className="lg:col-span-8 space-y-8">
+                    <div className="md:col-span-8 space-y-8">
                         {/* MAIN DEBT CARD */}
-                        <div className="bg-white p-8 rounded-3xl shadow-sm border border-onyx-100 relative overflow-hidden group hover:shadow-lg transition-all duration-500">
+                        <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-onyx-100 relative overflow-hidden group hover:shadow-lg transition-all duration-500">
                             {/* Header & Balance */}
-                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10 mb-8 pb-8 border-b border-onyx-50">
+                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10 mb-6 pb-6 md:mb-8 md:pb-8 border-b border-onyx-50">
                                 <div>
                                     <div className="flex items-center gap-3 mb-2">
                                         <div className="p-2 bg-onyx-950 text-white rounded-lg"><CreditCard className="w-4 h-4" /></div>
                                         <p className="text-xs font-bold text-onyx-400 uppercase tracking-[0.2em]">Deuda Pendiente</p>
                                     </div>
-                                    <h3 className="text-5xl font-black text-onyx-950 tracking-tight">{formatEUR(selectedDebt.remainingBalance)}</h3>
+                                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-onyx-950 tracking-tight">{formatEUR(selectedDebt.remainingBalance)}</h3>
                                 </div>
                                 <div className="flex gap-3">
                                     <button onClick={openPaymentModal} className="w-full md:w-auto bg-onyx-950 hover:bg-onyx-800 text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest shadow-xl shadow-onyx-950/10 transition-all active:scale-95 flex items-center justify-center gap-3">
