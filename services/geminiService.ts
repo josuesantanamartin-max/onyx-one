@@ -4,10 +4,10 @@ import { Transaction, Account, Debt, Ingredient, Trip, Budget, Goal, Recipe } fr
 
 // Gemini Model Configuration
 // Change this to switch between models easily:
-// - 'gemini-2.0-flash-exp' for Gemini 2.0 Flash (experimental, fast, works with current API)
-// - 'gemini-1.5-flash' for Gemini 1.5 Flash (stable, fast, cheaper)
+// - 'gemini-2.5-flash' for Gemini 2.0 Flash (experimental, fast, works with current API)
+// - 'gemini-2.5-flash' for Gemini 1.5 Flash (stable, fast, cheaper)
 // Note: 'gemini-1.5-pro' is NOT supported in the current API version (v1beta)
-const GEMINI_MODEL = 'gemini-2.0-flash-exp';
+const GEMINI_MODEL = 'gemini-2.5-flash';
 
 // Helper maps
 const CURRENCY_MAP = { EUR: '€', USD: '$', GBP: '£' };

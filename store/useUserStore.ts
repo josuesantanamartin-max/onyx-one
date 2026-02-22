@@ -244,12 +244,13 @@ export const useUserStore = create<UserState & UserActions>()(
                     w: 6,
                     h: 2,
                     visible: true,
+                    sizeOverride: 'half' as any
                 };
 
                 return {
                     dashboardLayouts: state.dashboardLayouts.map(l =>
                         l.id === state.activeLayoutId
-                            ? { ...l, widgets: [...l.widgets, newWidget] }
+                            ? { ...l, widgets: [...l.widgets, newWidget], updatedAt: new Date().toISOString() }
                             : l
                     )
                 };

@@ -14,6 +14,19 @@ export default {
     darkMode: ['class', '[data-theme="dark"]'],
     theme: {
         extend: {
+            fontFamily: {
+                sans: ['Inter', 'system-ui', 'sans-serif'],
+            },
+            transitionTimingFunction: {
+                'spring': 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                'smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',
+                'bounce-slight': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+            },
+            boxShadow: {
+                'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                'glow': '0 0 15px -3px rgba(79, 70, 229, 0.3)',
+                'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.05)',
+            },
             colors: {
                 onyx: {
                     50: 'rgb(var(--color-onyx-50) / <alpha-value>)',

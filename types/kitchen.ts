@@ -29,6 +29,11 @@ export interface Recipe {
     instructions: string[];
     timesUsed?: number;
     difficulty?: 'Fácil' | 'Media' | 'Difícil';
+    macros?: {
+        protein: number;
+        carbs: number;
+        fat: number;
+    };
 }
 
 export interface ShoppingItem {
@@ -54,4 +59,4 @@ export type WeeklyPlanState = Record<string, {
 }>;
 
 // Kitchen Dashboard Widgets
-export type KitchenWidgetType = 'STATS_ROW' | 'TODAY_MENU_CARD' | 'SHOPPING_LIST_CARD';
+export type KitchenWidgetType = 'STATS_ROW' | 'TODAY_MENU_CARD' | 'SHOPPING_LIST_CARD' | 'FRESHNESS_ALERTS';

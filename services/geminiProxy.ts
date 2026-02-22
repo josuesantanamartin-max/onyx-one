@@ -26,7 +26,7 @@ class GeminiProxy {
     private isDevelopment: boolean;
     private directClient: any;
 
-    constructor(model: string = 'gemini-2.0-flash-exp') {
+    constructor(model: string = 'gemini-2.5-flash') {
         this.model = model;
         // @ts-ignore
         this.isDevelopment = import.meta.env.DEV || import.meta.env.MODE === 'development';

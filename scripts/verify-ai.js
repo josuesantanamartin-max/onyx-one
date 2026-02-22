@@ -3,8 +3,8 @@ import { GoogleGenAI } from "@google/genai";
 import fs from 'fs';
 import path from 'path';
 
-// Read .env.local manually since we are in a simple script
-const envPath = path.resolve(process.cwd(), '.env.local');
+// Read .env manually since we are in a simple script
+const envPath = path.resolve(process.cwd(), '.env');
 let apiKey = '';
 
 try {
@@ -32,7 +32,7 @@ async function verifyFinance() {
     try {
         const prompt = "Act as a financial advisor. Briefly analyze this data: Income $5000, Rent $1500, Food $800. Single sentence.";
         const response = await ai.models.generateContent({
-            model: 'gemini-3-flash-preview',
+            model: 'gemini-2.5-flash',
             contents: prompt,
         });
         const text = response.text;
@@ -51,7 +51,7 @@ async function verifyKitchen() {
     try {
         const prompt = "Create a JSON recipe for 'Pasta'. Return ONLY JSON.";
         const response = await ai.models.generateContent({
-            model: 'gemini-3-flash-preview',
+            model: 'gemini-2.5-flash',
             contents: prompt,
         });
         const text = response.text;
@@ -70,7 +70,7 @@ async function verifyLife() {
     try {
         const prompt = "Plan a weekend trip to Paris. Return raw JSON.";
         const response = await ai.models.generateContent({
-            model: 'gemini-3-pro-preview', // Using Pro for complex tasks as per service file
+            model: 'gemini-2.5-flash', // Using Pro for complex tasks as per service file
             contents: prompt,
         });
         const text = response.text;
@@ -82,7 +82,7 @@ async function verifyLife() {
         if (e.message.includes("404") || e.message.includes("not found")) {
             console.log("   ⚠️ Pro model might not be available, retrying with Flash...");
             const response = await ai.models.generateContent({
-                model: 'gemini-3-flash-preview',
+                model: 'gemini-2.5-flash',
                 contents: prompt,
             });
             if (response.text) {
