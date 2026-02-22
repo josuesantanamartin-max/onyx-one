@@ -242,23 +242,91 @@ export const analyzeFinances = async (
 };
 
 // --- TRIP PLANNING (Travel) ---
+
+export interface TravelExtractionParams {
+  origin: string | null;
+  destination: string | null;
+  departureDate: string | null;
+  returnDate: string | null;
+  adults: number;
+}
+
+export const extractTravelParams = async (
+  userInput: string,
+  language: 'ES' | 'EN' | 'FR'
+): Promise<TravelExtractionParams | null> => {
+  const ai = createGeminiClient();
+  const today = new Date().toISOString().split('T')[0];
+
+  const prompt = `
+    Analyze this travel request: "${userInput}".
+    Today's date is: ${today}.
+    Language: ${language}.
+
+    Extract the following parameters to search for flights. 
+    Dates must be in YYYY-MM-DD format.
+    Origin and Destination MUST be 3-letter IATA airport codes (e.g., MAD, LHR, JFK).
+    If no origin is specified, infer the closest major airport based on the user's likely location or return null for origin.
+    Default adults to 1 if not specified.
+
+    OUTPUT FORMAT - RETURN ONLY RAW JSON:
+    {
+      "origin": "IATA_CODE",
+      "destination": "IATA_CODE",
+      "departureDate": "YYYY-MM-DD",
+      "returnDate": "YYYY-MM-DD",
+      "adults": 1
+    }
+    Return null values for any missing mandatory fields (except adults).
+  `;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: GEMINI_MODEL,
+      contents: prompt,
+    });
+
+    const text = response.text || '';
+    const jsonStr = cleanJSON(text);
+    return JSON.parse(jsonStr);
+  } catch (e) {
+    console.error("Parameter Extraction Error:", e);
+    return null;
+  }
+};
+
 export const planTripWithAI = async (
   userInput: string,
+  realFlights: any[],
+  realAccommodations: any[],
   language: 'ES' | 'EN' | 'FR'
 ): Promise<(Partial<Trip> & { imagePrompt?: string }) | null> => {
   const ai = createGeminiClient();
   const today = new Date().toISOString().split('T')[0];
 
+  const flightsContext = realFlights.length > 0
+    ? JSON.stringify(realFlights.slice(0, 3))
+    : "No real flight data available. Suggest logical flight routes manually.";
+
+  const accommodationsContext = realAccommodations.length > 0
+    ? JSON.stringify(realAccommodations.slice(0, 3))
+    : "No real accommodation data available. Suggest logical hotels manually.";
+
   const prompt = `
-    Act as an elite travel agency AI with access to real-time data via Google Search.
+    Act as an elite travel agency AI.
     User Request: "${userInput}"
     Current Date: ${today}
     Language: ${language}
 
+    REAL FLIGHT DATA AVAILABLE:
+    ${flightsContext}
+
+    REAL ACCOMMODATION DATA AVAILABLE:
+    ${accommodationsContext}
+
     TASK:
-    1. SEARCH for REAL flights and hotels matching the user's request.
-    2. Suggest a destination if missing.
-    3. Construct a complete itinerary.
+    Construct a complete travel itinerary.
+    CRITICAL: You MUST use the REAL flight and accommodation data provided above if available. Do not hallucinate prices or flights if real data is provided. Format the real flights inside the itinerary nicely.
 
     OUTPUT FORMAT:
     Return ONLY a raw JSON object. 
@@ -270,9 +338,11 @@ export const planTripWithAI = async (
       "endDate": "YYYY-MM-DD",
       "budget": 1500,
       "imagePrompt": "A description to generate a cover image for this place",
-      "flights": [ ... ],
-      "accommodations": [ ... ],
-      "itinerary": [ ... ]
+      "flights": [ { "airline": "...", "flightNumber": "...", "price": 0, "origin": "...", "destination": "..." } ],
+      "accommodations": [ { "name": "...", "pricePerNight": 0, "rating": 5 } ],
+      "itinerary": [ 
+        { "day": 1, "activities": ["Activity 1", "Activity 2"] } 
+      ]
     }
   `;
 
@@ -280,14 +350,13 @@ export const planTripWithAI = async (
     const response = await ai.models.generateContent({
       model: GEMINI_MODEL,
       contents: prompt,
-      config: { tools: [{ googleSearch: {} }] }
     });
 
     const text = response.text || '';
     const jsonStr = cleanJSON(text);
     return JSON.parse(jsonStr);
   } catch (e) {
-    console.error("Trip Planning Error:", e);
+    console.error("Trip Planning Synthesis Error:", e);
     return null;
   }
 };

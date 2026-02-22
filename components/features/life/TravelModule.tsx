@@ -8,7 +8,8 @@ import { useLifeStore } from '../../../store/useLifeStore';
 import { useUserStore } from '../../../store/useUserStore';
 import { useFinanceStore } from '../../../store/useFinanceStore';
 import { Trip, Flight, Accommodation, ItineraryItem, Language } from '../../../types';
-import { generateImage, planTripWithAI } from '../../../services/geminiService';
+import { generateImage, planTripWithAI, extractTravelParams } from '../../../services/geminiService';
+import { searchFlights, searchAccommodations } from '../../../services/duffelService';
 import { TravelItinerary } from './travel/TravelItinerary';
 import { TravelFinance } from './travel/TravelFinance';
 import { TravelDocuments } from './travel/TravelDocuments';
@@ -121,33 +122,59 @@ const TravelModule: React.FC<TravelModuleProps> = () => {
       if (!aiPrompt) return;
       setIsAiPlanning(true);
 
-      const tripPlan = await planTripWithAI(aiPrompt, language as any);
+      try {
+         // 1. Extraer parámetros del viaje con Gemini
+         const params = await extractTravelParams(aiPrompt, language as any);
 
-      if (tripPlan) {
-         setNewDestination(tripPlan.destination || '');
-         setNewCountry(tripPlan.country || '');
-         setNewStartDate(tripPlan.startDate || '');
-         setNewEndDate(tripPlan.endDate || '');
-         setNewBudget(tripPlan.budget?.toString() || '');
+         let realFlights: Flight[] = [];
+         let realAccommodations: Accommodation[] = [];
 
-         if (tripPlan.flights) setGeneratedFlights(tripPlan.flights.map(f => ({ ...f, id: Math.random().toString(36).substr(2, 9) } as Flight)));
-         if (tripPlan.accommodations) setGeneratedAccommodations(tripPlan.accommodations.map(a => ({ ...a, id: Math.random().toString(36).substr(2, 9) } as Accommodation)));
-         if (tripPlan.itinerary) setGeneratedItinerary(tripPlan.itinerary.map(i => ({ ...i, id: Math.random().toString(36).substr(2, 9) } as ItineraryItem)));
-
-         setCreateMode('MANUAL');
-
-         if (tripPlan.destination) {
-            setIsGeneratingImg(true);
-            const prompt = tripPlan.imagePrompt || `Travel photo of ${tripPlan.destination}`;
-            generateImage(prompt, "16:9").then(res => {
-               if (res.imageUrl) setNewImage(res.imageUrl);
-               setIsGeneratingImg(false);
+         // 2. Si Gemini encontró origen, destino y fecha, buscar en Duffel
+         if (params && params.origin && params.destination && params.departureDate) {
+            realFlights = await searchFlights({
+               origin: params.origin,
+               destination: params.destination,
+               departureDate: params.departureDate,
+               returnDate: params.returnDate || undefined,
+               adults: params.adults
             });
+
+            // (Asumimos que la búsqueda de hoteles de Duffel aún no la usamos en producción por el beta)
          }
-      } else {
-         alert("La IA no pudo generar el plan. Intenta ser más específico.");
+
+         // 3. Crear el Itinerario final pasando los datos reales
+         const tripPlan = await planTripWithAI(aiPrompt, realFlights, realAccommodations, language as any);
+
+         if (tripPlan) {
+            setNewDestination(tripPlan.destination || '');
+            setNewCountry(tripPlan.country || '');
+            setNewStartDate(tripPlan.startDate || '');
+            setNewEndDate(tripPlan.endDate || '');
+            setNewBudget(tripPlan.budget?.toString() || '');
+
+            if (tripPlan.flights) setGeneratedFlights(tripPlan.flights.map(f => ({ ...f, id: Math.random().toString(36).substr(2, 9) } as Flight)));
+            if (tripPlan.accommodations) setGeneratedAccommodations(tripPlan.accommodations.map(a => ({ ...a, id: Math.random().toString(36).substr(2, 9) } as Accommodation)));
+            if (tripPlan.itinerary) setGeneratedItinerary(tripPlan.itinerary.map(i => ({ ...i, id: Math.random().toString(36).substr(2, 9) } as ItineraryItem)));
+
+            setCreateMode('MANUAL');
+
+            if (tripPlan.destination) {
+               setIsGeneratingImg(true);
+               const prompt = tripPlan.imagePrompt || `Travel photo of ${tripPlan.destination}`;
+               generateImage(prompt, "16:9").then(res => {
+                  if (res.imageUrl) setNewImage(res.imageUrl);
+                  setIsGeneratingImg(false);
+               });
+            }
+         } else {
+            alert("La IA no pudo generar el plan. Intenta ser más específico.");
+         }
+      } catch (error) {
+         console.error("Error en la planificación con IA:", error);
+         alert("Ocurrió un error inesperado al conectar con los servicios de viaje.");
+      } finally {
+         setIsAiPlanning(false);
       }
-      setIsAiPlanning(false);
    };
 
    const handleCreateTrip = (e: React.FormEvent) => {

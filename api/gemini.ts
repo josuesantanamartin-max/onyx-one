@@ -68,7 +68,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
 
         // Initialize Gemini AI
-        const genAI = new GoogleGenAI({ apiKey });
+        const genAI = new GoogleGenAI({ apiKey: apiKey.trim() });
 
         // Make request to Gemini API
         const result = await genAI.models.generateContent({

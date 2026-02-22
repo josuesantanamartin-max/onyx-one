@@ -6,7 +6,7 @@
  * - In PRODUCTION: Routes through serverless proxy to keep API key secure
  */
 
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 interface GenerateContentRequest {
     model?: string;
@@ -35,8 +35,13 @@ class GeminiProxy {
         if (this.isDevelopment) {
             // @ts-ignore
             const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
             if (apiKey) {
-                this.directClient = new GoogleGenAI({ apiKey });
+                const cleanKey = apiKey.trim();
+                console.log("DEBUG: VITE_GEMINI_API_KEY length:", cleanKey.length, "Starts:", cleanKey.substring(0, 5), "Ends:", cleanKey.slice(-4));
+                this.directClient = new GoogleGenerativeAI(cleanKey);
+            } else {
+                console.warn("DEBUG: VITE_GEMINI_API_KEY is empty or undefined in Vite env!");
             }
         }
     }
@@ -45,14 +50,22 @@ class GeminiProxy {
         // Development: Use direct API
         if (this.isDevelopment && this.directClient) {
             try {
-                const result = await this.directClient.models.generateContent({
-                    model: request.model || this.model,
-                    contents: request.contents,
-                    config: request.config
-                });
+                const modelName = request.model || this.model;
+                const genModelConfig: any = { model: modelName };
+                if (request.config?.tools) {
+                    genModelConfig.tools = request.config.tools;
+                }
+                const genModel = this.directClient.getGenerativeModel(genModelConfig);
 
-                // Using the new @google/genai SDK, the text is directly on the result object
-                const text = result.text || '';
+                // Map @google/genai payload to @google/generative-ai format
+                let mappedContents: any = request.contents;
+                if (request.contents && typeof request.contents === 'object' && !Array.isArray(request.contents) && request.contents.parts) {
+                    mappedContents = request.contents.parts;
+                }
+
+                const result = await genModel.generateContent(mappedContents);
+                const response = await result.response;
+                const text = response.text() || '';
 
                 if (this.isDevelopment) {
                     console.log('--- GEMINI RAW RESPONSE ---');
@@ -63,8 +76,17 @@ class GeminiProxy {
                 return {
                     text: text,
                 };
-            } catch (error) {
+            } catch (error: any) {
                 console.error('Gemini API Error (Direct):', error);
+
+                // Add more context to the error
+                if (error instanceof Error) {
+                    console.error('Error details:', {
+                        name: error.name,
+                        message: error.message,
+                        stack: error.stack
+                    });
+                }
                 throw error;
             }
         }
