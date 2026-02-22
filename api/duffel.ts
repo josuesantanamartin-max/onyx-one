@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { Duffel } from '@duffel/api';
+// Build trigger: Duffel Integration v1.1.0
 
 export default async function handler(
     req: VercelRequest,
@@ -60,8 +61,8 @@ export default async function handler(
 
                 // 1. Crear Offer Request
                 const offerRequest = await duffel.offerRequests.create({
-                    slices,
-                    passengers,
+                    slices: slices as any,
+                    passengers: passengers as any,
                     return_offers: true, // Queremos que nos devuelva las ofertas directamente
                 });
 
