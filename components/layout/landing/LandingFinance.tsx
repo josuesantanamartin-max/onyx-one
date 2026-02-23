@@ -14,14 +14,14 @@ interface LandingFinanceProps {
 
 export const LandingFinance: React.FC<LandingFinanceProps> = ({ setShowLoginModal }) => {
     const features = [
-        { icon: Wallet, title: 'Gestión Multi-Cuenta', desc: 'Visualiza todas tus cuentas bancarias, tarjetas de crédito, inversiones y efectivo en un solo lugar. Sincronización automática de saldos.' },
+        { icon: Wallet, title: 'Gestión Multi-Cuenta', desc: 'Visualiza todas tus cuentas bancarias, tarjetas e inversiones en un solo lugar. Importación inteligente CSV con categorización automática, sin vincular bancos.' },
         { icon: Receipt, title: 'Transacciones Inteligentes', desc: 'Categorización automática con IA. Detecta suscripciones recurrentes y patrones de gasto para alertarte de anomalías.' },
         { icon: PieChart, title: 'Presupuestos Flexibles', desc: 'Crea presupuestos por categoría, porcentaje de ingresos o cantidad fija. Alertas en tiempo real cuando te acercas al límite.' },
         { icon: Target, title: 'Metas de Ahorro', desc: 'Define objetivos financieros con fechas límite. Visualiza tu progreso y recibe sugerencias de ahorro automáticas.' },
         { icon: CreditCard, title: 'Eliminación de Deudas', desc: 'Estrategias Bola de Nieve y Avalancha. Calcula cuánto ahorrarás en intereses y cuándo estarás libre de deudas.' },
         { icon: TrendingUp, title: 'Seguimiento de Inversiones', desc: 'Monitorea tu cartera de inversiones. Calcula rendimientos, dividendos y evolución del patrimonio neto.' },
-        { icon: BarChart3, title: 'Análisis Predictivo', desc: 'Proyecciones de flujo de caja a 3, 6 y 12 meses. Anticipa problemas de liquidez antes de que ocurran.' },
-        { icon: Sparkles, title: 'Asesor Financiero IA', desc: 'Análisis inteligente de tus finanzas con recomendaciones personalizadas para optimizar gastos y aumentar ahorros.' },
+        { icon: BarChart3, title: 'Análisis Predictivo', desc: 'Proyecciones de flujo de caja detalladas a 1, 3, 6 y 12 meses. Único en el mercado para anticipar problemas de liquidez antes de que ocurran.' },
+        { icon: Sparkles, title: 'Asesor Financiero IA (Gemini Pro)', desc: 'Análisis inteligente potenciado por Google Gemini Pro con recomendaciones personalizadas para optimizar gastos y aumentar ahorros.' },
         { icon: Calculator, title: 'Calculadoras Avanzadas', desc: 'Simulador de hipotecas, interés compuesto, jubilación y más. Toma decisiones informadas con datos precisos.' },
         { icon: Lock, title: 'Seguridad Bancaria', desc: 'Encriptación de extremo a extremo. Tus datos financieros están protegidos con los mismos estándares que usan los bancos.' },
         { icon: Calendar, title: 'Transacciones Recurrentes', desc: 'Programa ingresos y gastos automáticos. Onyx los registra por ti sin intervención manual.' },
@@ -106,6 +106,12 @@ export const LandingFinance: React.FC<LandingFinanceProps> = ({ setShowLoginModa
                             </div>
                         ))}
                     </div>
+
+                    <div className="mt-12 text-center">
+                        <button onClick={() => setShowLoginModal(true)} className="bg-white text-indigo-600 border-2 border-indigo-100 hover:border-indigo-200 px-8 py-4 rounded-2xl font-bold text-lg hover:-translate-y-1 transition-all shadow-sm inline-flex items-center gap-2">
+                            Empieza a Controlar tu Dinero <ArrowRight className="w-5 h-5" />
+                        </button>
+                    </div>
                 </div>
 
                 {/* Use Cases Section */}
@@ -159,6 +165,12 @@ export const LandingFinance: React.FC<LandingFinanceProps> = ({ setShowLoginModa
                                 </div>
                             </div>
                         ))}
+                    </div>
+
+                    <div className="mt-12 text-center">
+                        <button onClick={() => setShowLoginModal(true)} className="bg-gradient-to-r from-indigo-500 to-violet-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:-translate-y-1 transition-all shadow-xl shadow-indigo-500/20 inline-flex items-center gap-2">
+                            Quiero Lograr mis Metas <ArrowRight className="w-5 h-5" />
+                        </button>
                     </div>
                 </div>
 

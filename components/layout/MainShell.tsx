@@ -10,7 +10,7 @@ import { PageTransition } from '../common/animations/PageTransition';
 const FinanceModule = React.lazy(() => import('../features/finance/FinanceModule'));
 const LifeModule = React.lazy(() => import('../features/life/LifeModule'));
 const SettingsModule = React.lazy(() => import('../features/settings/SettingsModule'));
-const CustomizableDashboard = React.lazy(() => import('../dashboard/CustomizableDashboard'));
+const CustomizableDashboard = React.lazy(() => import('../dashboard/BentoDashboard'));
 const HelpCenter = React.lazy(() => import('../pages/HelpCenter'));
 
 const MainShell: React.FC = () => {

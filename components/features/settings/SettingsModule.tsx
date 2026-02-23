@@ -5,7 +5,7 @@ import { useFinanceStore } from '../../../store/useFinanceStore';
 import {
   User, CreditCard, Shield, Globe, Lock,
   Check, Coins, Star, Download, Smartphone, Plus, Trash2, Camera, Upload, Layers, Zap, ArrowRight, Pencil, Menu, ExternalLink,
-  Calendar, FileJson, Layout
+  Calendar, FileJson, Layout, FileText, Key, LogOut
 } from 'lucide-react';
 import { FamilyMember, CategoryStructure, AutomationRule } from '../../../types';
 import PricingSection from './PricingSection';
@@ -487,12 +487,12 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
   };
 
   const renderSidebar = () => (
-    <div className="w-full md:w-64 bg-white dark:bg-onyx-950 border-r border-gray-100 dark:border-onyx-800 flex-shrink-0 md:h-full overflow-y-auto">
-      <div className="p-6">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white">{t.title}</h2>
-        <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-1">{t.subtitle}</p>
+    <div className="w-full md:w-64 bg-white/80 dark:bg-onyx-950/80 backdrop-blur-xl border-r border-gray-100 dark:border-onyx-800 flex-shrink-0 md:h-full overflow-y-auto">
+      <div className="p-8">
+        <h2 className="text-2xl font-black text-gray-900 dark:text-white tracking-tighter">{t.title}</h2>
+        <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-1">{t.subtitle}</p>
       </div>
-      <nav className="px-3 space-y-1">
+      <nav className="px-4 space-y-2 pb-8">
         {[
           { id: 'profile', icon: User, label: t.menu.profile },
           { id: 'general', icon: Globe, label: t.menu.general },
@@ -507,13 +507,14 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
           <button
             key={item.id}
             onClick={() => setActiveSection(item.id)}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${activeSection === item.id
-              ? 'bg-gray-100 dark:bg-onyx-800 text-gray-900 dark:text-white'
-              : 'text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-onyx-900 hover:text-gray-700 dark:hover:text-gray-300'
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all duration-300 relative overflow-hidden group ${activeSection === item.id
+              ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-xl shadow-gray-200 dark:shadow-none translate-x-1'
+              : 'text-gray-400 dark:text-gray-500 hover:bg-gray-50 dark:hover:bg-onyx-900 hover:text-gray-700 dark:hover:text-white hover:translate-x-1 border border-transparent hover:border-gray-100 dark:hover:border-onyx-800'
               }`}
           >
-            <item.icon className="w-4 h-4" />
-            {item.label}
+            {activeSection === item.id && <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent"></div>}
+            <item.icon className={`w-4 h-4 ${activeSection === item.id ? 'text-rose-400 dark:text-rose-500' : 'group-hover:text-gray-700 dark:group-hover:text-gray-300'} transition-colors relative z-10`} />
+            <span className="relative z-10">{item.label}</span>
           </button>
         ))}
       </nav>
@@ -534,76 +535,108 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
         return (
           <div className="max-w-3xl space-y-8 animate-fade-in pb-12">
 
-            {/* 1. MINIMALIST HEADER (No Banner) */}
-            <div className="flex flex-col md:flex-row items-center md:items-end gap-6 mb-12 animate-fade-in">
-              <div className="relative group cursor-pointer" onClick={handleOpenProfileEdit}>
-                <div className="w-32 h-32 md:w-40 md:h-40 bg-white dark:bg-onyx-900 p-1 rounded-full shadow-lg border border-gray-100 dark:border-onyx-800 relative">
-                  <div className="w-full h-full rounded-full bg-gray-200 dark:bg-onyx-800 overflow-hidden relative">
-                    {userProfile?.avatar_url ? (
-                      <img src={userProfile.avatar_url} alt="Profile" className="w-full h-full object-cover transition-transform group-hover:scale-110" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gray-50 text-gray-300">
-                        <User className="w-16 h-16" />
-                      </div>
-                    )}
+            {/* 1. PREMIUM HEADER */}
+            <div className="relative mb-8 animate-fade-in rounded-[2.5rem] overflow-hidden bg-gray-900 dark:bg-onyx-950 border border-gray-800 shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/50 via-purple-900/40 to-gray-900"></div>
+              <div className="absolute top-0 right-0 w-96 h-96 bg-rose-500/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/20 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2"></div>
 
-                    {/* Hover Overlay */}
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Camera className="w-8 h-8 text-white" />
+              <div className="relative z-10 p-8 md:p-12 flex flex-col md:flex-row items-center md:items-center gap-8">
+                <div className="relative group cursor-pointer" onClick={handleOpenProfileEdit}>
+                  <div className="w-32 h-32 md:w-40 md:h-40 bg-white/10 p-2 rounded-full backdrop-blur-md shadow-2xl relative">
+                    <div className="w-full h-full rounded-full bg-gray-800 overflow-hidden relative">
+                      {userProfile?.avatar_url ? (
+                        <img src={userProfile.avatar_url} alt="Profile" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-gray-500">
+                          <User className="w-16 h-16" />
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-sm">
+                        <Camera className="w-8 h-8 text-white" />
+                      </div>
                     </div>
                   </div>
+                  <div className="absolute bottom-2 right-2 p-3 bg-indigo-500 rounded-full text-white shadow-lg border-4 border-gray-900 hover:bg-indigo-400 transition-colors">
+                    <Pencil className="w-4 h-4" />
+                  </div>
                 </div>
-                <div className="absolute bottom-1 right-1 p-2 bg-black border-4 border-white rounded-full text-white shadow-lg">
-                  <Pencil className="w-4 h-4" />
-                </div>
-              </div>
 
-              <div className="text-center md:text-left mb-2">
-                <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight leading-none mb-2">{userProfile?.full_name || 'Usuario Onyx'}</h2>
-                <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 text-gray-500 font-medium text-sm">
-                  <span className="text-indigo-600 font-bold bg-indigo-50 px-2 py-0.5 rounded-md">
-                    @{userProfile?.email?.split('@')[0] || 'onyx_user'}
-                  </span>
-                  <span className="hidden md:inline text-gray-300">•</span>
-                  <span>{userProfile?.email || 'user@onyxsuite.com'}</span>
+                <div className="text-center md:text-left flex-1">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full mb-3 shadow-lg shadow-orange-500/20">
+                    <Star className="w-3 h-3 text-white fill-white" />
+                    <span className="text-[9px] font-black uppercase tracking-widest text-white">Onyx Plus</span>
+                  </div>
+                  <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter leading-none mb-3 drop-shadow-md">
+                    {userProfile?.full_name || 'Usuario Onyx'}
+                  </h2>
+                  <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-3 text-gray-300 font-medium text-sm">
+                    <span className="text-indigo-300 font-bold bg-indigo-500/20 px-3 py-1 rounded-lg backdrop-blur-md border border-indigo-500/30 text-xs">
+                      @{userProfile?.email?.split('@')[0] || 'onyx_user'}
+                    </span>
+                    <span className="hidden md:inline text-gray-500">•</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">{userProfile?.email || 'user@onyxsuite.com'}</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* 2. STATS ROW */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
-              <div className="bg-white dark:bg-onyx-900 p-4 rounded-2xl border border-gray-100 dark:border-onyx-800 shadow-sm flex flex-col items-center justify-center text-center hover:border-indigo-100 transition-all">
-                <span className="text-2xl font-black text-gray-900 dark:text-white">{totalTransactions}</span>
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Transacciones</span>
+            {/* 2. PREMIUM STATS ROW */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+              <div className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-gray-100 dark:border-onyx-800 shadow-sm flex flex-col items-center justify-center text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-500 rounded-2xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                  <CreditCard className="w-5 h-5" />
+                </div>
+                <span className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">{totalTransactions}</span>
+                <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-1">Transacciones</span>
               </div>
-              <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col items-center justify-center text-center hover:border-indigo-100 transition-all">
-                <span className="text-2xl font-black text-gray-900">{totalGoals}</span>
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Metas</span>
+              <div className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-gray-100 dark:border-onyx-800 shadow-sm flex flex-col items-center justify-center text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                <div className="w-12 h-12 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-500 rounded-2xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                  <Check className="w-5 h-5" />
+                </div>
+                <span className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">{totalGoals}</span>
+                <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-1">Metas Logradas</span>
               </div>
-              <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col items-center justify-center text-center hover:border-indigo-100 transition-all">
-                <span className="text-2xl font-black text-gray-900">{familyMembers.length}</span>
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Familia</span>
+              <div className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-gray-100 dark:border-onyx-800 shadow-sm flex flex-col items-center justify-center text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                <div className="w-12 h-12 bg-rose-50 dark:bg-rose-900/20 text-rose-500 rounded-2xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                  <User className="w-5 h-5" />
+                </div>
+                <span className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">{familyMembers.length}</span>
+                <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-1">Miembros</span>
               </div>
-              <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col items-center justify-center text-center hover:border-indigo-100 transition-all">
-                <Calendar className="w-6 h-6 text-gray-300 mb-1" />
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{joinDate}</span>
+              <div className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-gray-100 dark:border-onyx-800 shadow-sm flex flex-col items-center justify-center text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                <div className="w-12 h-12 bg-blue-50 dark:bg-blue-900/20 text-blue-500 rounded-2xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+                  <Calendar className="w-5 h-5" />
+                </div>
+                <span className="text-xl font-black text-gray-900 dark:text-white tracking-tighter pt-1 pb-1">{joinDate}</span>
+                <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-1">Desde</span>
               </div>
             </div>
 
             <hr className="border-gray-100" />
 
             {/* 3. HOUSEHOLD & COLLABORATION (Real) */}
-            <div className="space-y-8">
-              <div className="bg-indigo-50 dark:bg-indigo-900/10 p-6 rounded-3xl border border-indigo-100 dark:border-indigo-800 space-y-4">
-                <h4 className="font-bold text-indigo-900 dark:text-indigo-200 flex items-center gap-2">
-                  <Shield className="w-5 h-5" /> Datos y Privacidad
-                </h4>
-                <p className="text-xs text-indigo-700/80 dark:text-indigo-300 leading-relaxed">
-                  Eres dueño de tus datos. Exporta una copia completa de tu actividad financiera y familiar en formato JSON seguro.
-                </p>
-                <button onClick={handleExportData} className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-indigo-200 transition-all flex items-center justify-center gap-2">
-                  <FileJson className="w-4 h-4" /> Exportar Datos
-                </button>
+            <div className="space-y-12">
+              {/* Bóveda de Datos */}
+              <div className="bg-gray-900 dark:bg-onyx-950 p-8 md:p-10 rounded-[2.5rem] border border-gray-800 shadow-2xl relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 group-hover:bg-emerald-500/20 transition-colors duration-700"></div>
+                <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                  <div className="flex-1">
+                    <span className="text-[9px] font-black uppercase tracking-[0.3em] text-emerald-400 mb-2 block">Bóveda de Seguridad</span>
+                    <h4 className="text-3xl font-black text-white tracking-tighter flex items-center gap-3 mb-3">
+                      <Shield className="w-8 h-8 text-emerald-500" /> Exportar Datos
+                    </h4>
+                    <p className="text-sm text-gray-400 leading-relaxed font-medium max-w-lg">
+                      Eres el único dueño de tu información. Genera un paquete cifrado con todo tu historial financiero,
+                      configuraciones familiares y registros de Onyx Suite.
+                    </p>
+                  </div>
+                  <div className="w-full md:w-auto shrink-0">
+                    <button onClick={handleExportData} className="w-full md:w-auto px-8 py-5 bg-emerald-500 hover:bg-emerald-400 text-gray-900 rounded-[2rem] font-black text-[10px] uppercase tracking-widest shadow-lg shadow-emerald-500/20 transition-all active:scale-95 flex items-center justify-center gap-3">
+                      <Download className="w-5 h-5" /> Descargar JSON
+                    </button>
+                  </div>
+                </div>
               </div>
 
               {/* Household Management */}
@@ -683,50 +716,105 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
 
       case 'general':
         return (
-          <div className="max-w-2xl space-y-8 animate-fade-in">
-            <div><h3 className="text-lg font-bold text-gray-900">{t.menu.general}</h3><p className="text-sm text-gray-500">{t.sections.generalDesc}</p></div>
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-              <div className="flex items-center gap-3 mb-4"><div className="p-2 bg-purple-50 rounded-lg text-purple-600"><Globe className="w-5 h-5" /></div><h4 className="font-bold text-gray-900">Idioma / Language</h4></div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">{['ES', 'EN', 'FR'].map((lang) => (<button key={lang} onClick={() => setLanguage(lang as any)} className={`py-3 px-4 rounded-xl border font-bold flex items-center justify-center gap-2 transition-all ${language === lang ? 'bg-purple-600 text-white border-purple-600' : 'bg-white text-gray-500 border-gray-200 hover:bg-gray-50'}`}>{lang === 'ES' ? 'Español' : lang === 'EN' ? 'English' : 'Français'}{language === lang && <Check className="w-4 h-4" />}</button>))}</div>
+          <div className="max-w-3xl space-y-8 animate-fade-in pb-12">
+            <div className="mb-8">
+              <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">{t.menu.general}</h3>
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">{t.sections.generalDesc}</p>
             </div>
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-              <div className="flex items-center gap-3 mb-4"><div className="p-2 bg-blue-50 rounded-lg text-blue-600"><Coins className="w-5 h-5" /></div><h4 className="font-bold text-gray-900">Moneda Principal</h4></div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">{['EUR', 'USD', 'GBP'].map((curr) => (<button key={curr} onClick={() => setCurrency(curr as any)} className={`py-3 px-4 rounded-xl border font-bold flex items-center justify-center gap-2 transition-all ${currency === curr ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-500 border-gray-200 hover:bg-gray-50'}`}>{curr}{currency === curr && <Check className="w-4 h-4" />}</button>))}</div>
+
+            <div className="bg-white dark:bg-onyx-900 p-8 rounded-[2.5rem] shadow-xl shadow-gray-200/50 dark:shadow-none border border-gray-100 dark:border-onyx-800 transition-all hover:shadow-2xl">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="p-3 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-2xl">
+                  <Globe className="w-6 h-6" />
+                </div>
+                <div>
+                  <h4 className="text-xl font-black text-gray-900 dark:text-white tracking-tight">Idioma / Language</h4>
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Preferencias de Idioma</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {['ES', 'EN', 'FR'].map((lang) => (
+                  <button
+                    key={lang}
+                    onClick={() => setLanguage(lang as any)}
+                    className={`py-4 px-6 rounded-2xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all active:scale-95 ${language === lang
+                      ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200 dark:shadow-none'
+                      : 'bg-gray-50 dark:bg-onyx-950 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-onyx-800 hover:text-gray-900 dark:hover:text-white'}`}
+                  >
+                    {lang === 'ES' ? 'Español' : lang === 'EN' ? 'English' : 'Français'}
+                    {language === lang && <Check className="w-5 h-5" />}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-white dark:bg-onyx-900 p-8 rounded-[2.5rem] shadow-xl shadow-gray-200/50 dark:shadow-none border border-gray-100 dark:border-onyx-800 transition-all hover:shadow-2xl">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="p-3 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-2xl">
+                  <Coins className="w-6 h-6" />
+                </div>
+                <div>
+                  <h4 className="text-xl font-black text-gray-900 dark:text-white tracking-tight">Moneda Principal</h4>
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Divisa de Referencia</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {['EUR', 'USD', 'GBP'].map((curr) => (
+                  <button
+                    key={curr}
+                    onClick={() => setCurrency(curr as any)}
+                    className={`py-4 px-6 rounded-2xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all active:scale-95 ${currency === curr
+                      ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20 dark:shadow-none'
+                      : 'bg-gray-50 dark:bg-onyx-950 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-onyx-800 hover:text-gray-900 dark:hover:text-white'}`}
+                  >
+                    {curr}
+                    {currency === curr && <Check className="w-5 h-5" />}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         );
 
       case 'personalization':
         return (
-          <div className="max-w-2xl space-y-8 animate-fade-in">
-            <div>
-              <h3 className="text-lg font-bold text-gray-900">{t.menu.personalization}</h3>
-              <p className="text-sm text-gray-500">{t.sections.persDesc}</p>
+          <div className="max-w-3xl space-y-8 animate-fade-in pb-12">
+            <div className="mb-8">
+              <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">{t.menu.personalization}</h3>
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">{t.sections.persDesc}</p>
             </div>
 
             {/* Theme Section */}
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-              <h4 className="font-bold text-gray-900 mb-1">{t.personalization.theme}</h4>
-              <p className="text-xs text-gray-500 mb-4">{t.personalization.themeDesc}</p>
+            <div className="bg-white dark:bg-onyx-900 p-8 rounded-[2.5rem] shadow-xl shadow-gray-200/50 dark:shadow-none border border-gray-100 dark:border-onyx-800 transition-all hover:shadow-2xl">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="p-3 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-2xl">
+                  <Layout className="w-6 h-6" />
+                </div>
+                <div>
+                  <h4 className="text-xl font-black text-gray-900 dark:text-white tracking-tight">{t.personalization.theme}</h4>
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">{t.personalization.themeDesc}</p>
+                </div>
+              </div>
 
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {[
-                  { id: 'light', label: 'Light', icon: '☀️', color: 'bg-amber-50 text-amber-600 border-amber-100' },
-                  { id: 'dark', label: 'Dark', icon: '🌙', color: 'bg-indigo-950 text-indigo-200 border-indigo-900' },
-                  { id: 'system', label: 'System', icon: '💻', color: 'bg-gray-100 text-gray-600 border-gray-200' }
+                  { id: 'light', label: 'Light Mode', icon: '☀️', color: 'from-amber-100 to-orange-50 text-amber-600 border-amber-200' },
+                  { id: 'dark', label: 'Dark Mode', icon: '🌙', color: 'from-indigo-950 to-gray-900 text-indigo-300 border-indigo-900' },
+                  { id: 'system', label: 'System', icon: '💻', color: 'from-gray-100 to-gray-50 dark:from-onyx-800 dark:to-onyx-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-onyx-700' }
                 ].map((mode) => (
                   <button
                     key={mode.id}
                     onClick={() => setTheme(mode.id as any)}
-                    className={`p-4 rounded-xl border-2 flex flex-col items-center justify-center gap-2 transition-all group ${theme === mode.id || (theme === 'system' && mode.id === 'system')
-                      ? 'border-indigo-600 ring-2 ring-indigo-100'
-                      : 'border-transparent hover:bg-gray-50'
+                    className={`p-6 rounded-3xl border flex flex-col items-center justify-center gap-4 transition-all duration-300 active:scale-95 group overflow-hidden relative ${theme === mode.id || (theme === 'system' && mode.id === 'system')
+                      ? 'border-indigo-500 ring-4 ring-indigo-500/20 shadow-lg shadow-indigo-200/50 dark:shadow-none'
+                      : 'border-transparent bg-gray-50 dark:bg-onyx-950 hover:bg-white dark:hover:bg-onyx-800 hover:shadow-xl hover:border-gray-200 dark:hover:border-onyx-700'
                       }`}
                   >
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl ${mode.color}`}>
+                    <div className={`absolute inset-0 bg-gradient-to-br opacity-50 ${mode.color}`}></div>
+                    <div className={`relative z-10 w-16 h-16 rounded-full flex items-center justify-center text-3xl shadow-inner bg-white/50 backdrop-blur-sm group-hover:scale-110 transition-transform duration-500`}>
                       {mode.icon}
                     </div>
-                    <span className={`text-xs font-bold uppercase tracking-wider ${theme === mode.id ? 'text-indigo-600' : 'text-gray-400'}`}>
+                    <span className={`relative z-10 text-[10px] font-black uppercase tracking-widest ${theme === mode.id ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-500 dark:text-gray-400'}`}>
                       {mode.label}
                     </span>
                   </button>
@@ -735,28 +823,27 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
             </div>
 
             {/* Dashboard Layout Section */}
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-              <h4 className="font-bold text-gray-900 mb-1">{t.personalization.layout}</h4>
-              <p className="text-xs text-gray-500 mb-4">{t.personalization.layoutDesc}</p>
-
-              <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 flex items-center justify-between">
+            <div className="bg-white dark:bg-onyx-900 p-8 rounded-[2.5rem] shadow-xl shadow-gray-200/50 dark:shadow-none border border-gray-100 dark:border-onyx-800 transition-all hover:shadow-2xl">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
                 <div>
-                  <h5 className="font-bold text-gray-900 text-sm">{t.personalization.resetLayout}</h5>
-                  <p className="text-[10px] text-gray-500 mt-1">{t.personalization.resetLayoutDesc}</p>
+                  <h4 className="text-xl font-black text-gray-900 dark:text-white tracking-tight">{t.personalization.layout}</h4>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">{t.personalization.layoutDesc}</p>
                 </div>
                 <button
                   onClick={() => {
-                    if (window.confirm('¿Resetear dashboard?')) setDashboardWidgets(DEFAULT_WIDGETS);
+                    if (window.confirm('¿Estás seguro de resetear el diseño del dashboard?')) setDashboardWidgets(DEFAULT_WIDGETS);
                   }}
-                  className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-xs font-bold text-gray-700 hover:bg-gray-100 hover:text-black transition-colors shadow-sm"
+                  className="shrink-0 px-6 py-4 bg-gray-100 dark:bg-onyx-800 hover:bg-gray-200 dark:hover:bg-onyx-700 text-gray-900 dark:text-white rounded-2xl font-black text-xs uppercase tracking-widest transition-all active:scale-95 shadow-sm"
                 >
-                  Reset
+                  Restaurar por Defecto
                 </button>
               </div>
             </div>
 
             {/* Sample Data Management */}
-            <SampleDataSection />
+            <div className="pt-4">
+              <SampleDataSection />
+            </div>
           </div>
         );
 
@@ -765,41 +852,43 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
 
       case 'categories':
         return (
-          <div className="max-w-4xl space-y-8 animate-fade-in">
-            <div>
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white">{t.menu.categories}</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400">{t.sections.catDesc}</p>
+          <div className="max-w-4xl space-y-8 animate-fade-in pb-12">
+            <div className="mb-8">
+              <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">{t.menu.categories}</h3>
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">{t.sections.catDesc}</p>
             </div>
 
             {/* Category Form */}
             <form
               ref={categoryFormRef}
               onSubmit={handleSaveCategory}
-              className="bg-white dark:bg-onyx-900 p-6 rounded-2xl border border-gray-100 dark:border-onyx-800 shadow-sm space-y-4"
+              className="bg-white dark:bg-onyx-900 p-8 rounded-[2.5rem] border border-gray-100 dark:border-onyx-800 shadow-xl shadow-gray-200/50 dark:shadow-none space-y-6"
             >
-              <h4 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                {editingCatId ? <Pencil className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+              <h4 className="text-xl font-black text-gray-900 dark:text-white tracking-tight flex items-center gap-3">
+                <div className="p-2 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-xl">
+                  {editingCatId ? <Pencil className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+                </div>
                 {editingCatId ? 'Editar Categoría' : 'Nueva Categoría'}
               </h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="md:col-span-1">
-                  <label className="block text-[10px] font-black text-gray-400 uppercase mb-1">Nombre</label>
+                  <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Nombre</label>
                   <input
                     type="text"
                     value={newCatName}
                     onChange={(e) => setNewCatName(e.target.value)}
-                    className="w-full p-3 bg-gray-50 dark:bg-onyx-800 border border-gray-200 dark:border-onyx-700 rounded-xl font-bold focus:ring-2 focus:ring-indigo-500 outline-none text-gray-900 dark:text-white"
+                    className="w-full p-4 bg-gray-50 dark:bg-onyx-950 border border-gray-200 dark:border-onyx-700 rounded-2xl font-black focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none text-gray-900 dark:text-white transition-all shadow-inner"
                     placeholder="Ej: Transporte"
                     required
                   />
                 </div>
                 <div className="md:col-span-1">
-                  <label className="block text-[10px] font-black text-gray-400 uppercase mb-1">Tipo</label>
-                  <div className="flex bg-gray-50 dark:bg-onyx-800 p-1 rounded-xl border border-gray-200 dark:border-onyx-700">
+                  <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Tipo</label>
+                  <div className="flex bg-gray-50 dark:bg-onyx-950 p-1.5 rounded-2xl border border-gray-200 dark:border-onyx-700 shadow-inner h-[58px]">
                     <button
                       type="button"
                       onClick={() => setNewCatType('EXPENSE')}
-                      className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${newCatType === 'EXPENSE' ? 'bg-white dark:bg-onyx-700 shadow text-red-600' : 'text-gray-400 hover:text-gray-600'
+                      className={`flex-1 rounded-xl text-xs font-black uppercase tracking-widest transition-all h-full flex items-center justify-center ${newCatType === 'EXPENSE' ? 'bg-white dark:bg-onyx-800 shadow-sm text-rose-500' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
                         }`}
                     >
                       Gasto
@@ -807,7 +896,7 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
                     <button
                       type="button"
                       onClick={() => setNewCatType('INCOME')}
-                      className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${newCatType === 'INCOME' ? 'bg-white dark:bg-onyx-700 shadow text-green-600' : 'text-gray-400 hover:text-gray-600'
+                      className={`flex-1 rounded-xl text-xs font-black uppercase tracking-widest transition-all h-full flex items-center justify-center ${newCatType === 'INCOME' ? 'bg-white dark:bg-onyx-800 shadow-sm text-emerald-500' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
                         }`}
                     >
                       Ingreso
@@ -815,119 +904,121 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
                   </div>
                 </div>
                 <div className="md:col-span-1">
-                  <label className="block text-[10px] font-black text-gray-400 uppercase mb-1">Subcategorías (CSV)</label>
+                  <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Subcategorías (CSV)</label>
                   <input
                     type="text"
                     value={newSubCat}
                     onChange={(e) => setNewSubCat(e.target.value)}
-                    className="w-full p-3 bg-gray-50 dark:bg-onyx-800 border border-gray-200 dark:border-onyx-700 rounded-xl font-medium focus:ring-2 focus:ring-indigo-500 outline-none text-gray-900 dark:text-white"
+                    className="w-full p-4 bg-gray-50 dark:bg-onyx-950 border border-gray-200 dark:border-onyx-700 rounded-2xl font-medium focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none text-gray-900 dark:text-white transition-all shadow-inner"
                     placeholder="Gasolina, Metro, Taxi..."
                   />
                 </div>
               </div>
-              <div className="flex justify-end gap-3 pt-2">
+              <div className="flex justify-end gap-4 pt-4 border-t border-gray-100 dark:border-onyx-800">
                 {editingCatId && (
                   <button
                     type="button"
                     onClick={resetCategoryForm}
-                    className="px-4 py-2 text-xs font-bold text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors"
+                    className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-gray-900 dark:hover:text-white bg-gray-50 dark:bg-onyx-950 hover:bg-gray-100 dark:hover:bg-onyx-800 rounded-2xl transition-all"
                   >
                     Cancelar
                   </button>
                 )}
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-indigo-600 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg hover:bg-indigo-700 transition-all flex items-center gap-2"
+                  className="px-8 py-4 bg-indigo-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-indigo-200/50 dark:shadow-none hover:bg-indigo-500 transition-all active:scale-95 flex items-center justify-center gap-3"
                 >
-                  <Check className="w-4 h-4" />
-                  {editingCatId ? 'Actualizar' : 'Guardar'}
+                  <Check className="w-5 h-5" />
+                  {editingCatId ? 'Actualizar Categoría' : 'Guardar Categoría'}
                 </button>
               </div>
             </form>
 
-            {/* EXPENSE CATEGORIES */}
-            <div className="space-y-4">
-              <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest border-b border-gray-100 dark:border-onyx-800 pb-2">Gastos (Expenses)</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {categories.filter(c => c.type === 'EXPENSE').map(cat => (
-                  <div key={cat.id} className="group bg-white dark:bg-onyx-900 p-4 rounded-xl border border-gray-100 dark:border-onyx-800 hover:border-indigo-200 dark:hover:border-indigo-800 transition-all shadow-sm">
-                    <div className="flex justify-between items-start mb-2">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-red-50 dark:bg-red-900/20 flex items-center justify-center text-red-500">
-                          <Coins className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <h5 className="font-bold text-gray-900 dark:text-white">{cat.name}</h5>
-                          <p className="text-[10px] text-gray-400">{cat.subCategories.length} subcategorías</p>
-                        </div>
-                      </div>
-                      <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button
-                          onClick={() => handleEditCategoryClick(cat)}
-                          className="p-1.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors"
-                        >
-                          <Pencil className="w-3 h-3" />
-                        </button>
-                        <button
-                          onClick={() => handleDeleteCategory(cat.id)}
-                          className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
-                        >
-                          <Trash2 className="w-3 h-3" />
-                        </button>
-                      </div>
-                    </div>
-                    <div className="flex flex-wrap gap-1">
-                      {cat.subCategories.map((sub, idx) => (
-                        <span key={idx} className="px-2 py-1 bg-gray-50 dark:bg-onyx-800 text-gray-500 dark:text-gray-400 text-[10px] font-bold rounded-md border border-gray-100 dark:border-onyx-700">
-                          {sub}
-                        </span>
-                      ))}
-                    </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-4">
+              {/* EXPENSE CATEGORIES */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-3 border-b border-gray-200 dark:border-onyx-800 pb-4">
+                  <div className="w-10 h-10 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-500 flex items-center justify-center">
+                    <Coins className="w-5 h-5" />
                   </div>
-                ))}
+                  <h4 className="text-lg font-black text-gray-900 dark:text-white uppercase tracking-widest">Gastos</h4>
+                </div>
+                <div className="space-y-4">
+                  {categories.filter(c => c.type === 'EXPENSE').map(cat => (
+                    <div key={cat.id} className="group bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-gray-100 dark:border-onyx-800 hover:border-rose-200 dark:hover:border-rose-900/50 transition-all shadow-sm hover:shadow-xl">
+                      <div className="flex justify-between items-start mb-4">
+                        <div>
+                          <h5 className="text-xl font-black text-gray-900 dark:text-white tracking-tight">{cat.name}</h5>
+                          <p className="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-widest">{cat.subCategories.length} subcategorías</p>
+                        </div>
+                        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button
+                            onClick={() => handleEditCategoryClick(cat)}
+                            className="p-3 text-gray-400 bg-gray-50 dark:bg-onyx-950 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-xl transition-colors"
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteCategory(cat.id)}
+                            className="p-3 text-gray-400 bg-gray-50 dark:bg-onyx-950 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/30 rounded-xl transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {cat.subCategories.map((sub, idx) => (
+                          <span key={idx} className="px-3 py-1.5 bg-gray-50 dark:bg-onyx-950 shadow-inner text-gray-500 dark:text-gray-400 text-[10px] font-bold uppercase tracking-wider rounded-lg border border-gray-200 dark:border-onyx-800">
+                            {sub}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* INCOME CATEGORIES */}
-            <div className="space-y-4 pt-4">
-              <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest border-b border-gray-100 dark:border-onyx-800 pb-2">Ingresos (Income)</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {categories.filter(c => c.type === 'INCOME').map(cat => (
-                  <div key={cat.id} className="group bg-white dark:bg-onyx-900 p-4 rounded-xl border border-gray-100 dark:border-onyx-800 hover:border-indigo-200 dark:hover:border-indigo-800 transition-all shadow-sm">
-                    <div className="flex justify-between items-start mb-2">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-500">
-                          <Coins className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <h5 className="font-bold text-gray-900 dark:text-white">{cat.name}</h5>
-                          <p className="text-[10px] text-gray-400">{cat.subCategories.length} subcategorías</p>
-                        </div>
-                      </div>
-                      <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button
-                          onClick={() => handleEditCategoryClick(cat)}
-                          className="p-1.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors"
-                        >
-                          <Pencil className="w-3 h-3" />
-                        </button>
-                        <button
-                          onClick={() => handleDeleteCategory(cat.id)}
-                          className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
-                        >
-                          <Trash2 className="w-3 h-3" />
-                        </button>
-                      </div>
-                    </div>
-                    <div className="flex flex-wrap gap-1">
-                      {cat.subCategories.map((sub, idx) => (
-                        <span key={idx} className="px-2 py-1 bg-gray-50 dark:bg-onyx-800 text-gray-500 dark:text-gray-400 text-[10px] font-bold rounded-md border border-gray-100 dark:border-onyx-700">
-                          {sub}
-                        </span>
-                      ))}
-                    </div>
+              {/* INCOME CATEGORIES */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-3 border-b border-gray-200 dark:border-onyx-800 pb-4">
+                  <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-500 flex items-center justify-center">
+                    <Coins className="w-5 h-5" />
                   </div>
-                ))}
+                  <h4 className="text-lg font-black text-gray-900 dark:text-white uppercase tracking-widest">Ingresos</h4>
+                </div>
+                <div className="space-y-4">
+                  {categories.filter(c => c.type === 'INCOME').map(cat => (
+                    <div key={cat.id} className="group bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-gray-100 dark:border-onyx-800 hover:border-emerald-200 dark:hover:border-emerald-900/50 transition-all shadow-sm hover:shadow-xl">
+                      <div className="flex justify-between items-start mb-4">
+                        <div>
+                          <h5 className="text-xl font-black text-gray-900 dark:text-white tracking-tight">{cat.name}</h5>
+                          <p className="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-widest">{cat.subCategories.length} subcategorías</p>
+                        </div>
+                        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button
+                            onClick={() => handleEditCategoryClick(cat)}
+                            className="p-3 text-gray-400 bg-gray-50 dark:bg-onyx-950 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-xl transition-colors"
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteCategory(cat.id)}
+                            className="p-3 text-gray-400 bg-gray-50 dark:bg-onyx-950 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-xl transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {cat.subCategories.map((sub, idx) => (
+                          <span key={idx} className="px-3 py-1.5 bg-gray-50 dark:bg-onyx-950 shadow-inner text-gray-500 dark:text-gray-400 text-[10px] font-bold uppercase tracking-wider rounded-lg border border-gray-200 dark:border-onyx-800">
+                            {sub}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -935,89 +1026,102 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
 
       case 'automation':
         return (
-          <div className="max-w-4xl space-y-8 animate-fade-in">
-            <div>
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white">{t.menu.automation}</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400">{t.sections.autoDesc}</p>
+          <div className="max-w-4xl space-y-8 animate-fade-in pb-12">
+            <div className="mb-8">
+              <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">{t.menu.automation}</h3>
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">{t.sections.autoDesc}</p>
             </div>
 
             {/* New Rule Form */}
-            <form onSubmit={handleAddRule} className="bg-indigo-900 text-white p-6 rounded-2xl shadow-lg relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-32 bg-indigo-500/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
-              <h4 className="font-bold flex items-center gap-2 mb-6 relative z-10">
-                <Zap className="w-5 h-5 text-yellow-400" /> Nueva Regla
+            <form onSubmit={handleAddRule} className="bg-gray-900 dark:bg-onyx-950 border border-gray-800 p-8 md:p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 group-hover:bg-indigo-500/30 transition-colors duration-700"></div>
+              <h4 className="text-2xl font-black text-white tracking-tighter flex items-center gap-3 mb-8 relative z-10">
+                <div className="p-3 bg-indigo-500/20 text-indigo-400 rounded-2xl">
+                  <Zap className="w-6 h-6" />
+                </div>
+                Nueva Regla Automática
               </h4>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 relative z-10">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-10">
                 <div className="md:col-span-2">
-                  <label className="block text-[10px] font-bold text-indigo-300 uppercase mb-1">Disparador</label>
+                  <label className="block text-[10px] font-black text-indigo-300 uppercase tracking-widest mb-2 ml-1">Disparador</label>
                   <select
                     value={newRuleTrigger}
                     onChange={(e) => setNewRuleTrigger(e.target.value as any)}
-                    className="w-full p-3 bg-indigo-800/50 border border-indigo-700 rounded-xl font-bold text-white outline-none focus:ring-2 focus:ring-indigo-400"
+                    className="w-full p-4 bg-gray-800/50 border border-gray-700 rounded-2xl font-black text-white outline-none focus:ring-4 focus:ring-indigo-500/30 focus:border-indigo-500 hover:bg-gray-800 transition-colors shadow-inner appearance-none"
                   >
                     <option value="TRANSACTION_OVER_AMOUNT">Transacción mayor de...</option>
                     <option value="TRIP_CREATED">Nuevo viaje creado</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-indigo-300 uppercase mb-1">Valor</label>
+                  <label className="block text-[10px] font-black text-indigo-300 uppercase tracking-widest mb-2 ml-1">Valor Limitante</label>
                   <input
                     type="number"
                     value={newRuleThreshold}
                     onChange={(e) => setNewRuleThreshold(e.target.value)}
-                    className="w-full p-3 bg-indigo-800/50 border border-indigo-700 rounded-xl font-bold text-white outline-none focus:ring-2 focus:ring-indigo-400"
-                    placeholder="100"
+                    className="w-full p-4 bg-gray-800/50 border border-gray-700 rounded-2xl font-black text-white outline-none focus:ring-4 focus:ring-indigo-500/30 focus:border-indigo-500 hover:bg-gray-800 transition-colors shadow-inner"
+                    placeholder="100.00"
                   />
                 </div>
                 <div className="flex items-end">
-                  <button type="submit" className="w-full py-3 bg-white text-indigo-900 rounded-xl font-black uppercase tracking-widest shadow-lg hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
-                    <Plus className="w-4 h-4" /> Crear
+                  <button type="submit" className="w-full h-[58px] bg-indigo-500 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-indigo-500/20 hover:bg-indigo-400 transition-all active:scale-95 flex items-center justify-center gap-3">
+                    <Plus className="w-5 h-5" /> Crear Regla
                   </button>
                 </div>
               </div>
             </form>
 
-            <div className="grid grid-cols-1 gap-3">
+            <div className="grid grid-cols-1 gap-4 pt-4">
+              <h4 className="text-base font-black text-gray-900 dark:text-white uppercase tracking-widest border-b border-gray-200 dark:border-onyx-800 pb-4 mb-2 flex items-center gap-3">
+                <Layers className="w-6 h-6 text-indigo-500" /> Mis Reglas Activas
+              </h4>
               {automationRules.map((rule) => (
-                <div key={rule.id} className={`p-4 rounded-xl border transition-all flex items-center justify-between ${rule.isActive
-                  ? 'bg-white dark:bg-onyx-900 border-indigo-200 dark:border-indigo-900 shadow-sm'
-                  : 'bg-gray-50 dark:bg-onyx-950 border-gray-100 dark:border-onyx-800 opacity-75'
+                <div key={rule.id} className={`p-6 rounded-[2.5rem] border transition-all duration-300 flex flex-col md:flex-row md:items-center justify-between gap-6 group ${rule.isActive
+                  ? 'bg-white dark:bg-onyx-900 border-indigo-100 dark:border-indigo-900/50 shadow-xl shadow-gray-200/40 dark:shadow-none hover:-translate-y-1'
+                  : 'bg-gray-50 dark:bg-onyx-950 border-gray-200 dark:border-onyx-800 opacity-60 grayscale hover:grayscale-0 hover:opacity-100'
                   }`}>
-                  <div className="flex items-center gap-4">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${rule.isActive ? 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600' : 'bg-gray-200 dark:bg-onyx-800 text-gray-400'
+                  <div className="flex items-center gap-5">
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-colors shadow-inner ${rule.isActive ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' : 'bg-gray-200 dark:bg-onyx-800 text-gray-400'
                       }`}>
-                      <Zap className="w-5 h-5 fill-current" />
+                      <Zap className="w-6 h-6" />
                     </div>
                     <div>
-                      <h5 className="font-bold text-gray-900 dark:text-white">{rule.name}</h5>
-                      <div className="flex items-center gap-2 mt-0.5">
-                        <span className="text-[10px] bg-gray-100 dark:bg-onyx-800 px-2 py-0.5 rounded text-gray-500 font-bold uppercase">{rule.trigger}</span>
-                        {rule.threshold && <span className="text-xs text-gray-500 font-medium"> {'>'} {rule.threshold}€</span>}
+                      <h5 className="text-xl font-black text-gray-900 dark:text-white tracking-tight">{rule.name}</h5>
+                      <div className="flex flex-wrap items-center gap-3 mt-2">
+                        <span className="text-[10px] bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 px-3 py-1.5 rounded-[0.75rem] font-black uppercase tracking-widest border border-indigo-100 dark:border-indigo-800 shadow-sm">
+                          {rule.trigger}
+                        </span>
+                        {rule.threshold && <span className="text-xs font-bold text-gray-500 bg-gray-100 dark:bg-onyx-800 px-3 py-1.5 rounded-[0.75rem] shadow-inner"> {'>'} {rule.threshold}€</span>}
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-4 shrink-0 bg-gray-50 dark:bg-onyx-950 p-2.5 rounded-2xl border border-gray-200 dark:border-onyx-800 shadow-inner">
                     <button
                       onClick={() => handleToggleRule(rule.id)}
-                      className={`relative w-12 h-6 rounded-full transition-colors ${rule.isActive ? 'bg-green-500' : 'bg-gray-300 dark:bg-onyx-700'
+                      className={`relative w-16 h-8 rounded-xl transition-all duration-300 shadow-inner ${rule.isActive ? 'bg-emerald-500' : 'bg-gray-300 dark:bg-onyx-700'
                         }`}
                     >
-                      <div className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${rule.isActive ? 'translate-x-6' : 'translate-x-0'
+                      <div className={`absolute top-1 w-6 h-6 bg-white rounded-lg transition-transform duration-300 shadow-sm ${rule.isActive ? 'left-9' : 'left-1'
                         }`} />
                     </button>
+                    <div className="w-px h-8 bg-gray-200 dark:bg-onyx-800"></div>
                     <button
                       onClick={() => handleDeleteRule(rule.id)}
-                      className="p-2 text-gray-300 hover:text-red-500 transition-colors"
+                      className="p-3 text-gray-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/30 rounded-xl transition-colors"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-5 h-5" />
                     </button>
                   </div>
                 </div>
               ))}
               {automationRules.length === 0 && (
-                <div className="text-center py-10 bg-gray-50 dark:bg-onyx-900/50 rounded-2xl border-2 border-dashed border-gray-200 dark:border-onyx-800">
-                  <p className="text-gray-400 font-medium">No hay reglas activas</p>
+                <div className="text-center py-16 bg-white dark:bg-onyx-900 rounded-[2.5rem] border border-gray-100 dark:border-onyx-800 shadow-sm">
+                  <div className="w-20 h-20 bg-gray-50 dark:bg-onyx-950 rounded-[2rem] flex items-center justify-center mx-auto mb-4 border border-gray-200 dark:border-onyx-800 shadow-inner">
+                    <Zap className="w-8 h-8 text-gray-300 dark:text-gray-600" />
+                  </div>
+                  <h4 className="text-xl font-black text-gray-900 dark:text-white mb-2 tracking-tight">Sin reglas automáticas</h4>
+                  <p className="text-sm font-medium text-gray-400 max-w-sm mx-auto leading-relaxed">Automatiza tus finanzas creando tu primera regla inteligente para alertas y categorización.</p>
                 </div>
               )}
             </div>
@@ -1026,109 +1130,135 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
 
       case 'subscription':
         return (
-          <div className="max-w-4xl space-y-8 animate-fade-in">
-            {subscription.plan === 'FREE' ? (
-              <PricingSection />
-            ) : (
-              <div className="space-y-8">
+          <div className="max-w-4xl space-y-8 animate-fade-in pb-12">
+            <div className="mb-8">
+              <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">{t.menu.subscription}</h3>
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Gestiona tu plan de Onyx Suite</p>
+            </div>
+
+            <div className="bg-gradient-to-br from-indigo-900 via-indigo-800 to-indigo-950 p-8 md:p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-indigo-500/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 group-hover:bg-indigo-500/20 transition-colors duration-700"></div>
+              <div className="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-rose-500/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/4 group-hover:bg-rose-500/20 transition-colors duration-700"></div>
+
+              <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8 mb-10">
                 <div>
-                  <h3 className="text-lg font-bold text-gray-900">{t.menu.subscription}</h3>
-                  <p className="text-sm text-gray-500">{t.sections.subDesc}</p>
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 border border-white/20 backdrop-blur-md mb-4 shadow-inner">
+                    <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+                    <span className="text-[10px] font-black text-indigo-100 uppercase tracking-widest">{subscription.status === 'ACTIVE' ? 'Suscripción Activa' : subscription.status}</span>
+                  </div>
+                  <h4 className="text-4xl md:text-5xl font-black text-white tracking-tighter mb-2">
+                    Onyx {subscription.plan === 'FAMILIA' ? 'Premium' : subscription.plan === 'PERSONAL' ? 'Pro' : 'Basic'}
+                  </h4>
+                  <p className="text-indigo-200 font-medium">Tu plan actual está activo hasta el {subscription.expiryDate || '12 Oct 2026'}</p>
                 </div>
-                <div className="bg-white p-8 rounded-[2rem] border border-gray-200 shadow-sm relative overflow-hidden">
-                  <div className="absolute top-0 right-0 bg-emerald-500 text-white text-[10px] font-black px-4 py-1 rounded-bl-2xl uppercase tracking-widest">
-                    {subscription.status === 'ACTIVE' ? 'Suscripción Activa' : subscription.status}
-                  </div>
-
-                  <div className="flex items-center gap-6 mb-8">
-                    <div className="p-5 bg-black text-white rounded-3xl shadow-xl">
-                      <Star className="w-10 h-10 text-yellow-400" />
-                    </div>
-                    <div>
-                      <h4 className="text-3xl font-black text-gray-900 uppercase">
-                        Onyx {subscription.plan === 'FAMILIA' ? 'Premium' :
-                          subscription.plan === 'PERSONAL' ? 'Pro' : 'Basic'}
-                      </h4>
-                      <p className="text-sm text-gray-500 font-medium mt-1">
-                        Tu plan actual está activo hasta el <span className="text-gray-900 font-bold">{subscription.expiryDate || '12 Oct 2025'}</span>
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                    <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                      <p className="text-[10px] font-black text-gray-400 uppercase mb-1">Próximo Cobro</p>
-                      <p className="font-bold text-gray-900">2,99€ <span className="text-xs text-gray-400">/ mes (Personal)</span></p>
-                    </div>
-                    <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                      <p className="text-[10px] font-black text-gray-400 uppercase mb-1">Método de Pago</p>
-                      <p className="font-bold text-gray-900 flex items-center gap-2">
-                        <CreditCard className="w-4 h-4" /> VISA **** 4242
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <button
-                      onClick={() => stripeService.createPortalSession()}
-                      className="flex-1 bg-black text-white py-4 rounded-2xl font-bold hover:bg-gray-800 transition-all flex items-center justify-center gap-2"
-                    >
-                      Gestionar en Stripe <ExternalLink className="w-4 h-4" />
-                    </button>
-                    <button className="flex-1 bg-white text-gray-900 border border-gray-200 py-4 rounded-2xl font-bold hover:bg-gray-50 transition-all">
-                      Cambiar Plan
-                    </button>
-                  </div>
-                </div>
-
-                <div className="bg-blue-50 p-6 rounded-2xl border border-blue-100">
-                  <h5 className="font-bold text-blue-900 mb-2 flex items-center gap-2">
-                    <Zap className="w-4 h-4" /> Beneficios de tu plan
-                  </h5>
-                  <div className="grid grid-cols-2 gap-y-2">
-                    {t.featuresList.map((f: string, i: number) => (
-                      <div key={i} className="flex items-center gap-2">
-                        <Check className="w-3 h-3 text-blue-600" />
-                        <span className="text-xs font-medium text-blue-800">{f}</span>
-                      </div>
-                    ))}
-                  </div>
+                <div className="flex flex-col gap-3 shrink-0">
+                  <button onClick={() => stripeService.createPortalSession()} className="px-8 py-4 bg-white text-indigo-900 rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-black/20 hover:bg-gray-50 transition-all active:scale-95 text-center flex items-center justify-center gap-2">
+                    Gestionar en Stripe <ExternalLink className="w-4 h-4" />
+                  </button>
+                  <button className="px-8 py-4 bg-indigo-800/50 text-indigo-200 border border-indigo-700 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-800 transition-all text-center">
+                    Cambiar Plan
+                  </button>
                 </div>
               </div>
-            )}
+
+              <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-indigo-700/50 pt-8">
+                <div className="p-5 rounded-2xl bg-indigo-950/40 border border-indigo-800/50 backdrop-blur-sm">
+                  <h5 className="text-[10px] font-black text-indigo-300 uppercase tracking-widest mb-1">Próximo Cobro</h5>
+                  <p className="text-2xl font-black text-white">2,99€ <span className="text-sm font-medium text-indigo-300">/ mes ({subscription.plan})</span></p>
+                </div>
+                <div className="p-5 rounded-2xl bg-indigo-950/40 border border-indigo-800/50 backdrop-blur-sm">
+                  <h5 className="text-[10px] font-black text-indigo-300 uppercase tracking-widest mb-1">Método de Pago</h5>
+                  <p className="text-2xl font-black text-white flex items-center gap-3">
+                    <CreditCard className="w-5 h-5 text-indigo-400" /> VISA **** 4242
+                  </p>
+                </div>
+              </div>
+
+              <div className="relative z-10 mt-8 pt-8 border-t border-indigo-700/50">
+                <h5 className="font-bold text-indigo-200 mb-4 flex items-center gap-2">
+                  <Zap className="w-5 h-5 text-amber-400" /> Beneficios de tu plan
+                </h5>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6">
+                  {t.featuresList.map((f: string, i: number) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                      <span className="text-sm font-medium text-indigo-100">{f}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         );
 
       case 'billing':
         return (
-          <div className="max-w-2xl space-y-8 animate-fade-in">
-            <div><h3 className="text-lg font-bold text-gray-900">{t.menu.billing}</h3><p className="text-sm text-gray-500">{t.sections.billDesc}</p></div>
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-              <h4 className="font-bold text-gray-900 mb-4">{t.billing.methods}</h4>
-              <div className="flex items-center justify-between p-4 border border-gray-200 rounded-xl mb-3">
-                <div className="flex items-center gap-3"><div className="w-10 h-6 bg-gray-800 rounded flex items-center justify-center text-white text-[8px] font-black uppercase tracking-widest">VISA</div><span className="text-sm font-bold text-gray-700">**** 4242</span></div>
-                <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded font-bold">Default</span>
-              </div>
+          <div className="max-w-4xl space-y-8 animate-fade-in pb-12">
+            <div className="mb-8">
+              <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">{t.menu.billing}</h3>
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">{t.sections.billDesc}</p>
+            </div>
 
-              {/* Integration Mock Buttons */}
-              <div className="grid grid-cols-2 gap-3 mt-4">
-                <button className="flex items-center justify-center gap-2 py-3 bg-black text-white rounded-xl font-bold text-xs hover:bg-gray-800 transition-colors shadow-lg">
-                  <img src="https://www.svgrepo.com/show/511330/apple-173.svg" className="w-4 h-4 invert" alt="Apple Pay" />
-                  Apple Pay
-                </button>
-                <button className="flex items-center justify-center gap-2 py-3 bg-white border border-gray-200 text-blue-900 rounded-xl font-bold text-xs hover:bg-gray-50 transition-colors shadow-sm">
-                  <img src="https://www.svgrepo.com/show/475667/paypal-color.svg" className="w-4 h-4" alt="PayPal" />
-                  PayPal
-                </button>
+            <div className="space-y-6">
+              <h4 className="text-base font-black text-gray-900 dark:text-white uppercase tracking-widest border-b border-gray-200 dark:border-onyx-800 pb-4 flex items-center gap-3">
+                <CreditCard className="w-6 h-6 text-indigo-500" /> Método de Pago
+              </h4>
+              <div className="bg-white dark:bg-onyx-900 p-8 rounded-[2.5rem] border border-gray-100 dark:border-onyx-800 shadow-xl shadow-gray-200/40 dark:shadow-none space-y-6 group">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                  <div className="flex items-center gap-5">
+                    <div className="w-16 h-12 bg-gray-50 dark:bg-onyx-950 rounded-xl flex items-center justify-center border border-gray-200 dark:border-onyx-800 shadow-inner group-hover:border-indigo-200 dark:group-hover:border-indigo-800 transition-colors">
+                      <span className="font-black text-lg text-indigo-600 dark:text-indigo-400 italic flex items-center justify-center">VISA</span>
+                    </div>
+                    <div>
+                      <h5 className="text-lg font-black text-gray-900 dark:text-white tracking-tight flex items-center gap-3">
+                        Visa terminada en <span className="text-indigo-500">4242</span>
+                        <span className="px-2 py-0.5 bg-emerald-100 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 text-[9px] uppercase tracking-widest rounded-md border border-emerald-200 dark:border-emerald-800">Default</span>
+                      </h5>
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-2">Expira: 12/28</p>
+                    </div>
+                  </div>
+                  <button className="px-6 py-3 bg-gray-50 dark:bg-onyx-950 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-onyx-800 hover:border-indigo-200 dark:hover:border-indigo-800 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-inner hover:shadow-md shrink-0">
+                    Actualizar
+                  </button>
+                </div>
+
+                <div className="border-t border-gray-100 dark:border-onyx-800 pt-6">
+                  <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Añadir otro método</h5>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <button className="flex items-center justify-center gap-3 py-4 bg-white dark:bg-onyx-900 border border-gray-200 dark:border-onyx-700 text-gray-900 dark:text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-onyx-800 transition-colors shadow-sm">
+                      <img src="https://www.svgrepo.com/show/511330/apple-173.svg" className="w-5 h-5 dark:invert" alt="Apple Pay" />
+                      Apple Pay
+                    </button>
+                    <button className="flex items-center justify-center gap-3 py-4 bg-[#003087] text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[#002266] transition-colors shadow-sm">
+                      <img src="https://www.svgrepo.com/show/475667/paypal-color.svg" className="w-5 h-5" alt="PayPal" />
+                      PayPal
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-              <h4 className="font-bold text-gray-900 mb-4">{t.billing.history}</h4>
-              <div className="space-y-2">
-                {[1, 2, 3].map(i => (
-                  <div key={i} className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-xl transition-colors">
-                    <div className="flex items-center gap-3"><div className="p-2 bg-gray-100 rounded-lg"><Download className="w-4 h-4 text-gray-500" /></div><div><p className="text-sm font-bold text-gray-900">Invoice #{1000 + i}</p><p className="text-xs text-gray-400">Oct 12, 2024</p></div></div>
-                    <span className="text-sm font-bold text-gray-900">{t.plan.price}</span>
+
+            <div className="space-y-6 pt-4">
+              <h4 className="text-base font-black text-gray-900 dark:text-white uppercase tracking-widest border-b border-gray-200 dark:border-onyx-800 pb-4 flex items-center gap-3">
+                <FileText className="w-6 h-6 text-indigo-500" /> Historial de Facturas
+              </h4>
+              <div className="bg-white dark:bg-onyx-900 rounded-[2.5rem] border border-gray-100 dark:border-onyx-800 shadow-xl shadow-gray-200/40 dark:shadow-none overflow-hidden">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="flex items-center justify-between p-6 md:p-8 border-b border-gray-100 dark:border-onyx-800 last:border-0 hover:bg-gray-50 dark:hover:bg-onyx-950/50 transition-colors group">
+                    <div className="flex items-center gap-5">
+                      <div className="w-12 h-12 bg-gray-50 dark:bg-onyx-950 rounded-xl flex items-center justify-center border border-gray-200 dark:border-onyx-800 shadow-inner group-hover:border-indigo-200 dark:group-hover:border-indigo-800 transition-colors">
+                        <Download className="w-5 h-5 text-gray-400 group-hover:text-indigo-500 transition-colors" />
+                      </div>
+                      <div>
+                        <h5 className="text-base font-black text-gray-900 dark:text-white mb-2">Factura #{1000 + i}</h5>
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 text-[9px] font-black uppercase tracking-widest rounded-lg border border-emerald-100 dark:border-emerald-800 shadow-sm">
+                          <Check className="w-3 h-3" /> Okt 12, 2026
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-6">
+                      <span className="text-xl font-black text-gray-900 dark:text-white">{t.plan.price}</span>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -1138,55 +1268,89 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
 
       case 'security':
         return (
-          <div className="max-w-2xl space-y-8 animate-fade-in">
-            <div><h3 className="text-lg font-bold text-gray-900">{t.menu.security}</h3><p className="text-sm text-gray-500">{t.sections.secDesc}</p></div>
-            <div className="bg-white dark:bg-onyx-900 p-6 rounded-2xl border border-gray-100 dark:border-onyx-800 shadow-sm space-y-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3"><div className="p-2 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 rounded-lg"><Smartphone className="w-5 h-5" /></div><div><h4 className="font-bold text-gray-900 dark:text-white">2-Factor Authentication</h4><p className="text-xs text-gray-500 dark:text-gray-400">Secure your account with 2FA.</p></div></div>
-                <div className="w-12 h-6 bg-gray-200 dark:bg-onyx-700 rounded-full p-1 cursor-pointer"><div className="w-4 h-4 bg-white rounded-full shadow-sm"></div></div>
-              </div>
-              <div className="border-t border-gray-50 dark:border-onyx-800 pt-6">
-                <button className="text-sm font-bold text-blue-600 hover:underline">Change Password</button>
-              </div>
-              <div className="border-t border-gray-50 dark:border-onyx-800 pt-6">
-                <button className="text-sm font-bold text-red-600 hover:underline">Log out of all devices</button>
-              </div>
+          <div className="max-w-4xl space-y-8 animate-fade-in pb-12">
+            <div className="mb-8">
+              <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">{t.menu.security}</h3>
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">{t.sections.secDesc}</p>
+            </div>
 
-              {/* LEGAL SECTION */}
-              <div className="border-t border-gray-50 dark:border-onyx-800 pt-6 space-y-4">
-                <h4 className="font-bold text-gray-900 dark:text-white flex items-center gap-2 text-sm uppercase tracking-wider">
-                  <Shield className="w-4 h-4 text-indigo-500" />
-                  {language === 'ES' ? 'Legal y Cumplimiento' : 'Legal & Compliance'}
-                </h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <button onClick={() => setActiveLegalPage('PRIVACY')} className="p-4 bg-gray-50 dark:bg-onyx-800 rounded-xl text-left hover:bg-indigo-50 dark:hover:bg-indigo-900/20 hover:text-indigo-700 dark:hover:text-indigo-400 transition-colors">
-                    <span className="font-bold text-sm block text-gray-900 dark:text-white">Privacy Policy</span>
-                    <span className="text-xs text-gray-400">Data usage & rights</span>
+            <div className="space-y-6">
+              <h4 className="text-base font-black text-gray-900 dark:text-white uppercase tracking-widest border-b border-gray-200 dark:border-onyx-800 pb-4 flex items-center gap-3">
+                <Key className="w-6 h-6 text-indigo-500" /> Autenticación
+              </h4>
+              <div className="bg-white dark:bg-onyx-900 p-8 rounded-[2.5rem] border border-gray-100 dark:border-onyx-800 shadow-xl shadow-gray-200/40 dark:shadow-none space-y-8">
+
+                <div className="flex flex-col md:flex-row md:items-center justify-between pb-8 border-b border-gray-100 dark:border-onyx-800 gap-4 group">
+                  <div className="flex items-center gap-5">
+                    <div className="w-14 h-14 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 rounded-2xl flex items-center justify-center border border-purple-100 dark:border-purple-800/50 shadow-inner group-hover:border-purple-200 transition-colors">
+                      <Smartphone className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h5 className="text-xl font-black text-gray-900 dark:text-white tracking-tight flex items-center gap-3">
+                        Autenticación 2FA
+                        <span className="px-3 py-1 bg-gray-100 dark:bg-onyx-800 text-gray-500 dark:text-gray-400 text-[9px] uppercase tracking-widest rounded-lg border border-gray-200 dark:border-onyx-700 shadow-sm">Inactiva</span>
+                      </h5>
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-2 max-w-sm leading-relaxed">Protege tu cuenta con verificación móvil de dos pasos.</p>
+                    </div>
+                  </div>
+                  <div className="w-14 h-8 bg-gray-200 dark:bg-onyx-800 rounded-full p-1 cursor-pointer hover:bg-gray-300 dark:hover:bg-onyx-700 transition-colors shadow-inner flex shrink-0">
+                    <div className="w-6 h-6 bg-white rounded-full shadow-md"></div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-2">
+                  <button className="flex-1 px-6 py-4 bg-gray-50 dark:bg-onyx-950 text-indigo-600 dark:text-indigo-400 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-50 dark:hover:bg-indigo-900/40 transition-colors border border-gray-200 dark:border-onyx-800 hover:border-indigo-200 dark:hover:border-indigo-800 shadow-inner hover:shadow-md text-left flex justify-between items-center group">
+                    Actualizar Contraseña
+                    <ExternalLink className="w-4 h-4 opacity-50 group-hover:opacity-100" />
                   </button>
-                  <button onClick={() => setActiveLegalPage('TERMS')} className="p-4 bg-gray-50 dark:bg-onyx-800 rounded-xl text-left hover:bg-indigo-50 dark:hover:bg-indigo-900/20 hover:text-indigo-700 dark:hover:text-indigo-400 transition-colors">
-                    <span className="font-bold text-sm block text-gray-900 dark:text-white">Terms of Service</span>
-                    <span className="text-xs text-gray-400">Licensing & agreement</span>
+                  <button className="flex-1 px-6 py-4 bg-gray-50 dark:bg-onyx-950 text-rose-600 dark:text-rose-400 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-rose-50 dark:hover:bg-rose-900/40 transition-colors border border-gray-200 dark:border-onyx-800 hover:border-rose-200 dark:hover:border-rose-800 shadow-inner hover:shadow-md text-left flex justify-between items-center group">
+                    Cerrar todas las sesiones
+                    <LogOut className="w-4 h-4 opacity-50 group-hover:opacity-100" />
                   </button>
                 </div>
               </div>
+            </div>
 
-              {/* DANGER ZONE */}
-              <div className="mt-8 pt-6 border-t border-red-50 dark:border-red-900/30">
-                <div className="bg-red-50 dark:bg-red-900/10 p-6 rounded-2xl border border-red-100 dark:border-red-900/30">
-                  <h4 className="font-bold text-red-900 dark:text-red-400 mb-2">{t.resetZone}</h4>
-                  <p className="text-xs text-red-700 dark:text-red-300 mb-4">
-                    {language === 'ES'
-                      ? 'Eliminar tu cuenta borrará permanentemente todos tus datos de nuestros servidores y de este dispositivo. No podrás recuperar esta información.'
-                      : 'Deleting your account will permanently wipe all your data from our servers and this device. You will not be able to recover this information.'}
-                  </p>
-                  <div className="flex gap-4">
-                    <button onClick={handleResetSystem} className="bg-white dark:bg-onyx-900 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-red-50 dark:hover:bg-red-900/20">
-                      {t.resetBtn}
-                    </button>
-                    <button onClick={handleDeleteAccount} className="bg-red-600 text-white px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-red-700 shadow-lg shadow-red-200 dark:shadow-none">
-                      {language === 'ES' ? 'ELIMINAR CUENTA' : 'DELETE ACCOUNT'}
-                    </button>
-                  </div>
+            {/* LEGAL SECTION */}
+            <div className="space-y-6 pt-4">
+              <h4 className="text-base font-black text-gray-900 dark:text-white uppercase tracking-widest border-b border-gray-200 dark:border-onyx-800 pb-4 flex items-center gap-3">
+                <Shield className="w-6 h-6 text-indigo-500" />
+                {language === 'ES' ? 'Legal y Cumplimiento' : 'Legal & Compliance'}
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <button onClick={() => setActiveLegalPage('PRIVACY')} className="p-8 bg-white dark:bg-onyx-900 rounded-[2rem] border border-gray-100 dark:border-onyx-800 text-left hover:border-indigo-200 dark:hover:border-indigo-800 transition-all shadow-xl shadow-gray-200/40 dark:shadow-none hover:-translate-y-1 group relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/2 group-hover:bg-indigo-500/10 transition-colors"></div>
+                  <Globe className="w-8 h-8 text-indigo-500 mb-4" />
+                  <span className="text-xl font-black text-gray-900 dark:text-white tracking-tight block mb-2">Privacy Policy</span>
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Data usage & rights</span>
+                </button>
+                <button onClick={() => setActiveLegalPage('TERMS')} className="p-8 bg-white dark:bg-onyx-900 rounded-[2rem] border border-gray-100 dark:border-onyx-800 text-left hover:border-indigo-200 dark:hover:border-indigo-800 transition-all shadow-xl shadow-gray-200/40 dark:shadow-none hover:-translate-y-1 group relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/2 group-hover:bg-indigo-500/10 transition-colors"></div>
+                  <FileText className="w-8 h-8 text-indigo-500 mb-4" />
+                  <span className="text-xl font-black text-gray-900 dark:text-white tracking-tight block mb-2">Terms of Service</span>
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Licensing & agreement</span>
+                </button>
+              </div>
+            </div>
+
+            {/* DANGER ZONE */}
+            <div className="mt-12 pt-8 border-t border-rose-100 dark:border-rose-900/30">
+              <div className="bg-rose-50 dark:bg-rose-900/10 p-8 md:p-10 rounded-[2.5rem] border border-rose-200 dark:border-rose-900/30 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-rose-500/10 rounded-full blur-[60px] -translate-y-1/2 translate-x-1/2 transition-colors"></div>
+                <h4 className="text-2xl font-black text-rose-950 dark:text-rose-400 tracking-tighter mb-3 relative z-10">{t.resetZone}</h4>
+                <p className="text-sm font-medium text-rose-800 dark:text-rose-300 mb-8 max-w-2xl leading-relaxed relative z-10">
+                  {language === 'ES'
+                    ? 'Eliminar tu cuenta borrará permanentemente todos tus datos de nuestros servidores y de este dispositivo. No podrás recuperar esta información, ten cuidado.'
+                    : 'Deleting your account will permanently wipe all your data from our servers and this device. You will not be able to recover this information.'}
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 relative z-10">
+                  <button onClick={handleResetSystem} className="px-8 py-4 bg-white dark:bg-onyx-950 border border-rose-200 dark:border-rose-800 text-rose-600 dark:text-rose-400 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-rose-100 dark:hover:bg-rose-900/30 transition-colors shadow-sm text-center">
+                    {t.resetBtn}
+                  </button>
+                  <button onClick={handleDeleteAccount} className="px-8 py-4 bg-rose-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-rose-700 shadow-xl shadow-rose-200 dark:shadow-none transition-all active:scale-95 text-center flex items-center justify-center gap-2">
+                    <Trash2 className="w-4 h-4" />
+                    {language === 'ES' ? 'ELIMINAR CUENTA' : 'DELETE ACCOUNT'}
+                  </button>
                 </div>
               </div>
             </div>

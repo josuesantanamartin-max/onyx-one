@@ -84,9 +84,17 @@ const FloatingActionButton: React.FC = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setFabOpen(!isFabOpen)}
-                    className={`w-14 h-14 rounded-2xl shadow-xl flex items-center justify-center transition-colors duration-500 pointer-events-auto z-50 relative ${isFabOpen ? 'bg-onyx-950 text-white rotate-45' : 'bg-onyx-950 text-white hover:bg-black'}`}
+                    className={`w-14 h-14 rounded-2xl shadow-xl flex items-center justify-center transition-colors duration-500 pointer-events-auto z-50 relative group/fab ${isFabOpen ? 'bg-onyx-950 text-white rotate-45' : 'bg-onyx-950 text-white hover:bg-black'}`}
                 >
                     <Plus className="w-7 h-7" />
+
+                    {/* Tooltip that appears on hover when closed */}
+                    {!isFabOpen && (
+                        <div className="absolute right-full mr-4 w-max opacity-0 group-hover/fab:opacity-100 transition-opacity bg-onyx-900 text-white text-xs py-1.5 px-3 rounded-lg font-medium pointer-events-none flex items-center shadow-lg">
+                            Registrar acción rápida
+                            <div className="absolute top-1/2 -right-1.5 -translate-y-1/2 border-[4px] border-transparent border-l-onyx-900"></div>
+                        </div>
+                    )}
                 </motion.button>
             </div>
         </>

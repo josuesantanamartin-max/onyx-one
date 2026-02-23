@@ -128,6 +128,29 @@ export const LandingHome: React.FC<LandingHomeProps> = ({
                         </button>
                     </div>
                     <p className="text-sm text-white/40 mt-6">14 días de prueba gratis • Sin compromiso • Después desde 2,99€/mes</p>
+
+                    {/* Dashboard Preview */}
+                    <div className="mt-16 relative w-full max-w-5xl mx-auto rounded-t-xl shadow-2xl overflow-hidden border-t border-x border-white/10 ring-1 ring-white/5 bg-[#0A0A0A]">
+                        {/* Decorative top bar (browser-like) */}
+                        <div className="bg-white/5 backdrop-blur-md px-4 py-3 flex items-center gap-2 border-b border-white/10">
+                            <div className="flex gap-2">
+                                <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                                <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
+                                <div className="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+                            </div>
+                            <div className="flex-1 flex justify-center">
+                                <div className="bg-white/5 rounded-full px-4 py-1 text-[11px] text-white/50 border border-white/10 font-medium">
+                                    app.onyxsuite.com
+                                </div>
+                            </div>
+                        </div>
+                        {/* The actual screenshot */}
+                        <img
+                            src="/dashboard-preview.png"
+                            alt="Onyx Suite Dashboard Preview"
+                            className="w-full object-cover block aspect-[16/9] bg-gray-900"
+                        />
+                    </div>
                 </div>
             </section>
 
@@ -296,13 +319,23 @@ export const LandingHome: React.FC<LandingHomeProps> = ({
                                         <tr key={i} className="hover:bg-gray-50 transition-colors">
                                             <td className="px-6 py-4 text-sm font-medium text-gray-900">{item.feature}</td>
                                             <td className="px-6 py-4 text-center">
-                                                {item.manual ? <CheckCircle2 className="w-5 h-5 text-gray-400 mx-auto" /> : <X className="w-5 h-5 text-gray-300 mx-auto" />}
+                                                {item.manual ? (
+                                                    <><CheckCircle2 className="w-5 h-5 text-gray-400 mx-auto" /><span className="sr-only">Sí</span></>
+                                                ) : (
+                                                    <><X className="w-5 h-5 text-gray-300 mx-auto" /><span className="sr-only">No</span></>
+                                                )}
                                             </td>
                                             <td className="px-6 py-4 text-center">
-                                                {item.other ? <CheckCircle2 className="w-5 h-5 text-gray-400 mx-auto" /> : <Minus className="w-5 h-5 text-gray-300 mx-auto" />}
+                                                {item.other ? (
+                                                    <><CheckCircle2 className="w-5 h-5 text-gray-400 mx-auto" /><span className="sr-only">Sí</span></>
+                                                ) : (
+                                                    <><Minus className="w-5 h-5 text-gray-300 mx-auto" /><span className="sr-only">No</span></>
+                                                )}
                                             </td>
                                             <td className="px-6 py-4 text-center bg-indigo-50/50">
-                                                {item.onyx && <CheckCircle2 className="w-5 h-5 text-indigo-600 mx-auto" />}
+                                                {item.onyx && (
+                                                    <><CheckCircle2 className="w-5 h-5 text-indigo-600 mx-auto" /><span className="sr-only">Sí</span></>
+                                                )}
                                             </td>
                                         </tr>
                                     ))}

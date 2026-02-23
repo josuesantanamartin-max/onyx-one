@@ -27,10 +27,10 @@ export const LandingLife: React.FC<LandingLifeProps> = ({ setShowLoginModal }) =
     ];
 
     const lifeFeatures = [
-        { icon: Plane, title: 'Planificador de Viajes', desc: 'Crea itinerarios detallados con reservas, documentos y presupuesto. Todo en un solo lugar.' },
-        { icon: Archive, title: 'Bóveda Digital Segura', desc: 'Almacena pasaportes, seguros, contratos y documentos importantes con encriptación de grado militar.' },
-        { icon: Calendar, title: 'Calendario Familiar', desc: 'Sincroniza eventos, cumpleaños, citas médicas y actividades de toda la familia.' },
-        { icon: Coffee, title: 'Inventario del Hogar', desc: 'Registra electrodomésticos, garantías y fechas de mantenimiento. Nunca pierdas una garantía importante.' }
+        { icon: Plane, title: 'Planificador de Viajes Integrado', desc: 'Busca vuelos en tiempo real. Crea itinerarios detallados por día, establece presupuestos compartidos y guarda billetes y reservas.' },
+        { icon: Archive, title: 'Bóveda Digital Segura', desc: 'Almacena pasaportes, seguros, contratos y documentos importantes con encriptación de grado militar. Acceso biométrico desde cualquier dispositivo cuando más lo necesitas.' },
+        { icon: Calendar, title: 'Calendario Familiar', desc: 'Sincroniza eventos escolares, citas médicas y reuniones. Evita solapamientos y mantén a todos los miembros de la casa en la misma página automáticamente.' },
+        { icon: Coffee, title: 'Inventario del Hogar', desc: 'Registra electrodomésticos, garantías y fechas de mantenimiento. Recibe alertas antes de que expire una garantía importante o toque revisión.' }
     ];
 
     const useCases = [
@@ -53,7 +53,7 @@ export const LandingLife: React.FC<LandingLifeProps> = ({ setShowLoginModal }) =
         {
             title: 'Planificar Viaje Europeo de 2 Semanas',
             scenario: 'Pedro quería visitar 5 ciudades europeas pero la planificación era abrumadora: vuelos, hoteles, itinerarios, documentos.',
-            solution: 'Onyx centralizó todas las reservas, creó un itinerario día a día, almacenó pasaportes y seguros, y calculó el presupuesto total.',
+            solution: 'Con la búsqueda de vuelos reales en Onyx, planificó todas las rutas sin salir de la app. El sistema centralizó sus reservas, itinerarios y calculó el presupuesto previsto.',
             result: 'Planificó el viaje completo en 4 horas vs. 2 semanas de investigación. Viaje sin estrés con todo organizado.',
             savings: 'Sin estrés',
             time: '4 horas de planificación'
@@ -140,6 +140,12 @@ export const LandingLife: React.FC<LandingLifeProps> = ({ setShowLoginModal }) =
                             </div>
                         ))}
                     </div>
+
+                    <div className="mt-12 text-center">
+                        <button onClick={() => setShowLoginModal(true)} className="bg-white text-orange-600 border-2 border-orange-100 hover:border-orange-200 px-8 py-4 rounded-2xl font-bold text-lg hover:-translate-y-1 transition-all shadow-sm inline-flex items-center gap-2">
+                            Simplificar mi Día a Día <ArrowRight className="w-5 h-5" />
+                        </button>
+                    </div>
                 </div>
 
                 {/* Use Cases Section */}
@@ -194,6 +200,12 @@ export const LandingLife: React.FC<LandingLifeProps> = ({ setShowLoginModal }) =
                             </div>
                         ))}
                     </div>
+
+                    <div className="mt-12 text-center">
+                        <button onClick={() => setShowLoginModal(true)} className="bg-gradient-to-r from-purple-500 to-pink-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:-translate-y-1 transition-all shadow-xl shadow-purple-500/20 inline-flex items-center gap-2">
+                            Quiero Más Tiempo Libre <ArrowRight className="w-5 h-5" />
+                        </button>
+                    </div>
                 </div>
 
                 {/* Workflow Visualization */}
@@ -232,9 +244,9 @@ export const LandingLife: React.FC<LandingLifeProps> = ({ setShowLoginModal }) =
                             Onyx Vida se encarga del caos logístico para que tú disfrutes de los momentos que realmente importan.
                         </p>
                         <button onClick={() => setShowLoginModal(true)} className="bg-white text-violet-900 px-10 py-5 rounded-2xl font-bold text-lg hover:bg-violet-50 hover:-translate-y-1 transition-all shadow-xl inline-flex items-center gap-3">
-                            Explorar Vida <ArrowRight className="w-5 h-5" />
+                            Empezar 14 días gratis <ArrowRight className="w-5 h-5" />
                         </button>
-                        <p className="text-sm text-violet-400 mt-6">Prueba 14 días gratis • Después, desde 2,99€/mes • Cancela cuando quieras</p>
+                        <p className="text-sm text-violet-400 mt-6">Después, desde 2,99€/mes • Cancela cuando quieras</p>
                     </div>
                 </div>
             </div>

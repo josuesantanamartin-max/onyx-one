@@ -12,6 +12,9 @@ import SpendingForecast from '../features/finance/dashboard/widgets/SpendingFore
 import FinanceProjectionWidget from '../features/finance/FinanceProjectionWidget';
 import TimelineEvolutionWidget from '../features/finance/dashboard/widgets/TimelineEvolutionWidget';
 import AccountsSummaryWidget from '../features/finance/dashboard/widgets/AccountsSummaryWidget';
+import RecentTransactionsWidget from '../features/finance/dashboard/widgets/RecentTransactionsWidget';
+import SavingsRateWidget from '../features/finance/dashboard/widgets/SavingsRateWidget';
+import TopSpendersWidget from '../features/finance/dashboard/widgets/TopSpendersWidget';
 
 // New Dashboard Widgets
 import FinancialHealthWidget from './widgets/FinancialHealthWidget';
@@ -29,6 +32,8 @@ import UpcomingTripsWidget from '../features/life/dashboard/widgets/UpcomingTrip
 import FamilyTasksWidget from '../features/life/dashboard/widgets/FamilyTasksWidget';
 import CriticalInventoryWidget from '../features/life/dashboard/widgets/CriticalInventoryWidget';
 import ShoppingListWidget from '../features/life/dashboard/widgets/ShoppingListWidget';
+import LowStockPantryWidget from '../features/life/dashboard/widgets/LowStockPantryWidget';
+import UpcomingBirthdaysWidget from '../features/life/dashboard/widgets/UpcomingBirthdaysWidget';
 
 // Types
 import { Transaction, Account, Debt, Goal, CategoryStructure, Budget } from '@/types';
@@ -58,6 +63,11 @@ export const WIDGET_REGISTRY: Record<string, React.ComponentType<any>> = {
     'FAMILY_TASKS': FamilyTasksWidget,
     'CRITICAL_INVENTORY': CriticalInventoryWidget,
     'ACCOUNTS_SUMMARY': AccountsSummaryWidget,
+    'RECENT_TRANSACTIONS': RecentTransactionsWidget,
+    'SAVINGS_RATE': SavingsRateWidget,
+    'TOP_SPENDERS': TopSpendersWidget,
+    'LOW_STOCK_PANTRY': LowStockPantryWidget,
+    'UPCOMING_BIRTHDAYS': UpcomingBirthdaysWidget,
 };
 
 /**
@@ -72,12 +82,13 @@ export type WidgetSize = 'kpi' | 'half' | 'wide' | 'sidebar' | 'full';
 
 export function getColSpanClass(size: WidgetSize): string {
     switch (size) {
-        case 'kpi': return 'col-span-12 sm:col-span-6 lg:col-span-3';
-        case 'half': return 'col-span-12 md:col-span-6';
-        case 'wide': return 'col-span-12 lg:col-span-8';
-        case 'sidebar': return 'col-span-12 md:col-span-6 lg:col-span-4';
-        case 'full': return 'col-span-12';
-        default: return 'col-span-12 md:col-span-6';
+        // Bento grid is grid-cols-2 md:grid-cols-4
+        case 'kpi': return 'col-span-1 md:col-span-1';          // 1/2 mobile, 1/4 desktop
+        case 'half': return 'col-span-2 md:col-span-2';         // Full mobile, 1/2 desktop
+        case 'sidebar': return 'col-span-2 md:col-span-2';      // Full mobile, 1/2 desktop
+        case 'wide': return 'col-span-2 md:col-span-3';         // Full mobile, 3/4 desktop
+        case 'full': return 'col-span-2 md:col-span-4';         // Full mobile, Full desktop
+        default: return 'col-span-2 md:col-span-2';
     }
 }
 
@@ -107,6 +118,11 @@ export const WIDGET_CONFIG: Record<string, { size: WidgetSize; label: string; ca
     'UPCOMING_TRIPS': { size: 'half', label: 'Próximos Viajes', category: 'life' },
     'FAMILY_TASKS': { size: 'half', label: 'Tareas Familiares', category: 'life' },
     'CRITICAL_INVENTORY': { size: 'half', label: 'Inventario Crítico', category: 'life' },
+    'RECENT_TRANSACTIONS': { size: 'half', label: 'Transacciones Recientes', category: 'finance' },
+    'SAVINGS_RATE': { size: 'kpi', label: 'Tasa de Ahorro', category: 'finance' },
+    'TOP_SPENDERS': { size: 'half', label: 'Top Gastos', category: 'finance' },
+    'LOW_STOCK_PANTRY': { size: 'half', label: 'Despensa Baja', category: 'life' },
+    'UPCOMING_BIRTHDAYS': { size: 'kpi', label: 'Próximos Cumpleaños', category: 'life' },
 };
 
 // Helper type for props passed to dynamic widgets

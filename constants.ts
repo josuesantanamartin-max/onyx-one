@@ -49,6 +49,11 @@ export const DEFAULT_WIDGETS: DashboardWidget[] = [
   { id: 'FAMILY_TASKS', visible: true, order: 20 },
   { id: 'CRITICAL_INVENTORY', visible: true, order: 21 },
   { id: 'BUDGET_STATUS', visible: true, order: 22 },
+  { id: 'RECENT_TRANSACTIONS', visible: true, order: 23 },
+  { id: 'SAVINGS_RATE', visible: true, order: 24 },
+  { id: 'TOP_SPENDERS', visible: true, order: 25 },
+  { id: 'LOW_STOCK_PANTRY', visible: true, order: 26 },
+  { id: 'UPCOMING_BIRTHDAYS', visible: true, order: 27 },
 ];
 
 export const DEFAULT_RULES: AutomationRule[] = [
@@ -99,6 +104,11 @@ export const DEFAULT_LAYOUTS: DashboardLayout[] = [
       { i: 'ACCOUNTS_SUMMARY', x: 8, y: 12, w: 4, h: 3, visible: true },
       { i: 'BUDGET_STATUS', x: 0, y: 15, w: 12, h: 3, visible: true },
       { i: 'EXPLORER', x: 0, y: 18, w: 12, h: 3, visible: true },
+      { i: 'RECENT_TRANSACTIONS', x: 0, y: 21, w: 6, h: 3, visible: true },
+      { i: 'TOP_SPENDERS', x: 6, y: 21, w: 6, h: 3, visible: true },
+      { i: 'SAVINGS_RATE', x: 0, y: 24, w: 3, h: 2, visible: true },
+      { i: 'LOW_STOCK_PANTRY', x: 3, y: 24, w: 6, h: 3, visible: true },
+      { i: 'UPCOMING_BIRTHDAYS', x: 9, y: 24, w: 3, h: 2, visible: true },
     ],
   },
   {

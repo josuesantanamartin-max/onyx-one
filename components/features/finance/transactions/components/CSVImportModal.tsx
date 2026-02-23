@@ -1,8 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import Papa from 'papaparse';
+import { read, utils } from 'xlsx';
 import { Upload, X, ArrowRight, Check, AlertCircle, FileText, Settings, Database, Building2, AlertTriangle } from 'lucide-react';
 import { Transaction } from '../../../../../types';
-import { parseDate, normalizeAmount, detectDuplicates, validateTransactions, getTransactionStats, ValidationError, cleanDescription, mapCategory, detectSubCategory, calculateBalanceImpact } from '../../../../../utils/csvUtils';
+import { parseDate, normalizeAmount, detectDuplicates, validateTransactions, getTransactionStats, ValidationError, cleanDescription, mapCategory, detectSubCategory, calculateBalanceImpact, detectCategoryFromDescription } from '../../../../../utils/csvUtils';
 import { getAllBankTemplates, getBankTemplate, BankTemplate } from '../../../../../config/bankTemplates';
 import { useFinanceStore } from '../../../../../store/useFinanceStore';
 
@@ -60,7 +61,51 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
         const uploadedFile = event.target.files?.[0];
         if (uploadedFile) {
             setFile(uploadedFile);
-            parseCSV(uploadedFile);
+            processFile(uploadedFile);
+        }
+    };
+
+    const processFile = (file: File) => {
+        const isExcel = file.name.match(/\.(xlsx|xls)$/i) ||
+            file.type.includes('spreadsheetml') ||
+            file.type.includes('excel');
+        if (isExcel) {
+            parseExcel(file);
+        } else {
+            parseCSV(file);
+        }
+    };
+
+    const parseExcel = async (file: File) => {
+        try {
+            const data = await file.arrayBuffer();
+            const workbook = read(data);
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
+
+            // Get raw JSON data as strings depending on format (header: 1 returns array of arrays)
+            const jsonData = utils.sheet_to_json<any[]>(worksheet, { header: 1, defval: '', raw: false });
+
+            if (jsonData.length > 0) {
+                // First row is headers
+                const sheetHeaders = jsonData[0] as string[];
+                const validHeaders = sheetHeaders.map(h => h ? String(h).trim() : `Column_${Math.random().toString(36).substr(2, 5)}`);
+
+                // Rest is data - map arrays to objects using headers
+                const rows = jsonData.slice(1).map(row => {
+                    const obj: any = {};
+                    validHeaders.forEach((header, index) => {
+                        obj[header] = row[index] !== undefined ? row[index] : '';
+                    });
+                    return obj;
+                }).filter(row => Object.values(row).some(val => val !== '')); // Filter out empty rows
+
+                setRawData(rows);
+                setHeaders(validHeaders);
+                setStep(STEPS.BANK_SELECT);
+            }
+        } catch (error) {
+            console.error("Error parsing Excel file:", error);
         }
     };
 
@@ -92,7 +137,13 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
             autoMapColumns(headers);
         }
 
-        setStep(STEPS.ACCOUNT_SELECT);
+        // Auto-select account if there is only one
+        if (accounts.length === 1) {
+            setSelectedAccount(accounts[0].id);
+            setStep(STEPS.MAPPING);
+        } else {
+            setStep(STEPS.ACCOUNT_SELECT);
+        }
     };
 
     const handleAccountSelect = (accountId: string) => {
@@ -137,9 +188,15 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
     const handleDrop = (e: React.DragEvent) => {
         e.preventDefault();
         const droppedFile = e.dataTransfer.files[0];
-        if (droppedFile && droppedFile.type === 'text/csv') {
-            setFile(droppedFile);
-            parseCSV(droppedFile);
+        if (droppedFile) {
+            const isCsvOrExcel = droppedFile.type === 'text/csv' ||
+                droppedFile.name.match(/\.(csv|xlsx|xls)$/i) ||
+                droppedFile.type.includes('spreadsheetml') ||
+                droppedFile.type.includes('excel');
+            if (isCsvOrExcel) {
+                setFile(droppedFile);
+                processFile(droppedFile);
+            }
         }
     };
 
@@ -152,11 +209,20 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
             // Map category from CSV or use intelligent mapping
             let categoryVal = 'Otros';
             let subCategoryVal: string | undefined;
+            let autoDetected = false;
 
             if (mapping.category && row[mapping.category]) {
                 const mapped = mapCategory(row[mapping.category], categories, descriptionVal);
                 categoryVal = mapped.category;
                 subCategoryVal = mapped.subCategory;
+            } else {
+                // If no category column is mapped, try to auto-detect purely from description
+                const detected = detectCategoryFromDescription(descriptionVal);
+                if (detected) {
+                    categoryVal = detected.category;
+                    subCategoryVal = detected.subCategory;
+                    autoDetected = true;
+                }
             }
 
             // If subcategory column exists, use it
@@ -177,7 +243,8 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                     amount: amountVal,
                     date: dateVal,
                     category: categoryVal,
-                    subCategory: subCategoryVal
+                    subCategory: subCategoryVal,
+                    autoDetected
                 });
             }
 
@@ -190,7 +257,9 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                 type: amountVal >= 0 ? 'INCOME' : 'EXPENSE',
                 accountId: selectedAccount || undefined,
                 isRecurring: false,
-            } as Partial<Transaction>;
+                // Add a temporary flag for UI rendering
+                _autoDetected: autoDetected
+            } as any; // Using any here to allow the temporary flag
         });
 
         // Validate
@@ -276,7 +345,7 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                         <div>
                             <h2 className="text-xl font-bold text-onyx-950">Importar Transacciones</h2>
                             <p className="text-xs font-medium text-onyx-400 mt-1 uppercase tracking-wider">
-                                {step === STEPS.UPLOAD && '1. Sube tu archivo CSV'}
+                                {step === STEPS.UPLOAD && '1. Sube tu archivo CSV o Excel'}
                                 {step === STEPS.BANK_SELECT && '2. Selecciona tu banco'}
                                 {step === STEPS.ACCOUNT_SELECT && '3. Selecciona la cuenta'}
                                 {step === STEPS.MAPPING && '4. Asigna las columnas'}
@@ -301,12 +370,12 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                             <div className="w-20 h-20 bg-onyx-50 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-sm">
                                 <FileText className="w-10 h-10 text-onyx-300 group-hover:text-indigo-primary transition-colors" />
                             </div>
-                            <h3 className="text-lg font-bold text-onyx-950 mb-2">Arrastra tu archivo CSV aquí</h3>
+                            <h3 className="text-lg font-bold text-onyx-950 mb-2">Arrastra tu archivo CSV o Excel aquí</h3>
                             <p className="text-onyx-500 mb-8 max-w-sm">O haz clic para seleccionar un archivo desde tu ordenador. Asegúrate de que tenga encabezados.</p>
 
                             <label className="bg-onyx-950 hover:bg-onyx-800 text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest cursor-pointer transition-all shadow-lg shadow-onyx-950/20 active:scale-95">
                                 Seleccionar Archivo
-                                <input type="file" onChange={handleFileUpload} accept=".csv" className="hidden" />
+                                <input type="file" onChange={handleFileUpload} accept=".csv, .xlsx, .xls" className="hidden" />
                             </label>
                         </div>
                     )}
@@ -520,7 +589,14 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                                                     <td className="px-6 py-4 text-onyx-900">{row.date}</td>
                                                     <td className="px-6 py-4 text-onyx-700">{row.description}</td>
                                                     <td className="px-6 py-4 text-onyx-600">
-                                                        <span className="px-2 py-1 bg-onyx-100 rounded-lg text-xs font-medium">{row.category}</span>
+                                                        <span className="flex items-center gap-1.5">
+                                                            <span className={`px-2 py-1 rounded-lg text-xs font-medium ${(row as any)._autoDetected ? 'bg-indigo-100 text-indigo-700' : 'bg-onyx-100'}`}>
+                                                                {row.category}
+                                                            </span>
+                                                            {(row as any)._autoDetected && (
+                                                                <span className="text-[10px] text-indigo-500 font-medium" title="Categorizado automáticamente">✨ IA</span>
+                                                            )}
+                                                        </span>
                                                     </td>
                                                     <td className={`px-6 py-4 text-right font-bold ${row.type === 'INCOME' ? 'text-emerald-600' : 'text-onyx-900'}`}>
                                                         {row.amount?.toFixed(2)} €

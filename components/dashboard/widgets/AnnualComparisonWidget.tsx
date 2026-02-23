@@ -8,68 +8,48 @@ const AnnualComparisonWidget: React.FC<DashboardDataProps> = ({
 }) => {
     const comparisonData = useMemo(() => {
         const currentYear = selectedDate.getFullYear();
-        const previousYear = currentYear - 1;
+        const yearsToCompare = 4; // Muestra el año seleccionado y los 3 anteriores (4 barras en total)
 
-        // Transacciones del año actual
-        const currentYearTransactions = transactions.filter(t => {
-            const tDate = new Date(t.date);
-            return tDate.getFullYear() === currentYear;
+        const yearlyData = Array.from({ length: yearsToCompare }, (_, i) => {
+            const year = currentYear - i;
+            const yearTransactions = transactions.filter(t => new Date(t.date).getFullYear() === year);
+
+            const income = yearTransactions
+                .filter(t => t.type === 'INCOME' && t.category !== 'Transferencia')
+                .reduce((sum, t) => sum + t.amount, 0);
+
+            const expenses = yearTransactions
+                .filter(t => t.type === 'EXPENSE' && t.category !== 'Transferencia')
+                .reduce((sum, t) => sum + t.amount, 0);
+
+            const savings = income - expenses;
+
+            return { year, income, expenses, savings };
         });
 
-        // Transacciones del año anterior
-        const previousYearTransactions = transactions.filter(t => {
-            const tDate = new Date(t.date);
-            return tDate.getFullYear() === previousYear;
-        });
-
-        // Calcular ingresos
-        const currentIncome = currentYearTransactions
-            .filter(t => t.type === 'INCOME' && t.category !== 'Transferencia')
-            .reduce((sum, t) => sum + t.amount, 0);
-
-        const previousIncome = previousYearTransactions
-            .filter(t => t.type === 'INCOME' && t.category !== 'Transferencia')
-            .reduce((sum, t) => sum + t.amount, 0);
-
-        // Calcular gastos
-        const currentExpenses = currentYearTransactions
-            .filter(t => t.type === 'EXPENSE' && t.category !== 'Transferencia')
-            .reduce((sum, t) => sum + t.amount, 0);
-
-        const previousExpenses = previousYearTransactions
-            .filter(t => t.type === 'EXPENSE' && t.category !== 'Transferencia')
-            .reduce((sum, t) => sum + t.amount, 0);
-
-        // Calcular ahorro
-        const currentSavings = currentIncome - currentExpenses;
-        const previousSavings = previousIncome - previousExpenses;
+        // Comparativa principal es entre los dos años más recientes
+        const current = yearlyData[0];
+        const previous = yearlyData[1];
 
         // Calcular variaciones
-        const incomeChange = previousIncome > 0
-            ? ((currentIncome - previousIncome) / previousIncome) * 100
+        const incomeChange = previous.income > 0
+            ? ((current.income - previous.income) / previous.income) * 100
             : 0;
 
-        const expensesChange = previousExpenses > 0
-            ? ((currentExpenses - previousExpenses) / previousExpenses) * 100
+        const expensesChange = previous.expenses > 0
+            ? ((current.expenses - previous.expenses) / previous.expenses) * 100
             : 0;
 
-        const savingsChange = previousSavings !== 0
-            ? ((currentSavings - previousSavings) / Math.abs(previousSavings)) * 100
+        const savingsChange = previous.savings !== 0
+            ? ((current.savings - previous.savings) / Math.abs(previous.savings)) * 100
             : 0;
 
         return {
             currentYear,
-            previousYear,
-            current: {
-                income: currentIncome,
-                expenses: currentExpenses,
-                savings: currentSavings
-            },
-            previous: {
-                income: previousIncome,
-                expenses: previousExpenses,
-                savings: previousSavings
-            },
+            previousYear: currentYear - 1,
+            yearlyData,
+            current,
+            previous,
             changes: {
                 income: incomeChange,
                 expenses: expensesChange,
@@ -78,14 +58,11 @@ const AnnualComparisonWidget: React.FC<DashboardDataProps> = ({
         };
     }, [transactions, selectedDate]);
 
-    const { currentYear, previousYear, current, previous, changes } = comparisonData;
+    const { currentYear, previousYear, yearlyData, current, previous, changes } = comparisonData;
 
-    // Calcular altura de barras (normalizado al valor máximo)
+    // Calcular altura de barras (normalizado al valor máximo global)
     const maxValue = Math.max(
-        current.income,
-        previous.income,
-        current.expenses,
-        previous.expenses
+        ...yearlyData.map(d => Math.max(d.income, d.expenses))
     );
 
     return (
@@ -101,7 +78,7 @@ const AnnualComparisonWidget: React.FC<DashboardDataProps> = ({
                             Comparativa Anual
                         </h3>
                         <p className="text-xs text-gray-500 dark:text-gray-400">
-                            {currentYear} vs {previousYear}
+                            Últimos {yearlyData.length} años
                         </p>
                     </div>
                 </div>
@@ -112,8 +89,7 @@ const AnnualComparisonWidget: React.FC<DashboardDataProps> = ({
                 {/* Ingresos */}
                 <ComparisonBar
                     label="Ingresos"
-                    currentValue={current.income}
-                    previousValue={previous.income}
+                    data={yearlyData.map(d => ({ year: d.year, value: d.income }))}
                     change={changes.income}
                     maxValue={maxValue}
                     color="green"
@@ -123,8 +99,7 @@ const AnnualComparisonWidget: React.FC<DashboardDataProps> = ({
                 {/* Gastos */}
                 <ComparisonBar
                     label="Gastos"
-                    currentValue={current.expenses}
-                    previousValue={previous.expenses}
+                    data={yearlyData.map(d => ({ year: d.year, value: d.expenses }))}
                     change={changes.expenses}
                     maxValue={maxValue}
                     color="red"
@@ -133,7 +108,7 @@ const AnnualComparisonWidget: React.FC<DashboardDataProps> = ({
             </div>
 
             {/* Savings Summary */}
-            <div className={`rounded-xl p-4 border ${current.savings >= 0
+            <div className={`rounded-xl p-4 border mt-auto ${current.savings >= 0
                 ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-900/50'
                 : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-900/50'
                 }`}>
@@ -160,19 +135,15 @@ const AnnualComparisonWidget: React.FC<DashboardDataProps> = ({
 // Componente auxiliar para barras de comparación
 const ComparisonBar: React.FC<{
     label: string;
-    currentValue: number;
-    previousValue: number;
+    data: { year: number; value: number }[];
     change: number;
     maxValue: number;
     color: 'green' | 'red';
     positiveIsGood: boolean;
-}> = ({ label, currentValue, previousValue, change, maxValue, color, positiveIsGood }) => {
-    const currentPercentage = maxValue > 0 ? (currentValue / maxValue) * 100 : 0;
-    const previousPercentage = maxValue > 0 ? (previousValue / maxValue) * 100 : 0;
-
+}> = ({ label, data, change, maxValue, color, positiveIsGood }) => {
     const colorClasses = {
-        green: 'bg-green-500',
-        red: 'bg-red-500'
+        green: 'bg-green-500 text-green-600 dark:text-green-400',
+        red: 'bg-red-500 text-red-600 dark:text-red-400'
     };
 
     const isPositiveChange = change > 0;
@@ -180,43 +151,37 @@ const ComparisonBar: React.FC<{
 
     return (
         <div>
-            <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold text-gray-700 dark:text-gray-300">{label}</span>
+            <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide">{label}</span>
                 <ChangeIndicator value={change} isGood={isGoodChange} />
             </div>
 
-            <div className="space-y-2">
-                {/* Año actual */}
-                <div>
-                    <div className="flex items-center justify-between text-xs mb-1">
-                        <span className="text-gray-600 dark:text-gray-400">2026</span>
-                        <span className="font-bold text-gray-900 dark:text-white">
-                            {currentValue.toFixed(2)}€
-                        </span>
-                    </div>
-                    <div className="h-3 bg-gray-200 dark:bg-onyx-800 rounded-full overflow-hidden">
-                        <div
-                            className={`h-full ${colorClasses[color]} rounded-full transition-all duration-500`}
-                            style={{ width: `${currentPercentage}%` }}
-                        />
-                    </div>
-                </div>
+            <div className="space-y-3">
+                {data.map((item, index) => {
+                    const percentage = maxValue > 0 ? (item.value / maxValue) * 100 : 0;
 
-                {/* Año anterior */}
-                <div>
-                    <div className="flex items-center justify-between text-xs mb-1">
-                        <span className="text-gray-600 dark:text-gray-400">2025</span>
-                        <span className="font-bold text-gray-900 dark:text-white">
-                            {previousValue.toFixed(2)}€
-                        </span>
-                    </div>
-                    <div className="h-3 bg-gray-200 dark:bg-onyx-800 rounded-full overflow-hidden">
-                        <div
-                            className={`h-full ${colorClasses[color]} opacity-50 rounded-full transition-all duration-500`}
-                            style={{ width: `${previousPercentage}%` }}
-                        />
-                    </div>
-                </div>
+                    // Solo el año actual tiene opacidad total, el resto tiene menor opacidad
+                    const isCurrent = index === 0;
+                    const opacityClass = isCurrent ? 'opacity-100' : 'opacity-40';
+                    const textClass = isCurrent ? 'font-black text-gray-900 dark:text-white' : 'font-semibold text-gray-500 dark:text-gray-400';
+
+                    return (
+                        <div key={item.year} className="group relative">
+                            <div className="flex items-center justify-between text-[10px] mb-1">
+                                <span className="font-bold text-gray-400 dark:text-gray-500">{item.year}</span>
+                                <span className={textClass}>
+                                    {item.value.toFixed(2)}€
+                                </span>
+                            </div>
+                            <div className="h-1.5 bg-gray-100 dark:bg-onyx-800/50 rounded-full overflow-hidden">
+                                <div
+                                    className={`h-full ${colorClasses[color].split(' ')[0]} ${opacityClass} rounded-full transition-all duration-700 ease-out group-hover:opacity-100`}
+                                    style={{ width: `${percentage}%` }}
+                                />
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );
@@ -229,17 +194,17 @@ const ChangeIndicator: React.FC<{ value: number; isGood?: boolean }> = ({ value,
 
     // Si no se especifica isGood, usar verde para positivo y rojo para negativo
     const color = isGood !== undefined
-        ? isGood ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
-        : isPositive ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400';
+        ? isGood ? 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30' : 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30'
+        : isPositive ? 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30' : 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30';
 
     if (value === 0) {
-        return <span className="text-xs font-bold text-gray-500">0%</span>;
+        return <span className="text-[10px] font-bold text-gray-500 px-2 py-0.5 rounded-full bg-gray-100 dark:bg-onyx-800">0.0%</span>;
     }
 
     return (
-        <div className={`flex items-center gap-1 ${color}`}>
+        <div className={`flex items-center gap-0.5 px-2 py-0.5 rounded-full ${color}`}>
             <Icon className="w-3 h-3" />
-            <span className="text-xs font-bold">
+            <span className="text-[10px] font-black tracking-wider">
                 {Math.abs(value).toFixed(1)}%
             </span>
         </div>

@@ -78,23 +78,23 @@ const ProfileSelectionStep: React.FC = () => {
                 Puedes seleccionar varias opciones. Personalizaremos Onyx según tu perfil.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full mb-10 cursor-pointer">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full mb-10">
                 {PROFILES.map((profile) => {
                     const isSelected = selected.includes(profile.id);
                     return (
                         <div
                             key={profile.id}
                             onClick={() => handleSelect(profile.id)}
-                            className={`relative p-5 rounded-2xl border-2 transition-all hover:scale-[1.02] ${isSelected
+                            className={`relative p-5 rounded-2xl border-2 transition-all cursor-pointer hover:scale-[1.02] ${isSelected
                                 ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 dark:border-indigo-500 shadow-md transform scale-[1.02]'
                                 : 'border-gray-100 dark:border-onyx-700 bg-white dark:bg-onyx-800 hover:border-indigo-200 dark:hover:border-indigo-800'
                                 }`}
                         >
-                            {isSelected && (
-                                <div className="absolute top-3 right-3 text-indigo-600 dark:text-indigo-400 animate-scale-in">
-                                    <CheckCircle2 className="w-5 h-5 fill-indigo-100 dark:fill-indigo-900" />
+                            <div className="absolute top-4 right-4 text-indigo-600 dark:text-indigo-400">
+                                <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors ${isSelected ? 'bg-indigo-600 border-indigo-600 dark:border-indigo-500' : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-onyx-800'}`}>
+                                    {isSelected && <CheckCircle2 className="w-4 h-4 text-white" />}
                                 </div>
-                            )}
+                            </div>
 
                             <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${profile.color} flex items-center justify-center shadow-md mb-4`}>
                                 <profile.icon className="w-6 h-6 text-white" />
@@ -117,16 +117,24 @@ const ProfileSelectionStep: React.FC = () => {
                     Atrás
                 </button>
 
-                <button
-                    onClick={handleContinue}
-                    disabled={selected.length === 0}
-                    className={`px-8 py-3 rounded-xl font-bold shadow-lg transition-all ${selected.length > 0
-                        ? 'bg-indigo-600 text-white hover:bg-indigo-700 hover:scale-105'
-                        : 'bg-gray-200 text-gray-400 cursor-not-allowed dark:bg-onyx-700 dark:text-gray-500'
-                        }`}
-                >
-                    Continuar
-                </button>
+                <div className="relative group">
+                    <button
+                        onClick={handleContinue}
+                        disabled={selected.length === 0}
+                        className={`px-8 py-3 rounded-xl font-bold shadow-lg transition-all ${selected.length > 0
+                            ? 'bg-indigo-600 text-white hover:bg-indigo-700 hover:scale-105'
+                            : 'bg-gray-200 text-gray-400 cursor-not-allowed dark:bg-onyx-700 dark:text-gray-500'
+                            }`}
+                    >
+                        Continuar
+                    </button>
+                    {selected.length === 0 && (
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white text-xs py-1 px-3 rounded-md pointer-events-none z-10 hidden md:block">
+                            Selecciona al menos un perfil para continuar
+                            <div className="absolute top-full left-1/2 -translate-x-1/2 border-[4px] border-transparent border-t-gray-900"></div>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

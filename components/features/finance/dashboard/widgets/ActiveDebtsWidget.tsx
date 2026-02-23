@@ -87,7 +87,7 @@ const ActiveDebtsWidget: React.FC<ActiveDebtsWidgetProps> = ({ debts, onNavigate
 
                                     <div className="flex justify-between items-center text-[9px] font-black text-onyx-400 uppercase tracking-widest">
                                         <p className="flex items-center gap-1.5 text-amber-700/70 truncate">
-                                            <ArrowRight className="w-2.5 h-2.5 rotate-45 shrink-0" /> Interés: ~{formatEUR(monthlyInterest)}/mes
+                                            <ArrowRight className="w-2.5 h-2.5 rotate-45 shrink-0" /> Interés: ~{formatEUR(Math.abs(monthlyInterest))}/mes
                                         </p>
                                         <p className="text-red-900/20 whitespace-nowrap ml-2">Vence: {debt.endDate ? new Date(debt.endDate).toLocaleDateString('es-ES', { month: 'short', year: 'numeric' }).toUpperCase() : 'N/A'}</p>
                                     </div>

@@ -281,6 +281,18 @@ export const getTransactionStats = (
 };
 
 /**
+ * Normalize text for robust search matching (removes accents, special chars, extra spaces)
+ */
+export const normalizeTextForSearch = (text: string): string => {
+    return text.normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, "") // Remove accents
+        .replace(/[^a-zA-Z0-9\s]/g, " ") // Replace special chars with space
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' '); // Compress multiple spaces
+};
+
+/**
  * Detect category and subcategory from description using merchant mappings
  */
 export const detectCategoryFromDescription = (
@@ -288,10 +300,21 @@ export const detectCategoryFromDescription = (
 ): { category: string; subCategory?: string } | null => {
     if (!description) return null;
 
-    const cleanedDescription = description.toUpperCase();
+    const normalizedDesc = normalizeTextForSearch(description);
 
     for (const mapping of MERCHANT_MAPPINGS) {
-        if (mapping.keywords.some(keyword => cleanedDescription.includes(keyword))) {
+        if (mapping.keywords.some(keyword => {
+            const normalizedKeyword = normalizeTextForSearch(keyword);
+
+            // For short keywords (like 'DIA', 'BP', 'KFC'), we use word boundaries 
+            // to avoid false positives (e.g., 'DIARIO' containing 'DIA').
+            if (normalizedKeyword.length <= 4) {
+                const regex = new RegExp(`\\b${normalizedKeyword}\\b`, 'i');
+                return regex.test(normalizedDesc);
+            }
+
+            return normalizedDesc.includes(normalizedKeyword);
+        })) {
             return {
                 category: mapping.category,
                 subCategory: mapping.subCategory

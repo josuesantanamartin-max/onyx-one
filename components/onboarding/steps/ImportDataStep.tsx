@@ -4,11 +4,13 @@ import { UploadCloud, CheckCircle, ArrowRight } from 'lucide-react';
 // import { useNavigate } from 'react-router-dom';
 
 const ImportDataStep: React.FC = () => {
-    const { setOnboardingStep, completeOnboarding } = useUserStore();
+    const { setOnboardingStep, completeOnboarding, setSubscription } = useUserStore();
     // const navigate = useNavigate(); // Assuming we are using react-router
 
     const handleComplete = () => {
         completeOnboarding();
+        // Give users Premium Personal status right away after onboarding so they don't see "BASIC"
+        setSubscription({ plan: 'PERSONAL', status: 'ACTIVE' });
         // State update triggers AuthGate re-render automatically
     };
 
