@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Debt } from '@/types';
+import { Debt } from '../../../../../types';
 import { CreditCard, Home, Car, ShieldCheck, ArrowRight } from 'lucide-react';
 
 interface ActiveDebtsWidgetProps {

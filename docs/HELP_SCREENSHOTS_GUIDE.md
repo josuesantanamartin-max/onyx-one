@@ -37,7 +37,7 @@ public/
     ├── widget-gallery.png
     ├── privacy-panel.png
     ├── onboarding-welcome.png
-    └── dashboard-overview.png
+    └── onyx-central-overview.png
 ```
 
 ### Convención de Nombres
@@ -112,7 +112,7 @@ public/
 ### Artículo: "Primeros Pasos"
 **2 screenshots:**
 1. `onboarding-welcome.png` - Primera pantalla del onboarding
-2. `dashboard-overview.png` - Dashboard principal completo
+2. `onyx-central-overview.png` - Onyx Central completo
 
 **Cómo capturar:**
 - Crea una cuenta nueva para capturar el onboarding

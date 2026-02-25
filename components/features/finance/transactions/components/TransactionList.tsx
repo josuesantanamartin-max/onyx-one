@@ -1,8 +1,9 @@
 
 import React from 'react';
 import { Transaction, Account } from '../../../../../types';
-import { Pencil, Trash2, Repeat, ArrowUpRight, ArrowDownRight, ArrowRightLeft, Search } from 'lucide-react';
+import { Pencil, Trash2, Repeat, ArrowUpRight, ArrowDownRight, ArrowRightLeft, Search, PlusCircle } from 'lucide-react';
 import { AnimatedList, AnimatedListItem } from '../../../../common/animations/AnimatedList';
+import { useUserStore } from '../../../../../store/useUserStore';
 
 interface TransactionListProps {
     transactions: Transaction[];
@@ -15,6 +16,7 @@ interface TransactionListProps {
 const formatEUR = (amount: number) => new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(amount);
 
 const TransactionList: React.FC<TransactionListProps> = ({ transactions, onEdit, onDelete, accounts }) => {
+    const { setQuickAction } = useUserStore();
 
     // Group by date
     const groupedTransactions = transactions.reduce((groups, transaction) => {
@@ -98,7 +100,14 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions, onEdit,
                         <Search className="w-10 h-10" />
                     </div>
                     <p className="text-2xl font-bold text-onyx-950 tracking-tight">No se encontraron movimientos</p>
-                    <p className="text-xs font-bold text-onyx-400 mt-4 uppercase tracking-[0.2em]">Intenta ajustar los filtros o el periodo de búsqueda</p>
+                    <p className="text-xs font-bold text-onyx-400 mt-4 mb-8 uppercase tracking-[0.2em]">Intenta ajustar los filtros o el periodo de búsqueda</p>
+                    <button
+                        onClick={() => setQuickAction({ type: 'ADD_EXPENSE', timestamp: Date.now() })}
+                        className="px-8 py-4 bg-onyx-950 hover:bg-black text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl hover:-translate-y-1 transition-all flex items-center gap-3 mx-auto"
+                    >
+                        <PlusCircle className="w-5 h-5 text-indigo-400" />
+                        Añadir Transacción
+                    </button>
                 </div>
             )}
         </AnimatedList>

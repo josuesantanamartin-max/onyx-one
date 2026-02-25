@@ -22,7 +22,7 @@ const BentoSection: React.FC<BentoSectionProps> = ({ id, title, icon, children, 
     }, [isOpen, storageKey]);
 
     return (
-        <div className="mb-6 rounded-3xl overflow-hidden bg-white/40 dark:bg-onyx-900/30 border border-onyx-200/50 dark:border-onyx-800/50 backdrop-blur-sm">
+        <div className="mb-8 rounded-[2.5rem] overflow-hidden bg-white/40 dark:bg-onyx-900/30 border border-onyx-100 dark:border-onyx-800/50 backdrop-blur-md shadow-sm">
             {/* Cabecera / Header del Acordeón */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
@@ -30,7 +30,7 @@ const BentoSection: React.FC<BentoSectionProps> = ({ id, title, icon, children, 
             >
                 <div className="flex items-center gap-3">
                     {icon && (
-                        <div className="p-2 rounded-xl bg-onyx-100 dark:bg-onyx-800 text-onyx-500 dark:text-onyx-400">
+                        <div className="p-2.5 rounded-2xl bg-white dark:bg-onyx-800 text-onyx-500 dark:text-onyx-400 shadow-sm border border-onyx-100 dark:border-onyx-700/50">
                             {icon}
                         </div>
                     )}

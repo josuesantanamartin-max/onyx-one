@@ -1,4 +1,4 @@
-# 📘 Manual de Usuario - Onyx Suite 2026
+# 📘 Manual de Usuario - Onyx One
 
 **Versión 1.0** | Última actualización: Febrero 2026
 
@@ -6,11 +6,11 @@
 
 ## 🎯 Introducción
 
-Bienvenido a **Onyx Suite 2026**, tu asistente personal todo-en-uno para gestionar finanzas, vida diaria y hogar. Esta guía te ayudará a aprovechar al máximo todas las funcionalidades de la aplicación.
+Bienvenido a **Onyx One**, tu asistente personal todo-en-uno para gestionar finanzas, vida diaria y hogar. Esta guía te ayudará a aprovechar al máximo todas las funcionalidades de la aplicación.
 
-### ¿Qué es Onyx Suite?
+### ¿Qué es Onyx One?
 
-Onyx Suite es una plataforma integral que combina:
+Onyx One es una plataforma integral que combina:
 - 💰 **Gestión Financiera**: Transacciones, presupuestos, metas, deudas
 - 🏠 **Gestión del Hogar**: Cocina, recetas, planificación de comidas, viajes
 - 👥 **Colaboración Familiar**: Espacios compartidos, roles, permisos
@@ -22,7 +22,7 @@ Onyx Suite es una plataforma integral que combina:
 
 ### 1. Crear tu Cuenta
 
-1. Visita la página principal de Onyx Suite
+1. Visita la página principal de Onyx One
 2. Haz clic en **"Comenzar Gratis"**
 3. Completa el formulario de registro:
    - Nombre completo
@@ -488,7 +488,7 @@ El dashboard es tu centro de control:
 
 ### General
 
-**¿Onyx Suite es gratuito?**
+**¿Onyx One es gratuito?**
 Sí, ofrecemos un plan básico gratuito. El plan Familia (4.99€/mes) incluye funciones avanzadas.
 
 **¿Mis datos están seguros?**
@@ -566,7 +566,7 @@ Sí, configura backups automáticos diarios, semanales o mensuales.
 ### No recibo notificaciones
 
 1. Ve a Configuración del navegador
-2. Permite notificaciones para Onyx Suite
+2. Permite notificaciones para Onyx One
 3. Verifica configuración de notificaciones en la app
 4. Revisa que no estés en modo No Molestar
 
@@ -603,7 +603,7 @@ Accede desde el menú principal o presiona **?**
 
 ### Tutoriales en Video
 
-- [Primeros Pasos con Onyx Suite](https://youtube.com/onyxsuite/getting-started)
+- [Primeros Pasos con Onyx One](https://youtube.com/onyxsuite/getting-started)
 - [Importar Transacciones desde tu Banco](https://youtube.com/onyxsuite/csv-import)
 - [Crear tu Primer Presupuesto](https://youtube.com/onyxsuite/budgets)
 - [Planificación de Comidas con IA](https://youtube.com/onyxsuite/meal-planning)
@@ -646,4 +646,4 @@ Accede desde el menú principal o presiona **?**
 
 ---
 
-*Onyx Suite 2026 - Tu vida, organizada.*
+*Onyx One - Tu vida, organizada.*

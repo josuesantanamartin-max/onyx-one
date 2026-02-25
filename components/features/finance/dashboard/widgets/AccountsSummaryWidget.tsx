@@ -1,5 +1,5 @@
 import React from 'react';
-import { Account } from '@/types';
+import { Account } from '../../../../../types';
 import { Wallet, CreditCard, Coins, TrendingUp, ChevronRight, Landmark } from 'lucide-react';
 
 interface AccountsSummaryWidgetProps {
@@ -61,7 +61,10 @@ const AccountsSummaryWidget: React.FC<AccountsSummaryWidgetProps> = ({ accounts,
                 {sortedAccounts.length === 0 ? (
                     <div className="h-full flex flex-col items-center justify-center text-center p-4">
                         <Wallet className="w-8 h-8 text-onyx-200 mb-2" />
-                        <p className="text-sm text-onyx-400">No hay cuentas</p>
+                        <p className="text-sm text-onyx-400 mb-4">No hay cuentas</p>
+                        <button onClick={() => onNavigate('finance', 'accounts')} className="px-4 py-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-800 rounded-xl text-xs font-bold hover:bg-indigo-100 dark:hover:bg-indigo-900 transition-colors shadow-sm">
+                            Añadir Cuenta
+                        </button>
                     </div>
                 ) : (
                     sortedAccounts.map(account => {

@@ -39,7 +39,7 @@ export const useGlobalSearch = (isOpen: boolean, onClose: () => void) => {
         {
             id: 'nav-dashboard',
             type: 'NAVIGATION',
-            title: 'Dashboard Principal',
+            title: 'Onyx Central',
             subtitle: 'Ir al inicio',
             icon: LayoutDashboard,
             action: () => setActiveApp('dashboard'),

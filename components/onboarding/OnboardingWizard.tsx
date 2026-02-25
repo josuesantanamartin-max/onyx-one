@@ -9,7 +9,12 @@ import AccountsStep from './steps/AccountsStep';
 import ImportDataStep from './steps/ImportDataStep';
 
 const OnboardingWizard: React.FC = () => {
-    const { onboardingStep } = useUserStore();
+    const { onboardingStep, userProfile } = useUserStore();
+    const isFamily = userProfile?.plan === 'FAMILIA' || userProfile?.plan === 'EMPRESA';
+
+    // Calculate display step skipping the Family step for Personal users
+    const displayStep = isFamily ? onboardingStep : (onboardingStep >= 3 ? onboardingStep - 1 : onboardingStep);
+    const totalSteps = isFamily ? 5 : 4;
 
     const renderStep = () => {
         switch (onboardingStep) {
@@ -32,11 +37,11 @@ const OnboardingWizard: React.FC = () => {
                         <div className="flex-1 h-2 bg-gray-100 dark:bg-onyx-800 rounded-full overflow-hidden">
                             <div
                                 className="h-full bg-indigo-600 transition-all duration-500 ease-out"
-                                style={{ width: `${(onboardingStep / 5) * 100}%` }}
+                                style={{ width: `${(displayStep / totalSteps) * 100}%` }}
                             />
                         </div>
                         <span className="text-xs font-bold text-gray-400">
-                            Paso {onboardingStep} de 5
+                            Paso {displayStep} de {totalSteps}
                         </span>
                     </div>
                 )}

@@ -1,8 +1,8 @@
-# Script para Instalar Dependencias de Onyx Suite
+# Script para Instalar Dependencias de Onyx One
 # Resuelve conflictos de dependencias automaticamente
 
 Write-Host "================================================" -ForegroundColor Cyan
-Write-Host "  Instalando Dependencias de Onyx Suite" -ForegroundColor Cyan
+Write-Host "  Instalando Dependencias de Onyx One" -ForegroundColor Cyan
 Write-Host "================================================" -ForegroundColor Cyan
 Write-Host ""
 

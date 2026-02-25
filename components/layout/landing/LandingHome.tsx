@@ -36,12 +36,12 @@ export const LandingHome: React.FC<LandingHomeProps> = ({
 
     const faqs = [
         {
-            q: '¿Qué es Onyx Suite exactamente?',
-            a: 'Onyx Suite es una plataforma integral que unifica la gestión financiera personal y la organización del hogar en un solo lugar. Combina un sistema operativo financiero completo (presupuestos, deudas, inversiones) con herramientas inteligentes para la vida diaria (planificación de menús, gestión de despensa, viajes).'
+            q: '¿Qué es Onyx One exactamente?',
+            a: 'Onyx One es una plataforma integral que unifica la gestión financiera personal y la organización del hogar en un solo lugar. Combina un sistema operativo financiero completo (presupuestos, deudas, inversiones) con herramientas inteligentes para la vida diaria (planificación de menús, gestión de despensa, viajes).'
         },
         {
             q: '¿Cómo se diferencia de otras apps de finanzas o gestión del hogar?',
-            a: 'La mayoría de apps se centran en una sola área. Onyx Suite es única porque conecta tus finanzas con tu vida real. Por ejemplo, si planeas un viaje, Onyx te muestra automáticamente el impacto en tu presupuesto mensual.'
+            a: 'La mayoría de apps se centran en una sola área. Onyx One es única porque conecta tus finanzas con tu vida real. Por ejemplo, si planeas un viaje, Onyx te muestra automáticamente el impacto en tu presupuesto mensual.'
         },
         {
             q: '¿Mis datos están seguros?',
@@ -53,14 +53,14 @@ export const LandingHome: React.FC<LandingHomeProps> = ({
         },
         {
             q: '¿Funciona en todos mis dispositivos?',
-            a: 'Sí. Onyx Suite se sincroniza automáticamente entre tu móvil, tablet y ordenador. Los cambios que hagas en un dispositivo aparecen instantáneamente en los demás.'
+            a: 'Sí. Onyx One se sincroniza automáticamente entre tu móvil, tablet y ordenador. Los cambios que hagas en un dispositivo aparecen instantáneamente en los demás.'
         },
         {
             q: '¿Hay límite en el número de transacciones o recetas?',
             a: 'No. Puedes registrar transacciones ilimitadas, crear todos los presupuestos que necesites, y guardar tantas recetas como quieras.'
         },
         {
-            q: '¿Puedo usar Onyx Suite para gestionar finanzas familiares?',
+            q: '¿Puedo usar Onyx One para gestionar finanzas familiares?',
             a: 'Sí. El plan Pro permite hasta 5 usuarios con permisos personalizables. Puedes compartir presupuestos, menús semanales y calendarios familiares.'
         },
         {
@@ -140,14 +140,14 @@ export const LandingHome: React.FC<LandingHomeProps> = ({
                             </div>
                             <div className="flex-1 flex justify-center">
                                 <div className="bg-white/5 rounded-full px-4 py-1 text-[11px] text-white/50 border border-white/10 font-medium">
-                                    app.onyxsuite.com
+                                    app.onyx-one.app
                                 </div>
                             </div>
                         </div>
                         {/* The actual screenshot */}
                         <img
                             src="/dashboard-preview.png"
-                            alt="Onyx Suite Dashboard Preview"
+                            alt="Onyx One Dashboard Preview"
                             className="w-full object-cover block aspect-[16/9] bg-gray-900"
                         />
                     </div>
@@ -300,7 +300,7 @@ export const LandingHome: React.FC<LandingHomeProps> = ({
             <section className="py-24 bg-gray-50 border-t border-gray-100">
                 <div className="max-w-6xl mx-auto px-6">
                     <div className="text-center mb-12">
-                        <h2 className="text-4xl font-bold text-gray-900 mb-4">¿Por Qué Onyx Suite?</h2>
+                        <h2 className="text-4xl font-bold text-gray-900 mb-4">¿Por Qué Onyx One?</h2>
                         <p className="text-lg text-gray-500">Comparación con métodos tradicionales y otras aplicaciones</p>
                     </div>
                     <div className="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-lg">
@@ -311,7 +311,7 @@ export const LandingHome: React.FC<LandingHomeProps> = ({
                                         <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Característica</th>
                                         <th className="px-6 py-4 text-center text-sm font-bold text-gray-500">Manual<br />(Excel)</th>
                                         <th className="px-6 py-4 text-center text-sm font-bold text-gray-500">Otras Apps</th>
-                                        <th className="px-6 py-4 text-center text-sm font-bold text-indigo-600 bg-indigo-50">Onyx Suite</th>
+                                        <th className="px-6 py-4 text-center text-sm font-bold text-indigo-600 bg-indigo-50">Onyx One</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-100">
@@ -381,7 +381,7 @@ export const LandingHome: React.FC<LandingHomeProps> = ({
                 <div className="max-w-4xl mx-auto px-6">
                     <div className="text-center mb-12">
                         <h2 className="text-4xl font-bold text-gray-900 mb-4">Preguntas Frecuentes</h2>
-                        <p className="text-lg text-gray-500">Todo lo que necesitas saber sobre Onyx Suite</p>
+                        <p className="text-lg text-gray-500">Todo lo que necesitas saber sobre Onyx One</p>
                     </div>
                     <div className="space-y-4">
                         {faqs.map((faq, i) => (

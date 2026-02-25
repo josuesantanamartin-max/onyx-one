@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo } from 'react';
-import { Transaction, Account, CategoryStructure } from '@/types';
+import { Transaction, Account, CategoryStructure } from '../../../../../types';
 import { TrendingUp, Filter, BarChart3, Wallet, Eye, EyeOff, ChevronDown, Activity } from 'lucide-react';
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { useFinanceStore } from '@/store/useFinanceStore';
@@ -23,7 +23,7 @@ const formatEUR = (amount: number) => new Intl.NumberFormat('de-DE', {
 type ViewMode = 'CATEGORIES' | 'SUBCATEGORIES' | 'ACCOUNTS' | 'INCOME_VS_EXPENSES' | 'COMPARISON';
 type ChartRange = '3M' | '6M' | '1Y' | 'ALL';
 
-// Vibrant color palette matching Onyx Suite design
+// Vibrant color palette matching Onyx One design
 const CATEGORY_COLORS = ['#6366F1', '#F43F5E', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899', '#06B6D4', '#84CC16', '#EF4444', '#14B8A6'];
 const ACCOUNT_COLORS = ['#6366F1', '#F43F5E', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899', '#06B6D4', '#84CC16'];
 

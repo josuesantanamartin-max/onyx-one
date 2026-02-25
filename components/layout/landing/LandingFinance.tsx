@@ -63,7 +63,7 @@ export const LandingFinance: React.FC<LandingFinanceProps> = ({ setShowLoginModa
                     <div className="inline-flex items-center justify-center p-4 bg-blue-50 rounded-3xl mb-6 shadow-inner">
                         <PiggyBank className="w-12 h-12 text-blue-600" />
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-gray-900 mb-6">Onyx Finanzas</h1>
+                    <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-gray-900 mb-6">Onyx One</h1>
                     <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-4">
                         El sistema operativo financiero personal más avanzado
                     </p>
@@ -248,7 +248,7 @@ export const LandingFinance: React.FC<LandingFinanceProps> = ({ setShowLoginModa
                     <div className="relative z-10">
                         <h2 className="text-4xl md:text-5xl font-bold mb-6">Toma el control de tu futuro financiero hoy</h2>
                         <p className="text-indigo-300 max-w-2xl mx-auto mb-10 text-lg">
-                            Únete a quienes han pasado del caos financiero a la claridad total con Onyx Finanzas.
+                            Únete a quienes han pasado del caos financiero a la claridad total con Onyx One.
                         </p>
                         <button onClick={() => setShowLoginModal(true)} className="bg-white text-indigo-900 px-10 py-5 rounded-2xl font-bold text-lg hover:bg-indigo-50 hover:-translate-y-1 transition-all shadow-xl inline-flex items-center gap-3">
                             Comenzar Gratis <ArrowRight className="w-5 h-5" />

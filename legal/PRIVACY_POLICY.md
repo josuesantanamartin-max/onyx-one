@@ -5,13 +5,13 @@
 
 ## 1. Introduction
 
-Welcome to Onyx Suite 2026 ("we," "our," or "us"). We are committed to protecting your personal data and respecting your privacy rights. This Privacy Policy explains how we collect, use, store, and protect your information when you use our personal management platform.
+Welcome to Onyx One ("we," "our," or "us"). We are committed to protecting your personal data and respecting your privacy rights. This Privacy Policy explains how we collect, use, store, and protect your information when you use our personal management platform.
 
-Onyx Suite 2026 is a premium, AI-powered personal operating system that helps you manage your finances, life organization, and long-term goals. This policy complies with the General Data Protection Regulation (GDPR) and other applicable data protection laws.
+Onyx One is a premium, AI-powered personal operating system that helps you manage your finances, life organization, and long-term goals. This policy complies with the General Data Protection Regulation (GDPR) and other applicable data protection laws.
 
 ## 2. Data Controller
 
-**Onyx Suite 2026**  
+**Onyx One**  
 Email: privacy@onyxsuite.com  
 Data Protection Officer: dpo@onyxsuite.com
 
@@ -278,7 +278,7 @@ Note: Disabling essential cookies may affect functionality.
 
 ## 13. Children's Privacy
 
-Onyx Suite 2026 is not intended for children under 16 years of age. We do not knowingly collect personal data from children under 16.
+Onyx One is not intended for children under 16 years of age. We do not knowingly collect personal data from children under 16.
 
 The "Family Member" feature allows parents to track information about their children, but:
 - Only parents/guardians can create and manage child profiles
@@ -334,7 +334,7 @@ Email: dpo@onyxsuite.com
 Email: support@onyxsuite.com
 
 **Mailing Address:**  
-Onyx Suite 2026  
+Onyx One  
 [Your Business Address]  
 [City, Postal Code]  
 [Country]
@@ -345,4 +345,4 @@ If you are located in the EEA, you have the right to lodge a complaint with your
 
 ---
 
-**Acknowledgment:** By using Onyx Suite 2026, you acknowledge that you have read and understood this Privacy Policy and agree to the collection, use, and disclosure of your information as described herein.
+**Acknowledgment:** By using Onyx One, you acknowledge that you have read and understood this Privacy Policy and agree to the collection, use, and disclosure of your information as described herein.

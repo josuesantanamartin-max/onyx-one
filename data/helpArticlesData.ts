@@ -29,9 +29,9 @@ export const helpArticlesData: HelpArticle[] = [
     {
         id: 'getting-started',
         title: {
-            ES: 'Primeros Pasos con Onyx Suite',
-            EN: 'Getting Started with Onyx Suite',
-            FR: 'Premiers Pas avec Onyx Suite'
+            ES: 'Primeros Pasos con Onyx One',
+            EN: 'Getting Started with Onyx One',
+            FR: 'Premiers Pas avec Onyx One'
         },
         category: {
             ES: 'Inicio',
@@ -39,10 +39,10 @@ export const helpArticlesData: HelpArticle[] = [
             FR: 'Démarrage'
         },
         content: {
-            ES: `# Bienvenido a Onyx Suite 2026
+            ES: `# Bienvenido a Onyx One
 
-## ¿Qué es Onyx Suite?
-Onyx Suite es tu asistente personal integral que combina gestión financiera, planificación de vida y organización del hogar en una sola aplicación potenciada por IA.
+## ¿Qué es Onyx One?
+Onyx One es tu asistente personal integral que combina gestión financiera, planificación de vida y organización del hogar en una sola aplicación potenciada por IA.
 
 ## Configuración Inicial
 1. **Crea tu cuenta** - Regístrate con email o Google
@@ -55,10 +55,10 @@ Onyx Suite es tu asistente personal integral que combina gestión financiera, pl
 - **🏠 Vida**: Recetas, despensa, lista de compras, viajes
 - **📊 Dashboard**: Vista general personalizable
 - **🎯 Metas**: Objetivos financieros y de vida`,
-            EN: `# Welcome to Onyx Suite 2026
+            EN: `# Welcome to Onyx One
 
-## What is Onyx Suite?
-Onyx Suite is your comprehensive personal assistant that combines financial management, life planning, and home organization in a single AI-powered application.
+## What is Onyx One?
+Onyx One is your comprehensive personal assistant that combines financial management, life planning, and home organization in a single AI-powered application.
 
 ## Initial Setup
 1. **Create your account** - Sign up with email or Google
@@ -71,10 +71,10 @@ Onyx Suite is your comprehensive personal assistant that combines financial mana
 - **🏠 Life**: Recipes, pantry, shopping list, trips
 - **📊 Dashboard**: Customizable overview
 - **🎯 Goals**: Financial and life objectives`,
-            FR: `# Bienvenue dans Onyx Suite 2026
+            FR: `# Bienvenue dans Onyx One
 
-## Qu'est-ce qu'Onyx Suite?
-Onyx Suite est votre assistant personnel complet qui combine gestion financière, planification de vie et organisation domestique dans une seule application alimentée par l'IA.
+## Qu'est-ce qu'Onyx One?
+Onyx One est votre assistant personnel complet qui combine gestion financière, planification de vie et organisation domestique dans une seule application alimentée par l'IA.
 
 ## Configuration Initiale
 1. **Créez votre compte** - Inscrivez-vous avec email ou Google
@@ -109,7 +109,7 @@ Onyx Suite est votre assistant personnel complet qui combine gestion financière
             ES: `# Importar Transacciones desde CSV
 
 ## Formatos Soportados
-Onyx Suite acepta archivos CSV de la mayoría de bancos españoles.
+Onyx One acepta archivos CSV de la mayoría de bancos españoles.
 
 ## Pasos para Importar
 1. Ve a **Finanzas → Transacciones**
@@ -133,7 +133,7 @@ El sistema detecta automáticamente:
             EN: `# Import Transactions from CSV
 
 ## Supported Formats
-Onyx Suite accepts CSV files from most Spanish banks.
+Onyx One accepts CSV files from most Spanish banks.
 
 ## Import Steps
 1. Go to **Finance → Transactions**
@@ -157,7 +157,7 @@ The system automatically detects:
             FR: `# Importer des Transactions depuis CSV
 
 ## Formats Supportés
-Onyx Suite accepte les fichiers CSV de la plupart des banques espagnoles.
+Onyx One accepte les fichiers CSV de la plupart des banques espagnoles.
 
 ## Étapes d'Importation
 1. Allez dans **Finances → Transactions**

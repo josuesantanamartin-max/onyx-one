@@ -1,6 +1,6 @@
 # Legal Documentation
 
-This directory contains all legal documents for Onyx Suite 2026.
+This directory contains all legal documents for Onyx One.
 
 ## Documents
 
@@ -20,7 +20,7 @@ This directory contains all legal documents for Onyx Suite 2026.
 
 ### 2. Terms of Service
 **File:** `TERMS_OF_SERVICE.md`  
-**Purpose:** Legal agreement governing use of Onyx Suite 2026.
+**Purpose:** Legal agreement governing use of Onyx One.
 
 **Key Sections:**
 - Service description and availability

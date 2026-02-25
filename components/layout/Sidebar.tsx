@@ -16,7 +16,7 @@ const SIDEBAR_TEXTS = {
     settings: 'Ajustes',
     help: 'Ayuda',
     logout: 'Salir',
-    suite: 'ONYX SUITE'
+    suite: 'Onyx One'
   },
   EN: {
     dashboard: 'Onyx Central',
@@ -25,7 +25,7 @@ const SIDEBAR_TEXTS = {
     settings: 'Settings',
     help: 'Help',
     logout: 'Log Out',
-    suite: 'ONYX SUITE'
+    suite: 'Onyx One'
   },
   FR: {
     dashboard: 'Accueil',
@@ -34,7 +34,7 @@ const SIDEBAR_TEXTS = {
     settings: 'Paramètres',
     help: 'Aide',
     logout: 'Quitter',
-    suite: 'ONYX SUITE'
+    suite: 'Onyx One'
   }
 };
 
@@ -76,8 +76,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
               <Logo className="w-5 h-5 text-white" />
             </div>
             <div className="flex flex-col">
-              <span className="text-sm font-bold tracking-tight text-onyx-950 dark:text-white uppercase leading-none">Onyx <span className="text-indigo-primary">Suite</span></span>
-              <span className="text-[8px] font-bold text-onyx-300 dark:text-onyx-600 uppercase tracking-[0.2em] mt-1.5">Premium Management</span>
+              <span className="text-sm font-bold tracking-tight text-onyx-950 dark:text-white uppercase leading-none">Onyx <span className="text-indigo-primary">One</span></span>
+              <span className="text-[8px] font-bold text-onyx-300 dark:text-onyx-600 uppercase tracking-[0.2em] mt-1.5">The One Era</span>
             </div>
           </div>
 

@@ -16,7 +16,7 @@ const WelcomeStep: React.FC = () => {
             </h2>
 
             <p className="text-lg text-gray-500 dark:text-gray-400 max-w-lg mb-10">
-                Onyx Suite es más que una hoja de cálculo. Es un sistema inteligente diseñado para adaptarse a tu vida, tus metas y tu estilo.
+                Onyx One es más que una hoja de cálculo. Es un sistema inteligente diseñado para adaptarse a tu vida, tus metas y tu estilo.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-2xl mb-10">

@@ -1,6 +1,6 @@
 
 import React, { useMemo } from 'react';
-import { Transaction } from '@/types';
+import { Transaction } from '../../../../../types';
 import { PieChart as PieChartIcon, ArrowRight, Filter } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 

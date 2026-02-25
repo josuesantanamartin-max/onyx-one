@@ -1,8 +1,8 @@
-# 🚀 Script para Ejecutar Onyx Suite (con bypass de política)
+# 🚀 Script para Ejecutar Onyx One (con bypass de política)
 # Este script se ejecuta con permisos especiales
 
 Write-Host "╔═══════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║        🚀 ONYX SUITE - Inicio Rápido            ║" -ForegroundColor Cyan
+Write-Host "║        🚀 ONYX ONE - Inicio Rápido              ║" -ForegroundColor Cyan
 Write-Host "╚═══════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host ""
 
@@ -61,7 +61,7 @@ if (-Not (Test-Path "node_modules")) {
 
 # Iniciar servidor de desarrollo
 Write-Host "╔═══════════════════════════════════════════════════╗" -ForegroundColor Green
-Write-Host "║     🎉 Iniciando Onyx Suite...                   ║" -ForegroundColor Green
+Write-Host "║     🎉 Iniciando Onyx One...                     ║" -ForegroundColor Green
 Write-Host "╚═══════════════════════════════════════════════════╝" -ForegroundColor Green
 Write-Host ""
 Write-Host "La aplicación se abrirá en:" -ForegroundColor Cyan

@@ -199,7 +199,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
                         <span className="flex items-center gap-1"><span>↵</span> <span>Seleccionar</span></span>
                     </div>
                     <div>
-                        Onyx Suite 2026
+                        Onyx One
                     </div>
                 </div>
             </div>

@@ -8,7 +8,7 @@ const FloatingActionButton: React.FC = () => {
     const {
         isFabOpen, setFabOpen,
         setQuickAction,
-        setActiveApp,
+        activeApp, setActiveApp,
         setFinanceActiveTab, setLifeActiveTab,
     } = useUserStore();
 
@@ -33,6 +33,16 @@ const FloatingActionButton: React.FC = () => {
         }
     };
 
+    // FAB Contextual Logic
+    const getTooltipLabel = () => {
+        if (activeApp === 'finance') return 'Nueva Transacción';
+        if (activeApp === 'life') return 'Nueva Nota / Entrada';
+        return 'Acciones Rápidas';
+    };
+
+    const isFinanceMenu = activeApp === 'finance' || activeApp === 'dashboard' || activeApp === 'settings';
+    const isLifeMenu = activeApp === 'life' || activeApp === 'dashboard' || activeApp === 'settings';
+
     return (
         <>
             <AnimatePresence>
@@ -56,27 +66,39 @@ const FloatingActionButton: React.FC = () => {
                             exit={{ opacity: 0, scale: 0.9, y: 10 }}
                             className="flex flex-col items-end gap-3 mb-4 pointer-events-auto pb-2 pr-1"
                         >
-                            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => triggerAction('ADD_EXPENSE')} className="group flex items-center gap-4">
-                                <span className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-onyx-100 shadow-sm text-[11px] font-bold text-onyx-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-1 group-hover:translate-x-0 whitespace-nowrap">Registrar Gasto</span>
-                                <div className="w-12 h-12 bg-white rounded-xl shadow-lg border border-onyx-100 flex items-center justify-center text-onyx-400 group-hover:text-red-500 group-hover:border-red-100 transition-colors duration-300"><ArrowDownCircle className="w-5 h-5" /></div>
-                            </motion.button>
-                            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => triggerAction('ADD_INCOME')} className="group flex items-center gap-4">
-                                <span className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-onyx-100 shadow-sm text-[11px] font-bold text-onyx-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-1 group-hover:translate-x-0 whitespace-nowrap">Nuevo Ingreso</span>
-                                <div className="w-12 h-12 bg-white rounded-xl shadow-lg border border-onyx-100 flex items-center justify-center text-onyx-400 group-hover:text-emerald-500 group-hover:border-emerald-100 transition-colors duration-300"><ArrowUpCircle className="w-5 h-5" /></div>
-                            </motion.button>
-                            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => triggerAction('ADD_TRANSFER')} className="group flex items-center gap-4">
-                                <span className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-onyx-100 shadow-sm text-[11px] font-bold text-onyx-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-1 group-hover:translate-x-0 whitespace-nowrap">Transferencia</span>
-                                <div className="w-12 h-12 bg-white rounded-xl shadow-lg border border-onyx-100 flex items-center justify-center text-onyx-400 group-hover:text-indigo-primary group-hover:border-indigo-50 transition-colors duration-300"><ArrowRightLeft className="w-5 h-5" /></div>
-                            </motion.button>
-                            <div className="h-px w-20 bg-onyx-200/50 my-1 mr-4"></div>
-                            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => triggerAction('ADD_SHOPPING_ITEM')} className="group flex items-center gap-4">
-                                <span className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-onyx-100 shadow-sm text-[11px] font-bold text-onyx-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-1 group-hover:translate-x-0 whitespace-nowrap">Lista de Compra</span>
-                                <div className="w-12 h-12 bg-white rounded-xl shadow-lg border border-onyx-100 flex items-center justify-center text-onyx-400 group-hover:text-emerald-500 transition-colors duration-300"><ShoppingCart className="w-5 h-5" /></div>
-                            </motion.button>
-                            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => triggerAction('SCAN_RECEIPT')} className="group flex items-center gap-4">
-                                <span className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-onyx-100 shadow-sm text-[11px] font-bold text-onyx-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-1 group-hover:translate-x-0 whitespace-nowrap">Escanear Ticket</span>
-                                <div className="w-12 h-12 bg-white rounded-xl shadow-lg border border-onyx-100 flex items-center justify-center text-onyx-400 group-hover:text-purple-500 transition-colors duration-300"><ScanLine className="w-5 h-5" /></div>
-                            </motion.button>
+                            {isFinanceMenu && (
+                                <>
+                                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => triggerAction('ADD_EXPENSE')} className="group flex items-center gap-4">
+                                        <span className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-onyx-100 shadow-sm text-[11px] font-bold text-onyx-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-1 group-hover:translate-x-0 whitespace-nowrap">Registrar Gasto</span>
+                                        <div className="w-12 h-12 bg-white rounded-xl shadow-lg border border-onyx-100 flex items-center justify-center text-onyx-400 group-hover:text-red-500 group-hover:border-red-100 transition-colors duration-300"><ArrowDownCircle className="w-5 h-5" /></div>
+                                    </motion.button>
+                                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => triggerAction('ADD_INCOME')} className="group flex items-center gap-4">
+                                        <span className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-onyx-100 shadow-sm text-[11px] font-bold text-onyx-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-1 group-hover:translate-x-0 whitespace-nowrap">Nuevo Ingreso</span>
+                                        <div className="w-12 h-12 bg-white rounded-xl shadow-lg border border-onyx-100 flex items-center justify-center text-onyx-400 group-hover:text-emerald-500 group-hover:border-emerald-100 transition-colors duration-300"><ArrowUpCircle className="w-5 h-5" /></div>
+                                    </motion.button>
+                                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => triggerAction('ADD_TRANSFER')} className="group flex items-center gap-4">
+                                        <span className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-onyx-100 shadow-sm text-[11px] font-bold text-onyx-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-1 group-hover:translate-x-0 whitespace-nowrap">Transferencia</span>
+                                        <div className="w-12 h-12 bg-white rounded-xl shadow-lg border border-onyx-100 flex items-center justify-center text-onyx-400 group-hover:text-indigo-primary group-hover:border-indigo-50 transition-colors duration-300"><ArrowRightLeft className="w-5 h-5" /></div>
+                                    </motion.button>
+                                </>
+                            )}
+
+                            {isFinanceMenu && isLifeMenu && (
+                                <div className="h-px w-20 bg-onyx-200/50 my-1 mr-4"></div>
+                            )}
+
+                            {isLifeMenu && (
+                                <>
+                                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => triggerAction('ADD_SHOPPING_ITEM')} className="group flex items-center gap-4">
+                                        <span className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-onyx-100 shadow-sm text-[11px] font-bold text-onyx-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-1 group-hover:translate-x-0 whitespace-nowrap">Lista de Compra</span>
+                                        <div className="w-12 h-12 bg-white rounded-xl shadow-lg border border-onyx-100 flex items-center justify-center text-onyx-400 group-hover:text-emerald-500 transition-colors duration-300"><ShoppingCart className="w-5 h-5" /></div>
+                                    </motion.button>
+                                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => triggerAction('SCAN_RECEIPT')} className="group flex items-center gap-4">
+                                        <span className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-onyx-100 shadow-sm text-[11px] font-bold text-onyx-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-1 group-hover:translate-x-0 whitespace-nowrap">Escanear Ticket</span>
+                                        <div className="w-12 h-12 bg-white rounded-xl shadow-lg border border-onyx-100 flex items-center justify-center text-onyx-400 group-hover:text-purple-500 transition-colors duration-300"><ScanLine className="w-5 h-5" /></div>
+                                    </motion.button>
+                                </>
+                            )}
                         </motion.div>
                     )}
                 </AnimatePresence>
@@ -91,7 +113,7 @@ const FloatingActionButton: React.FC = () => {
                     {/* Tooltip that appears on hover when closed */}
                     {!isFabOpen && (
                         <div className="absolute right-full mr-4 w-max opacity-0 group-hover/fab:opacity-100 transition-opacity bg-onyx-900 text-white text-xs py-1.5 px-3 rounded-lg font-medium pointer-events-none flex items-center shadow-lg">
-                            Registrar acción rápida
+                            {getTooltipLabel()}
                             <div className="absolute top-1/2 -right-1.5 -translate-y-1/2 border-[4px] border-transparent border-l-onyx-900"></div>
                         </div>
                     )}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Budget, Transaction } from '@/types';
+import { Budget, Transaction } from '../../../../../types';
 import { Activity, AlertCircle, CheckCircle } from 'lucide-react';
 
 interface BudgetStatusWidgetProps {

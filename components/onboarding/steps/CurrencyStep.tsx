@@ -56,7 +56,7 @@ const CurrencyStep: React.FC = () => {
                 Moneda Principal
             </h2>
             <p className="text-gray-500 dark:text-gray-400 mb-8 text-center">
-                Elige la moneda para tu dashboard principal. Podrás añadir cuentas en otras monedas más tarde.
+                Elige la moneda para Onyx Central. Podrás añadir cuentas en otras monedas más tarde.
             </p>
 
             <div className="grid grid-cols-1 gap-4 w-full mb-10">

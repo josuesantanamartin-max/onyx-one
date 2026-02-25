@@ -1,8 +1,8 @@
-# Script para Ejecutar Onyx Suite
+# Script para Ejecutar Onyx One
 # Ejecuta este script desde PowerShell en el directorio del proyecto
 
 Write-Host "================================================" -ForegroundColor Cyan
-Write-Host "  ONYX SUITE - Inicio Rapido" -ForegroundColor Cyan
+Write-Host "  ONYX ONE - Inicio Rapido" -ForegroundColor Cyan
 Write-Host "================================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -70,7 +70,7 @@ if (-Not (Test-Path "node_modules")) {
 
 # Iniciar servidor de desarrollo
 Write-Host "================================================" -ForegroundColor Green
-Write-Host "  Iniciando Onyx Suite..." -ForegroundColor Green
+Write-Host "  Iniciando Onyx One..." -ForegroundColor Green
 Write-Host "================================================" -ForegroundColor Green
 Write-Host ""
 Write-Host "La aplicacion se abrira en:" -ForegroundColor Cyan

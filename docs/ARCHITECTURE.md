@@ -1,4 +1,4 @@
-# 🏗️ Onyx Suite 2026 - Documentación de Arquitectura
+# 🏗️ Onyx One - Documentación de Arquitectura
 
 **Versión 1.0** | Última actualización: Febrero 2026
 
@@ -22,7 +22,7 @@
 
 ## 🎯 Visión General del Sistema
 
-Onyx Suite 2026 es una aplicación web progresiva (PWA) construida con React y TypeScript que integra gestión financiera personal y gestión del hogar en una plataforma unificada.
+Onyx One es una aplicación web progresiva (PWA) construida con React y TypeScript que integra gestión financiera personal y gestión del hogar en una plataforma unificada.
 
 ### Objetivos Arquitectónicos
 
@@ -223,7 +223,7 @@ export const Component: React.FC<ComponentProps> = ({ prop1, prop2 }) => {
 
 ### Supabase como BaaS
 
-Onyx Suite utiliza Supabase como backend completo:
+Onyx One utiliza Supabase como backend completo:
 
 ```mermaid
 graph LR
@@ -965,4 +965,4 @@ VITE_STRIPE_PUBLISHABLE_KEY=xxx
 
 ---
 
-*Onyx Suite 2026 - Arquitectura robusta para tu vida organizada.*
+*Onyx One - Arquitectura robusta para tu vida organizada.*

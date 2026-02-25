@@ -2,7 +2,7 @@
 
 ## Descripción
 
-Sistema completo de códigos de invitación para controlar el acceso a la beta de Onyx Suite 2026.
+Sistema completo de códigos de invitación para controlar el acceso a la beta de Onyx One.
 
 ---
 

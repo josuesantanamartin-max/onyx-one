@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# 🎯 ONYX SUITE - Professional Setup Script
+# 🎯 ONYX ONE - Professional Setup Script
 # Este script configura todo el entorno de desarrollo profesional
 
 echo "╔═══════════════════════════════════════════════════╗"
-echo "║   🚀 ONYX SUITE - Professional Setup v1.0      ║"
+echo "║   🚀 ONYX ONE - Professional Setup v1.0        ║"
 echo "║   Configuración Automatizada de Entorno        ║"
 echo "╚═══════════════════════════════════════════════════╝"
 echo ""
@@ -88,7 +88,7 @@ info "════════════════════════�
 if [ ! -f ".env.local" ]; then
     info "Creando archivo .env.local..."
     cat > .env.local << EOF
-# 🔑 ONYX SUITE - Environment Variables
+# 🔑 ONYX ONE - Environment Variables
 # Configuración generada automáticamente
 
 # Gemini AI (Requerido)
@@ -99,7 +99,7 @@ VITE_SUPABASE_URL=your-supabase-url
 VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 
 # App Configuration
-VITE_APP_NAME=Onyx Suite
+VITE_APP_NAME=Onyx One
 VITE_APP_VERSION=1.0.0
 VITE_ENVIRONMENT=development
 EOF
@@ -226,4 +226,4 @@ echo "  npm run preview   - Preview del build"
 echo "  npm run test      - Ejecutar tests"
 echo "  npm run lint      - Linter"
 echo ""
-success "¡Onyx Suite está listo para desarrollo profesional! 🚀"
+success "¡Onyx One está listo para desarrollo profesional! 🚀"

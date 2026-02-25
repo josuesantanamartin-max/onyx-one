@@ -1,4 +1,4 @@
-# 📝 Changelog - Onyx Suite 2026
+# 📝 Changelog - Onyx One
 
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 
@@ -27,7 +27,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ### 🎉 Lanzamiento Inicial
 
-Primera versión pública de Onyx Suite 2026.
+Primera versión pública de Onyx One.
 
 ### ✨ Added
 
@@ -280,7 +280,7 @@ Primera versión pública de Onyx Suite 2026.
 
 ### Versión 1.0.0 - "Genesis"
 
-Esta es la primera versión estable de Onyx Suite 2026. Después de 4 meses de desarrollo intensivo, estamos orgullosos de presentar una plataforma completa para gestión financiera y del hogar.
+Esta es la primera versión estable de Onyx One. Después de 4 meses de desarrollo intensivo, estamos orgullosos de presentar una plataforma completa para gestión financiera y del hogar.
 
 **Highlights:**
 - 🎨 Interfaz moderna y personalizable

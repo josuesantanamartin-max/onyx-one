@@ -14,9 +14,9 @@ export const WalletIconMock = ({ className }: { className?: string }) => <Credit
 
 export const LANDING_TEXTS = {
     ES: {
-        heroBadge: "Onyx Suite 2.0: Sistema Integral Inteligente",
-        heroTitle: "Tu vida, simplificada.\nTodo bajo control.",
-        heroSubtitle: "La plataforma definitiva que unifica tus finanzas, tu hogar, tu nutrición y tus viajes.\nDeja de usar 10 apps diferentes. Pásate al sistema que lo conecta todo.",
+        heroBadge: "Onyx One: Sistema Integral Inteligente",
+        heroTitle: "Onyx One",
+        heroSubtitle: "La era definitiva para tus finanzas y tu vida.\nDeja de usar 10 apps diferentes. Pásate al sistema que lo conecta todo.",
         ctaStart: "Empezar Ahora",
         ctaDemo: "Probar Demo (Sin Cuenta)",
         pillarsTitle: "El Ecosistema Onyx",
@@ -81,9 +81,9 @@ export const LANDING_TEXTS = {
         footerTwitter: "Twitter"
     },
     EN: {
-        heroBadge: "Onyx Suite 2.0: Integral Smart System",
-        heroTitle: "Your life, simplified.\nEverything under control.",
-        heroSubtitle: "The ultimate platform unifying your finances, home, nutrition, and travel.\nStop using 10 different apps. Switch to the system that connects it all.",
+        heroBadge: "Onyx One: Integral Smart System",
+        heroTitle: "Onyx One",
+        heroSubtitle: "The One Era of personal finance and life.\nStop using 10 different apps. Switch to the system that connects it all.",
         ctaStart: "Get Started",
         ctaDemo: "Try Demo (No Account)",
         pillarsTitle: "The Onyx Ecosystem",
@@ -148,9 +148,9 @@ export const LANDING_TEXTS = {
         footerTwitter: "Twitter"
     },
     FR: {
-        heroBadge: "Onyx Suite 2.0 : Système Intégral Intelligent",
-        heroTitle: "Votre vie, simplifiée.\nTout sous contrôle.",
-        heroSubtitle: "La plateforme ultime unifiant vos finances, votre maison, votre nutrition et vos voyages.\nArrêtez d'utiliser 10 applications différentes. Passez au système qui connecte tout.",
+        heroBadge: "Onyx One : Système Intégral Intelligent",
+        heroTitle: "Onyx One",
+        heroSubtitle: "L'unique ère pour vos finances et votre vie.\nArrêtez d'utiliser 10 applications différentes. Passez au système qui connecte tout.",
         ctaStart: "Commencer",
         ctaDemo: "Démo (Sans Compte)",
         pillarsTitle: "L'Écosystème Onyx",

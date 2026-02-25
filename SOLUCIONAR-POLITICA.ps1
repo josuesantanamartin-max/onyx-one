@@ -15,7 +15,7 @@ Write-Host ""
 if ($currentPolicy -eq "RemoteSigned" -or $currentPolicy -eq "Unrestricted") {
     Write-Host "✓ Tu política ya permite ejecutar scripts locales" -ForegroundColor Green
     Write-Host ""
-    Write-Host "Puedes ejecutar Onyx Suite con:" -ForegroundColor Cyan
+    Write-Host "Puedes ejecutar Onyx One con:" -ForegroundColor Cyan
     Write-Host "  .\EJECUTAR-APP.ps1" -ForegroundColor Yellow
     Write-Host ""
     pause

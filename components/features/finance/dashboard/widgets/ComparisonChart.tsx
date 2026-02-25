@@ -1,6 +1,6 @@
 
 import React, { useMemo } from 'react';
-import { Transaction } from '@/types';
+import { Transaction } from '../../../../../types';
 import { Activity, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 

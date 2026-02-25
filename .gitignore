@@ -26,3 +26,10 @@ dist-ssr
 
 .env
 .vercel
+
+# Test outputs
+*_output.txt
+sync_test_error.txt
+tsc_errors_latest.txt
+tsc_output*.txt
+all_tests_output.txt

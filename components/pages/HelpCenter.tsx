@@ -13,13 +13,13 @@ const legacyArticles: any[] = [
     // Getting Started
     {
         id: 'getting-started',
-        title: 'Primeros Pasos con Onyx Suite',
+        title: 'Primeros Pasos con Onyx One',
         category: 'Inicio',
         content: `
-# Bienvenido a Onyx Suite 2026
+# Bienvenido a Onyx One
 
-## ¿Qué es Onyx Suite?
-Onyx Suite es tu asistente personal integral que combina gestión financiera, planificación de vida y organización del hogar en una sola aplicación potenciada por IA.
+## ¿Qué es Onyx One?
+Onyx One es tu asistente personal integral que combina gestión financiera, planificación de vida y organización del hogar en una sola aplicación potenciada por IA.
 
 ## Configuración Inicial
 1. **Crea tu cuenta** - Regístrate con email o Google
@@ -43,7 +43,7 @@ Onyx Suite es tu asistente personal integral que combina gestión financiera, pl
 # Importar Transacciones desde CSV
 
 ## Formatos Soportados
-Onyx Suite acepta archivos CSV de la mayoría de bancos españoles.
+Onyx One acepta archivos CSV de la mayoría de bancos españoles.
 
 ## Pasos para Importar
 1. Ve a **Finanzas → Transacciones**
@@ -297,7 +297,7 @@ export const HelpCenter: React.FC = () => {
                         <h1 className="text-4xl font-bold">Centro de Ayuda</h1>
                     </div>
                     <p className="text-onyx-100 text-lg mb-6">
-                        Encuentra respuestas, guías y tutoriales para aprovechar al máximo Onyx Suite
+                        Encuentra respuestas, guías y tutoriales para aprovechar al máximo Onyx One
                     </p>
 
                     {/* Search Bar */}

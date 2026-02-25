@@ -2,7 +2,7 @@
 
 ## Descripción General
 
-Onyx Suite 2026 incluye un sistema completo de monitoreo y observabilidad que permite:
+Onyx One incluye un sistema completo de monitoreo y observabilidad que permite:
 - **Error Tracking** con Sentry
 - **Analytics** con Vercel Analytics  
 - **Performance Monitoring** con Web Vitals

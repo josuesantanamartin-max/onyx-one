@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useFinanceStore } from '../../../../store/useFinanceStore';
 import { useUserStore } from '../../../../store/useUserStore';
 import { analyzeFinances } from '../../../../services/geminiService';
-import { FinanceWidgetType } from '@/types';
+import { FinanceWidgetType } from '../../../../types';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, AreaChart, Area, Legend, LineChart, Line
 } from 'recharts';

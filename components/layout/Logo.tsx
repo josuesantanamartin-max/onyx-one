@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * Onyx Suite Logo — Bold angular "O" monogram.
+ * Onyx One Logo — Bold angular "O" monogram.
  * Self-contained white mark designed to live inside a colored container.
  * Reads perfectly at small sizes (20px+).
  */
@@ -10,7 +10,7 @@ export const Logo: React.FC<{ className?: string }> = ({ className }) => (
     viewBox="0 0 512 512"
     xmlns="http://www.w3.org/2000/svg"
     className={className}
-    aria-label="Onyx Suite"
+    aria-label="Onyx One"
     fill="none"
   >
     {/* Bold octagonal "O" — thick outer ring cut with angular facets */}

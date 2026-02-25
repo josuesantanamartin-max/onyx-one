@@ -37,6 +37,7 @@ interface UserState {
     // Dashboard Customization
     dashboardLayouts: DashboardLayout[];
     activeLayoutId: string;
+    activeDashboardView: 'FINANCE' | 'KITCHEN' | 'LIFE';
     isEditMode: boolean;
     userProfile: {
         id?: string;
@@ -109,6 +110,7 @@ interface UserActions {
 
     // Dashboard Layout Actions
     setActiveLayout: (layoutId: string) => void;
+    setActiveDashboardView: (view: 'FINANCE' | 'KITCHEN' | 'LIFE') => void;
     saveLayout: (layout: DashboardLayout) => void;
     deleteLayout: (layoutId: string) => void;
     setEditMode: (enabled: boolean) => void;
@@ -151,6 +153,7 @@ export const useUserStore = create<UserState & UserActions>()(
             syncLogs: [],
             dashboardLayouts: DEFAULT_LAYOUTS,
             activeLayoutId: 'default',
+            activeDashboardView: 'FINANCE',
             isEditMode: false,
             userProfile: null,
 
@@ -208,7 +211,22 @@ export const useUserStore = create<UserState & UserActions>()(
             })),
 
             // Dashboard Layout Actions
-            setActiveLayout: (layoutId) => set({ activeLayoutId: layoutId }),
+            setActiveLayout: (layoutId) => set((state) => {
+                const exists = state.dashboardLayouts.some(l => l.id === layoutId);
+                if (exists) return { activeLayoutId: layoutId };
+
+                // If it's a default layout that's missing (migration), add it
+                const defaultLayout = DEFAULT_LAYOUTS.find(l => l.id === layoutId);
+                if (defaultLayout) {
+                    return {
+                        dashboardLayouts: [...state.dashboardLayouts, defaultLayout],
+                        activeLayoutId: layoutId
+                    };
+                }
+
+                return { activeLayoutId: layoutId };
+            }),
+            setActiveDashboardView: (view) => set({ activeDashboardView: view }),
 
             setEditMode: (enabled) => set({ isEditMode: enabled }),
 
@@ -231,11 +249,35 @@ export const useUserStore = create<UserState & UserActions>()(
             })),
 
             addWidgetToLayout: (widgetId) => set((state) => {
-                const activeLayout = state.dashboardLayouts.find(l => l.id === state.activeLayoutId);
-                if (!activeLayout) return state;
+                // Determine target layout based on widget category
+                // Import getWidgetCategory locally to avoid potential circular dependencies if any
+                const { getWidgetCategory } = require('../components/dashboard/widgetCategories');
+                const category = getWidgetCategory(widgetId);
+
+                let targetLayoutId = state.activeLayoutId;
+
+                if (category === 'FINANCE') targetLayoutId = 'default';
+                else if (category === 'KITCHEN') targetLayoutId = 'kitchen';
+                else if (category === 'LIFE') targetLayoutId = 'life';
+
+                // Ensure target layout exists
+                let targetLayout = state.dashboardLayouts.find(l => l.id === targetLayoutId);
+
+                if (!targetLayout) {
+                    // Fallback to active if target not found (e.g. deleted or not migrated)
+                    targetLayoutId = state.activeLayoutId;
+                    targetLayout = state.dashboardLayouts.find(l => l.id === targetLayoutId);
+                }
+
+                if (!targetLayout) {
+                    targetLayout = state.dashboardLayouts[0];
+                    targetLayoutId = targetLayout?.id || 'default';
+                }
+
+                if (!targetLayout) return state;
 
                 // Don't add if already in layout
-                if (activeLayout.widgets.some(w => w.i === widgetId)) return state;
+                if (targetLayout.widgets.some(w => w.i === widgetId)) return state;
 
                 const newWidget = {
                     i: widgetId,
@@ -249,7 +291,7 @@ export const useUserStore = create<UserState & UserActions>()(
 
                 return {
                     dashboardLayouts: state.dashboardLayouts.map(l =>
-                        l.id === state.activeLayoutId
+                        l.id === targetLayoutId
                             ? { ...l, widgets: [...l.widgets, newWidget], updatedAt: new Date().toISOString() }
                             : l
                     )
@@ -367,6 +409,7 @@ export const useUserStore = create<UserState & UserActions>()(
                 subscription: state.subscription,
                 dashboardLayouts: state.dashboardLayouts,
                 activeLayoutId: state.activeLayoutId,
+                activeDashboardView: state.activeDashboardView,
                 hasCompletedOnboarding: state.hasCompletedOnboarding,
                 onboardingStep: state.onboardingStep,
                 defaultShoppingAccount: state.defaultShoppingAccount,

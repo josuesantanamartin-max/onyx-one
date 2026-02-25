@@ -253,7 +253,10 @@ export const ShoppingListComponent: React.FC<ShoppingListProps> = () => {
             {shoppingList.length === 0 ? (
                <div className="h-full flex flex-col items-center justify-center text-gray-400">
                   <ShoppingCart className="w-16 h-16 opacity-20 mb-4" />
-                  <p className="font-bold">Todo en orden. No necesitas comprar nada.</p>
+                  <p className="font-bold mb-6">Todo en orden. No necesitas comprar nada.</p>
+                  <button onClick={() => { setIsAddShoppingItemOpen(true); setShoppingItemName(''); }} className="px-6 py-3 bg-[#0D0D12] text-white rounded-[2rem] text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl hover:-translate-y-1 transition-all active:scale-95 flex items-center gap-2">
+                     <Plus className="w-4 h-4 text-emerald-500" /> Añadir Producto
+                  </button>
                </div>
             ) : (
                <div className="space-y-8">

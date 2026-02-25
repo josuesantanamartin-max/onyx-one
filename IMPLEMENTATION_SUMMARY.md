@@ -200,7 +200,7 @@ All four critical improvements have been successfully implemented:
 
 ## 🌟 New Features Implemented (Phase 2)
 
-We have successfully implemented the following advanced features to enhance the Onyx Suite experience:
+We have successfully implemented the following advanced features to enhance the Onyx One experience:
 
 ### 5. Collaborative Mode / Households ✅
 - **Data Structures**: `Household`, `HouseholdMember` types.

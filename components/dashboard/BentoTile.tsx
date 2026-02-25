@@ -71,17 +71,18 @@ const BentoTile: React.FC<BentoTileProps> = ({
         return (
             <div className={`
                 relative flex flex-col w-full min-h-[400px] 
-                bg-white dark:bg-onyx-900 border border-indigo-200 dark:border-indigo-800 
-                rounded-3xl shadow-xl transition-all duration-300
+                bg-white dark:bg-onyx-900 border border-indigo-200 dark:border-indigo-800/50 
+                rounded-[2.5rem] shadow-2xl transition-all duration-500
+                backdrop-blur-xl
                 ${colSpanClass} ${className}
             `}>
                 {/* Header for expanded view - Entire header is clickable to contract */}
                 <div
-                    className="flex items-center justify-between p-4 border-b border-onyx-100 dark:border-onyx-800/60 bg-onyx-50/50 dark:bg-onyx-800/20 rounded-t-3xl border-dashed cursor-pointer hover:bg-onyx-100/50 dark:hover:bg-onyx-800/40 transition-colors group/header"
+                    className="flex items-center justify-between p-5 border-b border-onyx-100 dark:border-onyx-800/60 bg-onyx-50/30 dark:bg-onyx-800/10 rounded-t-[2.5rem] border-dashed cursor-pointer hover:bg-onyx-100/30 dark:hover:bg-onyx-800/30 transition-colors group/header"
                     onClick={onToggleExpand}
                 >
                     <div className="flex items-center gap-2">
-                        <div className={`p-2 rounded-lg border ${colorMap[color]}`}>
+                        <div className={`p-2.5 rounded-2xl border bg-white dark:bg-onyx-800 shadow-sm ${colorMap[color]}`}>
                             <Icon className="w-4 h-4" />
                         </div>
                         <span className="text-sm font-bold text-onyx-900 dark:text-white uppercase tracking-widest">{title}</span>
@@ -101,10 +102,9 @@ const BentoTile: React.FC<BentoTileProps> = ({
     return (
         <div
             className={`
-                group relative flex flex-col justify-between w-full h-full min-h-[140px] 
-                bg-white dark:bg-onyx-900 border border-onyx-200 dark:border-onyx-800 
-                rounded-3xl p-5 text-left transition-all duration-300
-                ${isEditMode ? 'hover:border-indigo-400 dark:hover:border-indigo-500 border-dashed border-2 cursor-grab active:cursor-grabbing' : 'hover:shadow-lg hover:-translate-y-1 hover:border-indigo-300 dark:hover:border-indigo-500/50 cursor-pointer'}
+                bg-white dark:bg-onyx-900 border border-onyx-100 dark:border-onyx-800/50 
+                rounded-[2rem] p-6 text-left transition-all duration-500
+                ${isEditMode ? 'hover:border-indigo-400 dark:hover:border-indigo-500 border-dashed border-2 cursor-grab active:cursor-grabbing' : 'hover:shadow-2xl hover:-translate-y-2 hover:border-indigo-300 dark:hover:border-indigo-500/50 cursor-pointer'}
                 ${isDragOver ? 'border-4 border-indigo-500 bg-indigo-50/50 dark:bg-indigo-500/20 scale-[0.98]' : ''}
                 ${colSpanClass} ${className}
             `}
@@ -153,7 +153,7 @@ const BentoTile: React.FC<BentoTileProps> = ({
         >
             {/* Header: Icono y Título */}
             <div className="flex items-start justify-between w-full mb-4">
-                <div className={`p-2.5 rounded-xl border ${colorMap[color]}`}>
+                <div className={`p-3 rounded-2xl border bg-white dark:bg-onyx-800 shadow-sm ${colorMap[color]}`}>
                     <Icon className="w-5 h-5" />
                 </div>
 

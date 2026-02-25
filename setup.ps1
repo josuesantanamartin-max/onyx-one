@@ -1,8 +1,8 @@
-# 🎯 ONYX SUITE - Professional Setup Script (Windows PowerShell)
+# 🎯 ONYX ONE - Professional Setup Script (Windows PowerShell)
 # Este script configura todo el entorno de desarrollo profesional en Windows
 
 Write-Host "╔═══════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║   🚀 ONYX SUITE - Professional Setup v1.0      ║" -ForegroundColor Cyan
+Write-Host "║   🚀 ONYX ONE - Professional Setup v1.0        ║" -ForegroundColor Cyan
 Write-Host "║   Configuración Automatizada de Entorno        ║" -ForegroundColor Cyan
 Write-Host "╚═══════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host ""
@@ -78,7 +78,7 @@ Info "════════════════════════�
 if (-Not (Test-Path ".env.local")) {
     Info "Creando archivo .env.local..."
     @"
-# 🔑 ONYX SUITE - Environment Variables
+# 🔑 ONYX ONE - Environment Variables
 # Configuración generada automáticamente
 
 # Gemini AI (Requerido)
@@ -89,7 +89,7 @@ VITE_SUPABASE_URL=your-supabase-url
 VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 
 # App Configuration
-VITE_APP_NAME=Onyx Suite
+VITE_APP_NAME=Onyx One
 VITE_APP_VERSION=1.0.0
 VITE_ENVIRONMENT=development
 "@ | Out-File -FilePath ".env.local" -Encoding utf8
@@ -200,4 +200,4 @@ Write-Host "  npm run preview   - Preview del build"
 Write-Host "  npm run test      - Ejecutar tests"
 Write-Host "  npm run lint      - Linter"
 Write-Host ""
-Success "¡Onyx Suite está listo para desarrollo profesional! 🚀"
+Success "¡Onyx One está listo para desarrollo profesional! 🚀"

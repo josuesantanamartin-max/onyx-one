@@ -1,4 +1,4 @@
-# Guía de Usuario - Onyx Suite 2026
+# Guía de Usuario - Onyx One
 
 **Versión:** 1.0.2  
 **Última Actualización:** 5 de Febrero, 2026
@@ -20,13 +20,13 @@
 
 ## Introducción
 
-### ¿Qué es Onyx Suite?
+### ¿Qué es Onyx One?
 
-Onyx Suite 2026 es tu asistente personal integral que combina:
+Onyx One es tu asistente personal integral que combina:
 - 💰 **Gestión Financiera** - Cuentas, presupuestos, metas, jubilación
 - 🏠 **Organización del Hogar** - Recetas, despensa, compras, viajes
-- 🤖 **Inteligencia Artificial** - Asistente potenciado por Gemini
-- 📊 **Dashboard Personalizable** - Vista unificada de tu vida
+- 🤖 **Onyx Insights** - Asistente potenciado por Gemini
+- 📊 **Onyx Central** - Vista unificada de tu vida
 
 ### Características Principales
 
@@ -85,10 +85,10 @@ Onyx Suite 2026 es tu asistente personal integral que combina:
 ### 3. Tour Guiado
 
 Al iniciar sesión por primera vez:
-1. **Bienvenida** - Introducción a Onyx Suite
-2. **Dashboard** - Vista general personalizable
+1. **Bienvenida** - Introducción a Onyx One
+2. **Onyx Central** - Vista general personalizable
 3. **Módulos** - Finanzas, Vida, Metas
-4. **IA** - Cómo usar el asistente
+4. **Onyx Insights** - Cómo usar el asistente
 5. **Configuración** - Personalización
 
 ---
@@ -358,7 +358,7 @@ El sistema sugiere:
 ### Modo Edición
 
 **Activar Edición**
-1. Ve a **Dashboard**
+1. Ve a **Onyx Central**
 2. Click en **Editar Dashboard**
 3. Ahora puedes:
    - Arrastrar widgets para reordenar
@@ -388,7 +388,7 @@ El sistema sugiere:
 - 🏠 Tareas del Hogar
 
 **General**
-- 🤖 Onyx Insights (IA)
+- 🤖 Onyx Insights
 - 📅 Calendario
 - 🔔 Notificaciones
 
@@ -485,7 +485,7 @@ El sistema sugiere:
 
 ### General
 
-**¿Onyx Suite es gratis?**
+**¿Onyx One es gratis?**
 - Sí, la versión beta es completamente gratuita
 - Planes premium próximamente
 
@@ -516,17 +516,17 @@ El sistema sugiere:
 
 ### IA
 
-**¿Cómo funciona la IA?**
+**¿Cómo funciona Onyx Insights?**
 - Powered by Google Gemini
 - Analiza tus datos localmente
 - Genera sugerencias personalizadas
 
-**¿La IA ve mis datos?**
+**¿Onyx Insights ve mis datos?**
 - Solo datos necesarios para la función
 - No se comparten con terceros
-- Puedes desactivar IA en configuración
+- Puedes desactivar Onyx Insights en configuración
 
-**¿Hay límite de uso de IA?**
+**¿Hay límite de uso de Onyx Insights?**
 - Beta: Uso razonable
 - Producción: Límites por tier
 

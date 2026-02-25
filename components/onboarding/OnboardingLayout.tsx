@@ -23,7 +23,7 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({ children }) => {
 
             {/* Footer / Legal */}
             <div className="mt-8 text-center text-xs text-gray-400 dark:text-gray-600">
-                © 2026 Onyx Suite. Configuración inicial segura.
+                © 2026 Onyx One. Configuración inicial segura.
             </div>
         </div>
     );

@@ -1,6 +1,6 @@
-# 🤝 Guía de Contribución - Onyx Suite 2026
+# 🤝 Guía de Contribución - Onyx One
 
-¡Gracias por tu interés en contribuir a Onyx Suite! Esta guía te ayudará a empezar.
+¡Gracias por tu interés en contribuir a Onyx One! Esta guía te ayudará a empezar.
 
 ---
 
@@ -647,4 +647,4 @@ Al contribuir, aceptas que tus contribuciones serán licenciadas bajo la misma l
 
 ---
 
-**¡Gracias por contribuir a Onyx Suite! 🎉**
+**¡Gracias por contribuir a Onyx One! 🎉**

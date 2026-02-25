@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Search, Filter, Calendar, Layers, X, ChevronDown } from 'lucide-react';
-import { Account, CategoryStructure } from '@/types';
+import { Account, CategoryStructure } from '../../../../../types';
 
 interface TransactionFiltersProps {
     searchTerm: string;

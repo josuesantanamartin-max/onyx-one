@@ -5,9 +5,9 @@
 
 ## 1. Agreement to Terms
 
-By accessing or using Onyx Suite 2026 ("Service," "Platform," "Application," or "Onyx Suite"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, you may not access or use the Service.
+By accessing or using Onyx One ("Service," "Platform," "Application," or "Onyx One"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, you may not access or use the Service.
 
-These Terms constitute a legally binding agreement between you ("User," "you," or "your") and Onyx Suite 2026 ("we," "us," or "our").
+These Terms constitute a legally binding agreement between you ("User," "you," or "your") and Onyx One ("we," "us," or "our").
 
 ### 1.1 Acceptance of Terms
 - You accept these Terms by creating an account
@@ -23,7 +23,7 @@ These Terms constitute a legally binding agreement between you ("User," "you," o
 
 ## 2. Description of Service
 
-Onyx Suite 2026 is a premium, AI-powered personal management platform that provides:
+Onyx One is a premium, AI-powered personal management platform that provides:
 
 ### 2.1 Core Features
 - **Finance Management:** Transaction tracking, budgeting, net worth analysis, debt management, and financial goal tracking
@@ -101,7 +101,7 @@ You agree NOT to:
 ## 5. Intellectual Property Rights
 
 ### 5.1 Our Intellectual Property
-- The Service, including all content, features, and functionality, is owned by Onyx Suite 2026
+- The Service, including all content, features, and functionality, is owned by Onyx One
 - Our trademarks, logos, and service marks are our property
 - All software, code, and algorithms are protected by copyright
 - You may not use our intellectual property without permission
@@ -141,7 +141,7 @@ You agree NOT to:
 ## 7. Financial Disclaimer
 
 ### 7.1 Not Financial Advice
-- Onyx Suite 2026 is a financial management tool, not a financial advisor
+- Onyx One is a financial management tool, not a financial advisor
 - We do not provide financial, investment, tax, or legal advice
 - All recommendations and insights are informational only
 - You should consult qualified professionals for financial advice
@@ -187,7 +187,7 @@ THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIN
 - Uninterrupted or error-free operation
 
 ### 9.2 Limitation of Liability
-TO THE MAXIMUM EXTENT PERMITTED BY LAW, ONYX SUITE 2026 SHALL NOT BE LIABLE FOR:
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, Onyx One SHALL NOT BE LIABLE FOR:
 - Indirect, incidental, special, consequential, or punitive damages
 - Loss of profits, revenue, data, or business opportunities
 - Financial losses resulting from use of the Service
@@ -204,7 +204,7 @@ Some jurisdictions do not allow limitation of liability for certain damages. In 
 
 ## 10. Indemnification
 
-You agree to indemnify, defend, and hold harmless Onyx Suite 2026, its officers, directors, employees, and agents from any claims, liabilities, damages, losses, costs, or expenses (including legal fees) arising from:
+You agree to indemnify, defend, and hold harmless Onyx One, its officers, directors, employees, and agents from any claims, liabilities, damages, losses, costs, or expenses (including legal fees) arising from:
 - Your use of the Service
 - Your violation of these Terms
 - Your violation of any rights of another party
@@ -317,7 +317,7 @@ If any provision of these Terms is found to be unenforceable or invalid:
 
 ## 18. Entire Agreement
 
-These Terms, together with our Privacy Policy, constitute the entire agreement between you and Onyx Suite 2026 regarding the Service and supersede all prior agreements.
+These Terms, together with our Privacy Policy, constitute the entire agreement between you and Onyx One regarding the Service and supersede all prior agreements.
 
 ## 19. Assignment
 
@@ -349,7 +349,7 @@ You may provide notices to:
 **Email:** legal@onyxsuite.com
 
 **Mailing Address:**  
-Onyx Suite 2026  
+Onyx One  
 [Your Business Address]  
 [City, Postal Code]  
 [Country]
@@ -385,7 +385,7 @@ Email: support@onyxsuite.com
 Email: privacy@onyxsuite.com
 
 **Mailing Address:**  
-Onyx Suite 2026  
+Onyx One  
 [Your Business Address]  
 [City, Postal Code]  
 [Country]

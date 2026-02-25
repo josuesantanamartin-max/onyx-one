@@ -1,4 +1,4 @@
-# 🔧 Guía de Solución de Problemas - Onyx Suite 2026
+# 🔧 Guía de Solución de Problemas - Onyx One
 
 **Versión 1.0** | Última actualización: Febrero 2026
 
@@ -97,7 +97,7 @@
 4. **Revisar permisos del navegador**
    - Asegúrate de que el sitio puede guardar datos
    - Chrome: `chrome://settings/content/all`
-   - Busca el dominio de Onyx Suite
+   - Busca el dominio de Onyx One
    - Permite "Cookies" y "JavaScript"
 
 ---
@@ -152,7 +152,7 @@
 
 3. **Verificar email**
    - Si es cuenta nueva, verifica tu email primero
-   - Busca email de "Onyx Suite - Verifica tu cuenta"
+   - Busca email de "Onyx One - Verifica tu cuenta"
    - Haz clic en el enlace de verificación
 
 **Error: "Email not confirmed"**

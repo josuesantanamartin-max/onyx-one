@@ -14,27 +14,45 @@ interface WidgetGalleryProps {
 const CATEGORY_LABELS: Record<string, string> = {
     ALL: 'Todos',
     FINANCE: 'Finanzas',
+    KITCHEN: 'Cocina',
     LIFE: 'Vida',
 };
 
 const WidgetGallery: React.FC<WidgetGalleryProps> = ({ isOpen, onClose, onDragStart, onDragEnd }) => {
-    const { dashboardLayouts, activeLayoutId, addWidgetToLayout } = useUserStore();
+    const { dashboardLayouts, activeLayoutId, activeDashboardView, addWidgetToLayout } = useUserStore();
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
+    const [selectedCategory, setSelectedCategory] = useState<string>(activeDashboardView || 'ALL');
     const [isDraggingLocal, setIsDraggingLocal] = useState(false);
 
+    // Update category when gallery opens to match current view
+    React.useEffect(() => {
+        if (isOpen && activeDashboardView) {
+            setSelectedCategory(activeDashboardView);
+        }
+    }, [isOpen, activeDashboardView]);
+
     const activeLayout = dashboardLayouts.find(l => l.id === activeLayoutId);
-    const activeWidgetIds = activeLayout?.widgets.map(w => w.i) || [];
 
-    const availableWidgets = Object.entries(WIDGET_CONFIG).filter(
-        ([id]) => !activeWidgetIds.includes(id)
-    );
+    // Function to check if a widget is already added to its "home" dashboard
+    const isWidgetAdded = (id: string) => {
+        const category = getWidgetCategory(id);
+        let targetLayoutId = 'default'; // Default for FINANCE
+        if (category === 'KITCHEN') targetLayoutId = 'kitchen';
+        else if (category === 'LIFE') targetLayoutId = 'life';
 
-    const filteredWidgets = availableWidgets.filter(([id, config]) => {
+        const targetLayout = dashboardLayouts.find(l => l.id === targetLayoutId);
+        return targetLayout?.widgets.some(w => w.i === id) || false;
+    };
+
+    const allWidgets = Object.entries(WIDGET_CONFIG);
+
+    const filteredWidgets = allWidgets.filter(([id, config]) => {
         const matchesSearch = config.label.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesCategory = selectedCategory === 'ALL' || getWidgetCategory(id) === selectedCategory;
         return matchesSearch && matchesCategory;
     });
+
+    const availableWidgetsCount = allWidgets.filter(([id]) => !isWidgetAdded(id)).length;
 
     const handleAdd = (id: string) => {
         addWidgetToLayout(id);
@@ -65,7 +83,7 @@ const WidgetGallery: React.FC<WidgetGalleryProps> = ({ isOpen, onClose, onDragSt
                         <div>
                             <h3 className="text-sm font-black text-onyx-900 dark:text-white">Añadir Widget</h3>
                             <p className="text-xs text-onyx-400">
-                                {availableWidgets.length} disponibles
+                                {availableWidgetsCount} disponibles
                             </p>
                         </div>
                     </div>
@@ -114,9 +132,11 @@ const WidgetGallery: React.FC<WidgetGalleryProps> = ({ isOpen, onClose, onDragSt
                     {filteredWidgets.map(([id, config]) => (
                         <button
                             key={id}
-                            onClick={() => handleAdd(id)}
-                            draggable={true}
+                            onClick={() => !isWidgetAdded(id) && handleAdd(id)}
+                            disabled={isWidgetAdded(id)}
+                            draggable={!isWidgetAdded(id)}
                             onDragStart={(e) => {
+                                if (isWidgetAdded(id)) return;
                                 setIsDraggingLocal(true);
                                 e.dataTransfer.setData('application/json', JSON.stringify({ source: 'gallery', widgetId: id }));
                                 e.dataTransfer.effectAllowed = 'copy';
@@ -126,24 +146,43 @@ const WidgetGallery: React.FC<WidgetGalleryProps> = ({ isOpen, onClose, onDragSt
                                 setIsDraggingLocal(false);
                                 if (onDragEnd) onDragEnd();
                             }}
-                            className="w-full flex items-center gap-3 p-3 bg-onyx-50 dark:bg-onyx-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 border border-transparent hover:border-indigo-200 dark:hover:border-indigo-800 rounded-xl text-left transition-all group"
+                            className={`w-full flex items-center gap-3 p-3 rounded-xl text-left transition-all group ${isWidgetAdded(id)
+                                ? 'bg-onyx-50/50 dark:bg-onyx-800/50 opacity-60 cursor-not-allowed'
+                                : 'bg-onyx-50 dark:bg-onyx-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 border border-transparent hover:border-indigo-200 dark:hover:border-indigo-800'
+                                }`}
                         >
-                            <div className="w-9 h-9 bg-white dark:bg-onyx-700 rounded-xl flex items-center justify-center shadow-sm shrink-0 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/50 transition-colors">
-                                <Plus className="w-4 h-4 text-indigo-primary" />
+                            <div className={`w-9 h-9 rounded-xl flex items-center justify-center shadow-sm shrink-0 transition-colors ${isWidgetAdded(id)
+                                ? 'bg-onyx-100 dark:bg-onyx-700 text-onyx-300'
+                                : 'bg-white dark:bg-onyx-700 text-indigo-primary group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/50'
+                                }`}>
+                                {isWidgetAdded(id) ? (
+                                    <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                                ) : (
+                                    <Plus className="w-4 h-4" />
+                                )}
                             </div>
                             <div className="min-w-0 flex-1">
-                                <p className="text-xs font-bold text-onyx-800 dark:text-onyx-100 truncate group-hover:text-indigo-700 dark:group-hover:text-indigo-300 transition-colors">
+                                <p className={`text-xs font-bold truncate transition-colors ${isWidgetAdded(id)
+                                    ? 'text-onyx-400'
+                                    : 'text-onyx-800 dark:text-onyx-100 group-hover:text-indigo-700 dark:group-hover:text-indigo-300'
+                                    }`}>
                                     {config.label}
                                 </p>
                                 <p className="text-xs text-onyx-400 capitalize mt-0.5">
                                     {CATEGORY_LABELS[getWidgetCategory(id)] ?? 'General'}
                                 </p>
                             </div>
-                            <div className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <div className="flex items-center gap-1 bg-indigo-primary text-white text-xs font-bold px-2 py-1 rounded-lg">
-                                    <Plus className="w-3 h-3" />
-                                    Añadir
-                                </div>
+                            <div className="shrink-0 transition-all">
+                                {isWidgetAdded(id) ? (
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-1 rounded-lg">
+                                        Añadido
+                                    </span>
+                                ) : (
+                                    <div className="opacity-0 group-hover:opacity-100 flex items-center gap-1 bg-indigo-primary text-white text-xs font-bold px-2 py-1 rounded-lg">
+                                        <Plus className="w-3 h-3" />
+                                        Añadir
+                                    </div>
+                                )}
                             </div>
                         </button>
                     ))}
@@ -154,7 +193,7 @@ const WidgetGallery: React.FC<WidgetGalleryProps> = ({ isOpen, onClose, onDragSt
                             <p className="text-sm text-onyx-400">
                                 {searchQuery
                                     ? 'No se encontraron widgets'
-                                    : availableWidgets.length === 0
+                                    : allWidgets.filter(([id]) => !isWidgetAdded(id)).length === 0
                                         ? 'Todos los widgets están en uso'
                                         : 'Ningún widget en esta categoría'}
                             </p>

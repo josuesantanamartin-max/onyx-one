@@ -1,5 +1,5 @@
 import React from 'react';
-import { Transaction } from '@/types';
+import { Transaction } from '../../../../../types';
 import { AlertCircle, ArrowRight, BarChart3 } from 'lucide-react';
 
 interface TopSpendersWidgetProps {

@@ -13,7 +13,7 @@ export const startDashboardTour = () => {
             {
                 element: '#header-title',
                 popover: {
-                    title: 'Bienvenido a Onyx Suite',
+                    title: 'Bienvenido a Onyx One',
                     description: 'Este es tu centro de control financiero y personal totalmente privado.'
                 }
             },

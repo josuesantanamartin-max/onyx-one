@@ -48,13 +48,13 @@ const TEXTS: any = {
       persDesc: 'Temas, apariencia y organización del dashboard.',
       catDesc: 'Personaliza tu estructura de ingresos y gastos.',
       autoDesc: 'Crea reglas para automatizar alertas y categorización.',
-      subDesc: 'Gestiona tu plan Onyx Suite.',
+      subDesc: 'Gestiona tu plan Onyx One.',
       billDesc: 'Métodos de pago y facturas.',
       secDesc: 'Contraseñas, autenticación de dos factores y zona de peligro.'
     },
     personalization: {
       theme: 'Tema de la Interfaz',
-      themeDesc: 'Elige cómo se ve Onyx Suite.',
+      themeDesc: 'Elige cómo se ve Onyx One.',
       layout: 'Diseño del Dashboard',
       layoutDesc: 'Gestiona los widgets de tu pantalla principal.',
       resetLayout: 'Restaurar Diseño Original',
@@ -110,13 +110,13 @@ const TEXTS: any = {
       persDesc: 'Themes, appearance and dashboard organization.',
       catDesc: 'Customize your income and expense structure.',
       autoDesc: 'Create rules to automate alerts and categorization.',
-      subDesc: 'Manage your Onyx Suite plan.',
+      subDesc: 'Manage your Onyx One plan.',
       billDesc: 'Payment methods and invoices.',
       secDesc: 'Passwords, 2FA and danger zone.'
     },
     personalization: {
       theme: 'Interface Theme',
-      themeDesc: 'Choose how Onyx Suite looks.',
+      themeDesc: 'Choose how Onyx One looks.',
       layout: 'Dashboard Layout',
       layoutDesc: 'Manage your home screen widgets.',
       resetLayout: 'Reset Original Layout',
@@ -172,13 +172,13 @@ const TEXTS: any = {
       persDesc: 'Thèmes, apparence et organisation du tableau de bord.',
       catDesc: 'Personnalisez votre structure de revenus et dépenses.',
       autoDesc: 'Créez des règles pour automatiser les alertes.',
-      subDesc: 'Gérer votre plan Onyx Suite.',
+      subDesc: 'Gérer votre plan Onyx One.',
       billDesc: 'Méthodes de paiement et factures.',
       secDesc: 'Mots de passe, 2FA et zone de danger.'
     },
     personalization: {
       theme: 'Thème de l\'interface',
-      themeDesc: 'Choisissez l\'apparence d\'Onyx Suite.',
+      themeDesc: 'Choisissez l\'apparence d\'Onyx One.',
       layout: 'Disposition du tableau de bord',
       layoutDesc: 'Gérez vos widgets d\'écran d\'accueil.',
       resetLayout: 'Rétablir la disposition',
@@ -360,7 +360,8 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
   const t = TEXTS[language as string] || TEXTS['ES'];
 
   const handleResetSystem = () => {
-    if (window.confirm('WARNING: ' + t.resetDesc)) {
+    const confirmText = window.prompt(`Escribe CONFIRMAR para proceder:\n\nWARNING: ${t.resetDesc}`);
+    if (confirmText === "CONFIRMAR") {
       localStorage.clear();
       window.location.reload();
     }
@@ -399,7 +400,8 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
   };
 
   const handleDeleteMember = (id: string) => {
-    if (window.confirm("¿Seguro? Se eliminará el historial de este miembro.")) {
+    const confirmText = window.prompt("Escribe ELIMINAR para borrar el historial de este miembro.");
+    if (confirmText === "ELIMINAR") {
       setFamilyMembers((prev) => prev.filter(m => m.id !== id));
     }
   };
@@ -454,7 +456,8 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
   };
 
   const handleDeleteCategory = (id: string) => {
-    if (window.confirm("¿Eliminar categoría? Esto no afectará a transacciones pasadas, pero desaparecerá del selector.")) {
+    const confirmText = window.prompt("Escribe ELIMINAR para borrar esta categoría.");
+    if (confirmText === "ELIMINAR") {
       setCategories((prev) => prev.filter(c => c.id !== id));
     }
   };
@@ -563,9 +566,11 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
                 </div>
 
                 <div className="text-center md:text-left flex-1">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full mb-3 shadow-lg shadow-orange-500/20">
+                  <div className={`inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r rounded-full mb-3 shadow-lg ${subscription.plan === 'FAMILIA' ? 'from-amber-400 to-orange-500 shadow-orange-500/20' : subscription.plan === 'PERSONAL' ? 'from-indigo-400 to-violet-500 shadow-indigo-500/20' : 'from-gray-400 to-gray-500 shadow-gray-500/20'}`}>
                     <Star className="w-3 h-3 text-white fill-white" />
-                    <span className="text-[9px] font-black uppercase tracking-widest text-white">Onyx Plus</span>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-white">
+                      {subscription.plan === 'FAMILIA' ? 'Onyx Premium' : subscription.plan === 'PERSONAL' ? 'Onyx Pro' : 'Onyx Basic'}
+                    </span>
                   </div>
                   <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter leading-none mb-3 drop-shadow-md">
                     {userProfile?.full_name || 'Usuario Onyx'}
@@ -628,7 +633,7 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
                     </h4>
                     <p className="text-sm text-gray-400 leading-relaxed font-medium max-w-lg">
                       Eres el único dueño de tu información. Genera un paquete cifrado con todo tu historial financiero,
-                      configuraciones familiares y registros de Onyx Suite.
+                      configuraciones familiares y registros de Onyx One.
                     </p>
                   </div>
                   <div className="w-full md:w-auto shrink-0">
@@ -1133,7 +1138,7 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
           <div className="max-w-4xl space-y-8 animate-fade-in pb-12">
             <div className="mb-8">
               <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">{t.menu.subscription}</h3>
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Gestiona tu plan de Onyx Suite</p>
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Gestiona tu plan de Onyx One</p>
             </div>
 
             <div className="bg-gradient-to-br from-indigo-900 via-indigo-800 to-indigo-950 p-8 md:p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden group">
@@ -1144,7 +1149,9 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
                 <div>
                   <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 border border-white/20 backdrop-blur-md mb-4 shadow-inner">
                     <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-                    <span className="text-[10px] font-black text-indigo-100 uppercase tracking-widest">{subscription.status === 'ACTIVE' ? 'Suscripción Activa' : subscription.status}</span>
+                    <span className="text-[10px] font-black text-indigo-100 uppercase tracking-widest">
+                      {subscription.status === 'ACTIVE' ? 'Suscripción Activa' : subscription.status === 'NONE' ? (language === 'ES' ? 'Básico' : 'Basic') : subscription.status}
+                    </span>
                   </div>
                   <h4 className="text-4xl md:text-5xl font-black text-white tracking-tighter mb-2">
                     Onyx {subscription.plan === 'FAMILIA' ? 'Premium' : subscription.plan === 'PERSONAL' ? 'Pro' : 'Basic'}
@@ -1243,24 +1250,27 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
                 <FileText className="w-6 h-6 text-indigo-500" /> Historial de Facturas
               </h4>
               <div className="bg-white dark:bg-onyx-900 rounded-[2.5rem] border border-gray-100 dark:border-onyx-800 shadow-xl shadow-gray-200/40 dark:shadow-none overflow-hidden">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="flex items-center justify-between p-6 md:p-8 border-b border-gray-100 dark:border-onyx-800 last:border-0 hover:bg-gray-50 dark:hover:bg-onyx-950/50 transition-colors group">
-                    <div className="flex items-center gap-5">
-                      <div className="w-12 h-12 bg-gray-50 dark:bg-onyx-950 rounded-xl flex items-center justify-center border border-gray-200 dark:border-onyx-800 shadow-inner group-hover:border-indigo-200 dark:group-hover:border-indigo-800 transition-colors">
-                        <Download className="w-5 h-5 text-gray-400 group-hover:text-indigo-500 transition-colors" />
+                {[1, 2, 3].map((i) => {
+                  const months = language === 'ES' ? ['Oct', 'Nov', 'Dic'] : language === 'FR' ? ['Oct', 'Nov', 'Déc'] : ['Oct', 'Nov', 'Dec'];
+                  return (
+                    <div key={i} className="flex items-center justify-between p-6 md:p-8 border-b border-gray-100 dark:border-onyx-800 last:border-0 hover:bg-gray-50 dark:hover:bg-onyx-950/50 transition-colors group">
+                      <div className="flex items-center gap-5">
+                        <div className="w-12 h-12 bg-gray-50 dark:bg-onyx-950 rounded-xl flex items-center justify-center border border-gray-200 dark:border-onyx-800 shadow-inner group-hover:border-indigo-200 dark:group-hover:border-indigo-800 transition-colors">
+                          <Download className="w-5 h-5 text-gray-400 group-hover:text-indigo-500 transition-colors" />
+                        </div>
+                        <div>
+                          <h5 className="text-base font-black text-gray-900 dark:text-white mb-2">Factura #{1000 + i}</h5>
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 text-[9px] font-black uppercase tracking-widest rounded-lg border border-emerald-100 dark:border-emerald-800 shadow-sm">
+                            <Check className="w-3 h-3" /> {months[i - 1]} 12, 2026
+                          </span>
+                        </div>
                       </div>
-                      <div>
-                        <h5 className="text-base font-black text-gray-900 dark:text-white mb-2">Factura #{1000 + i}</h5>
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 text-[9px] font-black uppercase tracking-widest rounded-lg border border-emerald-100 dark:border-emerald-800 shadow-sm">
-                          <Check className="w-3 h-3" /> Okt 12, 2026
-                        </span>
+                      <div className="flex items-center gap-6">
+                        <span className="text-xl font-black text-gray-900 dark:text-white">{t.plan.price}</span>
                       </div>
                     </div>
-                    <div className="flex items-center gap-6">
-                      <span className="text-xl font-black text-gray-900 dark:text-white">{t.plan.price}</span>
-                    </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             </div>
           </div>

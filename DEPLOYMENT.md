@@ -1,6 +1,6 @@
-# 🚀 Guía de Deployment - Onyx Suite
+# 🚀 Guía de Deployment - Onyx One
 
-Esta guía te muestra cómo desplegar Onyx Suite en diferentes plataformas.
+Esta guía te muestra cómo desplegar Onyx One en diferentes plataformas.
 
 ---
 

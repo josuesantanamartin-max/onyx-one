@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo } from 'react';
-import { Transaction, CategoryStructure } from '@/types';
+import { Transaction, CategoryStructure } from '../../../../../types';
 import { Search, ChevronLeft, ChevronRight, Filter, ChevronDown, TrendingUp, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 
 interface TransactionExplorerProps {

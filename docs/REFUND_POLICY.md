@@ -1,4 +1,4 @@
-# 📜 Política de Reembolsos - Onyx Suite 2026
+# 📜 Política de Reembolsos - Onyx One
 
 **Última actualización:** 6 de febrero de 2026
 
@@ -6,7 +6,7 @@
 
 ## Nuestra Garantía
 
-En Onyx Suite nos comprometemos a tu satisfacción. Si no estás completamente satisfecho con tu suscripción, ofrecemos una política de reembolso justa y transparente.
+En Onyx One nos comprometemos a tu satisfacción. Si no estás completamente satisfecho con tu suscripción, ofrecemos una política de reembolso justa y transparente.
 
 ---
 
@@ -308,7 +308,7 @@ Si no estás satisfecho con nuestra respuesta:
 
 ---
 
-**Onyx Suite se compromete a un trato justo y transparente. Tu satisfacción es nuestra prioridad.**
+**Onyx One se compromete a un trato justo y transparente. Tu satisfacción es nuestra prioridad.**
 
 *Última revisión: 6 de febrero de 2026*
 

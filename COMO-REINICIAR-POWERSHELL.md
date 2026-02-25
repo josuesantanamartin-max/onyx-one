@@ -148,6 +148,6 @@ npm install
 npm run dev
 ```
 
-¡Y listo! Onyx Suite estará corriendo en http://localhost:3000 🎉
+¡Y listo! Onyx One estará corriendo en http://localhost:3000 🎉
 
 

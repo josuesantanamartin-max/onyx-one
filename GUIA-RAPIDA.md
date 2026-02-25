@@ -1,4 +1,4 @@
-# 🚀 Guía Rápida - Onyx Suite
+# 🚀 Guía Rápida - Onyx One
 
 ## ⚡ Inicio Rápido (3 pasos)
 
@@ -51,7 +51,7 @@ La aplicación estará disponible en:
 
 ---
 
-## 🎯 Funcionalidades de Onyx Suite
+## 🎯 Funcionalidades de Onyx One
 
 ### 📊 Dashboard Global
 - Vista 360° de tu vida financiera y personal
@@ -125,7 +125,7 @@ npm run test       # Ejecutar tests
 
 ## 📱 Modo Demo
 
-Onyx Suite incluye un **modo demo** que funciona sin configuración:
+Onyx One incluye un **modo demo** que funciona sin configuración:
 - No requiere cuenta
 - Datos almacenados localmente
 - Funcionalidad completa disponible

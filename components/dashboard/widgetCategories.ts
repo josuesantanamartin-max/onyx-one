@@ -22,17 +22,19 @@ export const WIDGET_CATEGORIES: Record<string, WidgetCategory> = {
     'SAVINGS_RATE': 'FINANCE',
     'TOP_SPENDERS': 'FINANCE',
 
-    // Life Widgets
-    'TODAY_MENU': 'LIFE',
-    'SHOPPING_LIST': 'LIFE',
-    'SHOPPING_LIST_FULL': 'LIFE',
+    // Life Widgets - Kitchen Dashboard
+    'TODAY_MENU': 'KITCHEN',
+    'SHOPPING_LIST': 'KITCHEN',
+    'SHOPPING_LIST_FULL': 'KITCHEN',
+    'RECIPE_FAVORITES': 'KITCHEN',
+    'WEEKLY_PLAN': 'KITCHEN',
+    'CRITICAL_INVENTORY': 'KITCHEN',
+    'LOW_STOCK_PANTRY': 'KITCHEN',
+
+    // Life Widgets - Life Dashboard (Non-Kitchen)
     'FAMILY_AGENDA': 'LIFE',
-    'RECIPE_FAVORITES': 'LIFE',
-    'WEEKLY_PLAN': 'LIFE',
     'UPCOMING_TRIPS': 'LIFE',
     'FAMILY_TASKS': 'LIFE',
-    'CRITICAL_INVENTORY': 'LIFE',
-    'LOW_STOCK_PANTRY': 'LIFE',
     'UPCOMING_BIRTHDAYS': 'LIFE',
 };
 

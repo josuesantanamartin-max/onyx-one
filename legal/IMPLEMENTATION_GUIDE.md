@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide provides instructions for integrating the Privacy Policy and Terms of Service into Onyx Suite 2026.
+This guide provides instructions for integrating the Privacy Policy and Terms of Service into Onyx One.
 
 ## Documents Created
 

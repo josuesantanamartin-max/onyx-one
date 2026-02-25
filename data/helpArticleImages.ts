@@ -183,14 +183,14 @@ export const articleImages: Record<string, ArticleImage[]> = {
         {
             src: '/help-screenshots/dashboard-overview.png',
             alt: {
-                ES: 'Vista general del dashboard principal',
-                EN: 'Main dashboard overview',
-                FR: 'Vue d\'ensemble du tableau de bord principal'
+                ES: 'Vista general de Onyx Central',
+                EN: 'Onyx Central overview',
+                FR: 'Vue d\'ensemble d\'Onyx Central'
             },
             caption: {
-                ES: 'Dashboard principal con widgets personalizables',
-                EN: 'Main dashboard with customizable widgets',
-                FR: 'Tableau de bord principal avec widgets personnalisables'
+                ES: 'Onyx Central con widgets personalizables',
+                EN: 'Onyx Central with customizable widgets',
+                FR: 'Onyx Central avec widgets personnalisables'
             }
         }
     ]

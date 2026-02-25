@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Goal } from '@/types';
+import { Goal } from '../../../../../types';
 import { Target, Plane, Car, Home, Heart, Baby, PiggyBank, TrendingUp, Clock, ArrowRight } from 'lucide-react';
 
 interface ActiveGoalsWidgetProps {

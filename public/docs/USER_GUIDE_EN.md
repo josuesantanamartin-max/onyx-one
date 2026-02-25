@@ -1,4 +1,4 @@
-# User Guide - Onyx Suite 2026
+# User Guide - Onyx One
 
 **Version:** 1.0.2  
 **Last Updated:** February 5, 2026
@@ -20,13 +20,13 @@
 
 ## Introduction
 
-### What is Onyx Suite?
+### What is Onyx One?
 
-Onyx Suite 2026 is your comprehensive personal assistant that combines:
+Onyx One is your comprehensive personal assistant that combines:
 - 💰 **Financial Management** - Accounts, budgets, goals, retirement
 - 🏠 **Home Organization** - Recipes, pantry, shopping, trips
-- 🤖 **Artificial Intelligence** - Powered by Gemini
-- 📊 **Customizable Dashboard** - Unified view of your life
+- 🤖 **Onyx Insights** - Powered by Gemini
+- 📊 **Onyx Central** - Unified view of your life
 
 ### Key Features
 
@@ -85,10 +85,10 @@ Onyx Suite 2026 is your comprehensive personal assistant that combines:
 ### 3. Guided Tour
 
 On first login:
-1. **Welcome** - Introduction to Onyx Suite
-2. **Dashboard** - Customizable overview
+1. **Welcome** - Introduction to Onyx One
+2. **Onyx Central** - Customizable overview
 3. **Modules** - Finance, Life, Goals
-4. **AI** - How to use the assistant
+4. **Onyx Insights** - How to use the assistant
 5. **Settings** - Personalization
 
 ---
@@ -300,7 +300,7 @@ The system suggests:
 ### Edit Mode
 
 **Activate Editing**
-1. Go to **Dashboard**
+1. Go to **Onyx Central**
 2. Click **Edit Dashboard**
 3. Now you can:
    - Drag widgets to reorder
@@ -330,7 +330,7 @@ The system suggests:
 - 🏠 Home Tasks
 
 **General**
-- 🤖 Onyx Insights (AI)
+- 🤖 Onyx Insights
 - 📅 Calendar
 - 🔔 Notifications
 
@@ -384,7 +384,7 @@ The system suggests:
 
 ### General
 
-**Is Onyx Suite free?**
+**Is Onyx One free?**
 - Yes, the beta version is completely free
 - Premium plans coming soon
 

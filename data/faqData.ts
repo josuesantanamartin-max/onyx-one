@@ -24,9 +24,9 @@ export const faqData: FAQ[] = [
     {
         id: 'faq-account-create',
         question: {
-            ES: '¿Cómo creo una cuenta en Onyx Suite?',
-            EN: 'How do I create an Onyx Suite account?',
-            FR: 'Comment créer un compte Onyx Suite?'
+            ES: '¿Cómo creo una cuenta en Onyx One?',
+            EN: 'How do I create an Onyx One account?',
+            FR: 'Comment créer un compte Onyx One?'
         },
         answer: {
             ES: 'Puedes crear una cuenta de dos formas: 1) Click en "Registrarse" e ingresa tu email y contraseña, o 2) Usa "Continuar con Google" para registro rápido. Después completa tu perfil con información básica.',
@@ -44,9 +44,9 @@ export const faqData: FAQ[] = [
             FR: 'Quels sont les plans d\'abonnement disponibles?'
         },
         answer: {
-            ES: 'Onyx Suite ofrece tres modalidades: 1) Prueba Gratuita (14 días) - Acceso total para probarla, 2) Onyx Personal (2.99€/mes) - Para uso individual con funciones avanzadas, y 3) Onyx Familia (3.99€/mes) - Hasta 5 usuarios, roles, colaboración en tiempo real y soporte prioritario.',
-            EN: 'Onyx Suite offers three options: 1) Free Trial (14 days) - Full access to try it out, 2) Onyx Personal (€2.99/month) - For individual use with advanced features, and 3) Onyx Family (€3.99/month) - Up to 5 users, roles, real-time collaboration, and priority support.',
-            FR: 'Onyx Suite propose trois options : 1) Essai Gratuit (14 jours) - Accès complet pour tester, 2) Onyx Personnel (2,99€/mois) - Pour usage individuel avec fonctionnalités avancées, et 3) Onyx Famille (3,99€/mois) - Jusqu\'à 5 utilisateurs, rôles, collaboration en temps réel et support prioritaire.'
+            ES: 'Onyx One ofrece tres modalidades: 1) Prueba Gratuita (14 días) - Acceso total para probarla, 2) Onyx Personal (2.99€/mes) - Para uso individual con funciones avanzadas, y 3) Onyx Familia (3.99€/mes) - Hasta 5 usuarios, roles, colaboración en tiempo real y soporte prioritario.',
+            EN: 'Onyx One offers three options: 1) Free Trial (14 days) - Full access to try it out, 2) Onyx Personal (€2.99/month) - For individual use with advanced features, and 3) Onyx Family (€3.99/month) - Up to 5 users, roles, real-time collaboration, and priority support.',
+            FR: 'Onyx One propose trois options : 1) Essai Gratuit (14 jours) - Accès complet pour tester, 2) Onyx Personnel (2,99€/mois) - Pour usage individuel avec fonctionnalités avancées, et 3) Onyx Famille (3,99€/mois) - Jusqu\'à 5 utilisateurs, rôles, collaboration en temps réel et support prioritaire.'
         },
         category: 'account',
         tags: ['suscripción', 'planes', 'precio']
@@ -206,9 +206,9 @@ export const faqData: FAQ[] = [
     {
         id: 'faq-debt-management',
         question: {
-            ES: '¿Puedo gestionar mis deudas en Onyx Suite?',
-            EN: 'Can I manage my debts in Onyx Suite?',
-            FR: 'Puis-je gérer mes dettes dans Onyx Suite?'
+            ES: '¿Puedo gestionar mis deudas en Onyx One?',
+            EN: 'Can I manage my debts in Onyx One?',
+            FR: 'Puis-je gérer mes dettes dans Onyx One?'
         },
         answer: {
             ES: 'Sí, en Finanzas → Deudas puedes registrar préstamos, tarjetas de crédito, hipotecas, etc. Ingresa el monto total, tasa de interés y plazo. El sistema calcula pagos mensuales, intereses totales y te sugiere estrategias de pago.',
@@ -330,9 +330,9 @@ export const faqData: FAQ[] = [
     {
         id: 'faq-cookies',
         question: {
-            ES: '¿Qué cookies utiliza Onyx Suite?',
-            EN: 'What cookies does Onyx Suite use?',
-            FR: 'Quels cookies Onyx Suite utilise-t-il?'
+            ES: '¿Qué cookies utiliza Onyx One?',
+            EN: 'What cookies does Onyx One use?',
+            FR: 'Quels cookies Onyx One utilise-t-il?'
         },
         answer: {
             ES: 'Usamos cookies esenciales (autenticación, preferencias), analytics (opcional, para mejorar la app) y marketing (opcional). Puedes gestionar tus preferencias en Configuración → Privacidad → Cookies.',
@@ -457,9 +457,9 @@ export const faqData: FAQ[] = [
             FR: 'Pourquoi l\'application a-t-elle l\'air mauvaise sur mobile?'
         },
         answer: {
-            ES: 'Onyx Suite es responsive y debería funcionar bien en móvil. Si ves problemas: 1) Actualiza tu navegador, 2) Rota la pantalla, 3) Prueba en Chrome/Safari, 4) Limpia caché. Si persiste, envía screenshot a soporte.',
-            EN: 'Onyx Suite is responsive and should work well on mobile. If you see issues: 1) Update your browser, 2) Rotate screen, 3) Try Chrome/Safari, 4) Clear cache. If it persists, send screenshot to support.',
-            FR: 'Onyx Suite est responsive et devrait bien fonctionner sur mobile. Si vous voyez des problèmes: 1) Mettez à jour votre navigateur, 2) Faites pivoter l\'écran, 3) Essayez Chrome/Safari, 4) Videz le cache. Si cela persiste, envoyez une capture d\'écran au support.'
+            ES: 'Onyx One es responsive y debería funcionar bien en móvil. Si ves problemas: 1) Actualiza tu navegador, 2) Rota la pantalla, 3) Prueba en Chrome/Safari, 4) Limpia caché. Si persiste, envía screenshot a soporte.',
+            EN: 'Onyx One is responsive and should work well on mobile. If you see issues: 1) Update your browser, 2) Rotate screen, 3) Try Chrome/Safari, 4) Clear cache. If it persists, send screenshot to support.',
+            FR: 'Onyx One est responsive et devrait bien fonctionner sur mobile. Si vous voyez des problèmes: 1) Mettez à jour votre navigateur, 2) Faites pivoter l\'écran, 3) Essayez Chrome/Safari, 4) Videz le cache. Si cela persiste, envoyez une capture d\'écran au support.'
         },
         category: 'technical',
         tags: ['móvil', 'responsive', 'diseño']
