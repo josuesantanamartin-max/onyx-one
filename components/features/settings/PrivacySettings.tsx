@@ -223,7 +223,7 @@ const PrivacySettings: React.FC = () => {
                 userId: userProfile?.id || 'demo',
                 gdprCompliant: true,
                 dataRetentionPolicy: 'Data is retained as long as your account is active',
-                dpoContact: 'dpo@onyxsuite.com'
+                dpoContact: 'dpo@aliseus.com'
             },
             userData: {
                 profile: userProfile,
@@ -299,7 +299,7 @@ const PrivacySettings: React.FC = () => {
     };
 
     const handleScheduleDeletion = () => {
-        if (deleteConfirmEmail !== userProfile?.email && deleteConfirmEmail !== 'demo@onyxsuite.com') {
+        if (deleteConfirmEmail !== userProfile?.email && deleteConfirmEmail !== 'demo@aliseus.com') {
             alert('Email incorrecto');
             return;
         }
@@ -415,8 +415,8 @@ const PrivacySettings: React.FC = () => {
                         <button
                             onClick={() => toggleCookiePreference('analytics')}
                             className={`relative w-12 h-6 rounded-full transition-colors ${cookiePreferences?.analytics
-                                    ? 'bg-indigo-600'
-                                    : 'bg-gray-300 dark:bg-onyx-700'
+                                ? 'bg-indigo-600'
+                                : 'bg-gray-300 dark:bg-onyx-700'
                                 }`}
                         >
                             <div
@@ -435,8 +435,8 @@ const PrivacySettings: React.FC = () => {
                         <button
                             onClick={() => toggleCookiePreference('marketing')}
                             className={`relative w-12 h-6 rounded-full transition-colors ${cookiePreferences?.marketing
-                                    ? 'bg-indigo-600'
-                                    : 'bg-gray-300 dark:bg-onyx-700'
+                                ? 'bg-indigo-600'
+                                : 'bg-gray-300 dark:bg-onyx-700'
                                 }`}
                         >
                             <div
@@ -470,8 +470,8 @@ const PrivacySettings: React.FC = () => {
                         <button
                             onClick={() => toggleAIPreference('enableRecommendations')}
                             className={`relative w-12 h-6 rounded-full transition-colors ${aiPreferences.enableRecommendations
-                                    ? 'bg-blue-600'
-                                    : 'bg-gray-300 dark:bg-onyx-700'
+                                ? 'bg-blue-600'
+                                : 'bg-gray-300 dark:bg-onyx-700'
                                 }`}
                         >
                             <div
@@ -490,8 +490,8 @@ const PrivacySettings: React.FC = () => {
                         <button
                             onClick={() => toggleAIPreference('allowDataUsage')}
                             className={`relative w-12 h-6 rounded-full transition-colors ${aiPreferences.allowDataUsage
-                                    ? 'bg-blue-600'
-                                    : 'bg-gray-300 dark:bg-onyx-700'
+                                ? 'bg-blue-600'
+                                : 'bg-gray-300 dark:bg-onyx-700'
                                 }`}
                         >
                             <div
@@ -616,7 +616,7 @@ const PrivacySettings: React.FC = () => {
                                     type="email"
                                     value={deleteConfirmEmail}
                                     onChange={(e) => setDeleteConfirmEmail(e.target.value)}
-                                    placeholder={userProfile?.email || 'demo@onyxsuite.com'}
+                                    placeholder={userProfile?.email || 'demo@aliseus.com'}
                                     className="w-full px-4 py-3 bg-gray-50 dark:bg-onyx-800 border border-gray-200 dark:border-onyx-700 rounded-xl text-sm focus:ring-2 focus:ring-red-500 outline-none"
                                 />
                             </div>
@@ -649,7 +649,7 @@ const PrivacySettings: React.FC = () => {
                             </button>
                             <button
                                 onClick={handleScheduleDeletion}
-                                disabled={!deleteConfirmChecked || deleteConfirmEmail !== (userProfile?.email || 'demo@onyxsuite.com')}
+                                disabled={!deleteConfirmChecked || deleteConfirmEmail !== (userProfile?.email || 'demo@aliseus.com')}
                                 className="flex-1 py-3 px-4 bg-red-600 hover:bg-red-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2"
                             >
                                 <Trash2 className="w-4 h-4" />

@@ -22,9 +22,9 @@ import { AnimatedList, AnimatedListItem } from '../common/animations/AnimatedLis
 import { Button } from '../ui/Button';
 
 const GREETINGS = {
-    morning: { text: 'Buenos días', sub: 'Comienza el día con claridad.', icon: Coffee },
-    afternoon: { text: 'Buenas tardes', sub: 'Mantén el ritmo.', icon: Sunset },
-    evening: { text: 'Buenas noches', sub: 'Revisa tus logros de hoy.', icon: Moon },
+    morning: { text: 'Buenos días', sub: 'Comienza el día con claridad.', icon: Coffee, color: 'text-cyan-600 dark:text-cyan-400', bg: 'bg-cyan-50 dark:bg-cyan-900/30' },
+    afternoon: { text: 'Buenas tardes', sub: 'Mantén el ritmo.', icon: Sunset, color: 'text-teal-600 dark:text-teal-400', bg: 'bg-teal-50 dark:bg-teal-900/30' },
+    evening: { text: 'Buenas noches', sub: 'Revisa tus logros de hoy.', icon: Moon, color: 'text-cyan-600 dark:text-cyan-400', bg: 'bg-cyan-50 dark:bg-cyan-900/30' },
 };
 
 const CustomizableDashboard: React.FC = () => {
@@ -192,12 +192,12 @@ const CustomizableDashboard: React.FC = () => {
             <div className="sticky top-0 z-30 px-6 md:px-10 py-3.5 bg-white/90 dark:bg-onyx-950/90 backdrop-blur-xl border-b border-onyx-100/80 dark:border-onyx-800/60 flex items-center justify-between gap-4">
                 {/* Left: greeting */}
                 <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-md shadow-indigo-200 dark:shadow-indigo-900/40 shrink-0">
+                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 flex items-center justify-center shadow-md shadow-cyan-200 dark:shadow-cyan-900/40 shrink-0">
                         <greeting.icon className="w-4.5 h-4.5 text-white" />
                     </div>
                     <div className="min-w-0 hidden sm:block">
                         <h1 id="header-title" className="text-base font-black text-onyx-900 dark:text-white tracking-tight leading-none truncate">
-                            Onyx Central
+                            Aliseus
                         </h1>
                         <p className="text-[11px] text-onyx-400 dark:text-onyx-500 mt-0.5 truncate">
                             {new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })}
@@ -282,7 +282,7 @@ const CustomizableDashboard: React.FC = () => {
                                 key={cat}
                                 onClick={() => setActiveCategory(cat)}
                                 className={`px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest transition-all ${activeCategory === cat
-                                    ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-300 dark:shadow-indigo-900'
+                                    ? 'bg-cyan-600 text-white shadow-sm shadow-cyan-300 dark:shadow-cyan-900'
                                     : 'text-onyx-400 dark:text-onyx-500 hover:text-onyx-700 dark:hover:text-onyx-300 hover:bg-onyx-100 dark:hover:bg-onyx-800'
                                     }`}
                             >
@@ -293,7 +293,7 @@ const CustomizableDashboard: React.FC = () => {
                 </AnimatedListItem>
 
                 <div
-                    className={`space-y-7 transition-all duration-300 ${isEditMode ? 'min-h-[600px] border-2 border-dashed border-transparent hover:border-indigo-200/50 dark:hover:border-indigo-800/20 rounded-3xl p-4 -m-4' : ''}`}
+                    className={`space-y-7 transition-all duration-300 ${isEditMode ? 'min-h-[600px] border-2 border-dashed border-transparent hover:border-cyan-200/50 dark:hover:border-cyan-800/20 rounded-3xl p-4 -m-4' : ''}`}
                     onDragOver={(e) => {
                         e.preventDefault();
                         if (draggingId?.startsWith('gallery-')) {
@@ -329,9 +329,9 @@ const CustomizableDashboard: React.FC = () => {
                     {/* Edit Mode Banner */}
                     {isEditMode && (
                         <AnimatedListItem>
-                            <div className="flex items-center gap-3 p-3.5 bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800/60 rounded-2xl">
-                                <LayoutGrid className="w-4 h-4 text-indigo-500 shrink-0" />
-                                <p className="text-[12px] font-semibold text-indigo-700 dark:text-indigo-300">
+                            <div className="flex items-center gap-3 p-3.5 bg-cyan-50 dark:bg-cyan-950/40 border border-cyan-200 dark:border-cyan-800/60 rounded-2xl">
+                                <LayoutGrid className="w-4 h-4 text-cyan-500 shrink-0" />
+                                <p className="text-[12px] font-semibold text-cyan-700 dark:text-cyan-300">
                                     <span className="font-black">Modo Edición.</span>{' '}
                                     Arrastra widgets entre ellos para reordenar, o suéltalos en las zonas de abajo para cambiar su tamaño.
                                 </p>
@@ -397,3 +397,4 @@ const CustomizableDashboard: React.FC = () => {
 };
 
 export default CustomizableDashboard;
+

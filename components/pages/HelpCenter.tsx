@@ -13,13 +13,13 @@ const legacyArticles: any[] = [
     // Getting Started
     {
         id: 'getting-started',
-        title: 'Primeros Pasos con Onyx One',
+        title: 'Primeros Pasos con Aliseus',
         category: 'Inicio',
         content: `
-# Bienvenido a Onyx One
+# Bienvenido a Aliseus
 
-## ¿Qué es Onyx One?
-Onyx One es tu asistente personal integral que combina gestión financiera, planificación de vida y organización del hogar en una sola aplicación potenciada por IA.
+## ¿Qué es Aliseus?
+Aliseus es tu asistente personal integral que combina gestión financiera, planificación de vida y organización del hogar en una sola aplicación potenciada por IA.
 
 ## Configuración Inicial
 1. **Crea tu cuenta** - Regístrate con email o Google
@@ -43,7 +43,7 @@ Onyx One es tu asistente personal integral que combina gestión financiera, plan
 # Importar Transacciones desde CSV
 
 ## Formatos Soportados
-Onyx One acepta archivos CSV de la mayoría de bancos españoles.
+Aliseus acepta archivos CSV de la mayoría de bancos españoles.
 
 ## Pasos para Importar
 1. Ve a **Finanzas → Transacciones**
@@ -259,7 +259,7 @@ El sistema te sugiere:
 - Contacta soporte
 
 ## Contacto
-- Email: support@onyxsuite.com
+- Email: support@aliseus.com
 - Chat en vivo (próximamente)
         `,
         tags: ['problemas', 'errores', 'ayuda', 'soporte']
@@ -297,7 +297,7 @@ export const HelpCenter: React.FC = () => {
                         <h1 className="text-4xl font-bold">Centro de Ayuda</h1>
                     </div>
                     <p className="text-onyx-100 text-lg mb-6">
-                        Encuentra respuestas, guías y tutoriales para aprovechar al máximo Onyx One
+                        Encuentra respuestas, guías y tutoriales para aprovechar al máximo Aliseus
                     </p>
 
                     {/* Search Bar */}
@@ -384,7 +384,7 @@ export const HelpCenter: React.FC = () => {
                                         <FileText className="w-4 h-4" />
                                         Términos de Servicio
                                     </a>
-                                    <a href="mailto:support@onyxsuite.com" className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-onyx-600 dark:hover:text-onyx-400">
+                                    <a href="mailto:support@aliseus.com" className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-onyx-600 dark:hover:text-onyx-400">
                                         <MessageCircle className="w-4 h-4" />
                                         Contactar Soporte
                                     </a>
@@ -426,7 +426,7 @@ export const HelpCenter: React.FC = () => {
                                 </div>
                                 <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
                                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                                        ¿Te resultó útil este artículo? <a href="mailto:support@onyxsuite.com" className="text-onyx-600 dark:text-onyx-400 hover:underline">Envíanos tu feedback</a>
+                                        ¿Te resultó útil este artículo? <a href="mailto:support@aliseus.com" className="text-onyx-600 dark:text-onyx-400 hover:underline">Envíanos tu feedback</a>
                                     </p>
                                 </div>
                             </div>
@@ -490,7 +490,7 @@ export const HelpCenter: React.FC = () => {
                                             Intenta con otros términos de búsqueda o categoría
                                         </p>
                                         <a
-                                            href="mailto:support@onyxsuite.com"
+                                            href="mailto:support@aliseus.com"
                                             className="inline-flex items-center gap-2 text-onyx-600 dark:text-onyx-400 hover:underline"
                                         >
                                             <MessageCircle className="w-4 h-4" />

@@ -108,7 +108,7 @@ const BudgetStatusWidget: React.FC<BudgetStatusWidgetProps> = ({ budgets, transa
                         <div className="p-2 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-xl">
                             <Activity className="w-5 h-5" />
                         </div>
-                        <h3 className="text-xl font-black text-onyx-950 dark:text-white tracking-tight">Control de Presupuestos</h3>
+                        <h3 className="text-xl font-black text-cyan-900 dark:text-white tracking-tight">Control de Presupuestos</h3>
                     </div>
                     <p className="text-xs font-semibold text-onyx-400 uppercase tracking-widest">
                         {timeMode === 'MONTH'
@@ -141,7 +141,7 @@ const BudgetStatusWidget: React.FC<BudgetStatusWidgetProps> = ({ budgets, transa
                                     </div>
 
                                     <div className="flex items-baseline gap-2">
-                                        <span className="text-xl font-bold text-onyx-950 dark:text-white">
+                                        <span className="text-xl font-bold text-cyan-900 dark:text-white">
                                             {formatMoney(data.totalSpent)}
                                         </span>
                                         <span className="text-sm font-bold text-onyx-400 dark:text-onyx-500">

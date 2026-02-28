@@ -5,9 +5,9 @@
 
 ## 1. Agreement to Terms
 
-By accessing or using Onyx One ("Service," "Platform," "Application," or "Onyx One"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, you may not access or use the Service.
+By accessing or using Aliseus ("Service," "Platform," "Application," or "Aliseus"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, you may not access or use the Service.
 
-These Terms constitute a legally binding agreement between you ("User," "you," or "your") and Onyx One ("we," "us," or "our").
+These Terms constitute a legally binding agreement between you ("User," "you," or "your") and Aliseus ("we," "us," or "our").
 
 ### 1.1 Acceptance of Terms
 - You accept these Terms by creating an account
@@ -23,7 +23,7 @@ These Terms constitute a legally binding agreement between you ("User," "you," o
 
 ## 2. Description of Service
 
-Onyx One is a premium, AI-powered personal management platform that provides:
+Aliseus is a premium, AI-powered personal management platform that provides:
 
 ### 2.1 Core Features
 - **Finance Management:** Transaction tracking, budgeting, net worth analysis, debt management, and financial goal tracking
@@ -101,7 +101,7 @@ You agree NOT to:
 ## 5. Intellectual Property Rights
 
 ### 5.1 Our Intellectual Property
-- The Service, including all content, features, and functionality, is owned by Onyx One
+- The Service, including all content, features, and functionality, is owned by Aliseus
 - Our trademarks, logos, and service marks are our property
 - All software, code, and algorithms are protected by copyright
 - You may not use our intellectual property without permission
@@ -141,7 +141,7 @@ You agree NOT to:
 ## 7. Financial Disclaimer
 
 ### 7.1 Not Financial Advice
-- Onyx One is a financial management tool, not a financial advisor
+- Aliseus is a financial management tool, not a financial advisor
 - We do not provide financial, investment, tax, or legal advice
 - All recommendations and insights are informational only
 - You should consult qualified professionals for financial advice
@@ -169,7 +169,7 @@ You agree NOT to:
 - We implement reasonable security measures to protect your data
 - No system is completely secure; we cannot guarantee absolute security
 - You are responsible for maintaining the security of your devices
-- You should report security vulnerabilities to security@onyxsuite.com
+- You should report security vulnerabilities to security@aliseus.com
 
 ### 8.3 Data Backup
 - We regularly backup data but do not guarantee backup availability
@@ -187,7 +187,7 @@ THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIN
 - Uninterrupted or error-free operation
 
 ### 9.2 Limitation of Liability
-TO THE MAXIMUM EXTENT PERMITTED BY LAW, Onyx One SHALL NOT BE LIABLE FOR:
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, Aliseus SHALL NOT BE LIABLE FOR:
 - Indirect, incidental, special, consequential, or punitive damages
 - Loss of profits, revenue, data, or business opportunities
 - Financial losses resulting from use of the Service
@@ -204,7 +204,7 @@ Some jurisdictions do not allow limitation of liability for certain damages. In 
 
 ## 10. Indemnification
 
-You agree to indemnify, defend, and hold harmless Onyx One, its officers, directors, employees, and agents from any claims, liabilities, damages, losses, costs, or expenses (including legal fees) arising from:
+You agree to indemnify, defend, and hold harmless Aliseus, its officers, directors, employees, and agents from any claims, liabilities, damages, losses, costs, or expenses (including legal fees) arising from:
 - Your use of the Service
 - Your violation of these Terms
 - Your violation of any rights of another party
@@ -259,7 +259,7 @@ Upon termination:
 ## 13. Dispute Resolution
 
 ### 13.1 Informal Resolution
-Before filing a claim, you agree to contact us at legal@onyxsuite.com to attempt informal resolution. We will attempt to resolve disputes within 60 days.
+Before filing a claim, you agree to contact us at legal@aliseus.com to attempt informal resolution. We will attempt to resolve disputes within 60 days.
 
 ### 13.2 Governing Law
 These Terms are governed by the laws of [Your Jurisdiction], without regard to conflict of law principles.
@@ -317,7 +317,7 @@ If any provision of these Terms is found to be unenforceable or invalid:
 
 ## 18. Entire Agreement
 
-These Terms, together with our Privacy Policy, constitute the entire agreement between you and Onyx One regarding the Service and supersede all prior agreements.
+These Terms, together with our Privacy Policy, constitute the entire agreement between you and Aliseus regarding the Service and supersede all prior agreements.
 
 ## 19. Assignment
 
@@ -346,17 +346,17 @@ We may provide notices:
 ### 21.2 Notice to Us
 You may provide notices to:
 
-**Email:** legal@onyxsuite.com
+**Email:** legal@aliseus.com
 
 **Mailing Address:**  
-Onyx One  
+Aliseus  
 [Your Business Address]  
 [City, Postal Code]  
 [Country]
 
 ## 22. Accessibility
 
-We strive to make our Service accessible to all users. If you encounter accessibility issues, please contact us at accessibility@onyxsuite.com.
+We strive to make our Service accessible to all users. If you encounter accessibility issues, please contact us at accessibility@aliseus.com.
 
 ## 23. Language
 
@@ -376,16 +376,16 @@ The following provisions survive termination of these Terms:
 For questions about these Terms:
 
 **General Inquiries:**  
-Email: legal@onyxsuite.com
+Email: legal@aliseus.com
 
 **Support:**  
-Email: support@onyxsuite.com
+Email: support@aliseus.com
 
 **Privacy:**  
-Email: privacy@onyxsuite.com
+Email: privacy@aliseus.com
 
 **Mailing Address:**  
-Onyx One  
+Aliseus  
 [Your Business Address]  
 [City, Postal Code]  
 [Country]

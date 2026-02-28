@@ -20,11 +20,11 @@ const ActiveGoalsWidget: React.FC<ActiveGoalsWidgetProps> = ({ goals, onNavigate
     return (
         <div>
             <div className="flex justify-between items-center mb-6 px-2">
-                <h3 className="text-xl font-bold text-onyx-950 dark:text-white tracking-tight flex items-center gap-3">
+                <h3 className="text-xl font-bold text-cyan-900 dark:text-white tracking-tight flex items-center gap-3">
                     <div className="p-2 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-lg"><Target className="w-5 h-5" /></div>
                     Metas de Ahorro
                 </h3>
-                <button onClick={() => onNavigate('finance', 'goals')} className="text-xs font-bold text-onyx-400 hover:text-onyx-950 flex items-center gap-2 transition-colors group">
+                <button onClick={() => onNavigate('finance', 'goals')} className="text-xs font-bold text-onyx-400 hover:text-cyan-900 flex items-center gap-2 transition-colors group">
                     Ver todo <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </button>
             </div>
@@ -66,7 +66,7 @@ const ActiveGoalsWidget: React.FC<ActiveGoalsWidgetProps> = ({ goals, onNavigate
                                         <GoalIcon className="w-7 h-7" />
                                     </div>
                                     <div>
-                                        <h4 className="text-xl font-black text-onyx-950 dark:text-white leading-none mb-1.5">{goal.name}</h4>
+                                        <h4 className="text-xl font-black text-cyan-900 dark:text-white leading-none mb-1.5">{goal.name}</h4>
                                         <div className="flex items-center gap-2">
                                             {goal.deadline ? (
                                                 <p className="text-xs font-bold text-onyx-400 flex items-center gap-1.5">
@@ -87,7 +87,7 @@ const ActiveGoalsWidget: React.FC<ActiveGoalsWidgetProps> = ({ goals, onNavigate
                                         <div className="flex gap-6">
                                             <div>
                                                 <p className="text-[10px] font-black text-onyx-400 dark:text-onyx-500 uppercase tracking-widest mb-1">Ahorrado</p>
-                                                <p className="text-3xl font-black text-onyx-950 dark:text-white tracking-tighter">{formatEUR(goal.currentAmount)}</p>
+                                                <p className="text-3xl font-black text-cyan-900 dark:text-white tracking-tighter">{formatEUR(goal.currentAmount)}</p>
                                             </div>
                                             <div className="h-10 w-px bg-onyx-100 self-end mb-1"></div>
                                             <div>
@@ -120,7 +120,7 @@ const ActiveGoalsWidget: React.FC<ActiveGoalsWidgetProps> = ({ goals, onNavigate
                     </div>
                     <h4 className="text-xl font-bold text-onyx-900 mb-2">No tienes metas activas</h4>
                     <p className="text-sm text-onyx-400 mb-8 max-w-[280px] mx-auto">Comienza a ahorrar para tus sueños definiendo tu primer objetivo financiero.</p>
-                    <button onClick={() => onNavigate('finance', 'goals')} className="bg-onyx-950 text-white px-8 py-3.5 rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg hover:bg-black transition-all">Crear meta</button>
+                    <button onClick={() => onNavigate('finance', 'goals')} className="bg-cyan-900 text-white px-8 py-3.5 rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg hover:bg-cyan-950 transition-all">Crear meta</button>
                 </div>
             )}
         </div>

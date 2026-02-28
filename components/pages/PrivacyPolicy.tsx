@@ -31,8 +31,8 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
                     </h1>
                     <p className="text-lg text-gray-500 dark:text-gray-400">
                         {language === 'ES'
-                            ? 'En Onyx One, la privacidad no es una opción, es la base de nuestra arquitectura.'
-                            : 'At Onyx One, privacy is not an option, it is the foundation of our architecture.'}
+                            ? 'En Aliseus, la privacidad no es una opción, es la base de nuestra arquitectura.'
+                            : 'At Aliseus, privacy is not an option, it is the foundation of our architecture.'}
                     </p>
                     <p className="text-sm text-gray-400 mt-2 font-mono">
                         Last updated: January 16, 2026
@@ -49,8 +49,8 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
                         </h2>
                         <p className="mb-4">
                             {language === 'ES'
-                                ? 'Onyx One opera bajo una filosofía "Local First" (Primero Local). Esto significa que la gran mayoría de sus datos financieros y personales se almacenan exclusivamente en el almacenamiento local de su dispositivo (LocalStorage/IndexedDB) y no se transmiten a nuestros servidores a menos que active explícitamente las funciones de sincronización en la nube.'
-                                : 'Onyx One operates under a "Local First" philosophy. This means that the vast majority of your financial and personal data is stored exclusively in your device\'s local storage (LocalStorage/IndexedDB) and is not transmitted to our servers unless you explicitly enable cloud synchronization features.'}
+                                ? 'Aliseus opera bajo una filosofía "Local First" (Primero Local). Esto significa que la gran mayoría de sus datos financieros y personales se almacenan exclusivamente en el almacenamiento local de su dispositivo (LocalStorage/IndexedDB) y no se transmiten a nuestros servidores a menos que active explícitamente las funciones de sincronización en la nube.'
+                                : 'Aliseus operates under a "Local First" philosophy. This means that the vast majority of your financial and personal data is stored exclusively in your device\'s local storage (LocalStorage/IndexedDB) and is not transmitted to our servers unless you explicitly enable cloud synchronization features.'}
                         </p>
                     </section>
 
@@ -62,8 +62,8 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
                         </h2>
                         <p className="mb-4">
                             {language === 'ES'
-                                ? 'Si opta por crear una cuenta y sincronizar sus datos, utilizamos Supabase (un proveedor de Backend-as-a-Service seguro y compatible con GDPR) para almacenar sus datos cifrados. Onyx One no vende, alquila ni comparte sus datos personales con terceros para fines publicitarios.'
-                                : 'If you choose to create an account and sync your data, we use Supabase (a secure, GDPR-compliant Backend-as-a-Service provider) to store your encrypted data. Onyx One does not sell, rent, or share your personal data with third parties for advertising purposes.'}
+                                ? 'Si opta por crear una cuenta y sincronizar sus datos, utilizamos Supabase (un proveedor de Backend-as-a-Service seguro y compatible con GDPR) para almacenar sus datos cifrados. Aliseus no vende, alquila ni comparte sus datos personales con terceros para fines publicitarios.'
+                                : 'If you choose to create an account and sync your data, we use Supabase (a secure, GDPR-compliant Backend-as-a-Service provider) to store your encrypted data. Aliseus does not sell, rent, or share your personal data with third parties for advertising purposes.'}
                         </p>
                     </section>
 
@@ -99,8 +99,8 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
                         </p>
                         <p className="text-sm">
                             {language === 'ES'
-                                ? 'Para ejercer sus derechos de acceso, rectificación, cancelación u oposición, contacte a: privacy@onyxsuite.com'
-                                : 'To exercise your rights of access, rectification, cancellation, or opposition, contact: privacy@onyxsuite.com'}
+                                ? 'Para ejercer sus derechos de acceso, rectificación, cancelación u oposición, contacte a: privacy@aliseus.com'
+                                : 'To exercise your rights of access, rectification, cancellation, or opposition, contact: privacy@aliseus.com'}
                         </p>
                     </div>
 

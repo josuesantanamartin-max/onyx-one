@@ -5,6 +5,7 @@ import FloatingActionButton from '../common/ui/FloatingActionButton';
 import { useUserStore } from '../../store/useUserStore';
 import { supabase } from '../../services/supabaseClient';
 import { PageTransition } from '../common/animations/PageTransition';
+import { useNotificationEngine } from '../../hooks/useNotificationEngine';
 
 // Lazy loaded modules
 const FinanceModule = React.lazy(() => import('../features/finance/FinanceModule'));
@@ -14,6 +15,9 @@ const CustomizableDashboard = React.lazy(() => import('../dashboard/BentoDashboa
 const HelpCenter = React.lazy(() => import('../pages/HelpCenter'));
 
 const MainShell: React.FC = () => {
+    // Mount the notification rules engine — evaluates Finance & Life state proactively
+    useNotificationEngine();
+
     const {
         activeApp, setActiveApp,
         setFinanceActiveTab, setLifeActiveTab,

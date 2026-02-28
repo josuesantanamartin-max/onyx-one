@@ -46,7 +46,7 @@ const SampleDataBanner: React.FC = () => {
                                     Estás viendo datos de ejemplo
                                 </h3>
                                 <p className="text-sm text-white/90 leading-relaxed">
-                                    Hemos cargado datos de muestra para que puedas explorar todas las funcionalidades de Onyx One.
+                                    Hemos cargado datos de muestra para que puedas explorar todas las funcionalidades de Aliseus.
                                     Cuando estés listo, puedes comenzar con tus propios datos.
                                 </p>
                             </div>

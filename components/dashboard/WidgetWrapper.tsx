@@ -24,25 +24,25 @@ const WidgetWrapper: React.FC<WidgetWrapperProps> = ({
     return (
         <div
             className={`h-full min-h-[180px] bg-white dark:bg-onyx-900 rounded-2xl overflow-hidden relative flex flex-col transition-all duration-200 ${isEditMode
-                ? 'ring-2 ring-indigo-400/60 dark:ring-indigo-600/60 shadow-lg shadow-indigo-100/80 dark:shadow-indigo-950/40'
+                ? 'ring-2 ring-cyan-400/60 dark:ring-cyan-600/60 shadow-lg shadow-cyan-100/80 dark:shadow-cyan-950/40'
                 : 'shadow-[0_2px_16px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_16px_rgba(0,0,0,0.3)] border border-onyx-100/70 dark:border-onyx-800/70 hover:shadow-[0_4px_24px_rgba(0,0,0,0.09)] dark:hover:shadow-[0_4px_24px_rgba(0,0,0,0.4)] hover:-translate-y-px'
                 }`}
         >
             {/* ── Drag Bar (edit mode only) ── */}
             {isEditMode && (
                 <div
-                    className="drag-handle flex items-center justify-between px-3.5 py-2.5 bg-gradient-to-r from-indigo-50 to-violet-50 dark:from-indigo-950/60 dark:to-violet-950/50 border-b border-indigo-100 dark:border-indigo-800/60 cursor-grab active:cursor-grabbing select-none shrink-0 group/bar"
+                    className="drag-handle flex items-center justify-between px-3.5 py-2.5 bg-gradient-to-r from-cyan-50 to-teal-50 dark:from-cyan-950/60 dark:to-teal-950/50 border-b border-cyan-100 dark:border-cyan-800/60 cursor-grab active:cursor-grabbing select-none shrink-0 group/bar"
                     title="Arrastra para mover"
                 >
                     <div className="flex items-center gap-2 min-w-0">
-                        <GripVertical className="w-3.5 h-3.5 text-indigo-400 dark:text-indigo-500 shrink-0 group-hover/bar:text-indigo-600 dark:group-hover/bar:text-indigo-400 transition-colors" />
-                        <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.12em] truncate">
+                        <GripVertical className="w-3.5 h-3.5 text-cyan-400 dark:text-cyan-500 shrink-0 group-hover/bar:text-cyan-600 dark:group-hover/bar:text-cyan-400 transition-colors" />
+                        <span className="text-[10px] font-black text-cyan-600 dark:text-cyan-400 uppercase tracking-[0.12em] truncate">
                             {widgetLabel}
                         </span>
                     </div>
 
                     {/* Quick Resize Controls */}
-                    <div className="flex items-center gap-1 px-2 border-x border-indigo-200/50 dark:border-indigo-800/40 mx-2 overflow-hidden">
+                    <div className="flex items-center gap-1 px-2 border-x border-cyan-200/50 dark:border-cyan-800/40 mx-2 overflow-hidden">
                         {(['kpi', 'sidebar', 'half', 'wide', 'full'] as WidgetSize[]).map((size) => {
                             const isCurrent = widgetLayout?.sizeOverride === size || (!widgetLayout?.sizeOverride && WIDGET_CONFIG[widgetId]?.size === size);
 
@@ -62,8 +62,8 @@ const WidgetWrapper: React.FC<WidgetWrapperProps> = ({
                                     key={size}
                                     onClick={(e) => { e.stopPropagation(); changeWidgetSize(widgetId, size); }}
                                     className={`p-1 rounded-md transition-all ${isCurrent
-                                            ? 'bg-indigo-600 text-white shadow-sm'
-                                            : 'text-indigo-400/70 hover:bg-indigo-100 hover:text-indigo-600 dark:text-indigo-500/50 dark:hover:bg-indigo-900/40 dark:hover:text-indigo-300'
+                                            ? 'bg-cyan-600 text-white shadow-sm'
+                                            : 'text-cyan-400/70 hover:bg-cyan-100 hover:text-cyan-600 dark:text-cyan-500/50 dark:hover:bg-cyan-900/40 dark:hover:text-cyan-300'
                                         }`}
                                     title={`Cambiar a ${label}`}
                                 >
@@ -77,7 +77,7 @@ const WidgetWrapper: React.FC<WidgetWrapperProps> = ({
                         <button
                             onClick={(e) => { e.stopPropagation(); toggleWidgetVisibility(widgetId); }}
                             className={`p-1.5 rounded-lg text-xs font-semibold transition-all ${isVisible
-                                ? 'text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 hover:text-indigo-600'
+                                ? 'text-cyan-400 hover:bg-cyan-100 dark:hover:bg-cyan-900/60 hover:text-cyan-600'
                                 : 'text-onyx-300 hover:bg-onyx-100 dark:hover:bg-onyx-800 hover:text-onyx-600'
                                 }`}
                             title={isVisible ? 'Ocultar' : 'Mostrar'}
@@ -106,7 +106,7 @@ const WidgetWrapper: React.FC<WidgetWrapperProps> = ({
                 <div className="absolute inset-0 top-[44px] flex items-center justify-center z-10 bg-white/60 dark:bg-onyx-900/60 backdrop-blur-sm">
                     <button
                         onClick={() => toggleWidgetVisibility(widgetId)}
-                        className="flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-onyx-800 border border-indigo-200 dark:border-indigo-700/60 rounded-xl text-xs font-bold text-indigo-600 dark:text-indigo-300 shadow-xl hover:scale-105 hover:shadow-2xl transition-all"
+                        className="flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-onyx-800 border border-cyan-200 dark:border-cyan-700/60 rounded-xl text-xs font-bold text-cyan-600 dark:text-cyan-300 shadow-xl hover:scale-105 hover:shadow-2xl transition-all"
                     >
                         <Eye className="w-3.5 h-3.5" />
                         Mostrar widget
@@ -118,3 +118,4 @@ const WidgetWrapper: React.FC<WidgetWrapperProps> = ({
 };
 
 export default WidgetWrapper;
+

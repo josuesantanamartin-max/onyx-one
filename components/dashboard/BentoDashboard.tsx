@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useFinanceStore } from '../../store/useFinanceStore';
 import { useUserStore } from '../../store/useUserStore';
 import { useLifeStore } from '../../store/useLifeStore';
@@ -23,9 +23,9 @@ import WidgetGallery from './WidgetGallery';
 import EditModeToolbar from './EditModeToolbar';
 
 const GREETINGS = {
-    morning: { text: 'Buenos días, Jefe', sub: 'Comienza el día con claridad financiera.', icon: Coffee, color: 'text-indigo-600', bg: 'bg-indigo-50' },
-    afternoon: { text: 'Buenas tardes', sub: 'Mantén el ritmo de tus objetivos.', icon: Sunset, color: 'text-amber-600', bg: 'bg-amber-50' },
-    evening: { text: 'Buenas noches', sub: 'Revisa tus logros y descansa.', icon: Moon, color: 'text-purple-600', bg: 'bg-purple-50' },
+    morning: { text: 'Buenos días, Jefe', sub: 'Comienza el día con claridad financiera.', icon: Coffee, color: 'text-cyan-600 dark:text-cyan-400', bg: 'bg-cyan-50 dark:bg-cyan-900/30' },
+    afternoon: { text: 'Buenas tardes', sub: 'Mantén el ritmo de tus objetivos.', icon: Sunset, color: 'text-cyan-600 dark:text-cyan-400', bg: 'bg-cyan-50 dark:bg-cyan-900/30' },
+    evening: { text: 'Buenas noches', sub: 'Revisa tus logros y descansa.', icon: Moon, color: 'text-cyan-600 dark:text-cyan-400', bg: 'bg-cyan-50 dark:bg-cyan-900/30' },
 };
 
 const BentoDashboard: React.FC = () => {
@@ -63,6 +63,12 @@ const BentoDashboard: React.FC = () => {
 
     const [timeMode, setTimeMode] = useState<'MONTH' | 'YEAR'>('MONTH');
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+    const [currentTime, setCurrentTime] = useState(() => new Date());
+
+    useEffect(() => {
+        const interval = setInterval(() => setCurrentTime(new Date()), 60000);
+        return () => clearInterval(interval);
+    }, []);
 
     // Tour - wait for cookies to be accepted first
     React.useEffect(() => {
@@ -83,6 +89,17 @@ const BentoDashboard: React.FC = () => {
     const hour = new Date().getHours();
     const timeOfDay = hour < 12 ? 'morning' : hour < 18 ? 'afternoon' : 'evening';
     const greeting = GREETINGS[timeOfDay];
+
+    const getContextualSub = () => {
+        const today = new Date().getDate();
+        const todayDebt = debts.find(d => { const d2 = parseInt(d.dueDate, 10); return d2 === today || d2 === today + 1; });
+        if (todayDebt) return `⚡ Pago pendiente: ${todayDebt.name}`;
+        const lowStock = pantryItems.filter(i => i.quantity <= (i.lowStockThreshold || 0));
+        if (lowStock.length > 0) return `📦 ${lowStock.length} artículo${lowStock.length > 1 ? 's' : ''} bajo${lowStock.length > 1 ? 's' : ''} en despensa`;
+        const nextTrip = trips.find((t: any) => t.status === 'UPCOMING');
+        if (nextTrip) { const days = Math.ceil((new Date((nextTrip as any).startDate).getTime() - Date.now()) / 86400000); if (days >= 0 && days <= 14) return `✈️ Tu viaje a ${(nextTrip as any).destination} en ${days} día${days !== 1 ? 's' : ''}`; }
+        return greeting.sub;
+    };
 
     const handleNavigate = (app: string, tab?: string) => {
         setActiveApp(app);
@@ -195,7 +212,7 @@ const BentoDashboard: React.FC = () => {
         switch (id) {
             case 'NET_WORTH':
                 const netWorth = accounts.reduce((acc, a) => acc + a.balance, 0) - debts.reduce((acc, d) => acc + d.remainingBalance, 0);
-                return { title, value: formatCurrency(netWorth), icon: Wallet, color: 'indigo' as const };
+                return { title, value: formatCurrency(netWorth), icon: Wallet, color: 'cyan' as const };
             case 'MONTHLY_FLOW':
                 return { title, value: formatCurrency(monthlyIncome - monthlyExpenses), subValue: `Ing: ${formatCurrency(monthlyIncome)} | Gto: ${formatCurrency(monthlyExpenses)}`, icon: TrendingUp, color: 'emerald' as const };
             case 'TOP_CATEGORIES':
@@ -208,22 +225,22 @@ const BentoDashboard: React.FC = () => {
             case 'TOP_SPENDERS':
                 return { title, value: 'Top 3', subValue: 'Mayores gastos', icon: ShoppingBag, color: 'rose' as const };
             case 'ANNUAL_COMPARISON':
-                return { title, value: year.toString(), subValue: 'vs Histórico', icon: CalendarRange, color: 'indigo' as const };
+                return { title, value: year.toString(), subValue: 'vs Histórico', icon: CalendarRange, color: 'cyan' as const };
             case 'ACTIVE_GOALS':
                 const activeCount = goals.filter(g => g.currentAmount < g.targetAmount).length;
                 return { title, value: activeCount, subValue: 'Objetivos activos', icon: Target, color: 'amber' as const };
             case 'ACCOUNTS_SUMMARY':
-                return { title, value: accounts.length, subValue: 'Cuentas activas', icon: Layers, color: 'indigo' as const };
+                return { title, value: accounts.length, subValue: 'Cuentas activas', icon: Layers, color: 'cyan' as const };
             case 'FINANCIAL_HEALTH':
                 return { title, value: 'Estado', subValue: 'Métricas clave', icon: Activity, color: 'emerald' as const };
             case 'UPCOMING_PAYMENTS':
                 return { title, value: debts.length, subValue: 'Por vencer', icon: Clock, color: 'rose' as const };
             case 'MONTHLY_GOALS':
-                return { title, value: 'Proyección', subValue: 'Del mes', icon: Target, color: 'purple' as const };
+                return { title, value: 'Proyección', subValue: 'Del mes', icon: Target, color: 'teal' as const };
             case 'PROJECTION_WIDGET':
                 return { title, value: 'Futuro', subValue: 'Proyección de balance', icon: LineChart, color: 'blue' as const };
             case 'EXPLORER':
-                return { title, value: 'Búsqueda', subValue: 'Explorador avanzado', icon: Search, color: 'indigo' as const };
+                return { title, value: 'Búsqueda', subValue: 'Explorador avanzado', icon: Search, color: 'cyan' as const };
             case 'CATEGORY_CHART':
                 return { title, value: 'Desglose', subValue: 'Distribución', icon: PieChart, color: 'onyx' as const };
             case 'SPENDING_FORECAST':
@@ -242,11 +259,11 @@ const BentoDashboard: React.FC = () => {
             case 'SHOPPING_LIST_FULL':
                 return { title, value: shoppingList.length, subValue: 'Artículos en lista', icon: ShoppingCart, color: 'amber' as const };
             case 'FAMILY_AGENDA':
-                return { title, value: 'Eventos', subValue: 'Próximos', icon: CalendarDays, color: 'indigo' as const };
+                return { title, value: 'Eventos', subValue: 'Próximos', icon: CalendarDays, color: 'cyan' as const };
             case 'RECIPE_FAVORITES':
                 return { title, value: 'Recetas', subValue: 'Guardadas', icon: BookOpen, color: 'rose' as const };
             case 'WEEKLY_PLAN':
-                return { title, value: weeklyPlans.length, subValue: 'Días planificados', icon: CalendarDays, color: 'purple' as const };
+                return { title, value: weeklyPlans.length, subValue: 'Días planificados', icon: CalendarDays, color: 'teal' as const };
             case 'UPCOMING_TRIPS':
                 return { title, value: 'Viajes', subValue: 'Agendados', icon: Map, color: 'blue' as const };
             case 'FAMILY_TASKS':
@@ -298,16 +315,18 @@ const BentoDashboard: React.FC = () => {
                     <div className="animate-fade-in-up">
                         <div className={`flex items-center gap-2 ${greeting.color} font-extrabold text-[10px] uppercase tracking-[0.3em] mb-3 ${greeting.bg} w-fit px-4 py-1.5 rounded-full border border-current/10 shadow-sm`}>
                             <greeting.icon className="w-4 h-4" /> {new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })}
+                            <span className="opacity-40">·</span>
+                            {currentTime.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}
                         </div>
                         <h1 className="text-4xl md:text-5xl font-black text-onyx-900 dark:text-white tracking-tighter transition-all group-hover/header:-translate-y-1">
                             {greeting.text}
                         </h1>
-                        <p className="text-onyx-400 dark:text-onyx-500 font-bold mt-1 text-sm md:text-base mb-6">{greeting.sub}</p>
+                        <p className="text-onyx-400 dark:text-onyx-500 font-bold mt-1 text-sm md:text-base mb-6">{getContextualSub()}</p>
 
                         {/* Multi-Dashboard Navigation */}
                         <div className="flex items-center gap-2 p-1 bg-onyx-100/50 dark:bg-onyx-800/50 backdrop-blur-md rounded-2xl border border-onyx-200/50 dark:border-onyx-700/50 w-fit">
                             {[
-                                { id: 'FINANCE', label: 'Finanzas', icon: Wallet, layoutId: 'default', color: 'indigo' },
+                                { id: 'FINANCE', label: 'Finanzas', icon: Wallet, layoutId: 'default', color: 'cyan' },
                                 { id: 'KITCHEN', label: 'Cocina', icon: Utensils, layoutId: 'kitchen', color: 'emerald' },
                                 { id: 'LIFE', label: 'Vida', icon: Heart, layoutId: 'life', color: 'rose' },
                             ].map((view) => {
@@ -335,7 +354,7 @@ const BentoDashboard: React.FC = () => {
 
                     <div className="flex items-center gap-3 bg-white/50 dark:bg-onyx-900/50 backdrop-blur-md p-2 rounded-2xl border border-onyx-100 dark:border-onyx-800 shadow-sm">
                         <div className="hidden md:flex flex-col items-end mr-2">
-                            <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Onyx Central v2.0</span>
+                            <span className="text-[10px] font-black text-cyan-600 dark:text-cyan-400 uppercase tracking-widest">Aliseus v2.0</span>
                             <div className="flex items-center gap-1 mt-0.5">
                                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
                                 <span className="text-[9px] font-bold text-onyx-400 uppercase">Premium Active</span>
@@ -356,7 +375,7 @@ const BentoDashboard: React.FC = () => {
                                         setEditMode(true);
                                         setIsGalleryOpen(true);
                                     }}
-                                    className="px-4 py-2.5 rounded-xl text-[12px] font-black uppercase tracking-widest shadow-lg shadow-indigo-200 dark:shadow-indigo-900/40"
+                                    className="px-4 py-2.5 rounded-xl text-[12px] font-black uppercase tracking-widest shadow-lg shadow-cyan-200 dark:shadow-cyan-900/40"
                                 >
                                     <Settings className="w-4 h-4 mr-2" />
                                     <span className="hidden sm:inline">Personalizar</span>
@@ -371,7 +390,7 @@ const BentoDashboard: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <div className="absolute -top-20 -left-20 w-80 h-80 bg-indigo-400/5 dark:bg-indigo-400/10 blur-[120px] rounded-full pointer-events-none"></div>
+                <div className="absolute -top-20 -left-20 w-80 h-80 bg-cyan-400/5 dark:bg-cyan-400/10 blur-[120px] rounded-full pointer-events-none"></div>
             </div>
 
             <AnimatedList className="px-6 md:px-10 py-4 max-w-[1600px] mx-auto" staggerDelay={0.1}>
@@ -382,69 +401,72 @@ const BentoDashboard: React.FC = () => {
                         {activeDashboardView === 'FINANCE' && (
                             <>
                                 {/* 1. Net Worth */}
-                                <div className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl transition-all duration-500 group overflow-hidden relative">
+                                <div onClick={() => handleNavigate('finance', 'accounts')} className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative cursor-pointer">
                                     <div className="flex justify-between items-start mb-4 relative z-10">
-                                        <div className="p-3 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-2xl group-hover:scale-110 transition-transform shadow-sm">
+                                        <div className="p-3 bg-gradient-to-br from-cyan-50 to-teal-50 dark:from-cyan-500/15 dark:to-teal-500/5 text-cyan-600 dark:text-cyan-400 rounded-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-sm">
                                             <Wallet className="w-5 h-5" />
                                         </div>
-                                        <div className="bg-indigo-50 dark:bg-indigo-500/10 p-1 rounded-lg">
-                                            <TrendingUp className="w-4 h-4 text-indigo-500" />
+                                        <div className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black border ${accounts.reduce((s, a) => s + a.balance, 0) - debts.reduce((s, d) => s + d.remainingBalance, 0) >= 0 ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-100 dark:border-emerald-500/20' : 'bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-100 dark:border-rose-500/20'}`}>
+                                            <TrendingUp className="w-3 h-3" /> {accounts.length} cuentas
                                         </div>
                                     </div>
                                     <div className="relative z-10">
                                         <p className="text-onyx-400 dark:text-onyx-500 text-[10px] font-black uppercase tracking-[0.2em]">Patrimonio Neto</p>
-                                        <h3 className="text-3xl font-black text-onyx-900 dark:text-white mt-1 flex items-baseline gap-1">
-                                            {formatCurrency(accounts.reduce((acc, a) => acc + a.balance, 0) - debts.reduce((acc, d) => acc + d.remainingBalance, 0))}
-                                        </h3>
+                                        <h3 className="text-2xl font-black text-onyx-900 dark:text-white mt-1 leading-none">{formatCurrency(accounts.reduce((acc, a) => acc + a.balance, 0) - debts.reduce((acc, d) => acc + d.remainingBalance, 0))}</h3>
+                                        <p className="text-[10px] text-onyx-400 dark:text-onyx-500 mt-1.5">{debts.length > 0 ? `${debts.length} deuda${debts.length > 1 ? 's' : ''} · ${formatCurrency(debts.reduce((s, d) => s + d.remainingBalance, 0))}` : 'Sin deudas activas'}</p>
                                     </div>
-                                    <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-indigo-500/5 blur-2xl rounded-full group-hover:scale-150 transition-transform"></div>
+                                    <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-cyan-500/5 blur-2xl rounded-full group-hover:scale-150 transition-transform"></div>
                                 </div>
 
-                                {/* 2. Monthly Savings Rate */}
-                                <div className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl transition-all duration-500 group overflow-hidden relative">
+                                {/* 2. Savings Rate with progress bar */}
+                                <div onClick={() => handleNavigate('finance', 'budgets')} className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative cursor-pointer">
                                     <div className="flex justify-between items-start mb-4 relative z-10">
-                                        <div className="p-3 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-2xl group-hover:scale-110 transition-transform shadow-sm">
+                                        <div className="p-3 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-500/15 dark:to-teal-500/5 text-emerald-600 dark:text-emerald-400 rounded-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-sm">
                                             <PiggyBank className="w-5 h-5" />
                                         </div>
-                                        <span className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-1 rounded-full uppercase tracking-tighter">Este Mes</span>
+                                        <span className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-1 rounded-full border border-emerald-100 dark:border-emerald-500/20">Este Mes</span>
                                     </div>
                                     <div className="relative z-10">
                                         <p className="text-onyx-400 dark:text-onyx-500 text-[10px] font-black uppercase tracking-[0.2em]">Tasa de Ahorro</p>
-                                        <h3 className="text-3xl font-black text-onyx-900 dark:text-white mt-1">
-                                            {monthlyIncome > 0 ? Math.round(((monthlyIncome - monthlyExpenses) / monthlyIncome) * 100) : 0}%
-                                        </h3>
+                                        <h3 className="text-3xl font-black text-onyx-900 dark:text-white mt-1">{monthlyIncome > 0 ? Math.round(((monthlyIncome - monthlyExpenses) / monthlyIncome) * 100) : 0}%</h3>
+                                        <div className="w-full bg-onyx-100 dark:bg-onyx-800 rounded-full h-1.5 mt-2">
+                                            <div className="h-1.5 rounded-full bg-gradient-to-r from-emerald-400 to-teal-500 transition-all duration-1000" style={{ width: `${Math.min(100, monthlyIncome > 0 ? Math.round(((monthlyIncome - monthlyExpenses) / monthlyIncome) * 100) : 0)}%` }} />
+                                        </div>
+                                        <p className="text-[10px] text-onyx-400 dark:text-onyx-500 mt-1.5">{formatCurrency(monthlyIncome - monthlyExpenses)} ahorrados</p>
                                     </div>
                                     <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-emerald-500/5 blur-2xl rounded-full group-hover:scale-150 transition-transform"></div>
                                 </div>
 
-                                {/* 3. Financial Health */}
-                                <div className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl transition-all duration-500 group overflow-hidden relative">
+                                {/* 3. Financial Health with color score */}
+                                <div className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative">
                                     <div className="flex justify-between items-start mb-4 relative z-10">
-                                        <div className="p-3 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded-2xl group-hover:scale-110 transition-transform shadow-sm">
+                                        <div className="p-3 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-500/15 dark:to-yellow-500/5 text-amber-600 dark:text-amber-400 rounded-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-sm">
                                             <Zap className="w-5 h-5" />
                                         </div>
                                     </div>
                                     <div className="relative z-10">
                                         <p className="text-onyx-400 dark:text-onyx-500 text-[10px] font-black uppercase tracking-[0.2em]">Salud Financiera</p>
-                                        <h3 className="text-3xl font-black text-onyx-900 dark:text-white mt-1">
-                                            {monthlyExpenses < monthlyIncome * 0.7 ? 'Excelente' : monthlyExpenses < monthlyIncome ? 'Estable' : 'Crítica'}
-                                        </h3>
+                                        <h3 className={`text-3xl font-black mt-1 ${monthlyExpenses < monthlyIncome * 0.7 ? 'text-emerald-600 dark:text-emerald-400' : monthlyExpenses < monthlyIncome ? 'text-amber-600 dark:text-amber-400' : 'text-rose-600 dark:text-rose-400'}`}>{monthlyExpenses < monthlyIncome * 0.7 ? 'Excelente' : monthlyExpenses < monthlyIncome ? 'Estable' : 'Crítica'}</h3>
+                                        <div className={`inline-flex items-center gap-1 mt-2 px-2 py-0.5 rounded-full text-[10px] font-bold ${monthlyExpenses < monthlyIncome * 0.7 ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600' : 'bg-amber-50 dark:bg-amber-500/10 text-amber-600'}`}>
+                                            <Activity className="w-3 h-3" />{monthlyIncome > 0 ? `${Math.round((monthlyExpenses / monthlyIncome) * 100)}% de ingresos` : 'Sin ingresos'}
+                                        </div>
                                     </div>
                                     <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-amber-500/5 blur-2xl rounded-full group-hover:scale-150 transition-transform"></div>
                                 </div>
 
-                                {/* 4. Upcoming Payments */}
-                                <div className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl transition-all duration-500 group overflow-hidden relative">
+                                {/* 4. Debts with inline list */}
+                                <div onClick={() => handleNavigate('finance', 'debts')} className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative cursor-pointer">
                                     <div className="flex justify-between items-start mb-4 relative z-10">
-                                        <div className="p-3 bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 rounded-2xl group-hover:scale-110 transition-transform shadow-sm">
+                                        <div className="p-3 bg-gradient-to-br from-rose-50 to-pink-50 dark:from-rose-500/15 dark:to-pink-500/5 text-rose-600 dark:text-rose-400 rounded-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-sm">
                                             <Calendar className="w-5 h-5" />
                                         </div>
                                     </div>
                                     <div className="relative z-10">
-                                        <p className="text-onyx-400 dark:text-onyx-500 text-[10px] font-black uppercase tracking-[0.2em]">Alertas Activas</p>
-                                        <h3 className="text-3xl font-black text-onyx-900 dark:text-white mt-1">
-                                            {debts.filter(d => d.dueDate).length}
-                                        </h3>
+                                        <p className="text-onyx-400 dark:text-onyx-500 text-[10px] font-black uppercase tracking-[0.2em]">Pagos Pendientes</p>
+                                        <h3 className="text-3xl font-black text-onyx-900 dark:text-white mt-1">{debts.filter(d => d.dueDate).length}</h3>
+                                        {debts.length > 0 ? (
+                                            <div className="mt-1.5 space-y-0.5">{debts.slice(0, 2).map(d => (<p key={d.id} className="text-[10px] text-onyx-400 dark:text-onyx-500 flex items-center gap-1"><span className="w-1 h-1 rounded-full bg-rose-400 flex-shrink-0" /><span className="truncate">{d.name} · día {d.dueDate}</span></p>))}</div>
+                                        ) : (<p className="text-[10px] text-onyx-400 dark:text-onyx-500 mt-1.5">Sin deudas activas</p>)}
                                     </div>
                                     <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-rose-500/5 blur-2xl rounded-full group-hover:scale-150 transition-transform"></div>
                                 </div>
@@ -454,133 +476,136 @@ const BentoDashboard: React.FC = () => {
                         {activeDashboardView === 'KITCHEN' && (
                             <>
                                 {/* 1. Today's Menu */}
-                                <div className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl transition-all duration-500 group overflow-hidden relative">
-                                    <div className="flex justify-between items-start mb-4 relative z-10">
-                                        <div className="p-3 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-2xl group-hover:scale-110 transition-transform shadow-sm">
+                                <div onClick={() => handleNavigate('life', 'kitchen-dashboard')} className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative cursor-pointer">
+                                    <div className="flex justify-between items-start mb-3 relative z-10">
+                                        <div className="p-3 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-500/15 dark:to-teal-500/5 text-emerald-600 dark:text-emerald-400 rounded-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-sm">
                                             <Utensils className="w-5 h-5" />
                                         </div>
+                                        <span className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-1 rounded-full border border-emerald-100 dark:border-emerald-500/20">Hoy</span>
                                     </div>
                                     <div className="relative z-10">
                                         <p className="text-onyx-400 dark:text-onyx-500 text-[10px] font-black uppercase tracking-[0.2em]">Menú Hoy</p>
-                                        <h3 className="text-xl font-black text-onyx-900 dark:text-white mt-1 line-clamp-1">
-                                            {weeklyPlans[0]?.meals.find(m => m.dayOfWeek === new Date().getDay())?.recipeName || 'Sin planear'}
-                                        </h3>
+                                        <h3 className="text-xl font-black text-onyx-900 dark:text-white mt-1 line-clamp-1">{weeklyPlans[0]?.meals?.find(m => m.dayOfWeek === new Date().getDay())?.recipeName || 'Sin planear'}</h3>
+                                        <p className="text-[10px] text-onyx-400 dark:text-onyx-500 mt-1">{weeklyPlans.length > 0 ? 'Plan semanal activo' : 'Sin plan semanal'}</p>
                                     </div>
                                     <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-emerald-500/5 blur-2xl rounded-full group-hover:scale-150 transition-transform"></div>
                                 </div>
 
-                                {/* 2. Shopping List */}
-                                <div className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl transition-all duration-500 group overflow-hidden relative">
-                                    <div className="flex justify-between items-start mb-4 relative z-10">
-                                        <div className="p-3 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded-2xl group-hover:scale-110 transition-transform shadow-sm">
+                                {/* 2. Shopping List with inline items */}
+                                <div onClick={() => handleNavigate('life', 'kitchen-dashboard')} className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative cursor-pointer">
+                                    <div className="flex justify-between items-start mb-3 relative z-10">
+                                        <div className="p-3 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-500/15 dark:to-yellow-500/5 text-amber-600 dark:text-amber-400 rounded-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-sm">
                                             <ShoppingCart className="w-5 h-5" />
                                         </div>
+                                        {shoppingList.length > 0 && <span className="text-[10px] font-black text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 px-2 py-1 rounded-full border border-amber-100 dark:border-amber-500/20">{shoppingList.length}</span>}
                                     </div>
                                     <div className="relative z-10">
                                         <p className="text-onyx-400 dark:text-onyx-500 text-[10px] font-black uppercase tracking-[0.2em]">Lista de Compra</p>
-                                        <h3 className="text-3xl font-black text-onyx-900 dark:text-white mt-1">
-                                            {shoppingList.length} artículos
-                                        </h3>
+                                        <h3 className="text-3xl font-black text-onyx-900 dark:text-white mt-1">{shoppingList.length}</h3>
+                                        {shoppingList.length > 0 ? (
+                                            <div className="mt-1.5 space-y-0.5">{(shoppingList as any[]).slice(0, 2).map((item, i) => (<p key={item.id || i} className="text-[10px] text-onyx-400 dark:text-onyx-500 flex items-center gap-1"><span className="w-1 h-1 rounded-full bg-amber-400 flex-shrink-0" /><span className="truncate">{item.name}</span></p>))}{shoppingList.length > 2 && <p className="text-[10px] text-onyx-300 dark:text-onyx-600">+{shoppingList.length - 2} más</p>}</div>
+                                        ) : (<p className="text-[10px] text-onyx-400 dark:text-onyx-500 mt-1.5">Lista vacía</p>)}
                                     </div>
                                     <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-amber-500/5 blur-2xl rounded-full group-hover:scale-150 transition-transform"></div>
                                 </div>
 
-                                {/* 3. Stock Status */}
-                                <div className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl transition-all duration-500 group overflow-hidden relative">
-                                    <div className="flex justify-between items-start mb-4 relative z-10">
-                                        <div className="p-3 bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 rounded-2xl group-hover:scale-110 transition-transform shadow-sm">
+                                {/* 3. Stock Status with names */}
+                                <div onClick={() => handleNavigate('life', 'kitchen-dashboard')} className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative cursor-pointer">
+                                    <div className="flex justify-between items-start mb-3 relative z-10">
+                                        <div className="p-3 bg-gradient-to-br from-rose-50 to-pink-50 dark:from-rose-500/15 dark:to-pink-500/5 text-rose-600 dark:text-rose-400 rounded-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-sm">
                                             <AlertTriangle className="w-5 h-5" />
                                         </div>
                                     </div>
                                     <div className="relative z-10">
                                         <p className="text-onyx-400 dark:text-onyx-500 text-[10px] font-black uppercase tracking-[0.2em]">Stock Crítico</p>
-                                        <h3 className="text-3xl font-black text-onyx-900 dark:text-white mt-1">
-                                            {pantryItems.filter(i => i.quantity <= (i.lowStockThreshold || 0)).length} alertas
-                                        </h3>
+                                        <h3 className={`text-3xl font-black mt-1 ${pantryItems.filter(i => i.quantity <= (i.lowStockThreshold || 0)).length > 0 ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-600 dark:text-emerald-400'}`}>{pantryItems.filter(i => i.quantity <= (i.lowStockThreshold || 0)).length === 0 ? 'OK' : pantryItems.filter(i => i.quantity <= (i.lowStockThreshold || 0)).length}</h3>
+                                        {pantryItems.filter(i => i.quantity <= (i.lowStockThreshold || 0)).length > 0 ? (
+                                            <div className="mt-1.5 space-y-0.5">{pantryItems.filter(i => i.quantity <= (i.lowStockThreshold || 0)).slice(0, 2).map(item => (<p key={item.id} className="text-[10px] text-rose-400 flex items-center gap-1"><span className="w-1 h-1 rounded-full bg-rose-400 flex-shrink-0" /><span className="truncate">{item.name}</span></p>))}</div>
+                                        ) : (<p className="text-[10px] text-emerald-500 mt-1.5">Todo en stock ✓</p>)}
                                     </div>
                                     <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-rose-500/5 blur-2xl rounded-full group-hover:scale-150 transition-transform"></div>
                                 </div>
 
-                                {/* 4. Recipes */}
-                                <div className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl transition-all duration-500 group overflow-hidden relative">
-                                    <div className="flex justify-between items-start mb-4 relative z-10">
-                                        <div className="p-3 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-2xl group-hover:scale-110 transition-transform shadow-sm">
+                                {/* 4. Recipes with latest */}
+                                <div onClick={() => handleNavigate('life', 'kitchen-dashboard')} className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative cursor-pointer">
+                                    <div className="flex justify-between items-start mb-3 relative z-10">
+                                        <div className="p-3 bg-gradient-to-br from-cyan-50 to-teal-50 dark:from-cyan-500/15 dark:to-teal-500/5 text-cyan-600 dark:text-cyan-400 rounded-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-sm">
                                             <ChefHat className="w-5 h-5" />
                                         </div>
                                     </div>
                                     <div className="relative z-10">
-                                        <p className="text-onyx-400 dark:text-onyx-500 text-[10px] font-black uppercase tracking-[0.2em]">Recetas Onyx</p>
-                                        <h3 className="text-3xl font-black text-onyx-900 dark:text-white mt-1">
-                                            {recipes.length} guardadas
-                                        </h3>
+                                        <p className="text-onyx-400 dark:text-onyx-500 text-[10px] font-black uppercase tracking-[0.2em]">Recetas Aliseus</p>
+                                        <h3 className="text-3xl font-black text-onyx-900 dark:text-white mt-1">{recipes.length}</h3>
+                                        <p className="text-[10px] text-onyx-400 dark:text-onyx-500 mt-1.5 truncate">{recipes.length > 0 ? `Última: ${(recipes as any[])[recipes.length - 1]?.name || '—'}` : 'Añade tu primera receta'}</p>
                                     </div>
-                                    <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-indigo-500/5 blur-2xl rounded-full group-hover:scale-150 transition-transform"></div>
+                                    <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-cyan-500/5 blur-2xl rounded-full group-hover:scale-150 transition-transform"></div>
                                 </div>
                             </>
                         )}
 
                         {activeDashboardView === 'LIFE' && (
                             <>
-                                {/* 1. Family Members */}
-                                <div className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl transition-all duration-500 group overflow-hidden relative">
-                                    <div className="flex justify-between items-start mb-4 relative z-10">
-                                        <div className="p-3 bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 rounded-2xl group-hover:scale-110 transition-transform shadow-sm">
+                                {/* 1. Family Members with avatar stack */}
+                                <div onClick={() => handleNavigate('life', 'life')} className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative cursor-pointer">
+                                    <div className="flex justify-between items-start mb-3 relative z-10">
+                                        <div className="p-3 bg-gradient-to-br from-rose-50 to-pink-50 dark:from-rose-500/15 dark:to-pink-500/5 text-rose-600 dark:text-rose-400 rounded-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-sm">
                                             <Users className="w-5 h-5" />
                                         </div>
                                     </div>
                                     <div className="relative z-10">
                                         <p className="text-onyx-400 dark:text-onyx-500 text-[10px] font-black uppercase tracking-[0.2em]">Miembros Familia</p>
-                                        <h3 className="text-3xl font-black text-onyx-900 dark:text-white mt-1">
-                                            {familyMembers.length} activos
-                                        </h3>
+                                        <h3 className="text-3xl font-black text-onyx-900 dark:text-white mt-1">{familyMembers.length}</h3>
+                                        {familyMembers.length > 0 && (
+                                            <div className="flex -space-x-2 mt-2">
+                                                {(familyMembers as any[]).slice(0, 4).map((m, i) => (<div key={m.id || i} className={`w-7 h-7 rounded-full border-2 border-white dark:border-onyx-900 flex items-center justify-center text-[10px] font-black text-white bg-gradient-to-br ${['from-rose-400 to-pink-500', 'from-teal-400 to-cyan-500', 'from-emerald-400 to-teal-500', 'from-amber-400 to-orange-500'][i % 4]}`}>{(m.name || m.full_name || '?').charAt(0).toUpperCase()}</div>))}
+                                                {familyMembers.length > 4 && <div className="w-7 h-7 rounded-full bg-onyx-100 dark:bg-onyx-800 border-2 border-white dark:border-onyx-900 flex items-center justify-center text-[9px] font-black text-onyx-600 dark:text-onyx-400">+{familyMembers.length - 4}</div>}
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-rose-500/5 blur-2xl rounded-full group-hover:scale-150 transition-transform"></div>
                                 </div>
 
-                                {/* 2. Upcoming Trips */}
-                                <div className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl transition-all duration-500 group overflow-hidden relative">
-                                    <div className="flex justify-between items-start mb-4 relative z-10">
-                                        <div className="p-3 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-2xl group-hover:scale-110 transition-transform shadow-sm">
+                                {/* 2. Upcoming Trips with countdown */}
+                                <div onClick={() => handleNavigate('life', 'travel')} className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative cursor-pointer">
+                                    <div className="flex justify-between items-start mb-3 relative z-10">
+                                        <div className="p-3 bg-gradient-to-br from-cyan-50 to-teal-50 dark:from-cyan-500/15 dark:to-teal-500/5 text-cyan-600 dark:text-cyan-400 rounded-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-sm">
                                             <Plane className="w-5 h-5" />
                                         </div>
+                                        {trips.filter((t: any) => t.status === 'UPCOMING').length > 0 && <span className="text-[10px] font-black text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-500/10 px-2 py-1 rounded-full border border-cyan-100 dark:border-cyan-500/20">{trips.filter((t: any) => t.status === 'UPCOMING').length}</span>}
                                     </div>
                                     <div className="relative z-10">
                                         <p className="text-onyx-400 dark:text-onyx-500 text-[10px] font-black uppercase tracking-[0.2em]">Próximos Viajes</p>
-                                        <h3 className="text-3xl font-black text-onyx-900 dark:text-white mt-1">
-                                            {trips.length} planificados
-                                        </h3>
+                                        {(() => { const nt = (trips as any[]).find(t => t.status === 'UPCOMING'); if (nt) { const d = Math.ceil((new Date(nt.startDate).getTime() - Date.now()) / 86400000); return (<><h3 className="text-xl font-black text-onyx-900 dark:text-white mt-1 line-clamp-1">{nt.destination}</h3><p className={`text-[11px] font-bold mt-1 ${d <= 3 ? 'text-rose-500' : d <= 7 ? 'text-amber-500' : 'text-cyan-500'}`}>{d >= 0 ? `Faltan ${d} día${d !== 1 ? 's' : ''}` : '🏠 En curso'}</p></>); } return (<><h3 className="text-3xl font-black text-onyx-900 dark:text-white mt-1">{trips.length}</h3><p className="text-[10px] text-onyx-400 dark:text-onyx-500 mt-1.5">planificados</p></>); })()}
                                     </div>
-                                    <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-indigo-500/5 blur-2xl rounded-full group-hover:scale-150 transition-transform"></div>
+                                    <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-cyan-500/5 blur-2xl rounded-full group-hover:scale-150 transition-transform"></div>
                                 </div>
 
                                 {/* 3. Vault Documents */}
-                                <div className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl transition-all duration-500 group overflow-hidden relative">
-                                    <div className="flex justify-between items-start mb-4 relative z-10">
-                                        <div className="p-3 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded-2xl group-hover:scale-110 transition-transform shadow-sm">
+                                <div onClick={() => handleNavigate('life', 'life')} className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative cursor-pointer">
+                                    <div className="flex justify-between items-start mb-3 relative z-10">
+                                        <div className="p-3 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-500/15 dark:to-yellow-500/5 text-amber-600 dark:text-amber-400 rounded-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-sm">
                                             <ShieldCheck className="w-5 h-5" />
                                         </div>
                                     </div>
                                     <div className="relative z-10">
-                                        <p className="text-onyx-400 dark:text-onyx-500 text-[10px] font-black uppercase tracking-[0.2em]">Vault Onyx</p>
-                                        <h3 className="text-3xl font-black text-onyx-900 dark:text-white mt-1">
-                                            {vaultDocuments.length} documentos
-                                        </h3>
+                                        <p className="text-onyx-400 dark:text-onyx-500 text-[10px] font-black uppercase tracking-[0.2em]">Vault Aliseus</p>
+                                        <h3 className="text-3xl font-black text-onyx-900 dark:text-white mt-1">{vaultDocuments.length}</h3>
+                                        <p className="text-[10px] text-onyx-400 dark:text-onyx-500 mt-1.5">{vaultDocuments.length > 0 ? `${vaultDocuments.length} doc${vaultDocuments.length > 1 ? 's' : ''} protegido${vaultDocuments.length > 1 ? 's' : ''}` : 'Ñade documentos al Vault'}</p>
                                     </div>
                                     <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-amber-500/5 blur-2xl rounded-full group-hover:scale-150 transition-transform"></div>
                                 </div>
 
-                                {/* 4. Daily Assets */}
-                                <div className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl transition-all duration-500 group overflow-hidden relative">
-                                    <div className="flex justify-between items-start mb-4 relative z-10">
-                                        <div className="p-3 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-2xl group-hover:scale-110 transition-transform shadow-sm">
+                                {/* 4. Tasks Today */}
+                                <div className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative">
+                                    <div className="flex justify-between items-start mb-3 relative z-10">
+                                        <div className="p-3 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-500/15 dark:to-teal-500/5 text-emerald-600 dark:text-emerald-400 rounded-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-sm">
                                             <Clock className="w-5 h-5" />
                                         </div>
                                     </div>
                                     <div className="relative z-10">
                                         <p className="text-onyx-400 dark:text-onyx-500 text-[10px] font-black uppercase tracking-[0.2em]">Tareas Hoy</p>
-                                        <h3 className="text-3xl font-black text-onyx-900 dark:text-white mt-1">
-                                            {homeAssets.length} pendientes
-                                        </h3>
+                                        <h3 className="text-3xl font-black text-onyx-900 dark:text-white mt-1">{homeAssets.length}</h3>
+                                        <p className="text-[10px] text-onyx-400 dark:text-onyx-500 mt-1.5">{homeAssets.length > 0 ? 'activos en casa' : 'Sin activos registrados'}</p>
                                     </div>
                                     <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-emerald-500/5 blur-2xl rounded-full group-hover:scale-150 transition-transform"></div>
                                 </div>
@@ -725,3 +750,4 @@ const BentoDashboard: React.FC = () => {
 };
 
 export default BentoDashboard;
+

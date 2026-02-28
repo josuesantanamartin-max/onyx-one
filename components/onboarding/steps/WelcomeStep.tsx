@@ -7,7 +7,7 @@ const WelcomeStep: React.FC = () => {
 
     return (
         <div className="flex flex-col items-center text-center animate-fade-in-up">
-            <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl flex items-center justify-center shadow-lg mb-8">
+            <div className="w-20 h-20 bg-gradient-to-br from-cyan-500 to-teal-600 rounded-3xl flex items-center justify-center shadow-lg mb-8">
                 <Sparkles className="w-10 h-10 text-white" />
             </div>
 
@@ -16,7 +16,7 @@ const WelcomeStep: React.FC = () => {
             </h2>
 
             <p className="text-lg text-gray-500 dark:text-gray-400 max-w-lg mb-10">
-                Onyx One es más que una hoja de cálculo. Es un sistema inteligente diseñado para adaptarse a tu vida, tus metas y tu estilo.
+                Aliseus es más que una hoja de cálculo. Es un sistema inteligente diseñado para adaptarse a tu vida, tus metas y tu estilo.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-2xl mb-10">

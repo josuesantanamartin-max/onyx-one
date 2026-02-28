@@ -37,10 +37,10 @@ export const VoiceAssistantFab: React.FC = () => {
                 <div className="pointer-events-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 p-4 w-80 animate-slideUp">
                     <div className="flex justify-between items-center mb-2">
                         <div className="flex items-center gap-2">
-                            <div className="p-1.5 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-lg">
+                            <div className="p-1.5 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-lg">
                                 <Sparkles className="w-4 h-4 text-white" />
                             </div>
-                            <span className="font-bold text-gray-800 dark:text-gray-200">Onyx Assistant</span>
+                            <span className="font-bold text-gray-800 dark:text-gray-200">Aliseus Assistant</span>
                         </div>
                         <button onClick={() => setIsExpanded(false)} className="text-gray-400 hover:text-gray-600">
                             <X className="w-4 h-4" />
@@ -50,13 +50,13 @@ export const VoiceAssistantFab: React.FC = () => {
                     <div className="min-h-[60px] flex items-center justify-center text-center p-2">
                         {isListening ? (
                             <div className="flex flex-col items-center gap-2">
-                                <Activity className="w-6 h-6 text-indigo-500 animate-pulse" />
+                                <Activity className="w-6 h-6 text-cyan-500 animate-pulse" />
                                 <span className="text-sm text-gray-500">Escuchando... {lastTranscript}</span>
                             </div>
                         ) : isProcessing ? (
                             <div className="flex flex-col items-center gap-2">
-                                <div className="w-5 h-5 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
-                                <span className="text-sm text-gray-500">Procesando con IA...</span>
+                                <div className="w-5 h-5 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" />
+                                <span className="text-sm text-gray-500">Procesando con IA de Aliseus...</span>
                             </div>
                         ) : lastAction ? (
                             <div className="text-left w-full">
@@ -81,8 +81,8 @@ export const VoiceAssistantFab: React.FC = () => {
             <button
                 onClick={handleToggle}
                 className={`pointer-events-auto p-4 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center ${isListening
-                    ? 'bg-red-500 hover:bg-red-600 animate-pulse ring-4 ring-red-200'
-                    : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:scale-110'
+                    ? 'bg-cyan-500 hover:bg-cyan-600 animate-pulse ring-4 ring-cyan-200/50 dark:ring-cyan-900/50'
+                    : 'bg-gradient-to-r from-cyan-600 to-teal-600 hover:scale-110 shadow-cyan-500/25'
                     }`}
             >
                 {isListening ? (

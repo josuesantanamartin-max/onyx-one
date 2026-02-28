@@ -331,7 +331,7 @@ const Transactions: React.FC<TransactionsProps> = ({
     <div className="h-full overflow-y-auto custom-scrollbar p-12 pb-32 max-w-7xl mx-auto animate-fade-in">
       <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10 mb-12">
         <div>
-          <h1 className="text-4xl font-bold text-onyx-950 tracking-tight">Movimientos</h1>
+          <h1 className="text-4xl font-bold text-cyan-900 tracking-tight">Movimientos</h1>
           <p className="text-xs font-bold text-onyx-400 mt-3 uppercase tracking-[0.2em]">Gestión detallada de tu flujo de caja</p>
         </div>
         <div className="flex items-center gap-6">
@@ -341,7 +341,7 @@ const Transactions: React.FC<TransactionsProps> = ({
             className="p-5 group relative"
           >
             <Upload className="w-6 h-6" />
-            <span className="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-onyx-950 text-white text-[10px] uppercase font-bold px-4 py-2 rounded-xl opacity-0 group-hover:opacity-100 transition-all translate-x-3 group-hover:translate-x-0 whitespace-nowrap pointer-events-none shadow-2xl border border-onyx-800">Importar CSV</span>
+            <span className="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-cyan-900 text-white text-[10px] uppercase font-bold px-4 py-2 rounded-xl opacity-0 group-hover:opacity-100 transition-all translate-x-3 group-hover:translate-x-0 whitespace-nowrap pointer-events-none shadow-2xl border border-onyx-800">Importar CSV</span>
           </Button>
           <Button
             variant="primary"
@@ -390,12 +390,12 @@ const Transactions: React.FC<TransactionsProps> = ({
       />
 
       {(isFormOpen || isEditModalOpen) && (
-        <div className="fixed inset-0 bg-onyx-950/40 backdrop-blur-md z-[60] flex items-center justify-center p-4 animate-fade-in text-onyx-950">
-          <div className="bg-white rounded-onyx shadow-2xl w-full max-w-2xl overflow-hidden max-h-[90vh] flex flex-col border border-onyx-100 relative shadow-indigo-500/10">
+        <div className="fixed inset-0 bg-cyan-900/40 backdrop-blur-md z-[60] flex items-center justify-center p-4 animate-fade-in text-cyan-900">
+          <div className="bg-white rounded-onyx shadow-2xl w-full max-w-2xl overflow-hidden max-h-[90vh] flex flex-col border border-onyx-100 relative shadow-cyan-500/10">
             <div className="bg-white px-10 py-8 flex justify-between items-center border-b border-onyx-50 sticky top-0 z-10">
               <div>
                 <h2 className="text-2xl font-bold tracking-tight flex items-center gap-4">
-                  <div className={`p-3 rounded-xl shadow-sm ${isEditModalOpen ? 'bg-indigo-50 text-indigo-primary' : 'bg-emerald-50 text-emerald-600'}`}>
+                  <div className={`p-3 rounded-xl shadow-sm ${isEditModalOpen ? 'bg-cyan-50 text-cyan-600' : 'bg-emerald-50 text-emerald-600'}`}>
                     {isEditModalOpen ? <Database className="w-6 h-6" /> : <Plus className="w-6 h-6" />}
                   </div>
                   {isEditModalOpen ? 'Editar Movimiento' : 'Nueva Transacción'}
@@ -416,7 +416,7 @@ const Transactions: React.FC<TransactionsProps> = ({
                 <div className="flex bg-onyx-50 p-1.5 rounded-2xl border border-onyx-100 shadow-inner">
                   <button type="button" onClick={() => setMode('EXPENSE')} className={`flex-1 py-3.5 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 ${mode === 'EXPENSE' ? 'bg-white shadow-lg text-red-600 border border-red-50' : 'text-onyx-400 hover:text-onyx-600'}`}>Gasto</button>
                   <button type="button" onClick={() => setMode('INCOME')} className={`flex-1 py-3.5 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 ${mode === 'INCOME' ? 'bg-white shadow-lg text-emerald-600 border border-emerald-50' : 'text-onyx-400 hover:text-onyx-600'}`}>Ingreso</button>
-                  <button type="button" onClick={() => setMode('TRANSFER')} className={`flex-1 py-3.5 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 ${mode === 'TRANSFER' ? 'bg-white shadow-lg text-indigo-primary border border-indigo-50' : 'text-onyx-400 hover:text-onyx-600'}`}>Traspaso</button>
+                  <button type="button" onClick={() => setMode('TRANSFER')} className={`flex-1 py-3.5 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 ${mode === 'TRANSFER' ? 'bg-white shadow-lg text-cyan-600 border border-cyan-50' : 'text-onyx-400 hover:text-onyx-600'}`}>Traspaso</button>
                 </div>
               )}
 
@@ -424,14 +424,14 @@ const Transactions: React.FC<TransactionsProps> = ({
                 <div className="col-span-1 md:col-span-2">
                   <label className="block text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3">Cantidad</label>
                   <div className="relative group/input">
-                    <span className="absolute left-6 top-1/2 -translate-y-1/2 text-onyx-300 font-bold text-2xl group-focus-within/input:text-indigo-primary transition-colors">€</span>
+                    <span className="absolute left-6 top-1/2 -translate-y-1/2 text-onyx-300 font-bold text-2xl group-focus-within/input:text-cyan-600 transition-colors">€</span>
                     <input
                       required
                       type="number"
                       step="0.01"
                       value={isEditModalOpen ? editAmount : amount}
                       onChange={e => isEditModalOpen ? setEditAmount(e.target.value) : setAmount(e.target.value)}
-                      className="w-full p-6 pl-14 bg-onyx-50 border border-onyx-100 rounded-3xl font-bold text-4xl text-onyx-950 focus:bg-white focus:ring-4 focus:ring-indigo-primary/5 focus:border-indigo-primary/20 transition-all outline-none text-center shadow-inner"
+                      className="w-full p-6 pl-14 bg-onyx-50 border border-onyx-100 rounded-3xl font-bold text-4xl text-cyan-900 focus:bg-white focus:ring-4 focus:ring-cyan-500/5 focus:border-cyan-500/20 transition-all outline-none text-center shadow-inner"
                       placeholder="0.00"
                     />
                   </div>
@@ -445,7 +445,7 @@ const Transactions: React.FC<TransactionsProps> = ({
                       type="date"
                       value={isEditModalOpen ? editDate : date}
                       onChange={e => isEditModalOpen ? setEditDate(e.target.value) : setDate(e.target.value)}
-                      className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-onyx-950 focus:bg-white focus:ring-4 focus:ring-indigo-primary/5 outline-none transition-all shadow-inner uppercase tracking-widest text-[11px]"
+                      className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-cyan-900 focus:bg-white focus:ring-4 focus:ring-cyan-500/5 outline-none transition-all shadow-inner uppercase tracking-widest text-[11px]"
                     />
                   </div>
                   <div>
@@ -454,7 +454,7 @@ const Transactions: React.FC<TransactionsProps> = ({
                       required
                       value={isEditModalOpen ? editAccountId : accountId}
                       onChange={e => isEditModalOpen ? setEditAccountId(e.target.value) : setAccountId(e.target.value)}
-                      className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-onyx-950 focus:bg-white focus:ring-4 focus:ring-indigo-primary/5 outline-none transition-all shadow-inner cursor-pointer"
+                      className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-cyan-900 focus:bg-white focus:ring-4 focus:ring-cyan-500/5 outline-none transition-all shadow-inner cursor-pointer"
                     >
                       <option value="">Seleccionar cuenta...</option>
                       {accounts.map(acc => (
@@ -471,7 +471,7 @@ const Transactions: React.FC<TransactionsProps> = ({
                       required
                       value={toAccountId}
                       onChange={e => setToAccountId(e.target.value)}
-                      className="w-full p-5 bg-indigo-50/30 border border-indigo-100 rounded-2xl font-bold text-onyx-950 focus:bg-white focus:ring-4 focus:ring-indigo-primary/5 outline-none transition-all shadow-inner cursor-pointer"
+                      className="w-full p-5 bg-cyan-50 border border-cyan-100 rounded-2xl font-bold text-cyan-900 focus:bg-white focus:ring-4 focus:ring-cyan-500/5 outline-none transition-all shadow-inner cursor-pointer"
                     >
                       <option value="">Seleccionar cuenta destino...</option>
                       {accounts.filter(a => a.id !== accountId).map(acc => (
@@ -489,7 +489,7 @@ const Transactions: React.FC<TransactionsProps> = ({
                         required
                         value={isEditModalOpen ? editCategory : category}
                         onChange={e => isEditModalOpen ? setEditCategory(e.target.value) : setCategory(e.target.value)}
-                        className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-onyx-950 focus:bg-white focus:ring-4 focus:ring-indigo-primary/5 outline-none transition-all shadow-inner"
+                        className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-cyan-900 focus:bg-white focus:ring-4 focus:ring-cyan-500/5 outline-none transition-all shadow-inner"
                       >
                         <option value="">Seleccionar...</option>
                         {categories.filter(c => c.type === (isEditModalOpen ? editingTransaction?.type : mode)).map(c => (
@@ -502,7 +502,7 @@ const Transactions: React.FC<TransactionsProps> = ({
                       <select
                         value={isEditModalOpen ? editSubCategory : subCategory}
                         onChange={e => isEditModalOpen ? setEditSubCategory(e.target.value) : setSubCategory(e.target.value)}
-                        className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-onyx-950 focus:bg-white focus:ring-4 focus:ring-indigo-primary/5 outline-none transition-all shadow-inner"
+                        className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-cyan-900 focus:bg-white focus:ring-4 focus:ring-cyan-500/5 outline-none transition-all shadow-inner"
                       >
                         <option value="">Opcional...</option>
                         {categories.find(c => c.name === (isEditModalOpen ? editCategory : category))?.subCategories.map(sc => (
@@ -521,7 +521,7 @@ const Transactions: React.FC<TransactionsProps> = ({
                       type="text"
                       value={isEditModalOpen ? editDescription : description}
                       onChange={e => isEditModalOpen ? setEditDescription(e.target.value) : setDescription(e.target.value)}
-                      className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-onyx-950 focus:bg-white focus:ring-4 focus:ring-indigo-primary/5 outline-none transition-all shadow-inner placeholder:text-onyx-200 pr-12"
+                      className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-cyan-900 focus:bg-white focus:ring-4 focus:ring-cyan-500/5 outline-none transition-all shadow-inner placeholder:text-onyx-200 pr-12"
                       placeholder="Ej: Compra mensual en Mercadona"
                     />
                     <Button
@@ -529,7 +529,7 @@ const Transactions: React.FC<TransactionsProps> = ({
                       type="button"
                       onClick={handleSmartCategorization}
                       disabled={isSuggesting || !(isEditModalOpen ? editDescription : description)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 p-2 disabled:opacity-50 disabled:cursor-not-allowed text-indigo-400"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-2 disabled:opacity-50 disabled:cursor-not-allowed text-cyan-500"
                       title="Auto-detectar categoría con IA"
                     >
                       {isSuggesting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Sparkles className="w-5 h-5" />}
@@ -543,20 +543,20 @@ const Transactions: React.FC<TransactionsProps> = ({
                 <textarea
                   value={isEditModalOpen ? editNotes : notes}
                   onChange={e => isEditModalOpen ? setEditNotes(e.target.value) : setNotes(e.target.value)}
-                  className="w-full p-6 bg-white border border-onyx-100 rounded-2xl font-semibold text-onyx-700 focus:ring-4 focus:ring-indigo-primary/5 focus:border-indigo-primary/20 transition-all outline-none resize-none h-32 shadow-sm"
+                  className="w-full p-6 bg-white border border-onyx-100 rounded-2xl font-semibold text-onyx-700 focus:ring-4 focus:ring-cyan-500/5 focus:border-cyan-500/20 transition-all outline-none resize-none h-32 shadow-sm"
                   placeholder="Añade detalles relevantes sobre este movimiento..."
                 />
               </div>
 
-              <div className="flex bg-indigo-50/50 p-6 rounded-3xl border border-indigo-100/50 items-center justify-between">
+              <div className="flex bg-cyan-50/50 p-6 rounded-3xl border border-cyan-100/50 items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="relative flex items-center">
-                    <input type="checkbox" id="rec" checked={isEditModalOpen ? editRecurring : isRecurring} onChange={e => isEditModalOpen ? setEditRecurring(e.target.checked) : setIsRecurring(e.target.checked)} className="w-6 h-6 text-indigo-primary rounded-lg border-onyx-200 focus:ring-indigo-primary/20 cursor-pointer" />
+                    <input type="checkbox" id="rec" checked={isEditModalOpen ? editRecurring : isRecurring} onChange={e => isEditModalOpen ? setEditRecurring(e.target.checked) : setIsRecurring(e.target.checked)} className="w-6 h-6 text-cyan-600 rounded-lg border-onyx-200 focus:ring-cyan-500/20 cursor-pointer" />
                   </div>
                   <label htmlFor="rec" className="text-[11px] font-bold text-onyx-700 uppercase tracking-widest cursor-pointer">Transacción Recurrente</label>
                 </div>
                 {(isEditModalOpen ? editRecurring : isRecurring) && (
-                  <select value={isEditModalOpen ? editFrequency : recurrenceFrequency} onChange={e => isEditModalOpen ? setEditFrequency(e.target.value as any) : setRecurrenceFrequency(e.target.value as any)} className="bg-white border border-indigo-100 rounded-xl px-4 py-2.5 text-[10px] font-bold uppercase tracking-widest text-indigo-primary outline-none focus:ring-4 focus:ring-indigo-primary/5 shadow-sm">
+                  <select value={isEditModalOpen ? editFrequency : recurrenceFrequency} onChange={e => isEditModalOpen ? setEditFrequency(e.target.value as any) : setRecurrenceFrequency(e.target.value as any)} className="bg-white border border-cyan-100 rounded-xl px-4 py-2.5 text-[10px] font-bold uppercase tracking-widest text-cyan-600 outline-none focus:ring-4 focus:ring-cyan-500/5 shadow-sm">
                     <option value="WEEKLY">Semanal</option>
                     <option value="BIWEEKLY">Quincenal</option>
                     <option value="MONTHLY">Mensual</option>
@@ -571,7 +571,7 @@ const Transactions: React.FC<TransactionsProps> = ({
                 className="w-full py-6 rounded-3xl font-bold text-[11px] uppercase tracking-[0.3em] overflow-hidden group"
               >
                 <span className="relative z-10">{isEditModalOpen ? 'Actualizar Registro' : 'Confirmar Transacción'}</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-primary/0 via-white/5 to-indigo-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-600/0 via-white/5 to-cyan-600/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
               </Button>
             </form>
           </div>

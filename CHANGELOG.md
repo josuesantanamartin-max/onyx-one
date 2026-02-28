@@ -1,4 +1,4 @@
-# 📝 Changelog - Onyx One
+# 📝 Changelog - Aliseus
 
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 
@@ -27,7 +27,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ### 🎉 Lanzamiento Inicial
 
-Primera versión pública de Onyx One.
+Primera versión pública de Aliseus.
 
 ### ✨ Added
 
@@ -66,7 +66,7 @@ Primera versión pública de Onyx One.
 - Permisos granulares (Admin, Adulto, Menor)
 - Espacios compartidos
 - Chat familiar en tiempo real
-- Modo Onyx Junior para menores
+- Modo Aliseus Junior para menores
 
 #### Autenticación y Seguridad
 - Registro e inicio de sesión con Supabase Auth
@@ -280,7 +280,7 @@ Primera versión pública de Onyx One.
 
 ### Versión 1.0.0 - "Genesis"
 
-Esta es la primera versión estable de Onyx One. Después de 4 meses de desarrollo intensivo, estamos orgullosos de presentar una plataforma completa para gestión financiera y del hogar.
+Esta es la primera versión estable de Aliseus. Después de 4 meses de desarrollo intensivo, estamos orgullosos de presentar una plataforma completa para gestión financiera y del hogar.
 
 **Highlights:**
 - 🎨 Interfaz moderna y personalizable
@@ -328,7 +328,7 @@ Seguimos [Semantic Versioning](https://semver.org/):
 
 Si encuentras un bug o tienes una sugerencia:
 
-1. Verifica que no esté ya reportado en [GitHub Issues](https://github.com/onyxsuite/issues)
+1. Verifica que no esté ya reportado en [GitHub Issues](https://github.com/josuesantanamartin-max/aliseus/issues)
 2. Usa el template apropiado (Bug Report o Feature Request)
 3. Incluye toda la información relevante
 4. Sé paciente, revisamos todos los issues
@@ -337,11 +337,11 @@ Si encuentras un bug o tienes una sugerencia:
 
 ## Enlaces
 
-- [Repositorio](https://github.com/onyxsuite/onyx-suite-2026)
-- [Documentación](https://docs.onyxsuite.com)
-- [Website](https://onyxsuite.com)
-- [Blog](https://blog.onyxsuite.com)
-- [Discord](https://discord.gg/onyxsuite)
+- [Repositorio](https://github.com/josuesantanamartin-max/aliseus)
+- [Documentación](https://docs.aliseus.com)
+- [Website](https://aliseus.com)
+- [Blog](https://blog.aliseus.com)
+- [Discord](https://discord.gg/aliseus)
 
 ---
 

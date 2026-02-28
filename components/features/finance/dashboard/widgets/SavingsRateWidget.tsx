@@ -34,7 +34,7 @@ const SavingsRateWidget: React.FC<SavingsRateWidgetProps> = ({ monthlyIncome, mo
             <div className="relative z-10 mt-4">
                 <h4 className="text-[10px] font-black text-onyx-400 dark:text-onyx-500 uppercase tracking-widest mb-1">Tasa de Ahorro</h4>
                 <div className="flex items-baseline gap-2">
-                    <span className="text-4xl sm:text-5xl font-black text-onyx-950 dark:text-white tracking-tighter">
+                    <span className="text-4xl sm:text-5xl font-black text-cyan-900 dark:text-white tracking-tighter">
                         {savingsRate.toFixed(1)}%
                     </span>
                 </div>

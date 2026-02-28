@@ -1,4 +1,4 @@
-# Guía de Usuario - Onyx One
+# Guía de Usuario - Aliseus
 
 **Versión:** 1.0.2  
 **Última Actualización:** 5 de Febrero, 2026
@@ -20,9 +20,9 @@
 
 ## Introducción
 
-### ¿Qué es Onyx One?
+### ¿Qué es Aliseus?
 
-Onyx One es tu asistente personal integral que combina:
+Aliseus es tu asistente personal integral que combina:
 - 💰 **Gestión Financiera** - Cuentas, presupuestos, metas, jubilación
 - 🏠 **Organización del Hogar** - Recetas, despensa, compras, viajes
 - 🤖 **Onyx Insights** - Asistente potenciado por Gemini
@@ -58,7 +58,7 @@ Onyx One es tu asistente personal integral que combina:
 
 ### 1. Crear tu Cuenta
 
-1. Visita [onyxsuite.com](https://onyxsuite.com)
+1. Visita [aliseus.com](https://aliseus.com)
 2. Click en **Registrarse**
 3. Opciones:
    - Email y contraseña
@@ -85,7 +85,7 @@ Onyx One es tu asistente personal integral que combina:
 ### 3. Tour Guiado
 
 Al iniciar sesión por primera vez:
-1. **Bienvenida** - Introducción a Onyx One
+1. **Bienvenida** - Introducción a Aliseus
 2. **Onyx Central** - Vista general personalizable
 3. **Módulos** - Finanzas, Vida, Metas
 4. **Onyx Insights** - Cómo usar el asistente
@@ -485,7 +485,7 @@ El sistema sugiere:
 
 ### General
 
-**¿Onyx One es gratis?**
+**¿Aliseus es gratis?**
 - Sí, la versión beta es completamente gratuita
 - Planes premium próximamente
 
@@ -554,9 +554,9 @@ El sistema sugiere:
 ### Contacto
 
 **Email**
-- General: support@onyxsuite.com
-- Privacidad: privacy@onyxsuite.com
-- Legal: legal@onyxsuite.com
+- General: support@aliseus.com
+- Privacidad: privacy@aliseus.com
+- Legal: legal@aliseus.com
 
 **Tiempo de Respuesta**
 - Beta: 24-48 horas
@@ -576,7 +576,7 @@ El sistema sugiere:
 ### Reportar Bugs
 
 **Cómo Reportar**
-1. Email a support@onyxsuite.com
+1. Email a support@aliseus.com
 2. Incluye:
    - Descripción del problema
    - Pasos para reproducir
@@ -588,7 +588,7 @@ El sistema sugiere:
 
 **¿Necesitas más ayuda?**
 
-Visita nuestro [Centro de Ayuda](/help) o contacta a support@onyxsuite.com
+Visita nuestro [Centro de Ayuda](/help) o contacta a support@aliseus.com
 
 **Última actualización:** 5 de Febrero, 2026  
 **Versión:** 1.0.2

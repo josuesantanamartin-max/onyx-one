@@ -1,6 +1,6 @@
-# 🤝 Guía de Contribución - Onyx One
+# 🤝 Guía de Contribución - Aliseus
 
-¡Gracias por tu interés en contribuir a Onyx One! Esta guía te ayudará a empezar.
+¡Gracias por tu interés en contribuir a Aliseus! Esta guía te ayudará a empezar.
 
 ---
 
@@ -82,7 +82,7 @@ Aceptamos varios tipos de contribuciones:
 
 3. **Agregar upstream**
    ```bash
-   git remote add upstream https://github.com/onyxsuite/onyx-suite-2026.git
+   git remote add upstream https://github.com/onyxsuite/aliseus.git
    ```
 
 4. **Instalar dependencias**
@@ -635,8 +635,8 @@ Los contribuidores son reconocidos en:
 
 ¿Necesitas ayuda?
 
-- **Discord**: [discord.gg/onyxsuite](https://discord.gg/onyxsuite)
-- **Email**: dev@onyxsuite.com
+- **Discord**: [discord.gg/aliseus](https://discord.gg/aliseus)
+- **Email**: dev@aliseus.com
 - **Discussions**: GitHub Discussions
 
 ---
@@ -647,4 +647,4 @@ Al contribuir, aceptas que tus contribuciones serán licenciadas bajo la misma l
 
 ---
 
-**¡Gracias por contribuir a Onyx One! 🎉**
+**¡Gracias por contribuir a Aliseus! 🎉**

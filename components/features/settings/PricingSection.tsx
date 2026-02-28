@@ -16,7 +16,7 @@ const PricingSection: React.FC = () => {
         {
             name: 'Prueba Gratuita',
             price: '0€',
-            description: '14 días con acceso completo para que pruebes Onyx One.',
+            description: '14 días con acceso completo para que pruebes Aliseus.',
             features: [
                 'Acceso completo durante 14 días',
                 'Hasta 3 cuentas bancarias',
@@ -39,7 +39,7 @@ const PricingSection: React.FC = () => {
             features: [
                 'Cuentas y transacciones ilimitadas',
                 'Presupuestos y metas ilimitadas',
-                'Onyx Intelligence (IA ilimitada)',
+                'Aliseus IA (ilimitada)',
                 'Dashboard Personalizable',
                 'Bóveda Digital Segura',
                 'Modo Offline',
@@ -180,7 +180,7 @@ const PricingSection: React.FC = () => {
                     </div>
                     <div>
                         <h4 className="text-lg font-bold text-blue-900">¿Quieres una demo personalizada?</h4>
-                        <p className="text-sm text-blue-700">Explora Onyx One con un experto y descubre cómo organizar tu vida.</p>
+                        <p className="text-sm text-blue-700">Explora Aliseus con un experto y descubre cómo organizar tu vida.</p>
                     </div>
                 </div>
                 <button className="px-8 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all">

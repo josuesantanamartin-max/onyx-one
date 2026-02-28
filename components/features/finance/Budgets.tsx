@@ -431,20 +431,20 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
         <div className="space-y-10 animate-fade-in pb-10">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
-                    <h2 className="text-3xl font-bold text-onyx-950 tracking-tight">Presupuestos Interactivos</h2>
+                    <h2 className="text-3xl font-bold text-cyan-900 tracking-tight">Presupuestos Interactivos</h2>
                     <p className="text-xs font-semibold text-onyx-400 mt-2 uppercase tracking-[0.2em]">Control de Gastos por Categoría</p>
                 </div>
                 <div className="flex gap-3">
                     <button
                         onClick={() => handleAnalyzeAndSuggest(12)}
-                        className="flex items-center gap-2.5 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white px-6 py-3.5 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all duration-300 shadow-lg shadow-indigo-500/30 active:scale-95 group"
+                        className="flex items-center gap-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white px-6 py-3.5 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all duration-300 shadow-lg shadow-cyan-500/30 active:scale-95 group"
                     >
                         <Wand2 className="w-5 h-5 group-hover:rotate-12 transition-transform" />
                         <span className="hidden sm:inline">IA Smart Budget</span>
                     </button>
 
                     {!isModalOpen && (
-                        <button onClick={() => { resetForm(); setIsModalOpen(true); }} className="flex items-center gap-2.5 bg-onyx-950 hover:bg-onyx-800 text-white px-6 py-3.5 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all duration-300 shadow-lg shadow-onyx-950/20 active:scale-95">
+                        <button onClick={() => { resetForm(); setIsModalOpen(true); }} className="flex items-center gap-2.5 bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 text-white px-6 py-3.5 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all duration-300 shadow-lg shadow-cyan-900/20 active:scale-95">
                             <Plus className="w-5 h-5" /> <span className="hidden sm:inline">Nuevo Límite</span>
                         </button>
                     )}
@@ -456,7 +456,7 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
                 {/* 1. SIDEBAR CATEGORY LIST */}
                 <div className="lg:col-span-4 space-y-4">
                     <div className="flex items-center justify-between pb-4 border-b border-onyx-100">
-                        <h3 className="font-bold text-onyx-950 text-lg">Categorías</h3>
+                        <h3 className="font-bold text-cyan-900 text-lg">Categorías</h3>
                         <span className="text-xs font-bold bg-onyx-100 px-2 py-1 rounded-lg text-onyx-500">{categoryStats.filter(c => c.hasBudgets).length} Activas</span>
                     </div>
 
@@ -467,7 +467,7 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
                                 <div
                                     key={stat.name}
                                     onClick={() => setSelectedCategoryName(stat.name)}
-                                    className={`p-5 rounded-2xl border cursor-pointer transition-all duration-300 group relative overflow-hidden ${isSelected ? 'bg-onyx-950 text-white border-onyx-950 shadow-xl scale-[1.02]' : 'bg-white text-onyx-950 border-onyx-100 hover:border-indigo-200 hover:bg-slate-50'}`}
+                                    className={`p-5 rounded-2xl border cursor-pointer transition-all duration-300 group relative overflow-hidden ${isSelected ? 'bg-gradient-to-br from-cyan-600 to-teal-600 text-white border-transparent shadow-xl scale-[1.02]' : 'bg-white text-cyan-900 border-onyx-100 hover:border-cyan-200 hover:bg-slate-50'}`}
                                 >
                                     <div className="flex justify-between items-center mb-3">
                                         <div className="flex items-center gap-3">
@@ -500,7 +500,7 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
                                         </div>
                                         <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
                                             <div
-                                                className={`h-full rounded-full transition-all duration-1000 ${stat.isExceeded ? 'bg-red-500' : isSelected ? 'bg-indigo-400' : 'bg-onyx-950'}`}
+                                                className={`h-full rounded-full transition-all duration-1000 ${stat.isExceeded ? 'bg-red-500' : isSelected ? 'bg-cyan-400' : 'bg-cyan-900'}`}
                                                 style={{ width: `${Math.min(stat.percentage, 100)}%` }}
                                             />
                                         </div>
@@ -523,10 +523,10 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
                                     <div className="flex justify-between items-start mb-4 relative z-10">
                                         <div>
                                             <div className="flex items-center gap-2 mb-1">
-                                                <CalendarRange className="w-4 h-4 text-indigo-500" />
+                                                <CalendarRange className="w-4 h-4 text-cyan-500" />
                                                 <p className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest">Este Mes</p>
                                             </div>
-                                            <h3 className="text-3xl font-black text-onyx-950 tracking-tighter">{formatEUR(selectedDetails.monthly.spent)}</h3>
+                                            <h3 className="text-3xl font-black text-cyan-900 tracking-tighter">{formatEUR(selectedDetails.monthly.spent)}</h3>
                                         </div>
                                         {selectedDetails.monthly.limit > 0 && (
                                             <div className={`px-2 py-1 rounded-lg text-[9px] font-bold uppercase tracking-widest ${selectedDetails.monthly.isExceeded ? 'bg-red-100 text-red-600' : 'bg-emerald-100 text-emerald-600'}`}>
@@ -538,7 +538,7 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
                                         <div className="relative z-10">
                                             <div className="w-full h-2 bg-onyx-100 rounded-full overflow-hidden mb-2">
                                                 <div
-                                                    className={`h-full rounded-full transition-all duration-1000 ${selectedDetails.monthly.isExceeded ? 'bg-red-500' : 'bg-indigo-500'}`}
+                                                    className={`h-full rounded-full transition-all duration-1000 ${selectedDetails.monthly.isExceeded ? 'bg-red-500' : 'bg-cyan-500'}`}
                                                     style={{ width: `${Math.min(selectedDetails.monthly.percentage, 100)}%` }}
                                                 />
                                             </div>
@@ -552,15 +552,15 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
                                 </div>
 
                                 {/* YEARLY CARD */}
-                                <div className={`p-6 rounded-3xl border transition-all duration-300 relative overflow-hidden ${selectedDetails.yearly.limit > 0 ? 'bg-onyx-950 text-white shadow-xl' : 'bg-onyx-50/50 border-onyx-50 opacity-80'}`}>
-                                    {selectedDetails.yearly.limit > 0 && <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/30 rounded-full blur-2xl -mr-10 -mt-10"></div>}
+                                <div className={`p-6 rounded-3xl border transition-all duration-300 relative overflow-hidden ${selectedDetails.yearly.limit > 0 ? 'bg-gradient-to-br from-cyan-600 to-teal-600 text-white shadow-xl' : 'bg-onyx-50/50 border-onyx-50 opacity-80'}`}>
+                                    {selectedDetails.yearly.limit > 0 && <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/30 rounded-full blur-2xl -mr-10 -mt-10"></div>}
                                     <div className="flex justify-between items-start mb-4 relative z-10">
                                         <div>
                                             <div className="flex items-center gap-2 mb-1">
-                                                <Scale className={`w-4 h-4 ${selectedDetails.yearly.limit > 0 ? 'text-indigo-400' : 'text-onyx-300'}`} />
+                                                <Scale className={`w-4 h-4 ${selectedDetails.yearly.limit > 0 ? 'text-cyan-400' : 'text-onyx-300'}`} />
                                                 <p className={`text-[10px] font-bold uppercase tracking-widest ${selectedDetails.yearly.limit > 0 ? 'text-onyx-400' : 'text-onyx-400'}`}>Año Actual</p>
                                             </div>
-                                            <h3 className={`text-3xl font-black tracking-tighter ${selectedDetails.yearly.limit > 0 ? 'text-white' : 'text-onyx-950'}`}>{formatEUR(selectedDetails.yearly.spent)}</h3>
+                                            <h3 className={`text-3xl font-black tracking-tighter ${selectedDetails.yearly.limit > 0 ? 'text-white' : 'text-cyan-900'}`}>{formatEUR(selectedDetails.yearly.spent)}</h3>
                                         </div>
                                         {selectedDetails.yearly.limit > 0 && (
                                             <div className={`px-2 py-1 rounded-lg text-[9px] font-bold uppercase tracking-widest ${selectedDetails.yearly.isExceeded ? 'bg-red-500/20 text-red-200' : 'bg-emerald-500/20 text-emerald-200'}`}>
@@ -572,7 +572,7 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
                                         <div className="relative z-10">
                                             <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden mb-2">
                                                 <div
-                                                    className={`h-full rounded-full transition-all duration-1000 ${selectedDetails.yearly.isExceeded ? 'bg-red-500' : 'bg-indigo-400'}`}
+                                                    className={`h-full rounded-full transition-all duration-1000 ${selectedDetails.yearly.isExceeded ? 'bg-red-500' : 'bg-cyan-400'}`}
                                                     style={{ width: `${Math.min(selectedDetails.yearly.percentage, 100)}%` }}
                                                 />
                                             </div>
@@ -591,8 +591,8 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
                             {/* Monthly Section */}
                             {selectedDetails.monthly.items.length > 0 && (
                                 <div className="space-y-4">
-                                    <h4 className="text-sm font-bold text-onyx-950 uppercase tracking-widest flex items-center gap-2">
-                                        <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
+                                    <h4 className="text-sm font-bold text-cyan-900 uppercase tracking-widest flex items-center gap-2">
+                                        <span className="w-2 h-2 rounded-full bg-cyan-500"></span>
                                         Presupuestos Mensuales
                                     </h4>
                                     <div className="grid grid-cols-1 gap-3">
@@ -606,8 +606,8 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
                             {/* Yearly Section */}
                             {selectedDetails.yearly.items.length > 0 && (
                                 <div className="space-y-4 pt-4 border-t border-onyx-50">
-                                    <h4 className="text-sm font-bold text-onyx-950 uppercase tracking-widest flex items-center gap-2">
-                                        <span className="w-2 h-2 rounded-full bg-onyx-950"></span>
+                                    <h4 className="text-sm font-bold text-cyan-900 uppercase tracking-widest flex items-center gap-2">
+                                        <span className="w-2 h-2 rounded-full bg-cyan-900"></span>
                                         Presupuestos Anuales
                                     </h4>
                                     <div className="grid grid-cols-1 gap-3">
@@ -623,8 +623,8 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
                                     <Wand2 className="w-8 h-8 text-onyx-300 mb-4" />
                                     <p className="text-onyx-400 font-bold text-sm mb-4">No hay límites configurados para esta categoría.</p>
                                     <div className="flex gap-3">
-                                        <button onClick={() => { resetForm(); setIsModalOpen(true); }} className="px-6 py-3 bg-white border border-onyx-200 rounded-xl shadow-sm hover:bg-onyx-50 text-indigo-600 font-bold text-xs uppercase tracking-widest transition-all">Crear Manual</button>
-                                        <button onClick={() => handleAnalyzeAndSuggest(12)} className="px-6 py-3 bg-indigo-50 border border-indigo-100 rounded-xl shadow-sm hover:bg-indigo-100 text-indigo-700 font-bold text-xs uppercase tracking-widest transition-all">Sugerir con IA</button>
+                                        <button onClick={() => { resetForm(); setIsModalOpen(true); }} className="px-6 py-3 bg-white border border-onyx-200 rounded-xl shadow-sm hover:bg-onyx-50 text-cyan-600 font-bold text-xs uppercase tracking-widest transition-all">Crear Manual</button>
+                                        <button onClick={() => handleAnalyzeAndSuggest(12)} className="px-6 py-3 bg-cyan-50 border border-cyan-100 rounded-xl shadow-sm hover:bg-cyan-100 text-cyan-700 font-bold text-xs uppercase tracking-widest transition-all">Sugerir con IA</button>
                                     </div>
                                 </div>
                             )}
@@ -641,26 +641,26 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
 
             {/* AI SUGGESTION MODAL */}
             {isAutoModalOpen && (
-                <div className="fixed inset-0 z-[70] flex items-center justify-center bg-onyx-950/60 backdrop-blur-md p-4 animate-fade-in">
+                <div className="fixed inset-0 z-[70] flex items-center justify-center bg-cyan-900/60 backdrop-blur-md p-4 animate-fade-in">
                     <div className="bg-white rounded-onyx shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
-                        <div className="bg-indigo-600 p-8 text-white relative overflow-hidden shrink-0">
+                        <div className="bg-cyan-600 p-8 text-white relative overflow-hidden shrink-0">
                             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
                             <h3 className="text-2xl font-black tracking-tight relative z-10 flex items-center gap-3">
                                 <Wand2 className="w-6 h-6" /> Asistente de Presupuestos
                             </h3>
-                            <p className="text-indigo-100 font-medium text-sm mt-3 relative z-10 max-w-md leading-relaxed">
+                            <p className="text-cyan-100 font-medium text-sm mt-3 relative z-10 max-w-md leading-relaxed">
                                 He analizado tus patrones de gasto por subcategoría. Detecto qué gastos son regulares (Mensuales) y cuáles son esporádicos (Anuales).
                             </p>
 
                             {/* SENSITIVITY TOGGLE */}
                             <div className="relative z-10 mt-6 flex items-center justify-between">
-                                <span className="text-xs font-bold uppercase tracking-widest text-indigo-200">Sensibilidad del Límite</span>
-                                <div className="flex bg-indigo-900 /30 p-1 rounded-lg backdrop-blur-sm">
+                                <span className="text-xs font-bold uppercase tracking-widest text-cyan-200">Sensibilidad del Límite</span>
+                                <div className="flex bg-cyan-900/30 p-1 rounded-lg backdrop-blur-sm">
                                     {(['STRICT', 'MODERATE', 'COMFORT'] as const).map((mode) => (
                                         <button
                                             key={mode}
                                             onClick={() => setAiSensitivity(mode)}
-                                            className={`px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-widest transition-all ${aiSensitivity === mode ? 'bg-white text-indigo-600 shadow-sm' : 'text-indigo-200 hover:text-white hover:bg-white/10'}`}
+                                            className={`px-3 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-widest transition-all ${aiSensitivity === mode ? 'bg-white text-cyan-600 shadow-sm' : 'text-cyan-200 hover:text-white hover:bg-white/10'}`}
                                         >
                                             {mode === 'STRICT' && 'Estricto (0%)'}
                                             {mode === 'MODERATE' && 'Moderado (+10%)'}
@@ -677,20 +677,20 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
                                     {smartSuggestions.map((suggestion, idx) => {
                                         const period = (suggestion as any).period || 'MONTHLY';
                                         return (
-                                            <div key={idx} className={`p-4 rounded-xl border transition-all duration-300 cursor-pointer flex items-center justify-between group ${suggestion.isSelected ? 'bg-white border-indigo-500 shadow-md ring-1 ring-indigo-500' : 'bg-white border-onyx-100 hover:border-indigo-200'}`} onClick={() => {
+                                            <div key={idx} className={`p-4 rounded-xl border transition-all duration-300 cursor-pointer flex items-center justify-between group ${suggestion.isSelected ? 'bg-white border-cyan-500 shadow-md ring-1 ring-cyan-500' : 'bg-white border-onyx-100 hover:border-cyan-200'}`} onClick={() => {
                                                 const newSugg = [...smartSuggestions];
                                                 newSugg[idx].isSelected = !newSugg[idx].isSelected;
                                                 setSmartSuggestions(newSugg);
                                             }}>
                                                 <div className="flex items-center gap-4">
-                                                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors shrink-0 ${suggestion.isSelected ? 'bg-indigo-500 border-indigo-500' : 'border-onyx-200 bg-white'}`}>
+                                                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors shrink-0 ${suggestion.isSelected ? 'bg-cyan-500 border-cyan-500' : 'border-onyx-200 bg-white'}`}>
                                                         {suggestion.isSelected && <Check className="w-3.5 h-3.5 text-white" />}
                                                     </div>
                                                     <div>
                                                         <div className="flex items-center gap-2">
-                                                            <h4 className="font-bold text-onyx-950">{suggestion.category}</h4>
+                                                            <h4 className="font-bold text-cyan-900">{suggestion.category}</h4>
                                                             {suggestion.subCategory && (
-                                                                <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">{suggestion.subCategory}</span>
+                                                                <span className="text-xs font-bold text-cyan-600 bg-cyan-50 px-2 py-0.5 rounded-md">{suggestion.subCategory}</span>
                                                             )}
                                                         </div>
                                                         <div className="flex items-center gap-2 mt-1">
@@ -705,7 +705,7 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
                                                 </div>
                                                 <div className="text-right">
                                                     <div className="text-xs font-bold text-onyx-400 uppercase tracking-widest mb-1">Sugerido</div>
-                                                    <div className="text-xl font-black text-onyx-950">{formatEUR(suggestion.suggestedLimit)}</div>
+                                                    <div className="text-xl font-black text-cyan-900">{formatEUR(suggestion.suggestedLimit)}</div>
                                                 </div>
                                             </div>
                                         )
@@ -720,7 +720,7 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
 
                         <div className="p-6 bg-white border-t border-onyx-100 flex justify-end gap-4 z-20 shrink-0">
                             <button onClick={() => setIsAutoModalOpen(false)} className="px-6 py-3 text-onyx-400 font-bold text-xs uppercase tracking-widest hover:text-onyx-800 transition-colors">Cancelar</button>
-                            <button onClick={handleApplySuggestions} className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-indigo-500/20 transition-all active:scale-95">
+                            <button onClick={handleApplySuggestions} className="px-8 py-3 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-cyan-500/20 transition-all active:scale-95">
                                 Aplicar {smartSuggestions.filter(s => s.isSelected).length} Límites
                             </button>
                         </div>
@@ -730,19 +730,19 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
 
             {/* MODALS (Kept minimal for this file replacement, ensure full content is preserved in real app) */}
             {isModalOpen && (
-                <div className="fixed inset-0 z-[60] flex items-center justify-center bg-onyx-950/40 backdrop-blur-md p-4 animate-fade-in text-onyx-950">
-                    <div className="bg-white rounded-onyx shadow-2xl w-full max-w-lg overflow-hidden max-h-[90vh] flex flex-col border border-onyx-100 relative shadow-indigo-500/10">
+                <div className="fixed inset-0 z-[60] flex items-center justify-center bg-cyan-900/40 backdrop-blur-md p-4 animate-fade-in text-cyan-900">
+                    <div className="bg-white rounded-onyx shadow-2xl w-full max-w-lg overflow-hidden max-h-[90vh] flex flex-col border border-onyx-100 relative shadow-cyan-500/10">
                         {/* Headers */}
                         <div className="bg-white px-10 py-8 flex justify-between items-center border-b border-onyx-50 sticky top-0 z-10">
                             <div>
                                 <h3 className="text-2xl font-bold tracking-tight flex items-center gap-4">
-                                    <div className="p-3 rounded-xl shadow-sm bg-indigo-50 text-indigo-primary">
+                                    <div className="p-3 rounded-xl shadow-sm bg-cyan-50 text-cyan-600">
                                         {editingId ? <Pencil className="w-6 h-6" /> : <Plus className="w-6 h-6" />}
                                     </div>
                                     {editingId ? 'Editar Límite' : 'Nuevo Límite'}
                                 </h3>
                             </div>
-                            <button onClick={resetForm} className="text-onyx-400 hover:text-onyx-950 transition-all p-2.5 hover:bg-onyx-50 rounded-xl"><X className="w-7 h-7" /></button>
+                            <button onClick={resetForm} className="text-onyx-400 hover:text-cyan-900 transition-all p-2.5 hover:bg-onyx-50 rounded-xl"><X className="w-7 h-7" /></button>
                         </div>
                         <form onSubmit={handleSubmit} className="p-10 space-y-8 overflow-y-auto custom-scrollbar">
                             {/* Form fields same as before... re-implementing briefly for completeness */}
@@ -762,7 +762,7 @@ const Budgets: React.FC<BudgetsProps> = ({ onViewTransactions }) => {
                                 <label className="block text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-2">Límite (€)</label>
                                 <input type="number" required value={limit} onChange={e => setLimit(e.target.value)} className="w-full p-4 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-xl outline-none" />
                             </div>
-                            <button type="submit" className="w-full bg-onyx-950 text-white py-4 rounded-xl font-bold uppercase tracking-widest text-xs shadow-lg hover:bg-onyx-800 transition-all">Guardar</button>
+                            <button type="submit" className="w-full bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 text-white py-4 rounded-xl font-bold uppercase tracking-widest text-xs shadow-lg transition-all">Guardar</button>
                         </form>
                     </div>
                 </div>
@@ -778,13 +778,13 @@ const BudgetListItem = ({ item, onEdit, onDelete }: { item: any, onEdit: any, on
             <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-3">
                     {item.subCategory ? (
-                        <span className="font-bold text-base text-onyx-950">{item.subCategory}</span>
+                        <span className="font-bold text-base text-cyan-900">{item.subCategory}</span>
                     ) : (
-                        <span className="font-bold text-base text-onyx-950 italic opacity-50">Presupuesto General</span>
+                        <span className="font-bold text-base text-cyan-900 italic opacity-50">Presupuesto General</span>
                     )}
                 </div>
                 <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button onClick={() => onEdit(item)} className="p-2 hover:bg-onyx-50 rounded-lg text-onyx-400 hover:text-onyx-950"><Pencil className="w-3.5 h-3.5" /></button>
+                    <button onClick={() => onEdit(item)} className="p-2 hover:bg-onyx-50 rounded-lg text-onyx-400 hover:text-cyan-900"><Pencil className="w-3.5 h-3.5" /></button>
                     <button onClick={() => onDelete(item.id)} className="p-2 hover:bg-red-50 rounded-lg text-onyx-400 hover:text-red-500"><Trash2 className="w-3.5 h-3.5" /></button>
                 </div>
             </div>
@@ -792,7 +792,7 @@ const BudgetListItem = ({ item, onEdit, onDelete }: { item: any, onEdit: any, on
             <div className="flex items-center gap-4">
                 <div className="flex-1 h-2 bg-onyx-100 rounded-full overflow-hidden">
                     <div
-                        className={`h-full rounded-full transition-all duration-500 ${item.isExceeded ? 'bg-red-500' : 'bg-indigo-500'}`}
+                        className={`h-full rounded-full transition-all duration-500 ${item.isExceeded ? 'bg-red-500' : 'bg-cyan-500'}`}
                         style={{ width: `${Math.min(item.percentageUsed, 100)}%` }}
                     />
                 </div>
@@ -803,11 +803,11 @@ const BudgetListItem = ({ item, onEdit, onDelete }: { item: any, onEdit: any, on
         <div className="flex items-center gap-8 w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-onyx-50 pt-4 sm:pt-0 sm:pl-6 justify-between sm:justify-end">
             <div>
                 <p className="text-[9px] font-bold text-onyx-400 uppercase tracking-widest text-right">Gastado</p>
-                <p className="text-lg font-bold text-onyx-950">{new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(item.spent)}</p>
+                <p className="text-lg font-bold text-cyan-900">{new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(item.spent)}</p>
             </div>
             <div>
                 <p className="text-[9px] font-bold text-onyx-400 uppercase tracking-widest text-right">Límite</p>
-                <p className="text-lg font-bold text-onyx-950">{new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(item.effectiveLimit)}</p>
+                <p className="text-lg font-bold text-cyan-900">{new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(item.effectiveLimit)}</p>
             </div>
         </div>
     </div>

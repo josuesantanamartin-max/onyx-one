@@ -14,16 +14,16 @@ export const WalletIconMock = ({ className }: { className?: string }) => <Credit
 
 export const LANDING_TEXTS = {
     ES: {
-        heroBadge: "Onyx One: Sistema Integral Inteligente",
-        heroTitle: "Onyx One",
-        heroSubtitle: "La era definitiva para tus finanzas y tu vida.\nDeja de usar 10 apps diferentes. Pásate al sistema que lo conecta todo.",
+        heroBadge: "Aliseus: Sistema Integral Inteligente",
+        heroTitle: "Aliseus",
+        heroSubtitle: "La tranquilidad de tu familia.\nDeja de usar 10 apps diferentes. Pásate al sistema que lo conecta todo.",
         ctaStart: "Empezar Ahora",
         ctaDemo: "Probar Demo (Sin Cuenta)",
-        pillarsTitle: "El Ecosistema Onyx",
+        pillarsTitle: "El Ecosistema Aliseus",
         pillarsSubtitle: "No son apps sueltas. Son módulos conectados por un cerebro central.",
-        ecosystemTag: "Onyx Sync™",
+        ecosystemTag: "Aliseus Sync™",
         ecosystemTitle: "Tu centro de mando\nhiper-conectado.",
-        ecosystemDesc: "Imagina que tu calendario de cenas sabe tu presupuesto de supermercado. Onyx lo hace posible. Una visión 360° de tu vida en tiempo real.",
+        ecosystemDesc: "Imagina que tu calendario de cenas sabe tu presupuesto de supermercado. Aliseus lo hace posible. Una visión 360° de tu vida en tiempo real.",
         benefitsTitle: "Diseñado para la Tranquilidad Mental",
         benefitsSubtitle: "Recupera el control de tu tiempo y tu dinero con una herramienta profesional.",
         pricingTitle: "Inversión Inteligente",
@@ -39,14 +39,14 @@ export const LANDING_TEXTS = {
         trialPlan: "Prueba Gratuita",
         trialPrice: "0€",
         trialPeriod: "14 días",
-        trialDesc: "Acceso total para probar Onyx sin compromiso.",
+        trialDesc: "Acceso total para probar Aliseus sin compromiso.",
         trialCta: "Empezar Gratis",
 
         // TIER 2: PERSONAL
         personalPlan: "Personal",
         personalPriceMonthly: "2,99€",
         personalPriceAnnual: "19,99€",
-        personalDesc: "Todo el poder de Onyx para un solo usuario.",
+        personalDesc: "Todo el poder de Aliseus para un solo usuario.",
         personalCta: "Empezar Personal",
 
         // TIER 3: FAMILY
@@ -81,16 +81,16 @@ export const LANDING_TEXTS = {
         footerTwitter: "Twitter"
     },
     EN: {
-        heroBadge: "Onyx One: Integral Smart System",
-        heroTitle: "Onyx One",
-        heroSubtitle: "The One Era of personal finance and life.\nStop using 10 different apps. Switch to the system that connects it all.",
+        heroBadge: "Aliseus: Integral Smart System",
+        heroTitle: "Aliseus",
+        heroSubtitle: "Peace of mind for your family.\nStop using 10 different apps. Switch to the system that connects it all.",
         ctaStart: "Get Started",
         ctaDemo: "Try Demo (No Account)",
-        pillarsTitle: "The Onyx Ecosystem",
+        pillarsTitle: "The Aliseus Ecosystem",
         pillarsSubtitle: "Not just apps. Modules connected by a central brain.",
-        ecosystemTag: "Onyx Sync™",
+        ecosystemTag: "Aliseus Sync™",
         ecosystemTitle: "Your hyper-connected\ncommand center.",
-        ecosystemDesc: "Imagine your dinner calendar knowing your grocery budget. Onyx makes it possible. A 360° view of your life in real-time.",
+        ecosystemDesc: "Imagine your dinner calendar knowing your grocery budget. Aliseus makes it possible. A 360° view of your life in real-time.",
         benefitsTitle: "Designed for Peace of Mind",
         benefitsSubtitle: "Reclaim control of your time and money with a professional tool.",
         pricingTitle: "Smart Investment",
@@ -106,14 +106,14 @@ export const LANDING_TEXTS = {
         trialPlan: "Free Trial",
         trialPrice: "€0",
         trialPeriod: "14 days",
-        trialDesc: "Full access to try Onyx, no commitment.",
+        trialDesc: "Full access to try Aliseus, no commitment.",
         trialCta: "Start Free",
 
         // TIER 2: PERSONAL
         personalPlan: "Personal",
         personalPriceMonthly: "€2.99",
         personalPriceAnnual: "€19.99",
-        personalDesc: "All the power of Onyx for a single user.",
+        personalDesc: "All the power of Aliseus for a single user.",
         personalCta: "Start Personal",
 
         // TIER 3: FAMILY
@@ -148,16 +148,16 @@ export const LANDING_TEXTS = {
         footerTwitter: "Twitter"
     },
     FR: {
-        heroBadge: "Onyx One : Système Intégral Intelligent",
-        heroTitle: "Onyx One",
-        heroSubtitle: "L'unique ère pour vos finances et votre vie.\nArrêtez d'utiliser 10 applications différentes. Passez au système qui connecte tout.",
+        heroBadge: "Aliseus : Système Intégral Intelligent",
+        heroTitle: "Aliseus",
+        heroSubtitle: "La tranquillité pour votre famille.\nArrêtez d'utiliser 10 applications différentes. Passez au système qui connecte tout.",
         ctaStart: "Commencer",
         ctaDemo: "Démo (Sans Compte)",
-        pillarsTitle: "L'Écosystème Onyx",
+        pillarsTitle: "L'Écosystème Aliseus",
         pillarsSubtitle: "Pas seulement des applications. Des modules connectés par un cerveau central.",
-        ecosystemTag: "Onyx Sync™",
+        ecosystemTag: "Aliseus Sync™",
         ecosystemTitle: "Votre centre de commande\nhyper-connecté.",
-        ecosystemDesc: "Imaginez que votre calendrier de dîners connaisse votre budget d'épicerie. Onyx le rend possible. Une vue à 360° de votre vie en temps réel.",
+        ecosystemDesc: "Imaginez que votre calendrier de dîners connaisse votre budget d'épicerie. Aliseus le rend possible. Une vue à 360° de votre vie en temps réel.",
         benefitsTitle: "Conçu pour la Tranquillité d'Esprit",
         benefitsSubtitle: "Reprenez le contrôle de votre temps et de votre argent avec un outil professionnel.",
         pricingTitle: "Investissement Intelligent",
@@ -173,14 +173,14 @@ export const LANDING_TEXTS = {
         trialPlan: "Essai Gratuit",
         trialPrice: "0€",
         trialPeriod: "14 jours",
-        trialDesc: "Accès complet pour tester Onyx sans engagement.",
+        trialDesc: "Accès complet pour tester Aliseus sans engagement.",
         trialCta: "Commencer Gratuit",
 
         // TIER 2: PERSONAL
         personalPlan: "Personnel",
         personalPriceMonthly: "2,99€",
         personalPriceAnnual: "19,99€",
-        personalDesc: "Toute la puissance d'Onyx pour un seul utilisateur.",
+        personalDesc: "Toute la puissance d'Aliseus pour un seul utilisateur.",
         personalCta: "Commencer Personnel",
 
         // TIER 3: FAMILY
@@ -225,7 +225,7 @@ export const PRODUCT_DETAILS_BY_LANG: Record<Language, Record<ProductKey, any>> 
             features: [
                 { title: "Smart Categorization", desc: "La IA entiende si es 'Ocio' o 'Necesidad' automáticamente." },
                 { title: "Deuda Zero", desc: "Estrategias Avalancha y Bola de Nieve para eliminar pasivos." },
-                { title: "Simulador de Futuro", desc: "¿Qué pasa si invierto 100€ más al mes? Onyx te lo dice." },
+                { title: "Simulador de Futuro", desc: "¿Qué pasa si invierto 100€ más al mes? Aliseus te lo dice." },
                 { title: "Límites Reales", desc: "Presupuestos con IA que se adaptan a tu día a día." },
                 { title: "Importación CSV", desc: "Importa extractos bancarios y vincúlalos a tus cuentas." },
                 { title: "Análisis Predictivo", desc: "Proyecciones a 3, 6 y 12 meses de tu flujo de caja." },
@@ -249,18 +249,18 @@ export const PRODUCT_DETAILS_BY_LANG: Record<Language, Record<ProductKey, any>> 
             integrations: ["Descuenta ingredientes comprados del presupuesto", "Planifica comidas según eventos de agenda", "Gestiona sobras para reducir desperdicio"]
         },
         dashboard: {
-            title: "Dashboard Global",
-            subtitle: "La Vista del Águila",
-            description: "El único lugar donde ves tu dinero, tu tiempo y tu salud a la vez.",
+            title: "Aura",
+            subtitle: "La presencia que lo envuelve todo",
+            description: "Aura, la brisa suave que lo impregna todo sin esfuerzo. Tu dashboard personal que emana claridad sobre cada aspecto de tu vida: finanzas, hogar y tiempo, en una sola respiración.",
             features: [
                 { title: "Mañana Inteligente", desc: "Resumen diario: qué pagar, qué comer y dónde ir." },
-                { title: "Dashboard Personalizable", desc: "Drag & drop para organizar widgets a tu gusto." },
-                { title: "Onyx Insights", desc: "Análisis inteligente con recomendaciones proactivas." },
-                { title: "Modo Colaborativo", desc: "Hasta 5 miembros con roles y permisos personalizables." },
-                { title: "Teletransporte", desc: "Salta de revisar una factura a planear un viaje en 1 click." },
-                { title: "Onyx Brain", desc: "Insights proactivos: 'Gastas mucho en café este mes'." }
+                { title: "Widgets Personalizables", desc: "Drag & drop para componer tu Aura exactamente como la necesitas." },
+                { title: "Aliseus Insights", desc: "Análisis proactivo que detecta patrones y te avisa antes de que sean un problema." },
+                { title: "Modo Colaborativo", desc: "Hasta 5 miembros con roles y permisos. Una sola Aura para toda la familia." },
+                { title: "Navegación Total", desc: "Salta de revisar una factura a planear un viaje en 1 click. Todo al alcance." },
+                { title: "Aliseus Brain", desc: "Insights proactivos: 'Gastas mucho en café este mes'. Tu brisa personal de claridad." }
             ],
-            integrations: ["El cerebro que conecta todos los órganos del sistema", "Sincronización con Supabase en tiempo real"]
+            integrations: ["El aura que envuelve y conecta Finanzas, Vida y Cocina", "Sincronización en tiempo real con todos tus módulos"]
         }
     },
     EN: {
@@ -271,7 +271,7 @@ export const PRODUCT_DETAILS_BY_LANG: Record<Language, Record<ProductKey, any>> 
             features: [
                 { title: "Smart Categorization", desc: "AI understands if it's 'Leisure' or 'Necessity' automatically." },
                 { title: "Zero Debt", desc: "Avalanche and Snowball strategies to eliminate liabilities." },
-                { title: "Future Simulator", desc: "What if I invest €100 more? Onyx tells you." },
+                { title: "Future Simulator", desc: "What if I invest €100 more? Aliseus tells you." },
                 { title: "Real Limits", desc: "AI-powered budgets that adapt to your day." },
                 { title: "CSV Import", desc: "Import bank statements and link them to your accounts." },
                 { title: "Predictive Analysis", desc: "Cash flow projections at 3, 6 and 12 months." },
@@ -295,18 +295,18 @@ export const PRODUCT_DETAILS_BY_LANG: Record<Language, Record<ProductKey, any>> 
             integrations: ["Deducts ingredients from budget", "Plans meals based on calendar events", "Manages leftovers to reduce waste"]
         },
         dashboard: {
-            title: "Global Dashboard",
-            subtitle: "Eagle Eye View",
-            description: "The only place where you see your money, time, and health at once.",
+            title: "Aura",
+            subtitle: "The presence that surrounds everything",
+            description: "Aura, the gentle breeze that permeates everything effortlessly. Your personal dashboard that radiates clarity across every aspect of your life: finances, home and time, in a single glance.",
             features: [
                 { title: "Smart Morning", desc: "Daily digest: what to pay, what to eat, where to go." },
-                { title: "Customizable Dashboard", desc: "Drag & drop to organize widgets your way." },
-                { title: "Onyx Insights", desc: "Intelligent analysis with proactive recommendations." },
-                { title: "Collaborative Mode", desc: "Up to 5 members with custom roles and permissions." },
-                { title: "Teleport", desc: "Jump from checking a bill to planning a trip in 1 click." },
-                { title: "Onyx Brain", desc: "Proactive insights: 'High coffee spending this month'." }
+                { title: "Customizable Widgets", desc: "Drag & drop to compose your Aura exactly as you need it." },
+                { title: "Aliseus Insights", desc: "Proactive analysis that detects patterns and alerts you before they become a problem." },
+                { title: "Collaborative Mode", desc: "Up to 5 members with roles and permissions. One Aura for the whole family." },
+                { title: "Total Navigation", desc: "Jump from checking a bill to planning a trip in 1 click. Everything within reach." },
+                { title: "Aliseus Brain", desc: "Proactive insights: 'High coffee spending this month'. Your personal breeze of clarity." }
             ],
-            integrations: ["The brain connecting all organs of the system", "Real-time Supabase sync"]
+            integrations: ["The aura that wraps and connects Finance, Life and Kitchen", "Real-time sync across all your modules"]
         }
     },
     FR: {
@@ -317,7 +317,7 @@ export const PRODUCT_DETAILS_BY_LANG: Record<Language, Record<ProductKey, any>> 
             features: [
                 { title: "Catégorisation IA", desc: "L'IA comprend si c'est 'Loisir' ou 'Nécessité'." },
                 { title: "Dette Zéro", desc: "Stratégies Avalanche et Boule de Neige pour éliminer les passifs." },
-                { title: "Simulateur Futur", desc: "Et si j'investis 100€ de plus ? Onyx vous le dit." },
+                { title: "Simulateur Futur", desc: "Et si j'investis 100€ de plus ? Aliseus vous le dit." },
                 { title: "Limites Réelles", desc: "Budgets IA adaptés à votre quotidien." },
                 { title: "Import CSV", desc: "Importez des relevés bancaires et associez-les à vos comptes." },
                 { title: "Analyse Prédictive", desc: "Projections de trésorerie à 3, 6 et 12 mois." },
@@ -341,18 +341,18 @@ export const PRODUCT_DETAILS_BY_LANG: Record<Language, Record<ProductKey, any>> 
             integrations: ["Déduit ingrédients du budget", "Planifie repas selon agenda", "Gère les restes pour réduire le gaspillage"]
         },
         dashboard: {
-            title: "Dashboard Global",
-            subtitle: "Vue d'Aigle",
-            description: "Le seul endroit pour voir argent, temps et santé ensemble.",
+            title: "Aura",
+            subtitle: "La présence qui enveloppe tout",
+            description: "Aura, la brise douce qui imprègne tout sans effort. Votre tableau de bord personnel qui irradie la clarté sur chaque aspect de votre vie : finances, maison et temps, en un seul souffle.",
             features: [
                 { title: "Matin Malin", desc: "Résumé : à payer, à manger, où aller." },
-                { title: "Dashboard Personnalisable", desc: "Glisser-déposer pour organiser vos widgets." },
-                { title: "Onyx Insights", desc: "Analyse intelligente avec recommandations proactives." },
-                { title: "Mode Collaboratif", desc: "Jusqu'à 5 membres avec rôles personnalisables." },
-                { title: "Téléportation", desc: "Passez d'une facture à un voyage en 1 clic." },
-                { title: "Cerveau Onyx", desc: "Insights proactifs : 'Trop de café ce mois-ci'." }
+                { title: "Widgets Personnalisables", desc: "Glissez-déposez pour composer votre Aura exactement comme vous en avez besoin." },
+                { title: "Aliseus Insights", desc: "Analyse proactive qui détecte les tendances avant qu'elles ne deviennent un problème." },
+                { title: "Mode Collaboratif", desc: "Jusqu'à 5 membres avec rôles. Une seule Aura pour toute la famille." },
+                { title: "Navigation Totale", desc: "Passez d'une facture à un voyage en 1 clic. Tout à portée de main." },
+                { title: "Cerveau Aliseus", desc: "Insights proactifs : 'Trop de café ce mois-ci'. Votre brise personnelle de clarté." }
             ],
-            integrations: ["Le cerveau connectant tout le système", "Synchronisation Supabase en temps réel"]
+            integrations: ["L'aura qui relie Finances, Vie et Cuisine", "Synchronisation en temps réel dans tous vos modules"]
         }
     }
 };

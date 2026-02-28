@@ -24,9 +24,9 @@ export const faqData: FAQ[] = [
     {
         id: 'faq-account-create',
         question: {
-            ES: '¿Cómo creo una cuenta en Onyx One?',
-            EN: 'How do I create an Onyx One account?',
-            FR: 'Comment créer un compte Onyx One?'
+            ES: '¿Cómo creo una cuenta en Aliseus?',
+            EN: 'How do I create an Aliseus account?',
+            FR: 'Comment créer un compte Aliseus?'
         },
         answer: {
             ES: 'Puedes crear una cuenta de dos formas: 1) Click en "Registrarse" e ingresa tu email y contraseña, o 2) Usa "Continuar con Google" para registro rápido. Después completa tu perfil con información básica.',
@@ -44,9 +44,9 @@ export const faqData: FAQ[] = [
             FR: 'Quels sont les plans d\'abonnement disponibles?'
         },
         answer: {
-            ES: 'Onyx One ofrece tres modalidades: 1) Prueba Gratuita (14 días) - Acceso total para probarla, 2) Onyx Personal (2.99€/mes) - Para uso individual con funciones avanzadas, y 3) Onyx Familia (3.99€/mes) - Hasta 5 usuarios, roles, colaboración en tiempo real y soporte prioritario.',
-            EN: 'Onyx One offers three options: 1) Free Trial (14 days) - Full access to try it out, 2) Onyx Personal (€2.99/month) - For individual use with advanced features, and 3) Onyx Family (€3.99/month) - Up to 5 users, roles, real-time collaboration, and priority support.',
-            FR: 'Onyx One propose trois options : 1) Essai Gratuit (14 jours) - Accès complet pour tester, 2) Onyx Personnel (2,99€/mois) - Pour usage individuel avec fonctionnalités avancées, et 3) Onyx Famille (3,99€/mois) - Jusqu\'à 5 utilisateurs, rôles, collaboration en temps réel et support prioritaire.'
+            ES: 'Aliseus ofrece tres modalidades: 1) Prueba Gratuita (14 días) - Acceso total para probarla, 2) Aliseus Personal (2.99€/mes) - Para uso individual con funciones avanzadas, y 3) Aliseus Familia (3.99€/mes) - Hasta 5 usuarios, roles, colaboración en tiempo real y soporte prioritario.',
+            EN: 'Aliseus offers three options: 1) Free Trial (14 days) - Full access to try it out, 2) Aliseus Personal (€2.99/month) - For individual use with advanced features, and 3) Aliseus Family (€3.99/month) - Up to 5 users, roles, real-time collaboration, and priority support.',
+            FR: 'Aliseus propose trois options : 1) Essai Gratuit (14 jours) - Accès complet pour tester, 2) Aliseus Personnel (2,99€/mois) - Pour usage individuel avec fonctionnalités avancées, et 3) Aliseus Famille (3,99€/mois) - Jusqu\'à 5 utilisateurs, rôles, collaboration en temps réel et support prioritaire.'
         },
         category: 'account',
         tags: ['suscripción', 'planes', 'precio']
@@ -206,9 +206,9 @@ export const faqData: FAQ[] = [
     {
         id: 'faq-debt-management',
         question: {
-            ES: '¿Puedo gestionar mis deudas en Onyx One?',
-            EN: 'Can I manage my debts in Onyx One?',
-            FR: 'Puis-je gérer mes dettes dans Onyx One?'
+            ES: '¿Puedo gestionar mis deudas en Aliseus?',
+            EN: 'Can I manage my debts in Aliseus?',
+            FR: 'Puis-je gérer mes dettes dans Aliseus?'
         },
         answer: {
             ES: 'Sí, en Finanzas → Deudas puedes registrar préstamos, tarjetas de crédito, hipotecas, etc. Ingresa el monto total, tasa de interés y plazo. El sistema calcula pagos mensuales, intereses totales y te sugiere estrategias de pago.',
@@ -330,9 +330,9 @@ export const faqData: FAQ[] = [
     {
         id: 'faq-cookies',
         question: {
-            ES: '¿Qué cookies utiliza Onyx One?',
-            EN: 'What cookies does Onyx One use?',
-            FR: 'Quels cookies Onyx One utilise-t-il?'
+            ES: '¿Qué cookies utiliza Aliseus?',
+            EN: 'What cookies does Aliseus use?',
+            FR: 'Quels cookies Aliseus utilise-t-il?'
         },
         answer: {
             ES: 'Usamos cookies esenciales (autenticación, preferencias), analytics (opcional, para mejorar la app) y marketing (opcional). Puedes gestionar tus preferencias en Configuración → Privacidad → Cookies.',
@@ -380,9 +380,9 @@ export const faqData: FAQ[] = [
             FR: 'Quels sont mes droits sous le RGPD?'
         },
         answer: {
-            ES: 'Tienes derecho a: 1) Acceder a tus datos, 2) Rectificar datos incorrectos, 3) Eliminar tus datos ("derecho al olvido"), 4) Portabilidad (exportar), 5) Oponerte al procesamiento, 6) Limitar el procesamiento. Contacta support@onyxsuite.com para ejercer estos derechos.',
-            EN: 'You have the right to: 1) Access your data, 2) Rectify incorrect data, 3) Delete your data ("right to be forgotten"), 4) Portability (export), 5) Object to processing, 6) Limit processing. Contact support@onyxsuite.com to exercise these rights.',
-            FR: 'Vous avez le droit de: 1) Accéder à vos données, 2) Rectifier les données incorrectes, 3) Supprimer vos données ("droit à l\'oubli"), 4) Portabilité (exporter), 5) Vous opposer au traitement, 6) Limiter le traitement. Contactez support@onyxsuite.com pour exercer ces droits.'
+            ES: 'Tienes derecho a: 1) Acceder a tus datos, 2) Rectificar datos incorrectos, 3) Eliminar tus datos ("derecho al olvido"), 4) Portabilidad (exportar), 5) Oponerte al procesamiento, 6) Limitar el procesamiento. Contacta support@aliseus.com para ejercer estos derechos.',
+            EN: 'You have the right to: 1) Access your data, 2) Rectify incorrect data, 3) Delete your data ("right to be forgotten"), 4) Portability (export), 5) Object to processing, 6) Limit processing. Contact support@aliseus.com to exercise these rights.',
+            FR: 'Vous avez le droit de: 1) Accéder à vos données, 2) Rectifier les données incorrectes, 3) Supprimer vos données ("droit à l\'oubli"), 4) Portabilité (exporter), 5) Vous opposer au traitement, 6) Limiter le traitement. Contactez support@aliseus.com pour exercer ces droits.'
         },
         category: 'privacy',
         tags: ['gdpr', 'derechos', 'privacidad']
@@ -397,9 +397,9 @@ export const faqData: FAQ[] = [
             FR: 'L\'application ne charge pas, que faire?'
         },
         answer: {
-            ES: '1) Verifica tu conexión a internet, 2) Limpia la caché del navegador (Ctrl+Shift+Del), 3) Intenta en modo incógnito, 4) Prueba otro navegador, 5) Si persiste, contacta support@onyxsuite.com con detalles del error.',
-            EN: '1) Check your internet connection, 2) Clear browser cache (Ctrl+Shift+Del), 3) Try incognito mode, 4) Try another browser, 5) If it persists, contact support@onyxsuite.com with error details.',
-            FR: '1) Vérifiez votre connexion internet, 2) Videz le cache du navigateur (Ctrl+Shift+Del), 3) Essayez le mode incognito, 4) Essayez un autre navigateur, 5) Si cela persiste, contactez support@onyxsuite.com avec les détails de l\'erreur.'
+            ES: '1) Verifica tu conexión a internet, 2) Limpia la caché del navegador (Ctrl+Shift+Del), 3) Intenta en modo incógnito, 4) Prueba otro navegador, 5) Si persiste, contacta support@aliseus.com con detalles del error.',
+            EN: '1) Check your internet connection, 2) Clear browser cache (Ctrl+Shift+Del), 3) Try incognito mode, 4) Try another browser, 5) If it persists, contact support@aliseus.com with error details.',
+            FR: '1) Vérifiez votre connexion internet, 2) Videz le cache du navigateur (Ctrl+Shift+Del), 3) Essayez le mode incognito, 4) Essayez un autre navigateur, 5) Si cela persiste, contactez support@aliseus.com avec les détails de l\'erreur.'
         },
         category: 'technical',
         tags: ['error', 'carga', 'problema']
@@ -457,9 +457,9 @@ export const faqData: FAQ[] = [
             FR: 'Pourquoi l\'application a-t-elle l\'air mauvaise sur mobile?'
         },
         answer: {
-            ES: 'Onyx One es responsive y debería funcionar bien en móvil. Si ves problemas: 1) Actualiza tu navegador, 2) Rota la pantalla, 3) Prueba en Chrome/Safari, 4) Limpia caché. Si persiste, envía screenshot a soporte.',
-            EN: 'Onyx One is responsive and should work well on mobile. If you see issues: 1) Update your browser, 2) Rotate screen, 3) Try Chrome/Safari, 4) Clear cache. If it persists, send screenshot to support.',
-            FR: 'Onyx One est responsive et devrait bien fonctionner sur mobile. Si vous voyez des problèmes: 1) Mettez à jour votre navigateur, 2) Faites pivoter l\'écran, 3) Essayez Chrome/Safari, 4) Videz le cache. Si cela persiste, envoyez une capture d\'écran au support.'
+            ES: 'Aliseus es responsive y debería funcionar bien en móvil. Si ves problemas: 1) Actualiza tu navegador, 2) Rota la pantalla, 3) Prueba en Chrome/Safari, 4) Limpia caché. Si persiste, envía screenshot a soporte.',
+            EN: 'Aliseus is responsive and should work well on mobile. If you see issues: 1) Update your browser, 2) Rotate screen, 3) Try Chrome/Safari, 4) Clear cache. If it persists, send screenshot to support.',
+            FR: 'Aliseus est responsive et devrait bien fonctionner sur mobile. Si vous voyez des problèmes: 1) Mettez à jour votre navigateur, 2) Faites pivoter l\'écran, 3) Essayez Chrome/Safari, 4) Videz le cache. Si cela persiste, envoyez une capture d\'écran au support.'
         },
         category: 'technical',
         tags: ['móvil', 'responsive', 'diseño']

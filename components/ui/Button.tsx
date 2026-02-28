@@ -26,10 +26,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         },
         ref
     ) => {
-        const baseStyles = 'inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:pointer-events-none disabled:opacity-50';
+        const baseStyles = 'inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 disabled:pointer-events-none disabled:opacity-50';
 
         const variants = {
-            primary: 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm hover:shadow-md',
+            primary: 'bg-gradient-to-r from-cyan-600 to-teal-600 text-white hover:from-cyan-700 hover:to-teal-700 shadow-sm hover:shadow-md hover:shadow-cyan-500/20',
             secondary: 'bg-onyx-100 text-onyx-900 hover:bg-onyx-200 dark:bg-onyx-800 dark:text-onyx-50 dark:hover:bg-onyx-700',
             outline: 'border border-onyx-200 bg-transparent hover:bg-onyx-50 dark:border-onyx-700 dark:text-onyx-100 dark:hover:bg-onyx-800',
             ghost: 'bg-transparent hover:bg-onyx-100 dark:hover:bg-onyx-800 dark:text-onyx-100 text-onyx-700',

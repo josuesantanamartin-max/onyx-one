@@ -24,7 +24,7 @@ export const LandingFinance: React.FC<LandingFinanceProps> = ({ setShowLoginModa
         { icon: Sparkles, title: 'Asesor Financiero IA (Gemini Pro)', desc: 'Análisis inteligente potenciado por Google Gemini Pro con recomendaciones personalizadas para optimizar gastos y aumentar ahorros.' },
         { icon: Calculator, title: 'Calculadoras Avanzadas', desc: 'Simulador de hipotecas, interés compuesto, jubilación y más. Toma decisiones informadas con datos precisos.' },
         { icon: Lock, title: 'Seguridad Bancaria', desc: 'Encriptación de extremo a extremo. Tus datos financieros están protegidos con los mismos estándares que usan los bancos.' },
-        { icon: Calendar, title: 'Transacciones Recurrentes', desc: 'Programa ingresos y gastos automáticos. Onyx los registra por ti sin intervención manual.' },
+        { icon: Calendar, title: 'Transacciones Recurrentes', desc: 'Programa ingresos y gastos automáticos. Aliseus los registra por ti sin intervención manual.' },
         { icon: TrendingDown, title: 'Alertas Inteligentes', desc: 'Notificaciones de gastos inusuales, vencimientos de facturas, oportunidades de ahorro y más.' }
     ];
 
@@ -32,7 +32,7 @@ export const LandingFinance: React.FC<LandingFinanceProps> = ({ setShowLoginModa
         {
             title: 'Eliminar €15,000 en Deudas de Tarjeta',
             scenario: 'María tenía 3 tarjetas de crédito con un total de €15,000 en deuda al 18% de interés.',
-            solution: 'Con la estrategia Avalancha de Onyx, priorizó la tarjeta con mayor interés mientras pagaba el mínimo en las otras.',
+            solution: 'Con la estrategia Avalancha de Aliseus, priorizó la tarjeta con mayor interés mientras pagaba el mínimo en las otras.',
             result: 'Pagó toda su deuda en 24 meses y ahorró €2,400 en intereses comparado con pagos mínimos.',
             savings: '€2,400 ahorrados',
             time: '24 meses'
@@ -40,7 +40,7 @@ export const LandingFinance: React.FC<LandingFinanceProps> = ({ setShowLoginModa
         {
             title: 'Ahorrar para Entrada de Piso',
             scenario: 'Carlos necesitaba €40,000 para la entrada de su primera vivienda en 3 años.',
-            solution: 'Onyx analizó sus gastos, identificó €450/mes en suscripciones innecesarias y creó un plan de ahorro automático.',
+            solution: 'Aliseus analizó sus gastos, identificó €450/mes en suscripciones innecesarias y creó un plan de ahorro automático.',
             result: 'Alcanzó su meta 6 meses antes de lo previsto gracias a la optimización de gastos y ahorro disciplinado.',
             savings: '€40,000 ahorrados',
             time: '30 meses'
@@ -48,7 +48,7 @@ export const LandingFinance: React.FC<LandingFinanceProps> = ({ setShowLoginModa
         {
             title: 'Gestionar Múltiples Fuentes de Ingresos',
             scenario: 'Laura es freelance con ingresos variables de 5 clientes diferentes más ingresos pasivos de inversiones.',
-            solution: 'Onyx centraliza todos sus ingresos, calcula impuestos estimados y crea presupuestos adaptativos basados en ingresos reales.',
+            solution: 'Aliseus centraliza todos sus ingresos, calcula impuestos estimados y crea presupuestos adaptativos basados en ingresos reales.',
             result: 'Redujo el estrés financiero, nunca más se quedó sin liquidez y aumentó su tasa de ahorro del 15% al 28%.',
             savings: '+13% ahorro',
             time: 'Mensual'
@@ -63,7 +63,7 @@ export const LandingFinance: React.FC<LandingFinanceProps> = ({ setShowLoginModa
                     <div className="inline-flex items-center justify-center p-4 bg-blue-50 rounded-3xl mb-6 shadow-inner">
                         <PiggyBank className="w-12 h-12 text-blue-600" />
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-gray-900 mb-6">Onyx One</h1>
+                    <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-gray-900 mb-6">Aliseus</h1>
                     <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-4">
                         El sistema operativo financiero personal más avanzado
                     </p>
@@ -81,7 +81,7 @@ export const LandingFinance: React.FC<LandingFinanceProps> = ({ setShowLoginModa
                         { value: 'IA Integrada', label: 'Análisis Inteligente' }
                     ].map((stat, i) => (
                         <div key={i} className="text-center p-6 bg-white rounded-2xl border border-gray-100 shadow-sm">
-                            <div className="text-3xl font-black text-indigo-600 mb-1">{stat.value}</div>
+                            <div className="text-3xl font-black text-cyan-600 mb-1">{stat.value}</div>
                             <div className="text-xs font-bold text-gray-500 uppercase tracking-wider">{stat.label}</div>
                         </div>
                     ))}
@@ -119,7 +119,7 @@ export const LandingFinance: React.FC<LandingFinanceProps> = ({ setShowLoginModa
                     <div className="text-center mb-12">
                         <h2 className="text-4xl font-bold text-gray-900 mb-4">Casos de Éxito Reales</h2>
                         <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-                            Descubre cómo personas como tú han transformado sus finanzas con Onyx.
+                            Descubre cómo personas como tú han transformado sus finanzas con Aliseus.
                         </p>
                     </div>
                     <div className="space-y-8">
@@ -139,7 +139,7 @@ export const LandingFinance: React.FC<LandingFinanceProps> = ({ setShowLoginModa
                                             <div>
                                                 <div className="flex items-center gap-2 mb-2">
                                                     <Zap className="w-4 h-4 text-blue-500" />
-                                                    <span className="text-xs font-bold text-blue-600 uppercase tracking-wider">Solución Onyx</span>
+                                                    <span className="text-xs font-bold text-cyan-600 uppercase tracking-wider">Solución Aliseus</span>
                                                 </div>
                                                 <p className="text-gray-600">{useCase.solution}</p>
                                             </div>
@@ -168,7 +168,7 @@ export const LandingFinance: React.FC<LandingFinanceProps> = ({ setShowLoginModa
                     </div>
 
                     <div className="mt-12 text-center">
-                        <button onClick={() => setShowLoginModal(true)} className="bg-gradient-to-r from-indigo-500 to-violet-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:-translate-y-1 transition-all shadow-xl shadow-indigo-500/20 inline-flex items-center gap-2">
+                        <button onClick={() => setShowLoginModal(true)} className="bg-gradient-to-r from-cyan-500 to-teal-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:-translate-y-1 transition-all shadow-xl shadow-cyan-500/20 inline-flex items-center gap-2">
                             Quiero Lograr mis Metas <ArrowRight className="w-5 h-5" />
                         </button>
                     </div>
@@ -242,18 +242,18 @@ export const LandingFinance: React.FC<LandingFinanceProps> = ({ setShowLoginModa
                 </div>
 
                 {/* CTA Section */}
-                <div className="bg-gradient-to-br from-indigo-900 to-violet-950 text-white rounded-[3rem] p-12 text-center relative overflow-hidden shadow-2xl shadow-indigo-500/20">
-                    <div className="absolute top-0 left-1/4 w-[300px] h-[200px] bg-indigo-500/20 rounded-full blur-[80px] pointer-events-none" />
-                    <div className="absolute bottom-0 right-1/4 w-[300px] h-[200px] bg-violet-500/20 rounded-full blur-[80px] pointer-events-none" />
+                <div className="bg-gradient-to-br from-cyan-800 to-teal-900 text-white rounded-[3rem] p-12 text-center relative overflow-hidden shadow-2xl shadow-cyan-500/20">
+                    <div className="absolute top-0 left-1/4 w-[300px] h-[200px] bg-cyan-500/20 rounded-full blur-[80px] pointer-events-none" />
+                    <div className="absolute bottom-0 right-1/4 w-[300px] h-[200px] bg-teal-500/20 rounded-full blur-[80px] pointer-events-none" />
                     <div className="relative z-10">
                         <h2 className="text-4xl md:text-5xl font-bold mb-6">Toma el control de tu futuro financiero hoy</h2>
-                        <p className="text-indigo-300 max-w-2xl mx-auto mb-10 text-lg">
-                            Únete a quienes han pasado del caos financiero a la claridad total con Onyx One.
+                        <p className="text-cyan-200 max-w-2xl mx-auto mb-10 text-lg">
+                            Únete a quienes han pasado del caos financiero a la claridad total con Aliseus.
                         </p>
-                        <button onClick={() => setShowLoginModal(true)} className="bg-white text-indigo-900 px-10 py-5 rounded-2xl font-bold text-lg hover:bg-indigo-50 hover:-translate-y-1 transition-all shadow-xl inline-flex items-center gap-3">
+                        <button onClick={() => setShowLoginModal(true)} className="bg-white text-cyan-900 px-10 py-5 rounded-2xl font-bold text-lg hover:bg-cyan-50 hover:-translate-y-1 transition-all shadow-xl inline-flex items-center gap-3">
                             Comenzar Gratis <ArrowRight className="w-5 h-5" />
                         </button>
-                        <p className="text-sm text-indigo-400 mt-6">Prueba 14 días gratis • Después, desde 2,99€/mes • Cancela cuando quieras</p>
+                        <p className="text-sm text-cyan-300 mt-6">Prueba 14 días gratis • Después, desde 2,99€/mes • Cancela cuando quieras</p>
                     </div>
                 </div>
             </div>

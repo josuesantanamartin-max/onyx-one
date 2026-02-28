@@ -315,10 +315,10 @@ const FinanceSummary: React.FC<FinanceSummaryProps> = ({ onViewTransactions: onN
     return (
         <div className="space-y-8 animate-fade-in pb-12 relative">
             {isEditingLayout && (
-                <div className="sticky top-0 z-50 bg-black/90 backdrop-blur-md p-4 rounded-3xl mb-6 text-white animate-fade-in-up">
+                <div className="sticky top-0 z-50 bg-cyan-950/90 backdrop-blur-md p-4 rounded-3xl mb-6 text-white animate-fade-in-up">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="font-bold text-lg">Configurar Resumen</h3>
-                        <button onClick={() => setIsEditingLayout(false)} className="bg-white text-black px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-gray-200">Terminar</button>
+                        <button onClick={() => setIsEditingLayout(false)} className="bg-white text-cyan-950 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-gray-200">Terminar</button>
                     </div>
                     <div className="flex flex-wrap gap-2">
                         {widgets.map(w => (
@@ -517,7 +517,7 @@ const FinanceSummary: React.FC<FinanceSummaryProps> = ({ onViewTransactions: onN
 
             {/* AI ANALYSIS MODAL/DRAWER */}
             {isAnalysisVisible && analysis && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in" onClick={() => setIsAnalysisVisible(false)}>
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-cyan-950/60 backdrop-blur-sm p-4 animate-fade-in" onClick={() => setIsAnalysisVisible(false)}>
                     <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden max-h-[85vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
                         <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-white">
                             <h3 className="text-lg font-black text-blue-950 flex items-center gap-2">

@@ -13,7 +13,7 @@ export const startDashboardTour = () => {
             {
                 element: '#header-title',
                 popover: {
-                    title: 'Bienvenido a Onyx One',
+                    title: 'Bienvenido a Aliseus',
                     description: 'Este es tu centro de control financiero y personal totalmente privado.'
                 }
             },

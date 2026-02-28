@@ -48,13 +48,13 @@ const TEXTS: any = {
       persDesc: 'Temas, apariencia y organización del dashboard.',
       catDesc: 'Personaliza tu estructura de ingresos y gastos.',
       autoDesc: 'Crea reglas para automatizar alertas y categorización.',
-      subDesc: 'Gestiona tu plan Onyx One.',
+      subDesc: 'Gestiona tu plan Aliseus.',
       billDesc: 'Métodos de pago y facturas.',
       secDesc: 'Contraseñas, autenticación de dos factores y zona de peligro.'
     },
     personalization: {
       theme: 'Tema de la Interfaz',
-      themeDesc: 'Elige cómo se ve Onyx One.',
+      themeDesc: 'Elige cómo se ve Aliseus.',
       layout: 'Diseño del Dashboard',
       layoutDesc: 'Gestiona los widgets de tu pantalla principal.',
       resetLayout: 'Restaurar Diseño Original',
@@ -110,13 +110,13 @@ const TEXTS: any = {
       persDesc: 'Themes, appearance and dashboard organization.',
       catDesc: 'Customize your income and expense structure.',
       autoDesc: 'Create rules to automate alerts and categorization.',
-      subDesc: 'Manage your Onyx One plan.',
+      subDesc: 'Manage your Aliseus plan.',
       billDesc: 'Payment methods and invoices.',
       secDesc: 'Passwords, 2FA and danger zone.'
     },
     personalization: {
       theme: 'Interface Theme',
-      themeDesc: 'Choose how Onyx One looks.',
+      themeDesc: 'Choose how Aliseus looks.',
       layout: 'Dashboard Layout',
       layoutDesc: 'Manage your home screen widgets.',
       resetLayout: 'Reset Original Layout',
@@ -172,13 +172,13 @@ const TEXTS: any = {
       persDesc: 'Thèmes, apparence et organisation du tableau de bord.',
       catDesc: 'Personnalisez votre structure de revenus et dépenses.',
       autoDesc: 'Créez des règles pour automatiser les alertes.',
-      subDesc: 'Gérer votre plan Onyx One.',
+      subDesc: 'Gérer votre plan Aliseus.',
       billDesc: 'Méthodes de paiement et factures.',
       secDesc: 'Mots de passe, 2FA et zone de danger.'
     },
     personalization: {
       theme: 'Thème de l\'interface',
-      themeDesc: 'Choisissez l\'apparence d\'Onyx One.',
+      themeDesc: 'Choisissez l\'apparence d\'Aliseus.',
       layout: 'Disposition du tableau de bord',
       layoutDesc: 'Gérez vos widgets d\'écran d\'accueil.',
       resetLayout: 'Rétablir la disposition',
@@ -580,7 +580,7 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
                       @{userProfile?.email?.split('@')[0] || 'onyx_user'}
                     </span>
                     <span className="hidden md:inline text-gray-500">•</span>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">{userProfile?.email || 'user@onyxsuite.com'}</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">{userProfile?.email || 'user@aliseus.com'}</span>
                   </div>
                 </div>
               </div>
@@ -633,7 +633,7 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
                     </h4>
                     <p className="text-sm text-gray-400 leading-relaxed font-medium max-w-lg">
                       Eres el único dueño de tu información. Genera un paquete cifrado con todo tu historial financiero,
-                      configuraciones familiares y registros de Onyx One.
+                      configuraciones familiares y registros de Aliseus.
                     </p>
                   </div>
                   <div className="w-full md:w-auto shrink-0">
@@ -1138,7 +1138,7 @@ const SettingsModule: React.FC<SettingsModuleProps> = ({ onMenuClick }) => {
           <div className="max-w-4xl space-y-8 animate-fade-in pb-12">
             <div className="mb-8">
               <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">{t.menu.subscription}</h3>
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Gestiona tu plan de Onyx One</p>
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-2">Gestiona tu plan de Aliseus</p>
             </div>
 
             <div className="bg-gradient-to-br from-indigo-900 via-indigo-800 to-indigo-950 p-8 md:p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden group">

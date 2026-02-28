@@ -1,4 +1,4 @@
-# User Guide - Onyx One
+# User Guide - Aliseus
 
 **Version:** 1.0.2  
 **Last Updated:** February 5, 2026
@@ -20,9 +20,9 @@
 
 ## Introduction
 
-### What is Onyx One?
+### What is Aliseus?
 
-Onyx One is your comprehensive personal assistant that combines:
+Aliseus is your comprehensive personal assistant that combines:
 - 💰 **Financial Management** - Accounts, budgets, goals, retirement
 - 🏠 **Home Organization** - Recipes, pantry, shopping, trips
 - 🤖 **Onyx Insights** - Powered by Gemini
@@ -58,7 +58,7 @@ Onyx One is your comprehensive personal assistant that combines:
 
 ### 1. Create Your Account
 
-1. Visit [onyxsuite.com](https://onyxsuite.com)
+1. Visit [aliseus.com](https://aliseus.com)
 2. Click **Sign Up**
 3. Options:
    - Email and password
@@ -85,7 +85,7 @@ Onyx One is your comprehensive personal assistant that combines:
 ### 3. Guided Tour
 
 On first login:
-1. **Welcome** - Introduction to Onyx One
+1. **Welcome** - Introduction to Aliseus
 2. **Onyx Central** - Customizable overview
 3. **Modules** - Finance, Life, Goals
 4. **Onyx Insights** - How to use the assistant
@@ -384,7 +384,7 @@ The system suggests:
 
 ### General
 
-**Is Onyx One free?**
+**Is Aliseus free?**
 - Yes, the beta version is completely free
 - Premium plans coming soon
 
@@ -416,9 +416,9 @@ The system suggests:
 ### Contact
 
 **Email**
-- General: support@onyxsuite.com
-- Privacy: privacy@onyxsuite.com
-- Legal: legal@onyxsuite.com
+- General: support@aliseus.com
+- Privacy: privacy@aliseus.com
+- Legal: legal@aliseus.com
 
 **Response Time**
 - Beta: 24-48 hours
@@ -435,7 +435,7 @@ The system suggests:
 
 **Need more help?**
 
-Visit our [Help Center](/help) or contact support@onyxsuite.com
+Visit our [Help Center](/help) or contact support@aliseus.com
 
 **Last updated:** February 5, 2026  
 **Version:** 1.0.2

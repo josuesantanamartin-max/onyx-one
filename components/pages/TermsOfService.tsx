@@ -31,8 +31,8 @@ const TermsOfService: React.FC<TermsOfServiceProps> = ({ onBack }) => {
                     </h1>
                     <p className="text-lg text-gray-500 dark:text-gray-400">
                         {language === 'ES'
-                            ? 'Acuerdo de licencia y uso de Onyx One.'
-                            : 'Licensing and usage agreement for Onyx One.'}
+                            ? 'Acuerdo de licencia y uso de Aliseus.'
+                            : 'Licensing and usage agreement for Aliseus.'}
                     </p>
                     <p className="text-sm text-gray-400 mt-2 font-mono">
                         Last updated: January 16, 2026
@@ -49,8 +49,8 @@ const TermsOfService: React.FC<TermsOfServiceProps> = ({ onBack }) => {
                         </h2>
                         <p className="mb-4">
                             {language === 'ES'
-                                ? 'Al acceder y utilizar Onyx One ("la Aplicación"), usted acepta estar legalmente vinculado por estos Términos. Si no está de acuerdo con alguna parte de los términos, no podrá acceder a la Aplicación.'
-                                : 'By accessing and using Onyx One ("the Application"), you agree to be legally bound by these Terms. If you do not agree with any part of the terms, you may not access the Application.'}
+                                ? 'Al acceder y utilizar Aliseus ("la Aplicación"), usted acepta estar legalmente vinculado por estos Términos. Si no está de acuerdo con alguna parte de los términos, no podrá acceder a la Aplicación.'
+                                : 'By accessing and using Aliseus ("the Application"), you agree to be legally bound by these Terms. If you do not agree with any part of the terms, you may not access the Application.'}
                         </p>
                     </section>
 
@@ -62,8 +62,8 @@ const TermsOfService: React.FC<TermsOfServiceProps> = ({ onBack }) => {
                         </h2>
                         <p className="mb-4">
                             {language === 'ES'
-                                ? 'La Aplicación y su contenido original, características y funcionalidad son y seguirán siendo propiedad exclusiva de Onyx One y sus licenciantes. La Aplicación está protegida por derechos de autor, marcas registradas y otras leyes tanto de España como de países extranjeros.'
-                                : 'The Application and its original content, features, and functionality are and will remain the exclusive property of Onyx One and its licensors. The Application is protected by copyright, trademark, and other laws of both Spain and foreign countries.'}
+                                ? 'La Aplicación y su contenido original, características y funcionalidad son y seguirán siendo propiedad exclusiva de Aliseus y sus licenciantes. La Aplicación está protegida por derechos de autor, marcas registradas y otras leyes tanto de España como de países extranjeros.'
+                                : 'The Application and its original content, features, and functionality are and will remain the exclusive property of Aliseus and its licensors. The Application is protected by copyright, trademark, and other laws of both Spain and foreign countries.'}
                         </p>
                     </section>
 
@@ -75,8 +75,8 @@ const TermsOfService: React.FC<TermsOfServiceProps> = ({ onBack }) => {
                         </h2>
                         <p className="mb-4">
                             {language === 'ES'
-                                ? 'En ningún caso Onyx One, ni sus directores, empleados, socios, agentes, proveedores o afiliados, serán responsables de daños indirectos, incidentales, especiales, consecuentes o punitivos, incluyendo, sin limitación, pérdida de beneficios, datos, uso, buena voluntad u otras pérdidas intangibles, resultantes de su acceso o uso o de la imposibilidad de acceder o utilizar la Aplicación.'
-                                : 'In no event shall Onyx One, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the Application.'}
+                                ? 'En ningún caso Aliseus, ni sus directores, empleados, socios, agentes, proveedores o afiliados, serán responsables de daños indirectos, incidentales, especiales, consecuentes o punitivos, incluyendo, sin limitación, pérdida de beneficios, datos, uso, buena voluntad u otras pérdidas intangibles, resultantes de su acceso o uso o de la imposibilidad de acceder o utilizar la Aplicación.'
+                                : 'In no event shall Aliseus, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the Application.'}
                         </p>
                     </section>
 

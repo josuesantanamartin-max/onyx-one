@@ -29,9 +29,9 @@ export const helpArticlesData: HelpArticle[] = [
     {
         id: 'getting-started',
         title: {
-            ES: 'Primeros Pasos con Onyx One',
-            EN: 'Getting Started with Onyx One',
-            FR: 'Premiers Pas avec Onyx One'
+            ES: 'Primeros Pasos con Aliseus',
+            EN: 'Getting Started with Aliseus',
+            FR: 'Premiers Pas avec Aliseus'
         },
         category: {
             ES: 'Inicio',
@@ -39,10 +39,10 @@ export const helpArticlesData: HelpArticle[] = [
             FR: 'Démarrage'
         },
         content: {
-            ES: `# Bienvenido a Onyx One
+            ES: `# Bienvenido a Aliseus
 
-## ¿Qué es Onyx One?
-Onyx One es tu asistente personal integral que combina gestión financiera, planificación de vida y organización del hogar en una sola aplicación potenciada por IA.
+## ¿Qué es Aliseus?
+Aliseus es tu asistente personal integral que combina gestión financiera, planificación de vida y organización del hogar en una sola aplicación potenciada por IA.
 
 ## Configuración Inicial
 1. **Crea tu cuenta** - Regístrate con email o Google
@@ -55,10 +55,10 @@ Onyx One es tu asistente personal integral que combina gestión financiera, plan
 - **🏠 Vida**: Recetas, despensa, lista de compras, viajes
 - **📊 Dashboard**: Vista general personalizable
 - **🎯 Metas**: Objetivos financieros y de vida`,
-            EN: `# Welcome to Onyx One
+            EN: `# Welcome to Aliseus
 
-## What is Onyx One?
-Onyx One is your comprehensive personal assistant that combines financial management, life planning, and home organization in a single AI-powered application.
+## What is Aliseus?
+Aliseus is your comprehensive personal assistant that combines financial management, life planning, and home organization in a single AI-powered application.
 
 ## Initial Setup
 1. **Create your account** - Sign up with email or Google
@@ -71,10 +71,10 @@ Onyx One is your comprehensive personal assistant that combines financial manage
 - **🏠 Life**: Recipes, pantry, shopping list, trips
 - **📊 Dashboard**: Customizable overview
 - **🎯 Goals**: Financial and life objectives`,
-            FR: `# Bienvenue dans Onyx One
+            FR: `# Bienvenue dans Aliseus
 
-## Qu'est-ce qu'Onyx One?
-Onyx One est votre assistant personnel complet qui combine gestion financière, planification de vie et organisation domestique dans une seule application alimentée par l'IA.
+## Qu'est-ce qu'Aliseus?
+Aliseus est votre assistant personnel complet qui combine gestion financière, planification de vie et organisation domestique dans une seule application alimentée par l'IA.
 
 ## Configuration Initiale
 1. **Créez votre compte** - Inscrivez-vous avec email ou Google
@@ -109,7 +109,7 @@ Onyx One est votre assistant personnel complet qui combine gestion financière, 
             ES: `# Importar Transacciones desde CSV
 
 ## Formatos Soportados
-Onyx One acepta archivos CSV de la mayoría de bancos españoles.
+Aliseus acepta archivos CSV de la mayoría de bancos españoles.
 
 ## Pasos para Importar
 1. Ve a **Finanzas → Transacciones**
@@ -133,7 +133,7 @@ El sistema detecta automáticamente:
             EN: `# Import Transactions from CSV
 
 ## Supported Formats
-Onyx One accepts CSV files from most Spanish banks.
+Aliseus accepts CSV files from most Spanish banks.
 
 ## Import Steps
 1. Go to **Finance → Transactions**
@@ -157,7 +157,7 @@ The system automatically detects:
             FR: `# Importer des Transactions depuis CSV
 
 ## Formats Supportés
-Onyx One accepte les fichiers CSV de la plupart des banques espagnoles.
+Aliseus accepte les fichiers CSV de la plupart des banques espagnoles.
 
 ## Étapes d'Importation
 1. Allez dans **Finances → Transactions**
@@ -676,7 +676,7 @@ Le système suggère:
 - Contacta soporte
 
 ## Contacto
-- Email: support@onyxsuite.com
+- Email: support@aliseus.com
 - Chat en vivo (próximamente)`,
             EN: `# Troubleshooting
 
@@ -705,7 +705,7 @@ Le système suggère:
 - Contact support
 
 ## Contact
-- Email: support@onyxsuite.com
+- Email: support@aliseus.com
 - Live chat (coming soon)`,
             FR: `# Dépannage
 
@@ -734,7 +734,7 @@ Le système suggère:
 - Contactez le support
 
 ## Contact
-- Email: support@onyxsuite.com
+- Email: support@aliseus.com
 - Chat en direct (bientôt)`
         },
         tags: ['problemas', 'errores', 'ayuda', 'soporte', 'troubleshooting', 'help', 'support'],

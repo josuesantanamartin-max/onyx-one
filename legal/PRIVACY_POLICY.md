@@ -5,15 +5,15 @@
 
 ## 1. Introduction
 
-Welcome to Onyx One ("we," "our," or "us"). We are committed to protecting your personal data and respecting your privacy rights. This Privacy Policy explains how we collect, use, store, and protect your information when you use our personal management platform.
+Welcome to Aliseus ("we," "our," or "us"). We are committed to protecting your personal data and respecting your privacy rights. This Privacy Policy explains how we collect, use, store, and protect your information when you use our personal management platform.
 
-Onyx One is a premium, AI-powered personal operating system that helps you manage your finances, life organization, and long-term goals. This policy complies with the General Data Protection Regulation (GDPR) and other applicable data protection laws.
+Aliseus is a premium, AI-powered personal operating system that helps you manage your finances, life organization, and long-term goals. This policy complies with the General Data Protection Regulation (GDPR) and other applicable data protection laws.
 
 ## 2. Data Controller
 
-**Onyx One**  
-Email: privacy@onyxsuite.com  
-Data Protection Officer: dpo@onyxsuite.com
+**Aliseus**  
+Email: privacy@aliseus.com  
+Data Protection Officer: dpo@aliseus.com
 
 For any questions about this Privacy Policy or our data practices, please contact our Data Protection Officer at the email address above.
 
@@ -211,8 +211,8 @@ You can file a complaint with your local data protection authority.
 
 To exercise any of your rights, please contact us at:
 
-**Email:** privacy@onyxsuite.com  
-**Data Protection Officer:** dpo@onyxsuite.com
+**Email:** privacy@aliseus.com  
+**Data Protection Officer:** dpo@aliseus.com
 
 We will respond to your request within 30 days. You may be required to verify your identity before we process your request.
 
@@ -278,7 +278,7 @@ Note: Disabling essential cookies may affect functionality.
 
 ## 13. Children's Privacy
 
-Onyx One is not intended for children under 16 years of age. We do not knowingly collect personal data from children under 16.
+Aliseus is not intended for children under 16 years of age. We do not knowingly collect personal data from children under 16.
 
 The "Family Member" feature allows parents to track information about their children, but:
 - Only parents/guardians can create and manage child profiles
@@ -325,16 +325,16 @@ Previous versions of this policy are available upon request.
 For privacy-related questions or concerns:
 
 **General Privacy Inquiries:**  
-Email: privacy@onyxsuite.com
+Email: privacy@aliseus.com
 
 **Data Protection Officer:**  
-Email: dpo@onyxsuite.com
+Email: dpo@aliseus.com
 
 **Support:**  
-Email: support@onyxsuite.com
+Email: support@aliseus.com
 
 **Mailing Address:**  
-Onyx One  
+Aliseus  
 [Your Business Address]  
 [City, Postal Code]  
 [Country]
@@ -345,4 +345,4 @@ If you are located in the EEA, you have the right to lodge a complaint with your
 
 ---
 
-**Acknowledgment:** By using Onyx One, you acknowledge that you have read and understood this Privacy Policy and agree to the collection, use, and disclosure of your information as described herein.
+**Acknowledgment:** By using Aliseus, you acknowledge that you have read and understood this Privacy Policy and agree to the collection, use, and disclosure of your information as described herein.

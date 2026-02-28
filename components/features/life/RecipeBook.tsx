@@ -139,7 +139,7 @@ export const RecipeBook: React.FC<RecipeBookProps> = ({ onNavigateToMealPlan, in
     };
 
     const handleSaveGeneratedRecipe = (recipe: Recipe) => {
-        generateImage(recipe.name).then(res => {
+        generateImage(recipe.name, "4:3", 'food').then(res => {
             if (res.imageUrl) {
                 setRecipes((prev: Recipe[]) => prev.map(r => {
                     if (r.name === recipe.name && !r.image) {

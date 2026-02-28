@@ -84,8 +84,8 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ initialCategory = 'all' 
                             setExpandedFAQ(null);
                         }}
                         className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${selectedCategory === category
-                                ? 'bg-indigo-600 text-white shadow-md'
-                                : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700'
+                            ? 'bg-indigo-600 text-white shadow-md'
+                            : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700'
                             }`}
                     >
                         {getCategoryLabel(category)}
@@ -169,7 +169,7 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ initialCategory = 'all' 
                                 'Essayez d\'autres termes de recherche ou catégorie'}
                     </p>
                     <a
-                        href="mailto:support@onyxsuite.com"
+                        href="mailto:support@aliseus.com"
                         className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 hover:underline font-medium"
                     >
                         {lang === 'ES' ? 'Contactar Soporte' :

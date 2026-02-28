@@ -9,7 +9,7 @@ interface BentoTileProps {
     value: string | number;
     subValue?: string | React.ReactNode;
     icon: LucideIcon;
-    color?: 'indigo' | 'emerald' | 'rose' | 'amber' | 'blue' | 'purple' | 'onyx';
+    color?: 'cyan' | 'emerald' | 'rose' | 'amber' | 'blue' | 'teal' | 'onyx';
     trend?: 'up' | 'down' | 'neutral';
     trendValue?: string;
     isExpanded: boolean;
@@ -30,12 +30,12 @@ interface BentoTileProps {
 }
 
 const colorMap = {
-    indigo: 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-100 dark:border-indigo-500/20',
+    cyan: 'bg-cyan-50 dark:bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-100 dark:border-cyan-500/20',
     emerald: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-100 dark:border-emerald-500/20',
     rose: 'bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-100 dark:border-rose-500/20',
     amber: 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-100 dark:border-amber-500/20',
     blue: 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-500/20',
-    purple: 'bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-100 dark:border-purple-500/20',
+    teal: 'bg-teal-50 dark:bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-100 dark:border-teal-500/20',
     onyx: 'bg-onyx-50 dark:bg-onyx-500/10 text-onyx-600 dark:text-onyx-400 border-onyx-100 dark:border-onyx-500/20',
 };
 
@@ -45,7 +45,7 @@ const BentoTile: React.FC<BentoTileProps> = ({
     value,
     subValue,
     icon: Icon,
-    color = 'indigo',
+    color = 'cyan',
     trend,
     trendValue,
     isExpanded,
@@ -71,7 +71,7 @@ const BentoTile: React.FC<BentoTileProps> = ({
         return (
             <div className={`
                 relative flex flex-col w-full min-h-[400px] 
-                bg-white dark:bg-onyx-900 border border-indigo-200 dark:border-indigo-800/50 
+                bg-white dark:bg-onyx-900 border border-cyan-200 dark:border-cyan-800/50 
                 rounded-[2.5rem] shadow-2xl transition-all duration-500
                 backdrop-blur-xl
                 ${colSpanClass} ${className}
@@ -104,8 +104,8 @@ const BentoTile: React.FC<BentoTileProps> = ({
             className={`
                 bg-white dark:bg-onyx-900 border border-onyx-100 dark:border-onyx-800/50 
                 rounded-[2rem] p-6 text-left transition-all duration-500
-                ${isEditMode ? 'hover:border-indigo-400 dark:hover:border-indigo-500 border-dashed border-2 cursor-grab active:cursor-grabbing' : 'hover:shadow-2xl hover:-translate-y-2 hover:border-indigo-300 dark:hover:border-indigo-500/50 cursor-pointer'}
-                ${isDragOver ? 'border-4 border-indigo-500 bg-indigo-50/50 dark:bg-indigo-500/20 scale-[0.98]' : ''}
+                ${isEditMode ? 'hover:border-cyan-400 dark:hover:border-cyan-500 border-dashed border-2 cursor-grab active:cursor-grabbing' : 'hover:shadow-2xl hover:-translate-y-2 hover:border-cyan-300 dark:hover:border-cyan-500/50 cursor-pointer'}
+                ${isDragOver ? 'border-4 border-cyan-500 bg-cyan-50/50 dark:bg-cyan-500/20 scale-[0.98]' : ''}
                 ${colSpanClass} ${className}
             `}
             onClick={!isEditMode ? onToggleExpand : undefined}
@@ -202,15 +202,15 @@ const BentoTile: React.FC<BentoTileProps> = ({
             {/* Hover Indicators */}
             {!isEditMode && (
                 <div className="absolute top-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="p-1.5 rounded-full bg-indigo-50 dark:bg-indigo-500/10 text-indigo-500">
+                    <div className="p-1.5 rounded-full bg-cyan-50 dark:bg-cyan-500/10 text-cyan-500">
                         <Expand className="w-3.5 h-3.5" />
                     </div>
                 </div>
             )}
 
             {isEditMode && (
-                <div className="absolute inset-0 bg-indigo-50/50 dark:bg-indigo-500/5 backdrop-blur-[1px] rounded-3xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all pointer-events-none">
-                    <GripHorizontal className="w-8 h-8 text-indigo-400" />
+                <div className="absolute inset-0 bg-cyan-50/50 dark:bg-cyan-500/5 backdrop-blur-[1px] rounded-3xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all pointer-events-none">
+                    <GripHorizontal className="w-8 h-8 text-cyan-400" />
                 </div>
             )}
 
@@ -231,7 +231,7 @@ const BentoTile: React.FC<BentoTileProps> = ({
                             title={title}
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); onChangeSize(s); }}
                             className={`p-1.5 rounded-full transition-colors ${activeSize === s
-                                ? 'bg-indigo-100 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-400'
+                                ? 'bg-cyan-100 text-cyan-600 dark:bg-cyan-500/20 dark:text-cyan-400'
                                 : 'text-onyx-400 hover:text-onyx-700 hover:bg-onyx-100 dark:hover:text-onyx-300 dark:hover:bg-onyx-700'
                                 }`}
                         >
@@ -245,3 +245,4 @@ const BentoTile: React.FC<BentoTileProps> = ({
 };
 
 export default BentoTile;
+

@@ -32,8 +32,8 @@ const CreateLayoutModal: React.FC<CreateLayoutModalProps> = ({
             <div className="bg-white dark:bg-onyx-900 rounded-2xl shadow-2xl max-w-md w-full p-6 animate-slide-up">
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-2">
-                        <div className="w-10 h-10 bg-indigo-soft dark:bg-indigo-900/30 rounded-xl flex items-center justify-center">
-                            <Sparkles className="w-5 h-5 text-indigo-primary" />
+                        <div className="w-10 h-10 bg-cyan-soft dark:bg-cyan-900/30 rounded-xl flex items-center justify-center">
+                            <Sparkles className="w-5 h-5 text-cyan-primary" />
                         </div>
                         <h2 className="text-2xl font-black text-onyx-950 dark:text-white">
                             Crear Layout
@@ -57,7 +57,7 @@ const CreateLayoutModal: React.FC<CreateLayoutModalProps> = ({
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="Ej: Mi Dashboard Personalizado"
-                            className="w-full px-4 py-3 bg-onyx-50 dark:bg-onyx-800 border border-onyx-200 dark:border-onyx-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-primary text-onyx-900 dark:text-white"
+                            className="w-full px-4 py-3 bg-onyx-50 dark:bg-onyx-800 border border-onyx-200 dark:border-onyx-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-primary text-onyx-900 dark:text-white"
                             required
                             autoFocus
                         />
@@ -72,7 +72,7 @@ const CreateLayoutModal: React.FC<CreateLayoutModalProps> = ({
                             onChange={(e) => setDescription(e.target.value)}
                             placeholder="Describe para qué usarás este layout..."
                             rows={3}
-                            className="w-full px-4 py-3 bg-onyx-50 dark:bg-onyx-800 border border-onyx-200 dark:border-onyx-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-primary resize-none text-onyx-900 dark:text-white"
+                            className="w-full px-4 py-3 bg-onyx-50 dark:bg-onyx-800 border border-onyx-200 dark:border-onyx-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-primary resize-none text-onyx-900 dark:text-white"
                         />
                     </div>
 
@@ -86,7 +86,7 @@ const CreateLayoutModal: React.FC<CreateLayoutModalProps> = ({
                         </button>
                         <button
                             type="submit"
-                            className="flex-1 px-4 py-3 bg-indigo-primary text-white rounded-xl font-bold hover:bg-indigo-600 transition-colors flex items-center justify-center gap-2"
+                            className="flex-1 px-4 py-3 bg-cyan-primary text-white rounded-xl font-bold hover:bg-cyan-600 transition-colors flex items-center justify-center gap-2"
                         >
                             <Plus className="w-5 h-5" />
                             Crear Layout
@@ -99,3 +99,4 @@ const CreateLayoutModal: React.FC<CreateLayoutModalProps> = ({
 };
 
 export default CreateLayoutModal;
+

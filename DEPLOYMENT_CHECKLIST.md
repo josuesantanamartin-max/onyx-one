@@ -32,7 +32,7 @@ VITE_SUPABASE_ANON_KEY=eyJ...
 git init
 git add .
 git commit -m "Preparar para Vercel"
-git remote add origin https://github.com/tu-usuario/onyx-one.git
+git remote add origin https://github.com/tu-usuario/aliseus.git
 git push -u origin main
 ```
 
@@ -76,7 +76,7 @@ vercel --prod
 
 ### 1. Verificar que Funciona
 
-Abre tu URL: `https://onyx-one.vercel.app`
+Abre tu URL: `https://aliseus.app`
 
 - [ ] App carga sin errores
 - [ ] Dashboard se muestra

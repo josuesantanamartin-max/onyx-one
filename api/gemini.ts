@@ -68,7 +68,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
 
         // Initialize Gemini AI
-        const genAI = new GoogleGenerativeAI(apiKey.trim());
+        const cleanKey = (apiKey || '').trim().replace(/[\x00-\x1F\x7F-\x9F]/g, ""); // Remove control characters
+        if (cleanKey.length < 5) {
+            return res.status(500).json({ error: 'API key is too short or invalid' });
+        }
+
+        const genAI = new GoogleGenerativeAI(cleanKey);
 
         // Use the requested model or fallback
         const modelName = model || 'gemini-2.5-flash';

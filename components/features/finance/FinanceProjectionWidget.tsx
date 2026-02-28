@@ -101,7 +101,7 @@ const FinanceProjectionWidget = () => {
                 <div>
                     <div className="flex items-center gap-3">
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                            <Calendar className="w-5 h-5 text-indigo-500" />
+                            <Calendar className="w-5 h-5 text-cyan-500" />
                             Proyección a {getTimeframeLabel(timeframe)}
                         </h3>
 
@@ -123,7 +123,7 @@ const FinanceProjectionWidget = () => {
                                                 setTimeframe(tf);
                                                 setIsDropdownOpen(false);
                                             }}
-                                            className={`w-full text-left px-4 py-2 text-sm transition-colors ${timeframe === tf ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 font-bold' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-onyx-700 font-medium'}`}
+                                            className={`w-full text-left px-4 py-2 text-sm transition-colors ${timeframe === tf ? 'bg-cyan-50 dark:bg-cyan-900/20 text-cyan-600 dark:text-cyan-400 font-bold' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-onyx-700 font-medium'}`}
                                         >
                                             {getTimeframeLabel(tf)}
                                         </button>

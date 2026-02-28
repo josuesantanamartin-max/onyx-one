@@ -53,15 +53,15 @@ const FinanceModule: React.FC<FinanceModuleProps> = ({ onMenuClick }) => {
 
     const renderNav = () => (
         <div className="bg-white border-b border-onyx-100 px-10 py-3 flex items-center gap-2 overflow-x-auto custom-scrollbar shrink-0 relative z-10 shadow-sm">
-            <button onClick={() => setActiveTab('transactions')} className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === 'transactions' ? 'bg-onyx-950 text-white shadow-lg shadow-onyx-950/20 scale-105' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50'}`}>Movimientos</button>
-            <button onClick={() => setActiveTab('accounts')} className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === 'accounts' ? 'bg-onyx-950 text-white shadow-lg shadow-onyx-950/20 scale-105' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50'}`}>Cuentas</button>
-            <button onClick={() => setActiveTab('budgets')} className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === 'budgets' ? 'bg-onyx-950 text-white shadow-lg shadow-onyx-950/20 scale-105' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50'}`}>Presupuestos</button>
-            <button onClick={() => setActiveTab('goals')} className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === 'goals' ? 'bg-onyx-950 text-white shadow-lg shadow-onyx-950/20 scale-105' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50'}`}>Metas</button>
-            <button onClick={() => setActiveTab('debts')} className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === 'debts' ? 'bg-onyx-950 text-white shadow-lg shadow-onyx-950/20 scale-105' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50'}`}>Deudas</button>
-            <button onClick={() => setActiveTab('retirement')} className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === 'retirement' ? 'bg-onyx-950 text-white shadow-lg shadow-onyx-950/20 scale-105' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50'}`}>Jubilación</button>
-            <button onClick={handleGeminiAnalysis} disabled={isAnalyzing} className="flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 bg-blue-950 text-white hover:bg-blue-900 shadow-lg ml-auto">
-                {isAnalyzing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4 text-yellow-300" />}
-                {isAnalyzing ? 'Analizando...' : 'Onyx Insights'}
+            <button onClick={() => setActiveTab('transactions')} className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === 'transactions' ? 'bg-gradient-to-r from-cyan-600 to-teal-600 text-white shadow-lg shadow-cyan-900/20 scale-105' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50'}`}>Movimientos</button>
+            <button onClick={() => setActiveTab('accounts')} className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === 'accounts' ? 'bg-gradient-to-r from-cyan-600 to-teal-600 text-white shadow-lg shadow-cyan-900/20 scale-105' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50'}`}>Cuentas</button>
+            <button onClick={() => setActiveTab('budgets')} className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === 'budgets' ? 'bg-gradient-to-r from-cyan-600 to-teal-600 text-white shadow-lg shadow-cyan-900/20 scale-105' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50'}`}>Presupuestos</button>
+            <button onClick={() => setActiveTab('goals')} className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === 'goals' ? 'bg-gradient-to-r from-cyan-600 to-teal-600 text-white shadow-lg shadow-cyan-900/20 scale-105' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50'}`}>Metas</button>
+            <button onClick={() => setActiveTab('debts')} className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === 'debts' ? 'bg-gradient-to-r from-cyan-600 to-teal-600 text-white shadow-lg shadow-cyan-900/20 scale-105' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50'}`}>Deudas</button>
+            <button onClick={() => setActiveTab('retirement')} className={`flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${activeTab === 'retirement' ? 'bg-gradient-to-r from-cyan-600 to-teal-600 text-white shadow-lg shadow-cyan-900/20 scale-105' : 'text-onyx-400 hover:text-onyx-900 hover:bg-onyx-50'}`}>Jubilación</button>
+            <button onClick={handleGeminiAnalysis} disabled={isAnalyzing} className="flex items-center gap-2.5 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 bg-gradient-to-r from-cyan-600 to-teal-600 text-white hover:from-cyan-700 hover:to-teal-700 shadow-lg shadow-cyan-900/20 ml-auto">
+                {isAnalyzing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4 text-cyan-100" />}
+                {isAnalyzing ? 'Analizando...' : 'Aliseus Insights'}
             </button>
         </div>
     );
@@ -90,11 +90,11 @@ const FinanceModule: React.FC<FinanceModuleProps> = ({ onMenuClick }) => {
         <div className="flex h-full flex-col bg-[#FAFAFA]">
             <header className="md:hidden bg-white border-b border-onyx-100 p-6 flex justify-between items-center z-20 shrink-0">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-onyx-950 rounded-xl flex items-center justify-center shadow-lg shadow-onyx-950/20">
+                    <div className="w-10 h-10 bg-gradient-to-br from-cyan-600 to-teal-600 rounded-xl flex items-center justify-center shadow-lg shadow-cyan-900/20">
                         <Wallet className="text-white w-5 h-5" />
                     </div>
                     <div className="flex flex-col">
-                        <span className="font-bold text-onyx-950 text-base leading-none uppercase tracking-tight">Onyx <span className="text-indigo-primary">Finanzas</span></span>
+                        <span className="font-bold text-cyan-900 text-base leading-none uppercase tracking-tight">Onyx <span className="text-cyan-600">Finanzas</span></span>
                         <span className="text-[8px] font-bold text-onyx-300 uppercase tracking-[0.2em] mt-1">Management Suite</span>
                     </div>
                 </div>
@@ -110,25 +110,25 @@ const FinanceModule: React.FC<FinanceModuleProps> = ({ onMenuClick }) => {
 
             {/* AI ANALYSIS MODAL */}
             {isAnalysisVisible && analysis && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in" onClick={() => setIsAnalysisVisible(false)}>
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-cyan-950/60 backdrop-blur-sm p-4 animate-fade-in" onClick={() => setIsAnalysisVisible(false)}>
                     <div className="bg-white dark:bg-onyx-900 rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden max-h-[85vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
                         <div className="px-6 py-4 border-b border-gray-100 dark:border-onyx-800 flex justify-between items-center bg-white dark:bg-onyx-900">
-                            <h3 className="text-lg font-black text-blue-950 dark:text-blue-100 flex items-center gap-2">
-                                <Sparkles className="w-5 h-5 text-yellow-500" />
-                                {language === 'ES' ? 'Onyx Insights: Análisis Financiero' : 'Onyx Insights: Financial Analysis'}
+                            <h3 className="text-lg font-black text-cyan-700 dark:text-cyan-300 flex items-center gap-2">
+                                <Sparkles className="w-5 h-5 text-cyan-500" />
+                                {language === 'ES' ? 'Aliseus Insights: Análisis Financiero' : 'Aliseus Insights: Financial Analysis'}
                             </h3>
                             <button onClick={() => setIsAnalysisVisible(false)} className="p-2 hover:bg-gray-100 dark:hover:bg-onyx-800 rounded-full transition-colors">
                                 <X className="w-5 h-5 text-gray-400" />
                             </button>
                         </div>
-                        <div className="p-6 overflow-y-auto custom-scrollbar bg-gray-50/50 dark:bg-onyx-950/50">
+                        <div className="p-6 overflow-y-auto custom-scrollbar bg-gray-50/50 dark:bg-cyan-900/50">
                             <div
                                 className="prose prose-sm prose-blue dark:prose-invert max-w-none text-gray-600 dark:text-gray-300 bg-white dark:bg-onyx-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-onyx-800"
                                 dangerouslySetInnerHTML={{ __html: analysis }}
                             />
                         </div>
                         <div className="p-4 bg-gray-50 dark:bg-onyx-800 border-t border-gray-100 dark:border-onyx-700 flex justify-end">
-                            <button onClick={() => setIsAnalysisVisible(false)} className="px-5 py-2.5 bg-gray-900 dark:bg-white text-white dark:text-onyx-950 text-xs font-bold uppercase tracking-widest rounded-xl hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
+                            <button onClick={() => setIsAnalysisVisible(false)} className="px-5 py-2.5 bg-cyan-600 dark:bg-cyan-500 text-white text-xs font-bold uppercase tracking-widest rounded-xl hover:bg-cyan-700 dark:hover:bg-cyan-600 transition-colors">
                                 {language === 'ES' ? 'Cerrar' : 'Close'}
                             </button>
                         </div>

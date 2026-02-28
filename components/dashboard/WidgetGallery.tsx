@@ -77,8 +77,8 @@ const WidgetGallery: React.FC<WidgetGalleryProps> = ({ isOpen, onClose, onDragSt
                 {/* Header */}
                 <div className="flex items-center justify-between p-5 border-b border-onyx-100 dark:border-onyx-800 shrink-0">
                     <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-indigo-soft dark:bg-indigo-900/40 rounded-xl flex items-center justify-center">
-                            <LayoutGrid className="w-4 h-4 text-indigo-primary" />
+                        <div className="w-8 h-8 bg-cyan-50 dark:bg-cyan-900/40 rounded-xl flex items-center justify-center">
+                            <LayoutGrid className="w-4 h-4 text-cyan-600" />
                         </div>
                         <div>
                             <h3 className="text-sm font-black text-onyx-900 dark:text-white">Añadir Widget</h3>
@@ -104,7 +104,7 @@ const WidgetGallery: React.FC<WidgetGalleryProps> = ({ isOpen, onClose, onDragSt
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Buscar widget..."
-                            className="w-full pl-9 pr-4 py-2.5 bg-onyx-50 dark:bg-onyx-800 border border-onyx-200 dark:border-onyx-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-primary transition-all"
+                            className="w-full pl-9 pr-4 py-2.5 bg-onyx-50 dark:bg-onyx-800 border border-onyx-200 dark:border-onyx-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
                         />
                     </div>
                 </div>
@@ -117,7 +117,7 @@ const WidgetGallery: React.FC<WidgetGalleryProps> = ({ isOpen, onClose, onDragSt
                                 key={key}
                                 onClick={() => setSelectedCategory(key)}
                                 className={`flex-1 px-2 py-1.5 rounded-lg text-xs font-bold transition-all ${selectedCategory === key
-                                    ? 'bg-indigo-primary text-white shadow-sm'
+                                    ? 'bg-cyan-600 text-white shadow-sm'
                                     : 'text-onyx-400 hover:text-onyx-700 dark:hover:text-onyx-200'
                                     }`}
                             >
@@ -148,12 +148,12 @@ const WidgetGallery: React.FC<WidgetGalleryProps> = ({ isOpen, onClose, onDragSt
                             }}
                             className={`w-full flex items-center gap-3 p-3 rounded-xl text-left transition-all group ${isWidgetAdded(id)
                                 ? 'bg-onyx-50/50 dark:bg-onyx-800/50 opacity-60 cursor-not-allowed'
-                                : 'bg-onyx-50 dark:bg-onyx-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 border border-transparent hover:border-indigo-200 dark:hover:border-indigo-800'
+                                : 'bg-onyx-50 dark:bg-onyx-800 hover:bg-cyan-50 dark:hover:bg-cyan-900/30 border border-transparent hover:border-cyan-200 dark:hover:border-cyan-800'
                                 }`}
                         >
                             <div className={`w-9 h-9 rounded-xl flex items-center justify-center shadow-sm shrink-0 transition-colors ${isWidgetAdded(id)
                                 ? 'bg-onyx-100 dark:bg-onyx-700 text-onyx-300'
-                                : 'bg-white dark:bg-onyx-700 text-indigo-primary group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/50'
+                                : 'bg-white dark:bg-onyx-700 text-cyan-600 group-hover:bg-cyan-100 dark:group-hover:bg-cyan-900/50'
                                 }`}>
                                 {isWidgetAdded(id) ? (
                                     <div className="w-2 h-2 rounded-full bg-emerald-500" />
@@ -164,7 +164,7 @@ const WidgetGallery: React.FC<WidgetGalleryProps> = ({ isOpen, onClose, onDragSt
                             <div className="min-w-0 flex-1">
                                 <p className={`text-xs font-bold truncate transition-colors ${isWidgetAdded(id)
                                     ? 'text-onyx-400'
-                                    : 'text-onyx-800 dark:text-onyx-100 group-hover:text-indigo-700 dark:group-hover:text-indigo-300'
+                                    : 'text-onyx-800 dark:text-onyx-100 group-hover:text-cyan-700 dark:group-hover:text-cyan-300'
                                     }`}>
                                     {config.label}
                                 </p>
@@ -178,7 +178,7 @@ const WidgetGallery: React.FC<WidgetGalleryProps> = ({ isOpen, onClose, onDragSt
                                         Añadido
                                     </span>
                                 ) : (
-                                    <div className="opacity-0 group-hover:opacity-100 flex items-center gap-1 bg-indigo-primary text-white text-xs font-bold px-2 py-1 rounded-lg">
+                                    <div className="opacity-0 group-hover:opacity-100 flex items-center gap-1 bg-cyan-600 text-white text-xs font-bold px-2 py-1 rounded-lg">
                                         <Plus className="w-3 h-3" />
                                         Añadir
                                     </div>
@@ -206,3 +206,4 @@ const WidgetGallery: React.FC<WidgetGalleryProps> = ({ isOpen, onClose, onDragSt
 };
 
 export default WidgetGallery;
+

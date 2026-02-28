@@ -573,7 +573,7 @@ export const generateMealPlan = async (
 
   // Explicit instruction for courses
   const courseInstructions = criteria.courses
-    ? `For LUNCH generate ${criteria.courses.lunch || 1} distinct dishes (Starter, Main). For DINNER generate ${criteria.courses.dinner || 1} distinct dishes.`
+    ? `For LUNCH generate EXACTLY ${criteria.courses.lunch || 1} dish(es)${criteria.courses.lunch > 1 ? ' (1 Starter and 1 Main)' : ' (Single main dish)'}. For DINNER generate EXACTLY ${criteria.courses.dinner || 1} dish(es)${criteria.courses.dinner > 1 ? ' (1 Starter and 1 Main)' : ' (Single main dish)'}.`
     : '';
 
   const prompt = `
@@ -593,7 +593,8 @@ export const generateMealPlan = async (
 
     OUTPUT FORMAT:
     Return strictly a JSON object. 
-    IMPORTANT: Provide FULL DETAILS for each recipe (Ingredients & Instructions).
+    IMPORTANT: Provide FULL DETAILS for each recipe (Ingredients & Macros). 
+    DO NOT provide instructions in this step (to save time).
     'courseType' MUST be one of: 'STARTER', 'MAIN', 'DESSERT', 'SIDE', 'DRINK'.
     
     Structure:
@@ -606,7 +607,7 @@ export const generateMealPlan = async (
              "prepTime": 10, 
              "courseType": "MAIN",
              "ingredients": [ {"name": "Bread", "quantity": 2, "unit": "slice"}, {"name": "Egg", "quantity": 1, "unit": "pc"} ],
-             "instructions": ["Toast bread.", "Poach egg.", "Assemble."]
+             "instructions": []
            }
         ],
         "lunch": [ 
@@ -616,7 +617,7 @@ export const generateMealPlan = async (
              "prepTime": 20, 
              "courseType": "STARTER",
              "ingredients": [...],
-             "instructions": [...]
+             "instructions": []
            },
            { ... }
         ],
@@ -635,8 +636,13 @@ export const generateMealPlan = async (
     const text = response.text || '';
     const jsonStr = cleanJSON(text);
     return JSON.parse(jsonStr);
-  } catch (e) {
+  } catch (e: any) {
     console.error("Meal Plan Gen Error:", e);
+    // Determine if it's a connection/proxy error
+    const message = e?.message || "";
+    if (message.includes("Unexpected token") || message.includes("server error")) {
+      console.error("AI Service appears to be down or returning HTML. Check local server/API configuration.");
+    }
     return null;
   }
 };

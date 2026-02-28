@@ -153,7 +153,7 @@ export const RetirementSimulator: React.FC = () => {
 
                     <InputGroup label="Ingreso Mensual Deseado (Valor Presente)" name="targetMonthlyIncome" value={formData.targetMonthlyIncome} onChange={handleInputChange} prefix="€" step={100} />
 
-                    <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-sm text-blue-700 dark:text-blue-300 flex gap-2">
+                    <div className="p-4 bg-cyan-50 dark:bg-cyan-900/20 rounded-lg text-sm text-cyan-700 dark:text-cyan-300 flex gap-2">
                         <AlertCircle className="w-5 h-5 flex-shrink-0" />
                         <p>Los cálculos usan "Valor Real" (poder adquisitivo de hoy), descontando la inflación automáticamente.</p>
                     </div>
@@ -173,7 +173,7 @@ export const RetirementSimulator: React.FC = () => {
                             title="Ingreso Mensual Sostenible"
                             value={`${result?.monthlyIncome.toLocaleString()}€`}
                             subtitle="Sin tocar el capital (Regla 4%)"
-                            icon={<RefreshCw className="text-blue-500" />}
+                            icon={<RefreshCw className="text-cyan-500" />}
                         />
                         <MetricCard
                             title="Años de Cobertura"
@@ -191,8 +191,8 @@ export const RetirementSimulator: React.FC = () => {
                             <AreaChart data={projectionData}>
                                 <defs>
                                     <linearGradient id="colorAccumulation" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#4F46E5" stopOpacity={0.3} />
-                                        <stop offset="95%" stopColor="#4F46E5" stopOpacity={0} />
+                                        <stop offset="5%" stopColor="#0891b2" stopOpacity={0.3} />
+                                        <stop offset="95%" stopColor="#0891b2" stopOpacity={0} />
                                     </linearGradient>
                                     <linearGradient id="colorDrawdown" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#F59E0B" stopOpacity={0.3} />
@@ -216,7 +216,7 @@ export const RetirementSimulator: React.FC = () => {
                                 <Area
                                     type="monotone"
                                     dataKey="accumulation"
-                                    stroke="#4F46E5"
+                                    stroke="#0891b2"
                                     strokeWidth={3}
                                     fillOpacity={1}
                                     fill="url(#colorAccumulation)"
@@ -256,7 +256,7 @@ export const RetirementSimulator: React.FC = () => {
 
             {/* Save Modal */}
             {showSaveModal && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+                <div className="fixed inset-0 bg-cyan-950/50 flex items-center justify-center p-4 z-50">
                     <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-md shadow-xl">
                         <h3 className="text-xl font-bold mb-4">Guardar Plan</h3>
                         <div className="space-y-4">

@@ -26,15 +26,12 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
         <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-xl border-b border-gray-100 z-50">
             <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
                 <div className="flex items-center gap-2.5 group cursor-pointer" onClick={() => onNavigate('HOME')}>
-                    <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-violet-700 rounded-lg flex items-center justify-center shadow-md shadow-indigo-500/25 group-hover:scale-105 group-hover:rotate-3 transition-all duration-300">
-                        <Logo className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="text-lg font-bold tracking-tight">ONYX <span className="text-gray-400 font-normal">ONE</span></span>
+                    <Logo className="h-10 w-auto group-hover:scale-105 transition-all duration-300 drop-shadow-md" />
                 </div>
                 <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-500">
-                    <button onClick={() => onNavigate('HOME')} className={`hover:text-indigo-600 transition-colors font-medium ${currentView === 'HOME' ? 'text-indigo-600' : ''}`}>Inicio</button>
-                    <button onClick={() => onNavigate('FINANCE')} className={`hover:text-indigo-600 transition-colors font-medium ${currentView === 'FINANCE' ? 'text-indigo-600' : ''}`}>Finanzas</button>
-                    <button onClick={() => onNavigate('LIFE')} className={`hover:text-indigo-600 transition-colors font-medium ${currentView === 'LIFE' ? 'text-indigo-600' : ''}`}>Vida</button>
+                    <button onClick={() => onNavigate('HOME')} className={`hover:text-cyan-600 transition-colors font-medium ${currentView === 'HOME' ? 'text-cyan-600' : ''}`}>Inicio</button>
+                    <button onClick={() => onNavigate('FINANCE')} className={`hover:text-cyan-600 transition-colors font-medium ${currentView === 'FINANCE' ? 'text-cyan-600' : ''}`}>Finanzas</button>
+                    <button onClick={() => onNavigate('LIFE')} className={`hover:text-cyan-600 transition-colors font-medium ${currentView === 'LIFE' ? 'text-cyan-600' : ''}`}>Vida</button>
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="relative">
@@ -52,7 +49,7 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({
                         )}
                     </div>
                     <button onClick={() => setShowLoginModal(true)} className="text-sm font-bold text-gray-900 hover:text-gray-600 hidden md:block">{t.btnEnter}</button>
-                    <button onClick={() => setShowLoginModal(true)} className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-5 py-2 rounded-full text-sm font-bold hover:from-indigo-500 hover:to-violet-500 transition-all active:scale-95 shadow-md shadow-indigo-500/20">{t.ctaStart}</button>
+                    <button onClick={() => setShowLoginModal(true)} className="bg-gradient-to-r from-cyan-500 to-teal-600 text-white px-5 py-2 rounded-full text-sm font-bold hover:from-cyan-400 hover:to-teal-500 transition-all active:scale-95 shadow-md shadow-cyan-500/20">{t.ctaStart}</button>
                 </div>
             </div>
         </nav>

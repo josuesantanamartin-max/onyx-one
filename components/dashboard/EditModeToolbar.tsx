@@ -16,13 +16,13 @@ const EditModeToolbar: React.FC<EditModeToolbarProps> = ({
     return (
         <div className="flex items-center gap-2">
             {/* Edit mode badge */}
-            <div className="flex items-center gap-1.5 px-3 py-2 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 rounded-xl">
+            <div className="flex items-center gap-1.5 px-3 py-2 bg-cyan-50 dark:bg-cyan-950/60 border border-cyan-200 dark:border-cyan-800 rounded-xl">
                 <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
                 </span>
-                <Pencil className="w-3.5 h-3.5 text-indigo-500" />
-                <span className="text-xs font-bold text-indigo-600 dark:text-indigo-300 uppercase tracking-widest hidden sm:inline">
+                <Pencil className="w-3.5 h-3.5 text-cyan-500" />
+                <span className="text-xs font-bold text-cyan-600 dark:text-cyan-300 uppercase tracking-widest hidden sm:inline">
                     Editando
                 </span>
             </div>

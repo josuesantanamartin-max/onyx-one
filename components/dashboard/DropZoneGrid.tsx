@@ -132,8 +132,8 @@ const DropZoneGrid: React.FC<Props> = ({
                                         key={slot.id}
                                         className={`${slot.colClass} h-24 flex items-center justify-center rounded-2xl border-2 border-dashed transition-all duration-150 ${isDraggingAny
                                             ? isOver
-                                                ? 'border-indigo-500 bg-indigo-100/80 dark:bg-indigo-900/40 scale-[1.02] shadow-lg shadow-indigo-200 dark:shadow-indigo-900/50'
-                                                : 'border-indigo-300 dark:border-indigo-700 bg-indigo-50/50 dark:bg-indigo-950/20 cursor-copy'
+                                                ? 'border-cyan-500 bg-cyan-100/80 dark:bg-cyan-900/40 scale-[1.02] shadow-lg shadow-cyan-200 dark:shadow-cyan-900/50'
+                                                : 'border-cyan-300 dark:border-cyan-700 bg-cyan-50/50 dark:bg-cyan-950/20 cursor-copy'
                                             : 'border-onyx-200 dark:border-onyx-700/60 bg-onyx-50/60 dark:bg-onyx-800/30'
                                             }`}
                                         onDragOver={(e) => {
@@ -144,7 +144,7 @@ const DropZoneGrid: React.FC<Props> = ({
                                         onDragLeave={() => setDragOverZone(null)}
                                         onDrop={(e) => handleZoneDrop(e, slot)}
                                     >
-                                        <span className={`text-[11px] font-bold uppercase tracking-wider transition-colors ${isOver ? 'text-indigo-500' : 'text-onyx-300 dark:text-onyx-600'}`}>
+                                        <span className={`text-[11px] font-bold uppercase tracking-wider transition-colors ${isOver ? 'text-cyan-500' : 'text-onyx-300 dark:text-onyx-600'}`}>
                                             {slot.label}
                                         </span>
                                     </div>
@@ -221,3 +221,4 @@ const DropZoneGrid: React.FC<Props> = ({
 };
 
 export default DropZoneGrid;
+

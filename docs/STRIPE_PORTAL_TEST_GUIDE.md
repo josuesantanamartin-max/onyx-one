@@ -1,6 +1,6 @@
 # 💳 Stripe Portal Test Guide
 
-This guide provides instructions for testing the Stripe integration in Onyx One, covering Checkout, the Customer Portal, and Webhooks.
+This guide provides instructions for testing the Stripe integration in Aliseus, covering Checkout, the Customer Portal, and Webhooks.
 
 ---
 
@@ -36,10 +36,10 @@ Ve a **Configuración → Suscripción** y elige uno de los planes disponibles:
 ### 2. Proceso de Pago
 - Serás redirigido a Stripe Checkout.
 - Ingresa un email de prueba y una de las tarjetas de arriba.
-- Al finalizar, serás redirigido a la página de éxito en Onyx One.
+- Al finalizar, serás redirigido a la página de éxito en Aliseus.
 
 ### 3. Verificación
-- Verifica que el Dashboard de Onyx One refleje el nivel de suscripción correcto.
+- Verifica que el Dashboard de Aliseus refleje el nivel de suscripción correcto.
 - Verifica en el Dashboard de Stripe que se haya creado el `Customer` y la `Subscription`.
 
 ---

@@ -4,7 +4,7 @@ import { useUserStore } from '../../../store/useUserStore';
 import { useFinanceStore } from '../../../store/useFinanceStore';
 import { useFinanceControllers } from '../../../hooks/useFinanceControllers';
 import { ShoppingItem, Ingredient, Recipe } from '../../../types';
-import { ShoppingCart, Copy, Plus, Check, ChefHat, Minus, X, ChevronDown } from 'lucide-react';
+import { ShoppingCart, Copy, Plus, Check, ChefHat, Minus, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { PurchaseConfirmationModal } from './PurchaseConfirmationModal';
 
 interface ShoppingListProps {
@@ -91,16 +91,22 @@ export const ShoppingListComponent: React.FC<ShoppingListProps> = () => {
             purchasedItems.push(item);
          } else {
             // Active items are grouped normally
-            let key = 'Otros';
             if (shoppingViewMode === 'CATEGORY') {
-               key = item.category || getIngredientCategory(item.name);
+               const key = item.category || getIngredientCategory(item.name);
+               if (!activeGroups[key]) activeGroups[key] = [];
+               activeGroups[key].push(item);
             } else if (shoppingViewMode === 'RECIPE') {
-               key = item.source?.recipeName || 'Extra (Manual)';
+               const recipeNames = item.source?.recipeName ? item.source.recipeName.split(', ') : [language === 'ES' ? 'Extra (Manual)' : 'Extra (Manual)'];
+               recipeNames.forEach(recipeName => {
+                  const key = recipeName.trim();
+                  if (!activeGroups[key]) activeGroups[key] = [];
+                  activeGroups[key].push(item);
+               });
             } else {
-               key = 'Lista Completa';
+               const key = language === 'ES' ? 'Lista Completa' : 'Full List';
+               if (!activeGroups[key]) activeGroups[key] = [];
+               activeGroups[key].push(item);
             }
-            if (!activeGroups[key]) activeGroups[key] = [];
-            activeGroups[key].push(item);
          }
       });
 
@@ -108,7 +114,33 @@ export const ShoppingListComponent: React.FC<ShoppingListProps> = () => {
    }, [shoppingList, shoppingViewMode]);
 
    const handleToggleShoppingItem = (id: string) => {
-      setShoppingList((prev: ShoppingItem[]) => prev.map(item => item.id === id ? { ...item, checked: !item.checked } : item));
+      setShoppingList((prev: ShoppingItem[]) => {
+         const item = prev.find(i => i.id === id);
+         if (!item) return prev;
+
+         const isChecking = !item.checked;
+
+         // If we are checking it off (bought it), we should also ADD it to the pantry
+         // so the calculation knows we have it now.
+         if (isChecking && item.source?.type === 'SMART_PLAN') {
+            setPantryItems((prevPantry: Ingredient[]) => {
+               const existing = prevPantry.find(p => p.name.toLowerCase().trim() === item.name.toLowerCase().trim());
+               if (existing) {
+                  return prevPantry.map(p => p.id === existing.id ? { ...p, quantity: p.quantity + item.quantity } : p);
+               } else {
+                  return [...prevPantry, {
+                     id: Math.random().toString(36).substr(2, 9),
+                     name: item.name,
+                     quantity: item.quantity,
+                     unit: item.unit,
+                     category: (item.category as any) || 'Other'
+                  }];
+               }
+            });
+         }
+
+         return prev.map(i => i.id === id ? { ...i, checked: isChecking } : i);
+      });
    };
 
    const handleUpdateShoppingItemQuantity = (id: string, delta: number) => {
@@ -121,6 +153,49 @@ export const ShoppingListComponent: React.FC<ShoppingListProps> = () => {
       }));
    };
 
+   const handlePartialPurchase = (id: string, recipeName: string) => {
+      const item = shoppingList.find(i => i.id === id);
+      if (!item || !item.source?.recipeBreakdown?.[recipeName]) return;
+
+      const recipeQty = item.source.recipeBreakdown[recipeName];
+
+      // 1. ADD TO PANTRY (Back-end source of truth)
+      setPantryItems((prevPantry: Ingredient[]) => {
+         const existing = prevPantry.find(p => p.name.toLowerCase().trim() === item.name.toLowerCase().trim());
+         if (existing) {
+            return prevPantry.map(p => p.id === existing.id ? { ...p, quantity: p.quantity + recipeQty } : p);
+         } else {
+            return [...prevPantry, {
+               id: Math.random().toString(36).substr(2, 9),
+               name: item.name,
+               quantity: recipeQty,
+               unit: item.unit,
+               category: (item.category as any) || 'Other'
+            }];
+         }
+      });
+
+      // 2. REMOVE LOCALLY FROM UI BREAKDOWN (Instant Feedback)
+      setShoppingList((prev: ShoppingItem[]) => prev.map(i => {
+         if (i.id === id && i.source?.recipeBreakdown?.[recipeName]) {
+            const newBreakdown = { ...i.source.recipeBreakdown };
+            delete newBreakdown[recipeName];
+            const newQty = Math.max(0, parseFloat((i.quantity - recipeQty).toFixed(2)));
+
+            return {
+               ...i,
+               quantity: newQty,
+               checked: newQty <= 0,
+               source: {
+                  ...i.source,
+                  recipeName: Object.keys(newBreakdown).join(', '),
+                  recipeBreakdown: newBreakdown
+               }
+            };
+         }
+         return i;
+      }));
+   };
    const handleAddToShoppingList = (itemName: string, quantity: number, unit: string) => {
       const category = getIngredientCategory(itemName);
       setShoppingList((prev: ShoppingItem[]) => [...prev, {
@@ -271,29 +346,72 @@ export const ShoppingListComponent: React.FC<ShoppingListProps> = () => {
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                            {items.map(item => (
                               <div
-                                 key={item.id}
+                                 key={`${group}-${item.id}`}
                                  onClick={() => handleToggleShoppingItem(item.id)}
-                                 className="flex items-center justify-between p-6 rounded-[2rem] border bg-white border-gray-100 hover:border-emerald-200 hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                                 className="flex items-center justify-between p-6 rounded-[2rem] border bg-white border-gray-100 hover:border-emerald-200 hover:shadow-xl transition-all duration-300 group cursor-pointer relative"
                               >
                                  <div className="flex items-center gap-5">
-                                    <div className="w-8 h-8 rounded-2xl border-2 border-gray-200 group-hover:border-emerald-400 flex items-center justify-center transition-all duration-500">
+                                    <div className={`w-8 h-8 rounded-2xl border-2 flex items-center justify-center transition-all duration-500 ${item.checked ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-gray-200 group-hover:border-emerald-400 text-transparent'}`}>
+                                       <Check className="w-5 h-5" />
                                     </div>
                                     <div>
-                                       <p className="font-black text-lg text-gray-900 group-hover:text-emerald-800 uppercase tracking-tight transition-all">{item.name}</p>
+                                       <p className={`font-black text-lg uppercase tracking-tight transition-all ${item.checked ? 'text-gray-400 line-through' : 'text-gray-900 group-hover:text-emerald-800'}`}>{item.name}</p>
                                        <div className="flex gap-3 text-[9px] font-black uppercase tracking-widest text-gray-300 mt-1">
-                                          {item.source?.type === 'RECIPE' && <span className="text-purple-400 flex items-center gap-1.5"><ChefHat className="w-3.5 h-3.5" /> Receta</span>}
+                                          {(item.source?.type === 'RECIPE' || item.source?.type === 'SMART_PLAN') && <span className="text-purple-400 flex items-center gap-1.5"><ChefHat className="w-3.5 h-3.5" /> {language === 'ES' ? 'Receta' : 'Recipe'}</span>}
+                                          {shoppingViewMode === 'RECIPE' && item.source?.recipeName?.includes(',') && <span className="text-amber-500 flex items-center gap-1.5"><Copy className="w-3 h-3" /> {language === 'ES' ? 'Compartido' : 'Shared'}</span>}
                                           {item.category && <span className="flex items-center gap-1.5 opacity-60"><ShoppingCart className="w-3.5 h-3.5" /> {CATEGORY_DISPLAY_NAMES[language as string]?.[item.category] || item.category}</span>}
                                        </div>
                                     </div>
                                  </div>
-                                 <div className="flex items-center gap-4">
-                                    <div className="text-right">
-                                       <p className="text-2xl font-black text-gray-900 leading-none">{item.quantity}</p>
-                                       <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">{item.unit}</p>
+                                 <div className="flex items-center gap-6">
+                                    <div className="text-right flex flex-col items-end">
+                                       <div className="flex items-baseline gap-1">
+                                          <p className="text-2xl font-black text-gray-900 leading-none">
+                                             {shoppingViewMode === 'RECIPE' && item.source?.recipeBreakdown?.[group]
+                                                ? item.source.recipeBreakdown[group]
+                                                : item.quantity}
+                                          </p>
+                                          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{item.unit}</p>
+                                       </div>
+
+                                       {shoppingViewMode === 'RECIPE' && item.source?.recipeBreakdown?.[group] && item.source.recipeBreakdown[group] !== item.quantity && (
+                                          <div className="mt-2 text-right">
+                                             <div className="inline-flex items-center gap-2 bg-amber-50 border border-amber-100 px-3 py-1 rounded-full">
+                                                <span className="text-[10px] font-black text-amber-700 uppercase tracking-widest">
+                                                   {language === 'ES' ? `Global: ${item.quantity} ${item.unit}` : `Total: ${item.quantity} ${item.unit}`}
+                                                </span>
+                                             </div>
+                                          </div>
+                                       )}
                                     </div>
-                                    <div className="flex flex-col gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
-                                       <button onClick={() => handleUpdateShoppingItemQuantity(item.id, 1)} className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl hover:bg-emerald-600 hover:text-white transition-all shadow-sm"><Plus className="w-4 h-4" /></button>
-                                       <button onClick={() => handleUpdateShoppingItemQuantity(item.id, -1)} className="p-2.5 bg-red-50 text-red-600 rounded-xl hover:bg-red-600 hover:text-white transition-all shadow-sm"><Minus className="w-4 h-4" /></button>
+
+                                    <div className="flex flex-col gap-1.5 relative z-20">
+                                       {shoppingViewMode === 'RECIPE' && item.source?.recipeBreakdown?.[group] && item.source.recipeBreakdown[group] !== item.quantity && (
+                                          <button
+                                             onClick={(e) => {
+                                                e.stopPropagation();
+                                                handlePartialPurchase(item.id, group);
+                                             }}
+                                             title={language === 'ES' ? 'Marcar solo para esta receta' : 'Mark only for this recipe'}
+                                             className="p-2.5 bg-emerald-50 text-emerald-600 rounded-2xl hover:bg-emerald-600 hover:text-white transition-all shadow-sm group/btn relative z-30 cursor-pointer pointer-events-auto"
+                                          >
+                                             <ChefHat className="w-4 h-4" />
+                                          </button>
+                                       )}
+                                       <div className="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
+                                          <button
+                                             onClick={() => handleUpdateShoppingItemQuantity(item.id, 1)}
+                                             className="p-1 px-2.5 bg-gray-50 text-gray-400 rounded-xl hover:bg-emerald-600 hover:text-white transition-all"
+                                          >
+                                             <Plus className="w-4 h-4" />
+                                          </button>
+                                          <button
+                                             onClick={() => handleUpdateShoppingItemQuantity(item.id, -1)}
+                                             className="p-1 px-2.5 bg-gray-50 text-gray-400 rounded-xl hover:bg-red-600 hover:text-white transition-all"
+                                          >
+                                             <Minus className="w-4 h-4" />
+                                          </button>
+                                       </div>
                                     </div>
                                  </div>
                               </div>

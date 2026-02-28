@@ -15,7 +15,7 @@ Write-Host ""
 if ($currentPolicy -eq "RemoteSigned" -or $currentPolicy -eq "Unrestricted") {
     Write-Host "✓ Tu política ya permite ejecutar scripts locales" -ForegroundColor Green
     Write-Host ""
-    Write-Host "Puedes ejecutar Onyx One con:" -ForegroundColor Cyan
+    Write-Host "Puedes ejecutar Aliseus con:" -ForegroundColor Cyan
     Write-Host "  .\EJECUTAR-APP.ps1" -ForegroundColor Yellow
     Write-Host ""
     pause
@@ -45,11 +45,13 @@ if ($opcion -eq "1") {
         Write-Host ""
         Write-Host "Ahora puedes ejecutar:" -ForegroundColor Cyan
         Write-Host "  .\EJECUTAR-APP.ps1" -ForegroundColor Yellow
-    } catch {
+    }
+    catch {
         Write-Host "✗ Error cambiando la política" -ForegroundColor Red
         Write-Host "  Intenta ejecutar PowerShell como Administrador" -ForegroundColor Yellow
     }
-} else {
+}
+else {
     Write-Host ""
     Write-Host "Para ejecutar sin cambiar la política, usa:" -ForegroundColor Cyan
     Write-Host ""

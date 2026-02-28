@@ -148,3 +148,4 @@ export interface DashboardDataProps {
     // Handlers
     onFilter?: (category: string, subCategory?: string) => void;
 }
+

@@ -18,8 +18,8 @@ const MonthlyFlowWidget: React.FC<MonthlyFlowWidgetProps> = ({ monthlyIncome, mo
 
             <div className="relative z-10">
                 <div className="flex items-center justify-between mb-8">
-                    <h3 className="text-sm font-bold text-onyx-950 dark:text-white flex items-center gap-3">
-                        <div className="p-2 bg-onyx-50 dark:bg-onyx-800 text-onyx-400 dark:text-onyx-500 rounded-lg group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/50 group-hover:text-indigo-primary transition-colors"><Activity className="w-4 h-4" /></div>
+                    <h3 className="text-sm font-bold text-cyan-900 dark:text-white flex items-center gap-3">
+                        <div className="p-2 bg-onyx-50 dark:bg-onyx-800 text-onyx-400 dark:text-onyx-500 rounded-lg group-hover:bg-cyan-50 dark:group-hover:bg-cyan-900/50 group-hover:text-cyan-primary transition-colors"><Activity className="w-4 h-4" /></div>
                         Flujo Mensual
                     </h3>
                     <div className={`px-3 py-1 rounded-lg border text-[10px] font-bold ${cashFlow >= 0
@@ -34,7 +34,7 @@ const MonthlyFlowWidget: React.FC<MonthlyFlowWidgetProps> = ({ monthlyIncome, mo
                     <div className="flex justify-between items-center p-5 bg-onyx-50/30 dark:bg-onyx-800/30 rounded-2xl border border-onyx-100/50 dark:border-onyx-700/50 hover:bg-white dark:hover:bg-onyx-800 hover:shadow-sm transition-all duration-300">
                         <div className="flex flex-col gap-1">
                             <span className="text-[9px] font-bold text-onyx-400 dark:text-onyx-500 uppercase tracking-[0.15em]">Ingresos</span>
-                            <span className="text-lg font-bold text-onyx-950 dark:text-white tracking-tight">{formatEUR(monthlyIncome)}</span>
+                            <span className="text-lg font-bold text-cyan-900 dark:text-white tracking-tight">{formatEUR(monthlyIncome)}</span>
                         </div>
                         <div className="w-8 h-8 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center">
                             <ArrowUpRight className="w-4 h-4" />
@@ -43,7 +43,7 @@ const MonthlyFlowWidget: React.FC<MonthlyFlowWidgetProps> = ({ monthlyIncome, mo
                     <div className="flex justify-between items-center p-5 bg-onyx-50/30 dark:bg-onyx-800/30 rounded-2xl border border-onyx-100/50 dark:border-onyx-700/50 hover:bg-white dark:hover:bg-onyx-800 hover:shadow-sm transition-all duration-300">
                         <div className="flex flex-col gap-1">
                             <span className="text-[9px] font-bold text-onyx-400 dark:text-onyx-500 uppercase tracking-[0.15em]">Gastos</span>
-                            <span className="text-lg font-bold text-onyx-950 dark:text-white tracking-tight">{formatEUR(monthlyExpenses)}</span>
+                            <span className="text-lg font-bold text-cyan-900 dark:text-white tracking-tight">{formatEUR(monthlyExpenses)}</span>
                         </div>
                         <div className="w-8 h-8 rounded-full bg-red-50 text-red-400 flex items-center justify-center">
                             <Activity className="w-4 h-4" />

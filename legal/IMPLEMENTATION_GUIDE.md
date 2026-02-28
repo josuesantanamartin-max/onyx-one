@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide provides instructions for integrating the Privacy Policy and Terms of Service into Onyx One.
+This guide provides instructions for integrating the Privacy Policy and Terms of Service into Aliseus.
 
 ## Documents Created
 
@@ -50,8 +50,8 @@ This guide provides instructions for integrating the Privacy Policy and Terms of
 Replace placeholder contact information in both documents:
 
 **In PRIVACY_POLICY.md:**
-- Line 11: `privacy@onyxsuite.com` (update if different)
-- Line 12: `dpo@onyxsuite.com` (update if different)
+- Line 11: `privacy@aliseus.com` (update if different)
+- Line 12: `dpo@aliseus.com` (update if different)
 - Lines 481-485: Mailing address
 
 **In TERMS_OF_SERVICE.md:**
@@ -67,7 +67,7 @@ Replace `[Your Jurisdiction]` with your actual jurisdiction:
 
 ### 3. Designate Data Protection Officer (DPO)
 - If you're processing data of EU residents at scale, you may need a formal DPO
-- Update `dpo@onyxsuite.com` with actual DPO contact
+- Update `dpo@aliseus.com` with actual DPO contact
 - Consider whether you need a formal DPO appointment under GDPR
 
 ### 4. Review Third-Party Service Agreements
@@ -195,7 +195,7 @@ When updating legal documents:
 ### 2. Data Breach Response
 - Have incident response plan ready
 - GDPR requires notification within 72 hours
-- Contact: security@onyxsuite.com
+- Contact: security@aliseus.com
 
 ### 3. Data Processing Agreements (DPAs)
 Ensure you have DPAs with:

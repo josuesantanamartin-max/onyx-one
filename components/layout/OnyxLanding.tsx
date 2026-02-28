@@ -33,10 +33,10 @@ const OnyxLanding: React.FC<OnyxLandingProps> = ({ onLogin, language, setLanguag
   const renderLoginModal = () => (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in" onClick={() => setShowLoginModal(false)}>
       <div className="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-sm overflow-hidden p-8 text-center" onClick={e => e.stopPropagation()}>
-        <div className="w-16 h-16 bg-black rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-          <Logo className="w-8 h-8 text-white" />
+        <div className="flex justify-center mx-auto mb-6">
+          <Logo className="h-20 w-auto drop-shadow-md" />
         </div>
-        <h3 className="text-2xl font-black text-gray-900 mb-2">Bienvenido a Onyx</h3>
+        <h3 className="text-2xl font-black text-cyan-700 mb-2">Bienvenido a Aliseus</h3>
         <p className="text-gray-500 text-sm mb-8">Selecciona tu método de acceso</p>
 
         <div className="space-y-3">
@@ -47,7 +47,7 @@ const OnyxLanding: React.FC<OnyxLandingProps> = ({ onLogin, language, setLanguag
                 setAcceptedTerms(false);
                 setIsAgeVerified(false);
               }}
-              className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${!isRegister ? 'bg-white shadow-sm text-black' : 'text-gray-500 hover:text-gray-700'}`}
+              className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${!isRegister ? 'bg-white shadow-sm text-cyan-700' : 'text-gray-500 hover:text-gray-700'}`}
             >
               INICIAR SESIÓN
             </button>
@@ -57,7 +57,7 @@ const OnyxLanding: React.FC<OnyxLandingProps> = ({ onLogin, language, setLanguag
                 setAcceptedTerms(false);
                 setIsAgeVerified(false);
               }}
-              className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${isRegister ? 'bg-white shadow-sm text-black' : 'text-gray-500 hover:text-gray-700'}`}
+              className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${isRegister ? 'bg-white shadow-sm text-cyan-700' : 'text-gray-500 hover:text-gray-700'}`}
             >
               REGISTRARSE
             </button>
@@ -68,7 +68,7 @@ const OnyxLanding: React.FC<OnyxLandingProps> = ({ onLogin, language, setLanguag
               <input
                 type="email"
                 placeholder="Email"
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-black focus:ring-0 transition-all text-sm"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-200 transition-all text-sm"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -77,7 +77,7 @@ const OnyxLanding: React.FC<OnyxLandingProps> = ({ onLogin, language, setLanguag
               <input
                 type="password"
                 placeholder="Contraseña"
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-black focus:ring-0 transition-all text-sm"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-200 transition-all text-sm"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -105,7 +105,7 @@ const OnyxLanding: React.FC<OnyxLandingProps> = ({ onLogin, language, setLanguag
                     id="terms-checkbox"
                     checked={acceptedTerms}
                     onChange={(e) => setAcceptedTerms(e.target.checked)}
-                    className="mt-1 w-4 h-4 rounded border-gray-300 text-black focus:ring-black cursor-pointer"
+                    className="mt-1 w-4 h-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500 cursor-pointer"
                   />
                   <label htmlFor="terms-checkbox" className="text-xs text-gray-600 leading-tight cursor-pointer">
                     Acepto los{' '}
@@ -115,7 +115,7 @@ const OnyxLanding: React.FC<OnyxLandingProps> = ({ onLogin, language, setLanguag
                         e.preventDefault();
                         setShowLegalModal('terms');
                       }}
-                      className="text-black font-semibold hover:underline"
+                      className="text-cyan-700 font-semibold hover:underline"
                     >
                       Términos de Servicio
                     </button>
@@ -126,7 +126,7 @@ const OnyxLanding: React.FC<OnyxLandingProps> = ({ onLogin, language, setLanguag
                         e.preventDefault();
                         setShowLegalModal('privacy');
                       }}
-                      className="text-black font-semibold hover:underline"
+                      className="text-cyan-700 font-semibold hover:underline"
                     >
                       Política de Privacidad
                     </button>
@@ -139,7 +139,7 @@ const OnyxLanding: React.FC<OnyxLandingProps> = ({ onLogin, language, setLanguag
                     id="age-checkbox"
                     checked={isAgeVerified}
                     onChange={(e) => setIsAgeVerified(e.target.checked)}
-                    className="mt-1 w-4 h-4 rounded border-gray-300 text-black focus:ring-black cursor-pointer"
+                    className="mt-1 w-4 h-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500 cursor-pointer"
                   />
                   <label htmlFor="age-checkbox" className="text-xs text-gray-600 leading-tight cursor-pointer">
                     Confirmo que tengo 16 años o más.
@@ -162,7 +162,7 @@ const OnyxLanding: React.FC<OnyxLandingProps> = ({ onLogin, language, setLanguag
                 setAuthLoading(false);
               }}
               disabled={authLoading || !email || !password || (isRegister && (!acceptedTerms || !betaCode || !isAgeVerified))}
-              className="w-full py-4 rounded-xl bg-black text-white font-bold text-sm hover:bg-gray-800 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-600 text-white font-bold text-sm hover:from-cyan-400 hover:to-teal-500 transition-all shadow-lg shadow-cyan-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {authLoading ? 'Procesando...' : (isRegister ? 'Crear Cuenta' : 'Entrar con Email')}
             </button>
@@ -198,7 +198,7 @@ const OnyxLanding: React.FC<OnyxLandingProps> = ({ onLogin, language, setLanguag
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900 overflow-x-hidden selection:bg-black selection:text-white">
+    <div className="min-h-screen bg-white font-sans text-gray-900 overflow-x-hidden selection:bg-cyan-600 selection:text-white">
       {showLegalModal && (
         <LegalPage
           document={showLegalModal}

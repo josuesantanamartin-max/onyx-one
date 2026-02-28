@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { LayoutDashboard, Wallet, Heart, Settings, LogOut, HelpCircle } from 'lucide-react';
 import { useUserStore } from '../../store/useUserStore';
 import { Logo } from './Logo';
+import NotificationBadge from '../common/notifications/NotificationBadge';
+import NotificationCenter from '../common/notifications/NotificationCenter';
 
 interface SidebarProps {
   onLogout?: () => void;
@@ -10,35 +12,37 @@ interface SidebarProps {
 
 const SIDEBAR_TEXTS = {
   ES: {
-    dashboard: 'Onyx Central',
+    dashboard: 'Aura',
     finance: 'Finanzas',
     life: 'Vida',
     settings: 'Ajustes',
     help: 'Ayuda',
     logout: 'Salir',
-    suite: 'Onyx One'
+    suite: 'Aliseus'
   },
   EN: {
-    dashboard: 'Onyx Central',
+    dashboard: 'Aura',
     finance: 'Finance',
     life: 'Life',
     settings: 'Settings',
     help: 'Help',
     logout: 'Log Out',
-    suite: 'Onyx One'
+    suite: 'Aliseus'
   },
   FR: {
-    dashboard: 'Accueil',
+    dashboard: 'Aura',
     finance: 'Finances',
     life: 'Vie',
     settings: 'Paramètres',
     help: 'Aide',
     logout: 'Quitter',
-    suite: 'Onyx One'
+    suite: 'Aliseus'
   }
 };
 
 const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
+  const [isNotifOpen, setIsNotifOpen] = useState(false);
+
   const {
     activeApp, setActiveApp,
     isSidebarOpen: isOpen, setSidebarOpen: setIsOpen,
@@ -72,12 +76,14 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
             className="flex items-center gap-3.5 mb-14 cursor-pointer group"
             onClick={() => handleLinkClick('dashboard')}
           >
-            <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-violet-700 rounded-xl flex items-center justify-center transition-all duration-500 group-hover:scale-105 group-hover:rotate-3 shadow-lg shadow-indigo-500/30">
-              <Logo className="w-5 h-5 text-white" />
-            </div>
+            <img
+              src="/logo-aliseus.png"
+              alt="Aliseus"
+              className="h-12 w-auto object-contain drop-shadow-lg transition-all duration-500 group-hover:scale-105"
+            />
             <div className="flex flex-col">
-              <span className="text-sm font-bold tracking-tight text-onyx-950 dark:text-white uppercase leading-none">Onyx <span className="text-indigo-primary">One</span></span>
-              <span className="text-[8px] font-bold text-onyx-300 dark:text-onyx-600 uppercase tracking-[0.2em] mt-1.5">The One Era</span>
+              <span className="text-sm font-bold tracking-tight text-cyan-600 dark:text-cyan-400 uppercase leading-none">Aliseus</span>
+              <span className="text-[8px] font-bold text-onyx-300 dark:text-onyx-600 uppercase tracking-[0.2em] mt-1.5">La tranquilidad de tu familia.</span>
             </div>
           </div>
 
@@ -108,6 +114,10 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
           </nav>
 
           <div className="mt-auto space-y-2">
+            <NotificationBadge
+              onClick={() => setIsNotifOpen((prev) => !prev)}
+              isActive={isNotifOpen}
+            />
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.96 }}
@@ -146,7 +156,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
             className="flex items-center gap-4 px-2 cursor-pointer group hover:bg-onyx-50 dark:hover:bg-onyx-900 p-2 rounded-xl transition-all"
             onClick={() => handleLinkClick('settings')}
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 border border-onyx-100 flex items-center justify-center overflow-hidden shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 border border-onyx-100 flex items-center justify-center overflow-hidden shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
               {userProfile?.avatar_url ? (
                 <img
                   src={userProfile.avatar_url}
@@ -161,16 +171,22 @@ const Sidebar: React.FC<SidebarProps> = ({ onLogout }) => {
             </div>
             <div className={`flex flex-col transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 md:opacity-100'}`}>
               <span className="text-sm font-bold text-onyx-950 dark:text-white truncate max-w-[140px] group-hover:text-indigo-primary transition-colors">
-                {userProfile?.full_name || 'Usuario Onyx'}
+                {userProfile?.full_name || 'Usuario'}
               </span>
-              <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-wider">
+              <span className="text-[10px] font-bold text-cyan-500 uppercase tracking-wider">
                 {subscription?.plan === 'FAMILIA' ? 'Premium' :
-                  subscription?.plan === 'PERSONAL' ? 'Pro' : 'Onyx Basic'}
+                  subscription?.plan === 'PERSONAL' ? 'Pro' : 'Aliseus Basic'}
               </span>
             </div>
           </motion.div>
         </div>
       </div>
+
+      {/* Notification Center panel */}
+      <NotificationCenter
+        isOpen={isNotifOpen}
+        onClose={() => setIsNotifOpen(false)}
+      />
     </>
   );
 };

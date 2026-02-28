@@ -1,4 +1,4 @@
-# 📘 Manual de Usuario - Onyx One
+# 📘 Manual de Usuario - Aliseus
 
 **Versión 1.0** | Última actualización: Febrero 2026
 
@@ -6,11 +6,11 @@
 
 ## 🎯 Introducción
 
-Bienvenido a **Onyx One**, tu asistente personal todo-en-uno para gestionar finanzas, vida diaria y hogar. Esta guía te ayudará a aprovechar al máximo todas las funcionalidades de la aplicación.
+Bienvenido a **Aliseus**, tu asistente personal todo-en-uno para gestionar finanzas, vida diaria y hogar. Esta guía te ayudará a aprovechar al máximo todas las funcionalidades de la aplicación.
 
-### ¿Qué es Onyx One?
+### ¿Qué es Aliseus?
 
-Onyx One es una plataforma integral que combina:
+Aliseus es una plataforma integral que combina:
 - 💰 **Gestión Financiera**: Transacciones, presupuestos, metas, deudas
 - 🏠 **Gestión del Hogar**: Cocina, recetas, planificación de comidas, viajes
 - 👥 **Colaboración Familiar**: Espacios compartidos, roles, permisos
@@ -22,7 +22,7 @@ Onyx One es una plataforma integral que combina:
 
 ### 1. Crear tu Cuenta
 
-1. Visita la página principal de Onyx One
+1. Visita la página principal de Aliseus
 2. Haz clic en **"Comenzar Gratis"**
 3. Completa el formulario de registro:
    - Nombre completo
@@ -488,7 +488,7 @@ El dashboard es tu centro de control:
 
 ### General
 
-**¿Onyx One es gratuito?**
+**¿Aliseus es gratuito?**
 Sí, ofrecemos un plan básico gratuito. El plan Familia (4.99€/mes) incluye funciones avanzadas.
 
 **¿Mis datos están seguros?**
@@ -566,7 +566,7 @@ Sí, configura backups automáticos diarios, semanales o mensuales.
 ### No recibo notificaciones
 
 1. Ve a Configuración del navegador
-2. Permite notificaciones para Onyx One
+2. Permite notificaciones para Aliseus
 3. Verifica configuración de notificaciones en la app
 4. Revisa que no estés en modo No Molestar
 
@@ -585,7 +585,7 @@ Accede desde el menú principal o presiona **?**
 
 ### Contactar Soporte
 
-**Email**: support@onyxsuite.com
+**Email**: support@aliseus.com
 **Horario**: Lunes a Viernes, 9:00 - 18:00 (CET)
 **Tiempo de respuesta**: 24-48 horas
 
@@ -593,9 +593,9 @@ Accede desde el menú principal o presiona **?**
 
 ### Comunidad
 
-- **Discord**: discord.gg/onyxsuite
-- **Twitter**: @OnyxSuite
-- **Blog**: blog.onyxsuite.com
+- **Discord**: discord.gg/aliseus
+- **Twitter**: @Aliseus
+- **Blog**: blog.aliseus.com
 
 ---
 
@@ -603,10 +603,10 @@ Accede desde el menú principal o presiona **?**
 
 ### Tutoriales en Video
 
-- [Primeros Pasos con Onyx One](https://youtube.com/onyxsuite/getting-started)
-- [Importar Transacciones desde tu Banco](https://youtube.com/onyxsuite/csv-import)
-- [Crear tu Primer Presupuesto](https://youtube.com/onyxsuite/budgets)
-- [Planificación de Comidas con IA](https://youtube.com/onyxsuite/meal-planning)
+- [Primeros Pasos con Aliseus](https://youtube.com/aliseus/getting-started)
+- [Importar Transacciones desde tu Banco](https://youtube.com/aliseus/csv-import)
+- [Crear tu Primer Presupuesto](https://youtube.com/aliseus/budgets)
+- [Planificación de Comidas con IA](https://youtube.com/aliseus/meal-planning)
 
 ### Guías Avanzadas
 
@@ -642,8 +642,8 @@ Accede desde el menú principal o presiona **?**
 
 ---
 
-**¿Necesitas más ayuda?** Visita nuestro [Centro de Ayuda](help) o [contacta soporte](mailto:support@onyxsuite.com)
+**¿Necesitas más ayuda?** Visita nuestro [Centro de Ayuda](help) o [contacta soporte](mailto:support@aliseus.com)
 
 ---
 
-*Onyx One - Tu vida, organizada.*
+*Aliseus - Tu vida, organizada.*

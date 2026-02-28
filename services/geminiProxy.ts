@@ -36,18 +36,20 @@ class GeminiProxy {
             // @ts-ignore
             const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
-            if (apiKey) {
+            if (apiKey && apiKey.length > 5 && !apiKey.includes('your_')) {
                 const cleanKey = apiKey.trim();
-                console.log("DEBUG: VITE_GEMINI_API_KEY length:", cleanKey.length, "Starts:", cleanKey.substring(0, 5), "Ends:", cleanKey.slice(-4));
-                this.directClient = cleanKey;
+                if (cleanKey.length > 0) {
+                    console.log("DEBUG: Gemini Direct mode enabled (Vite)");
+                    this.directClient = cleanKey;
+                }
             } else {
-                console.warn("DEBUG: VITE_GEMINI_API_KEY is empty or undefined in Vite env!");
+                console.warn("DEBUG: VITE_GEMINI_API_KEY missing or invalid in browser environment. API calls will try to fallback to local proxy.");
             }
         }
     }
 
     async generateContent(request: GenerateContentRequest): Promise<GenerateContentResponse> {
-        // Development: Use direct API via fetch to avoid browser SDK SDK hanging bugs with gemini-2.5-flash
+        // Development: Use direct API via fetch to avoid browser SDK SDK hanging bugs with some models
         if (this.isDevelopment && this.directClient) {
             try {
                 const modelName = request.model || this.model;

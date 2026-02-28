@@ -16,11 +16,11 @@ const ActiveDebtsWidget: React.FC<ActiveDebtsWidgetProps> = ({ debts, onNavigate
     return (
         <div>
             <div className="flex justify-between items-center mb-6 px-2">
-                <h3 className="text-xl font-bold text-onyx-950 dark:text-white tracking-tight flex items-center gap-3">
+                <h3 className="text-xl font-bold text-cyan-900 dark:text-white tracking-tight flex items-center gap-3">
                     <div className="p-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg"><CreditCard className="w-5 h-5" /></div>
                     Deudas y Préstamos
                 </h3>
-                <button onClick={() => onNavigate('finance', 'debts')} className="text-xs font-bold text-onyx-400 hover:text-onyx-950 flex items-center gap-2 transition-colors group">
+                <button onClick={() => onNavigate('finance', 'debts')} className="text-xs font-bold text-onyx-400 hover:text-cyan-900 flex items-center gap-2 transition-colors group">
                     Ver todo <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </button>
             </div>
@@ -51,7 +51,7 @@ const ActiveDebtsWidget: React.FC<ActiveDebtsWidgetProps> = ({ debts, onNavigate
                                         <DebtIcon className="w-7 h-7" />
                                     </div>
                                     <div>
-                                        <h4 className="text-xl font-black text-onyx-950 dark:text-white leading-none mb-1.5">{debt.name}</h4>
+                                        <h4 className="text-xl font-black text-cyan-900 dark:text-white leading-none mb-1.5">{debt.name}</h4>
                                         <div className="flex flex-wrap items-center gap-1.5">
                                             <span className="text-[9px] font-black text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 px-1.5 py-0.5 rounded border border-red-100 dark:border-red-800 uppercase tracking-tighter">
                                                 {debtTypeLabels[debt.type] || debt.type}

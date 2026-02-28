@@ -203,10 +203,10 @@ const Debts: React.FC<DebtsProps> = () => {
         <div className="space-y-10 animate-fade-in pb-10">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
-                    <h2 className="text-3xl font-bold text-onyx-950 tracking-tight">Deudas y Préstamos</h2>
+                    <h2 className="text-3xl font-bold text-cyan-900 tracking-tight">Deudas y Préstamos</h2>
                     <p className="text-xs font-semibold text-onyx-400 mt-2 uppercase tracking-[0.2em]">Plan para eliminar deudas</p>
                 </div>
-                <button onClick={() => setIsAddModalOpen(true)} className="flex items-center gap-2.5 bg-onyx-950 hover:bg-onyx-800 text-white px-8 py-3.5 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all duration-300 shadow-lg shadow-onyx-950/20">
+                <button onClick={() => setIsAddModalOpen(true)} className="flex items-center gap-2.5 bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 text-white px-8 py-3.5 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all duration-300 shadow-lg shadow-cyan-900/20">
                     <Plus className="w-5 h-5" /> Nueva Deuda
                 </button>
             </div>
@@ -216,18 +216,18 @@ const Debts: React.FC<DebtsProps> = () => {
                 <div className="bg-white p-6 rounded-3xl border border-onyx-100 shadow-sm flex items-center justify-between group hover:shadow-md transition-all">
                     <div>
                         <p className="text-[10px] font-bold text-onyx-400 uppercase tracking-[0.2em] mb-2">Pasivo Total Global</p>
-                        <h3 className="text-3xl font-black text-onyx-950 tracking-tight">{formatEUR(debts.reduce((acc, d) => acc + d.remainingBalance, 0))}</h3>
+                        <h3 className="text-3xl font-black text-cyan-900 tracking-tight">{formatEUR(debts.reduce((acc, d) => acc + d.remainingBalance, 0))}</h3>
                     </div>
-                    <div className="p-4 bg-onyx-50 text-onyx-950 rounded-2xl group-hover:scale-110 transition-transform">
+                    <div className="p-4 bg-onyx-50 text-cyan-900 rounded-2xl group-hover:scale-110 transition-transform">
                         <Banknote className="w-6 h-6" />
                     </div>
                 </div>
                 <div className="bg-white p-6 rounded-3xl border border-onyx-100 shadow-sm flex items-center justify-between group hover:shadow-md transition-all">
                     <div>
                         <p className="text-[10px] font-bold text-onyx-400 uppercase tracking-[0.2em] mb-2">Compromiso Mensual</p>
-                        <h3 className="text-3xl font-black text-onyx-950 tracking-tight">{formatEUR(debts.reduce((acc, d) => acc + d.minPayment, 0))}</h3>
+                        <h3 className="text-3xl font-black text-cyan-900 tracking-tight">{formatEUR(debts.reduce((acc, d) => acc + d.minPayment, 0))}</h3>
                     </div>
-                    <div className="p-4 bg-indigo-50 text-indigo-primary rounded-2xl group-hover:scale-110 transition-transform">
+                    <div className="p-4 bg-cyan-50 text-cyan-600 rounded-2xl group-hover:scale-110 transition-transform">
                         <Flame className="w-6 h-6" />
                     </div>
                 </div>
@@ -246,7 +246,7 @@ const Debts: React.FC<DebtsProps> = () => {
                 {/* SIDEBAR LIST */}
                 <div className="md:col-span-4 space-y-6">
                     <div className="flex items-center justify-between pb-4 border-b border-onyx-100">
-                        <h3 className="font-bold text-onyx-950 text-lg">Tus Deudas</h3>
+                        <h3 className="font-bold text-cyan-900 text-lg">Tus Deudas</h3>
                         <span className="text-xs font-bold bg-onyx-100 px-2 py-1 rounded-lg text-onyx-500">{debts.length} Activas</span>
                     </div>
 
@@ -266,8 +266,8 @@ const Debts: React.FC<DebtsProps> = () => {
                                     onDragEnd={handleDragEnd}
                                     onClick={() => setSelectedDebtId(debt.id)}
                                     className={`p-5 rounded-2xl border cursor-pointer transition-all duration-300 group relative overflow-hidden select-none
-                                        ${isSelected ? 'bg-onyx-950 text-white border-onyx-950 shadow-xl scale-[1.02]' : 'bg-white text-onyx-950 border-onyx-100 hover:border-indigo-200 hover:bg-slate-50'}
-                                        ${isDraggedOver ? 'border-indigo-400 border-2 scale-[1.01] shadow-md shadow-indigo-200' : ''}
+                                        ${isSelected ? 'bg-gradient-to-br from-cyan-600 to-teal-600 text-white border-transparent shadow-xl scale-[1.02]' : 'bg-white text-cyan-900 border-onyx-100 hover:border-cyan-200 hover:bg-slate-50'}
+                                        ${isDraggedOver ? 'border-cyan-400 border-2 scale-[1.01] shadow-md shadow-cyan-200' : ''}
                                         ${dragIndex === index ? 'opacity-50' : ''}`}
                                 >
                                     <div className={`absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing ${isSelected ? 'text-white/30' : 'text-onyx-300'}`}>
@@ -287,7 +287,7 @@ const Debts: React.FC<DebtsProps> = () => {
                                     </div>
                                     {/* Mini Progress Bar */}
                                     <div className={`w-full h-1.5 rounded-full overflow-hidden ${isSelected ? 'bg-white/10' : 'bg-onyx-100'}`}>
-                                        <div className={`h-full rounded-full ${isSelected ? 'bg-emerald-400' : 'bg-onyx-950'}`} style={{ width: `${progress}%` }}></div>
+                                        <div className={`h-full rounded-full ${isSelected ? 'bg-emerald-400' : 'bg-cyan-900'}`} style={{ width: `${progress}%` }}></div>
                                     </div>
                                 </div>
                             );
@@ -310,13 +310,13 @@ const Debts: React.FC<DebtsProps> = () => {
                             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10 mb-6 pb-6 md:mb-8 md:pb-8 border-b border-onyx-50">
                                 <div>
                                     <div className="flex items-center gap-3 mb-2">
-                                        <div className="p-2 bg-onyx-950 text-white rounded-lg"><CreditCard className="w-4 h-4" /></div>
+                                        <div className="p-2 bg-gradient-to-br from-cyan-600 to-teal-600 text-white rounded-lg"><CreditCard className="w-4 h-4" /></div>
                                         <p className="text-xs font-bold text-onyx-400 uppercase tracking-[0.2em]">Deuda Pendiente</p>
                                     </div>
-                                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-onyx-950 tracking-tight">{formatEUR(selectedDebt.remainingBalance)}</h3>
+                                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-cyan-900 tracking-tight">{formatEUR(selectedDebt.remainingBalance)}</h3>
                                 </div>
                                 <div className="flex gap-3">
-                                    <button onClick={openPaymentModal} className="w-full md:w-auto bg-onyx-950 hover:bg-onyx-800 text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest shadow-xl shadow-onyx-950/10 transition-all active:scale-95 flex items-center justify-center gap-3">
+                                    <button onClick={openPaymentModal} className="w-full md:w-auto bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest shadow-xl shadow-cyan-900/10 transition-all active:scale-95 flex items-center justify-center gap-3">
                                         <Plus className="w-4 h-4" /> Registrar Pago
                                     </button>
                                     <button onClick={() => onDeleteDebt(selectedDebt.id)} className="p-4 bg-red-50 hover:bg-red-100 rounded-xl text-red-500 hover:text-red-600 transition-colors border border-red-100/50">
@@ -329,13 +329,13 @@ const Debts: React.FC<DebtsProps> = () => {
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 relative z-10">
                                 <div className="p-4 bg-onyx-50/50 rounded-2xl border border-onyx-100/50 group/metric hover:bg-white hover:shadow-sm transition-all">
                                     <p className="text-[9px] font-bold text-onyx-400 uppercase tracking-widest mb-1">Vencimiento</p>
-                                    <p className="text-sm font-bold text-onyx-950 flex items-center gap-2">
-                                        <Clock className="w-3.5 h-3.5 text-indigo-primary" /> Día {selectedDebt.dueDate}
+                                    <p className="text-sm font-bold text-cyan-900 flex items-center gap-2">
+                                        <Clock className="w-3.5 h-3.5 text-cyan-600" /> Día {selectedDebt.dueDate}
                                     </p>
                                 </div>
                                 <div className="p-4 bg-onyx-50/50 rounded-2xl border border-onyx-100/50 group/metric hover:bg-white hover:shadow-sm transition-all">
                                     <p className="text-[9px] font-bold text-onyx-400 uppercase tracking-widest mb-1">Interés (TAE)</p>
-                                    <p className="text-sm font-bold text-onyx-950 flex items-center gap-2">
+                                    <p className="text-sm font-bold text-cyan-900 flex items-center gap-2">
                                         <PieChart className="w-3.5 h-3.5 text-orange-500" /> {selectedDebt.interestRate}%
                                     </p>
                                 </div>
@@ -353,25 +353,25 @@ const Debts: React.FC<DebtsProps> = () => {
                                 </div>
                             </div>
 
-                            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-50/30 rounded-full blur-[80px] -mr-32 -mt-32 pointer-events-none"></div>
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-50/30 rounded-full blur-[80px] -mr-32 -mt-32 pointer-events-none"></div>
                         </div>
 
                         {timeline && (
                             <div className="bg-white p-10 rounded-onyx shadow-sm border border-onyx-100 hover:shadow-md transition-all duration-500">
                                 <div className="flex items-center gap-4 mb-8 pb-6 border-b border-onyx-50">
-                                    <div className="p-2 bg-indigo-50 text-indigo-primary rounded-lg">
+                                    <div className="p-2 bg-cyan-50 text-cyan-600 rounded-lg">
                                         <CalendarRange className="w-6 h-6" />
                                     </div>
-                                    <h3 className="text-xl font-bold text-onyx-950 tracking-tight">Cronología del Préstamo</h3>
+                                    <h3 className="text-xl font-bold text-cyan-900 tracking-tight">Cronología del Préstamo</h3>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                     <div className="space-y-4">
                                         <div className="flex justify-between items-center">
                                             <span className="text-[10px] font-bold text-onyx-400 uppercase tracking-[0.2em]">Progreso Temporal</span>
-                                            <span className="text-xs font-bold text-indigo-primary bg-indigo-50 px-3 py-1 rounded-full">{timeline.monthsElapsed} / {timeline.totalMonths} Meses</span>
+                                            <span className="text-xs font-bold text-cyan-600 bg-cyan-50 px-3 py-1 rounded-full">{timeline.monthsElapsed} / {timeline.totalMonths} Meses</span>
                                         </div>
                                         <div className="relative h-3 bg-onyx-50 rounded-full overflow-hidden border border-onyx-100/30">
-                                            <div className="absolute top-0 left-0 h-full bg-indigo-primary rounded-full transition-all duration-1000" style={{ width: `${Math.min((timeline.monthsElapsed / timeline.totalMonths) * 100, 100)}%` }}></div>
+                                            <div className="absolute top-0 left-0 h-full bg-cyan-500 rounded-full transition-all duration-1000" style={{ width: `${Math.min((timeline.monthsElapsed / timeline.totalMonths) * 100, 100)}%` }}></div>
                                         </div>
                                         <div className="flex justify-between text-[10px] font-bold text-onyx-500 uppercase tracking-widest px-1">
                                             <span>Inicio: {new Date(selectedDebt.startDate!).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
@@ -379,10 +379,10 @@ const Debts: React.FC<DebtsProps> = () => {
                                         </div>
                                     </div>
                                     <div className="bg-onyx-50/50 p-8 rounded-3xl border border-onyx-100/50 flex flex-col justify-center relative overflow-hidden group/theo">
-                                        <div className="absolute top-0 right-0 w-24 h-full bg-indigo-500/5 -skew-x-12 translate-x-8 group-hover/theo:translate-x-0 transition-transform duration-700"></div>
+                                        <div className="absolute top-0 right-0 w-24 h-full bg-cyan-500/5 -skew-x-12 translate-x-8 group-hover/theo:translate-x-0 transition-transform duration-700"></div>
                                         <p className="text-[10px] font-bold text-onyx-400 uppercase tracking-[0.2em] mb-3 relative z-10">Cuota Teórica Sugerida</p>
                                         <div className="flex items-end gap-3 relative z-10">
-                                            <span className="text-3xl font-bold text-onyx-950 tracking-tight">{formatEUR(timeline.necessaryPayment)}</span>
+                                            <span className="text-3xl font-bold text-cyan-900 tracking-tight">{formatEUR(timeline.necessaryPayment)}</span>
                                             <span className={`text-[9px] font-bold px-3 py-1.5 rounded-lg border uppercase tracking-widest ${selectedDebt.minPayment >= timeline.necessaryPayment ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-red-50 text-red-600 border-red-100'}`}>
                                                 {selectedDebt.minPayment >= timeline.necessaryPayment ? 'Objetivo OK' : 'Por debajo'}
                                             </span>
@@ -396,10 +396,10 @@ const Debts: React.FC<DebtsProps> = () => {
 
                         <div className="bg-white p-10 rounded-onyx shadow-sm border border-onyx-100 hover:shadow-md transition-all duration-500">
                             <div className="flex items-center gap-4 mb-8 pb-6 border-b border-onyx-50">
-                                <div className="p-2 bg-indigo-50 text-indigo-primary rounded-lg">
+                                <div className="p-2 bg-cyan-50 text-cyan-600 rounded-lg">
                                     <PieChart className="w-6 h-6" />
                                 </div>
-                                <h3 className="text-xl font-bold text-onyx-950 tracking-tight">Desglose de Cuota Mínima</h3>
+                                <h3 className="text-xl font-bold text-cyan-900 tracking-tight">Desglose de Cuota Mínima</h3>
                             </div>
 
                             {(() => {
@@ -444,23 +444,23 @@ const Debts: React.FC<DebtsProps> = () => {
 
                         <div className="bg-white p-10 rounded-onyx shadow-sm border border-onyx-100 hover:shadow-md transition-all duration-500 relative overflow-hidden group/accel">
                             <div className="flex items-center gap-4 mb-10 pb-6 border-b border-onyx-50">
-                                <div className="p-2 bg-indigo-50 text-indigo-primary rounded-lg transition-transform group-hover/accel:scale-110">
+                                <div className="p-2 bg-cyan-50 text-cyan-600 rounded-lg transition-transform group-hover/accel:scale-110">
                                     <Calculator className="w-6 h-6" />
                                 </div>
-                                <h3 className="text-xl font-bold text-onyx-950 tracking-tight">Acelerador de Amortización</h3>
+                                <h3 className="text-xl font-bold text-cyan-900 tracking-tight">Acelerador de Amortización</h3>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10">
                                 <div>
                                     <label className="block text-[10px] font-bold text-onyx-400 uppercase tracking-[0.2em] mb-8">Inyección Mensual Extra</label>
                                     <div className="flex items-center gap-8">
                                         <div className="flex-1 relative h-6 flex items-center">
-                                            <input type="range" min="0" max="2000" step="50" value={extraPayment} onChange={(e) => setExtraPayment(Number(e.target.value))} className="w-full h-1.5 bg-onyx-200 rounded-full appearance-none cursor-pointer accent-indigo-primary" />
+                                            <input type="range" min="0" max="2000" step="50" value={extraPayment} onChange={(e) => setExtraPayment(Number(e.target.value))} className="w-full h-1.5 bg-onyx-200 rounded-full appearance-none cursor-pointer accent-cyan-500" />
                                         </div>
-                                        <div className="bg-onyx-950 px-6 py-3 rounded-xl font-bold text-white shadow-xl min-w-[110px] text-center text-lg transition-transform hover:scale-105">+{extraPayment}€</div>
+                                        <div className="bg-gradient-to-br from-cyan-600 to-teal-600 px-6 py-3 rounded-xl font-bold text-white shadow-xl min-w-[110px] text-center text-lg transition-transform hover:scale-105">+{extraPayment}€</div>
                                     </div>
-                                    <div className="mt-8 p-6 bg-indigo-50/50 rounded-2xl border border-indigo-100/50 flex gap-4">
-                                        <div className="p-2 bg-white text-indigo-primary rounded-lg shadow-sm h-fit"><Sparkles className="w-4 h-4" /></div>
-                                        <p className="text-[11px] text-indigo-900 font-semibold leading-relaxed">
+                                    <div className="mt-8 p-6 bg-cyan-50/50 rounded-2xl border border-cyan-100/50 flex gap-4">
+                                        <div className="p-2 bg-white text-cyan-600 rounded-lg shadow-sm h-fit"><Sparkles className="w-4 h-4" /></div>
+                                        <p className="text-[11px] text-cyan-900 font-semibold leading-relaxed">
                                             Al inyectar capital extra, reduces drásticamente los intereses pagados y el tiempo de vida de la deuda.
                                         </p>
                                     </div>
@@ -478,14 +478,14 @@ const Debts: React.FC<DebtsProps> = () => {
                                                 </div>
                                             </div>
                                             <div className="space-y-3">
-                                                <div className="flex justify-between text-[10px] font-bold text-onyx-950 uppercase tracking-widest px-1">
+                                                <div className="flex justify-between text-[10px] font-bold text-cyan-900 uppercase tracking-widest px-1">
                                                     <span>Con Extra</span>
                                                     <span className="text-emerald-600 font-bold flex items-center gap-1">
                                                         <Flame className="w-3 h-3" /> -{baseSimulation.months - simulation.months} MESES
                                                     </span>
                                                 </div>
                                                 <div className="w-full bg-onyx-200/50 h-2.5 rounded-full overflow-hidden shadow-inner">
-                                                    <div className="bg-onyx-950 h-full shadow-[0_0_12px_rgba(2,6,23,0.3)] transition-all duration-1000 ease-out" style={{ width: `${(simulation.months / baseSimulation.months) * 100}%` }}></div>
+                                                    <div className="bg-cyan-900 h-full shadow-[0_0_12px_rgba(2,6,23,0.3)] transition-all duration-1000 ease-out" style={{ width: `${(simulation.months / baseSimulation.months) * 100}%` }}></div>
                                                 </div>
                                             </div>
                                             <div className="pt-8 mt-4 border-t border-onyx-200/50 flex justify-between items-center">
@@ -508,7 +508,7 @@ const Debts: React.FC<DebtsProps> = () => {
                                 <div className="p-2 bg-onyx-50 text-onyx-400 rounded-lg">
                                     <History className="w-5 h-5" />
                                 </div>
-                                <h3 className="text-xl font-bold text-onyx-950 tracking-tight">Historial de Pagos</h3>
+                                <h3 className="text-xl font-bold text-cyan-900 tracking-tight">Historial de Pagos</h3>
                             </div>
                             <div className="overflow-x-auto -mx-10">
                                 <table className="w-full text-left text-sm border-collapse">
@@ -525,9 +525,9 @@ const Debts: React.FC<DebtsProps> = () => {
                                             selectedDebt.payments.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map((p) => {
                                                 return (
                                                     <tr key={p.id} className="hover:bg-onyx-50/30 transition-all group/row">
-                                                        <td className="px-10 py-6 font-bold text-onyx-600 group-hover/row:text-onyx-950 transition-colors">{new Date(p.date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
+                                                        <td className="px-10 py-6 font-bold text-onyx-600 group-hover/row:text-cyan-900 transition-colors">{new Date(p.date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
                                                         <td className="px-10 py-6">
-                                                            <span className="text-[10px] font-mono text-onyx-300 bg-onyx-50 px-2.5 py-1.5 rounded-lg border border-onyx-100/50 group-hover/row:border-indigo-100 transition-colors uppercase">IDX-{p.id.substring(0, 6)}</span>
+                                                            <span className="text-[10px] font-mono text-onyx-300 bg-onyx-50 px-2.5 py-1.5 rounded-lg border border-onyx-100/50 group-hover/row:border-cyan-100 transition-colors uppercase">IDX-{p.id.substring(0, 6)}</span>
                                                         </td>
                                                         <td className="px-10 py-6 text-center">
                                                             <div className="flex items-center justify-center gap-2 text-emerald-500 group-hover/row:scale-110 transition-transform">
@@ -536,7 +536,7 @@ const Debts: React.FC<DebtsProps> = () => {
                                                             </div>
                                                         </td>
                                                         <td className="px-10 py-6 text-right">
-                                                            <span className="font-bold text-onyx-950 text-base block tracking-tight">-{formatEUR(p.amount)}</span>
+                                                            <span className="font-bold text-cyan-900 text-base block tracking-tight">-{formatEUR(p.amount)}</span>
                                                             <span className="text-[9px] font-bold text-emerald-500 uppercase tracking-widest opacity-0 group-hover/row:opacity-100 translate-y-2 group-hover/row:translate-y-0 transition-all duration-300">Confirmado</span>
                                                         </td>
                                                     </tr>
@@ -560,19 +560,19 @@ const Debts: React.FC<DebtsProps> = () => {
                 )}
 
                 {isAddModalOpen && (
-                    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-onyx-950/40 backdrop-blur-md p-4 animate-fade-in text-onyx-950">
-                        <div className="bg-white rounded-onyx shadow-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh] border border-onyx-100 relative shadow-indigo-500/10">
+                    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-cyan-900/40 backdrop-blur-md p-4 animate-fade-in text-cyan-900">
+                        <div className="bg-white rounded-onyx shadow-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh] border border-onyx-100 relative shadow-cyan-500/10">
                             <div className="bg-white px-10 py-8 flex justify-between items-center border-b border-onyx-50 sticky top-0 z-10">
                                 <div>
                                     <h3 className="text-2xl font-bold tracking-tight flex items-center gap-4">
-                                        <div className="p-3 bg-indigo-50 text-indigo-primary rounded-xl shadow-sm">
+                                        <div className="p-3 bg-cyan-50 text-cyan-600 rounded-xl shadow-sm">
                                             <Plus className="w-6 h-6" />
                                         </div>
                                         Nueva Deuda
                                     </h3>
                                     <p className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mt-2 ml-16">Alta de pasivo financiero</p>
                                 </div>
-                                <button onClick={() => { setIsAddModalOpen(false); resetAddForm(); }} className="text-onyx-400 hover:text-onyx-950 p-2.5 hover:bg-onyx-50 rounded-xl transition-all">
+                                <button onClick={() => { setIsAddModalOpen(false); resetAddForm(); }} className="text-onyx-400 hover:text-cyan-900 p-2.5 hover:bg-onyx-50 rounded-xl transition-all">
                                     <X className="w-7 h-7" />
                                 </button>
                             </div>
@@ -580,12 +580,12 @@ const Debts: React.FC<DebtsProps> = () => {
                                 <div className="space-y-8">
                                     <div>
                                         <label className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3 block text-center md:text-left">Nombre de la Obligación</label>
-                                        <input required type="text" value={newName} onChange={(e) => setNewName(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-onyx-950 focus:bg-white focus:ring-4 focus:ring-indigo-primary/5 outline-none transition-all placeholder:text-onyx-300 shadow-inner" placeholder="Ej: Hipoteca, Préstamo Personal..." />
+                                        <input required type="text" value={newName} onChange={(e) => setNewName(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-cyan-900 focus:bg-white focus:ring-4 focus:ring-cyan-500/5 outline-none transition-all placeholder:text-onyx-300 shadow-inner" placeholder="Ej: Hipoteca, Préstamo Personal..." />
                                     </div>
                                     <div className="grid grid-cols-2 gap-8">
                                         <div>
                                             <label className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3 block">Naturaleza</label>
-                                            <select value={newType} onChange={(e) => setNewType(e.target.value as any)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-onyx-950 focus:bg-white focus:ring-4 focus:ring-indigo-primary/5 outline-none transition-all cursor-pointer shadow-inner">
+                                            <select value={newType} onChange={(e) => setNewType(e.target.value as any)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-cyan-900 focus:bg-white focus:ring-4 focus:ring-cyan-500/5 outline-none transition-all cursor-pointer shadow-inner">
                                                 <option value="LOAN">Préstamo</option>
                                                 <option value="MORTGAGE">Hipoteca</option>
                                                 <option value="CREDIT_CARD">Tarjeta</option>
@@ -593,21 +593,21 @@ const Debts: React.FC<DebtsProps> = () => {
                                         </div>
                                         <div>
                                             <label className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3 block">Día de Cobro</label>
-                                            <input type="number" min="1" max="31" value={newDay} onChange={(e) => setNewDay(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-onyx-950 focus:bg-white focus:ring-4 focus:ring-indigo-primary/5 outline-none transition-all shadow-inner" placeholder="1-31" />
+                                            <input type="number" min="1" max="31" value={newDay} onChange={(e) => setNewDay(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-cyan-900 focus:bg-white focus:ring-4 focus:ring-cyan-500/5 outline-none transition-all shadow-inner" placeholder="1-31" />
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-2 gap-8">
                                         <div className="col-span-1">
                                             <label className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3 block">Importe Original</label>
                                             <div className="relative group/input">
-                                                <input required type="number" step="0.01" value={newOriginal} onChange={(e) => setNewOriginal(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-xl text-onyx-950 focus:bg-white transition-all shadow-inner text-center" />
+                                                <input required type="number" step="0.01" value={newOriginal} onChange={(e) => setNewOriginal(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-xl text-cyan-900 focus:bg-white transition-all shadow-inner text-center" />
                                                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-onyx-300 font-bold">€</span>
                                             </div>
                                         </div>
                                         <div className="col-span-1">
                                             <label className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3 block">Saldo Pendiente</label>
                                             <div className="relative group/input">
-                                                <input required type="number" step="0.01" value={newBalance} onChange={(e) => setNewBalance(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-xl text-onyx-950 focus:bg-white transition-all shadow-inner text-center" />
+                                                <input required type="number" step="0.01" value={newBalance} onChange={(e) => setNewBalance(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-xl text-cyan-900 focus:bg-white transition-all shadow-inner text-center" />
                                                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-onyx-300 font-bold">€</span>
                                             </div>
                                         </div>
@@ -615,33 +615,33 @@ const Debts: React.FC<DebtsProps> = () => {
                                     <div className="grid grid-cols-2 gap-8">
                                         <div>
                                             <label className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3 block">Tipo Interés (%)</label>
-                                            <input type="number" step="0.01" value={newRate} onChange={(e) => setNewRate(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-xl text-onyx-950 focus:bg-white transition-all shadow-inner text-center" />
+                                            <input type="number" step="0.01" value={newRate} onChange={(e) => setNewRate(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-xl text-cyan-900 focus:bg-white transition-all shadow-inner text-center" />
                                         </div>
                                         <div>
                                             <label className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3 block">Cuota Mínima</label>
-                                            <input type="number" step="0.01" value={newMin} onChange={(e) => setNewMin(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-xl text-onyx-950 focus:bg-white transition-all shadow-inner text-center" />
+                                            <input type="number" step="0.01" value={newMin} onChange={(e) => setNewMin(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-xl text-cyan-900 focus:bg-white transition-all shadow-inner text-center" />
                                         </div>
                                     </div>
                                     <div>
                                         <label className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3 block">Cuenta de Pago Asociada</label>
-                                        <select value={newAccountId} onChange={(e) => setNewAccountId(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-onyx-950 focus:bg-white focus:ring-4 focus:ring-indigo-primary/5 transition-all cursor-pointer shadow-inner">
+                                        <select value={newAccountId} onChange={(e) => setNewAccountId(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-cyan-900 focus:bg-white focus:ring-4 focus:ring-cyan-500/5 transition-all cursor-pointer shadow-inner">
                                             {accounts.map(acc => <option key={acc.id} value={acc.id}>{acc.name} ({formatEUR(acc.balance)})</option>)}
                                         </select>
                                     </div>
                                     <div className="grid grid-cols-2 gap-8">
                                         <div>
                                             <label className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3 block">Fecha Apertura</label>
-                                            <input type="date" value={newStartDate} onChange={(e) => setNewStartDate(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-onyx-950 text-xs focus:bg-white transition-all shadow-inner" />
+                                            <input type="date" value={newStartDate} onChange={(e) => setNewStartDate(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-cyan-900 text-xs focus:bg-white transition-all shadow-inner" />
                                         </div>
                                         <div>
                                             <label className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3 block">Vencimiento Final</label>
-                                            <input type="date" value={newEndDate} onChange={(e) => setNewEndDate(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-onyx-950 text-xs focus:bg-white transition-all shadow-inner" />
+                                            <input type="date" value={newEndDate} onChange={(e) => setNewEndDate(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-cyan-900 text-xs focus:bg-white transition-all shadow-inner" />
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" className="w-full bg-onyx-950 hover:bg-onyx-800 text-white py-6 rounded-3xl font-bold text-[11px] uppercase tracking-[0.3em] shadow-2xl shadow-onyx-950/20 transition-all active:scale-95 group relative overflow-hidden">
+                                <button type="submit" className="w-full bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 text-white py-6 rounded-3xl font-bold text-[11px] uppercase tracking-[0.3em] shadow-2xl shadow-cyan-900/20 transition-all active:scale-95 group relative overflow-hidden">
                                     <span className="relative z-10">Registrar Nueva Obligación</span>
-                                    <div className="absolute inset-0 bg-gradient-to-r from-indigo-primary/0 via-white/5 to-indigo-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+                                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/0 via-white/5 to-cyan-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
                                 </button>
                             </form>
                         </div>
@@ -650,8 +650,8 @@ const Debts: React.FC<DebtsProps> = () => {
 
 
                 {isPaymentModalOpen && (
-                    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-onyx-950/40 backdrop-blur-md p-4 animate-fade-in text-onyx-950">
-                        <div className="bg-white rounded-onyx shadow-2xl w-full max-w-md overflow-hidden flex flex-col border border-onyx-100 relative shadow-indigo-500/10">
+                    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-cyan-900/40 backdrop-blur-md p-4 animate-fade-in text-cyan-900">
+                        <div className="bg-white rounded-onyx shadow-2xl w-full max-w-md overflow-hidden flex flex-col border border-onyx-100 relative shadow-cyan-500/10">
                             <div className="bg-white px-10 py-8 flex justify-between items-center border-b border-onyx-50 sticky top-0 z-10">
                                 <div>
                                     <h3 className="text-2xl font-bold tracking-tight flex items-center gap-4">
@@ -662,7 +662,7 @@ const Debts: React.FC<DebtsProps> = () => {
                                     </h3>
                                     <p className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mt-2 ml-16">Reducción de pasivo financiero</p>
                                 </div>
-                                <button onClick={() => setIsPaymentModalOpen(false)} className="text-onyx-400 hover:text-onyx-950 p-2.5 hover:bg-onyx-50 rounded-xl transition-all">
+                                <button onClick={() => setIsPaymentModalOpen(false)} className="text-onyx-400 hover:text-cyan-900 p-2.5 hover:bg-onyx-50 rounded-xl transition-all">
                                     <X className="w-7 h-7" />
                                 </button>
                             </div>
@@ -670,25 +670,25 @@ const Debts: React.FC<DebtsProps> = () => {
                                 <div>
                                     <label className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-4 block text-center">Cantidad a Amortizar</label>
                                     <div className="relative group/input">
-                                        <input autoFocus type="number" step="0.01" value={paymentAmount} onChange={(e) => setPaymentAmount(e.target.value)} className="w-full p-8 bg-onyx-50 border border-onyx-100 rounded-3xl font-bold text-5xl text-onyx-950 focus:bg-white outline-none transition-all text-center shadow-inner" placeholder="0.00" />
-                                        <span className="absolute left-8 top-1/2 -translate-y-1/2 text-onyx-200 font-bold text-3xl group-focus-within/input:text-indigo-primary transition-colors">€</span>
+                                        <input autoFocus type="number" step="0.01" value={paymentAmount} onChange={(e) => setPaymentAmount(e.target.value)} className="w-full p-8 bg-onyx-50 border border-onyx-100 rounded-3xl font-bold text-5xl text-cyan-900 focus:bg-white outline-none transition-all text-center shadow-inner" placeholder="0.00" />
+                                        <span className="absolute left-8 top-1/2 -translate-y-1/2 text-onyx-200 font-bold text-3xl group-focus-within/input:text-cyan-500 transition-colors">€</span>
                                     </div>
                                 </div>
                                 <div className="space-y-4">
                                     <label className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest block">Cuenta de Origen</label>
-                                    <select value={selectedAccountId} onChange={(e) => setSelectedAccountId(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-onyx-950 focus:bg-white outline-none cursor-pointer transition-all shadow-inner">
+                                    <select value={selectedAccountId} onChange={(e) => setSelectedAccountId(e.target.value)} className="w-full p-5 bg-onyx-50 border border-onyx-100 rounded-2xl font-bold text-cyan-900 focus:bg-white outline-none cursor-pointer transition-all shadow-inner">
                                         {accounts.map(acc => <option key={acc.id} value={acc.id}>{acc.name} ({formatEUR(acc.balance)})</option>)}
                                     </select>
                                 </div>
-                                <div className="p-8 bg-indigo-50/50 rounded-3xl border border-indigo-100/50 flex gap-6">
-                                    <div className="p-3 bg-white text-indigo-primary rounded-xl h-fit shadow-sm">
+                                <div className="p-8 bg-cyan-50/50 rounded-3xl border border-cyan-100/50 flex gap-6">
+                                    <div className="p-3 bg-white text-cyan-600 rounded-xl h-fit shadow-sm">
                                         <Clock className="w-5 h-5" />
                                     </div>
-                                    <p className="text-[11px] font-semibold text-indigo-950/70 leading-relaxed">
+                                    <p className="text-[11px] font-semibold text-cyan-900/70 leading-relaxed">
                                         Esta acción generará un asiento contable automático y actualizará el saldo disponible en tiempo real.
                                     </p>
                                 </div>
-                                <button type="submit" className="w-full bg-onyx-950 hover:bg-onyx-800 text-white py-6 rounded-3xl font-bold text-[11px] uppercase tracking-[0.3em] shadow-2xl shadow-onyx-950/20 transition-all active:scale-95 group relative overflow-hidden">
+                                <button type="submit" className="w-full bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 text-white py-6 rounded-3xl font-bold text-[11px] uppercase tracking-[0.3em] shadow-2xl shadow-cyan-900/20 transition-all active:scale-95 group relative overflow-hidden">
                                     <span className="relative z-10">Confirmar Amortización</span>
                                     <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-white/5 to-emerald-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
                                 </button>

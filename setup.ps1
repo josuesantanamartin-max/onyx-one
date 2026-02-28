@@ -1,8 +1,8 @@
-# 🎯 ONYX ONE - Professional Setup Script (Windows PowerShell)
+# 🎯 ALISEUS - Professional Setup Script (Windows PowerShell)
 # Este script configura todo el entorno de desarrollo profesional en Windows
 
 Write-Host "╔═══════════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║   🚀 ONYX ONE - Professional Setup v1.0        ║" -ForegroundColor Cyan
+Write-Host "║   🚀 ALISEUS - Professional Setup v1.0         ║" -ForegroundColor Cyan
 Write-Host "║   Configuración Automatizada de Entorno        ║" -ForegroundColor Cyan
 Write-Host "╚═══════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host ""
@@ -24,7 +24,8 @@ Info "Verificando prerequisitos..."
 try {
     $nodeVersion = node -v
     Success "Node.js $nodeVersion ✓"
-} catch {
+}
+catch {
     Error "Node.js no está instalado. Instala Node.js 18+ desde https://nodejs.org"
     exit 1
 }
@@ -33,7 +34,8 @@ try {
 try {
     $npmVersion = npm -v
     Success "npm $npmVersion ✓"
-} catch {
+}
+catch {
     Error "npm no está instalado."
     exit 1
 }
@@ -42,7 +44,8 @@ try {
 try {
     $gitVersion = git --version
     Success "$gitVersion ✓"
-} catch {
+}
+catch {
     Error "Git no está instalado. Instala Git desde https://git-scm.com"
     exit 1
 }
@@ -56,7 +59,8 @@ Info "Instalando dependencias del proyecto..."
 npm install
 if ($LASTEXITCODE -eq 0) {
     Success "Dependencias instaladas correctamente"
-} else {
+}
+else {
     Error "Error instalando dependencias"
     exit 1
 }
@@ -65,7 +69,8 @@ Info "Instalando herramientas de desarrollo..."
 npm install -D @types/node typescript eslint prettier vitest '@vitest/ui' playwright vite-plugin-pwa workbox-window
 if ($LASTEXITCODE -eq 0) {
     Success "Herramientas de desarrollo instaladas"
-} else {
+}
+else {
     Warning "Algunas herramientas no se instalaron correctamente"
 }
 
@@ -78,7 +83,7 @@ Info "════════════════════════�
 if (-Not (Test-Path ".env.local")) {
     Info "Creando archivo .env.local..."
     @"
-# 🔑 ONYX ONE - Environment Variables
+# 🔑 ALISEUS - Environment Variables
 # Configuración generada automáticamente
 
 # Gemini AI (Requerido)
@@ -89,13 +94,14 @@ VITE_SUPABASE_URL=your-supabase-url
 VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 
 # App Configuration
-VITE_APP_NAME=Onyx One
+VITE_APP_NAME=Aliseus
 VITE_APP_VERSION=1.0.0
 VITE_ENVIRONMENT=development
 "@ | Out-File -FilePath ".env.local" -Encoding utf8
     Success "Archivo .env.local creado"
     Warning "⚠ IMPORTANTE: Edita .env.local y añade tus API keys"
-} else {
+}
+else {
     Warning ".env.local ya existe, no se sobrescribirá"
 }
 
@@ -145,7 +151,8 @@ yarn-error.log*
 dev-dist/
 "@ | Out-File -FilePath ".gitignore" -Encoding utf8
     Success ".gitignore creado"
-} else {
+}
+else {
     Info ".gitignore ya existe"
 }
 
@@ -179,7 +186,8 @@ Info "Ejecutando verificación de TypeScript..."
 npx tsc --noEmit
 if ($LASTEXITCODE -eq 0) {
     Success "TypeScript: Sin errores"
-} else {
+}
+else {
     Warning "TypeScript: Hay errores de tipo (no crítico)"
 }
 
@@ -200,4 +208,4 @@ Write-Host "  npm run preview   - Preview del build"
 Write-Host "  npm run test      - Ejecutar tests"
 Write-Host "  npm run lint      - Linter"
 Write-Host ""
-Success "¡Onyx One está listo para desarrollo profesional! 🚀"
+Success "¡Aliseus está listo para desarrollo profesional! 🚀"

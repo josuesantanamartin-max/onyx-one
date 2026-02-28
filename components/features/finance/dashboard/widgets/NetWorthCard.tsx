@@ -29,16 +29,16 @@ const NetWorthCard: React.FC<NetWorthCardProps> = ({ accounts, debts, monthlyInc
 
     return (
         <Card onClick={() => onNavigate('finance', 'dashboard')} className="col-span-1 md:col-span-12 lg:col-span-8 p-10 cursor-pointer group relative overflow-hidden transition-all duration-500">
-            <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-50/30 rounded-full blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-50/30 rounded-full blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
 
             <div className="flex justify-between items-start mb-12 relative z-10">
                 <div>
                     <div className="flex items-center gap-3 mb-3">
-                        <div className="p-2 bg-onyx-50 dark:bg-onyx-800 text-onyx-600 dark:text-onyx-300 rounded-lg group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/50 group-hover:text-indigo-primary transition-colors"><Wallet className="w-5 h-5" /></div>
+                        <div className="p-2 bg-onyx-50 dark:bg-onyx-800 text-onyx-600 dark:text-onyx-300 rounded-lg group-hover:bg-cyan-50 dark:group-hover:bg-cyan-900/50 group-hover:text-cyan-primary transition-colors"><Wallet className="w-5 h-5" /></div>
                         <span className="text-[10px] font-bold text-onyx-400 dark:text-onyx-500 uppercase tracking-[0.2em]">Patrimonio Global</span>
                     </div>
                     <div className="flex items-baseline gap-4 mt-2">
-                        <h3 className="text-5xl font-bold text-onyx-950 dark:text-white tracking-tight">{formatEUR(netWorth)}</h3>
+                        <h3 className="text-5xl font-bold text-cyan-900 dark:text-white tracking-tight">{formatEUR(netWorth)}</h3>
                         {cashFlow > 0 ? (
                             <div className="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-bold flex items-center gap-1.5 border border-emerald-100/50 h-full flex flex-col">
                                 <ArrowUpRight className="w-3.5 h-3.5" />

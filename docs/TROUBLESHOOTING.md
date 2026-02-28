@@ -1,4 +1,4 @@
-# 🔧 Guía de Solución de Problemas - Onyx One
+# 🔧 Guía de Solución de Problemas - Aliseus
 
 **Versión 1.0** | Última actualización: Febrero 2026
 
@@ -97,7 +97,7 @@
 4. **Revisar permisos del navegador**
    - Asegúrate de que el sitio puede guardar datos
    - Chrome: `chrome://settings/content/all`
-   - Busca el dominio de Onyx One
+   - Busca el dominio de Aliseus
    - Permite "Cookies" y "JavaScript"
 
 ---
@@ -152,7 +152,7 @@
 
 3. **Verificar email**
    - Si es cuenta nueva, verifica tu email primero
-   - Busca email de "Onyx One - Verifica tu cuenta"
+   - Busca email de "Aliseus - Verifica tu cuenta"
    - Haz clic en el enlace de verificación
 
 **Error: "Email not confirmed"**
@@ -617,7 +617,7 @@ Si ninguna solución funciona:
    ```
 
 3. **Contacta**
-   - Email: support@onyxsuite.com
+   - Email: support@aliseus.com
    - Asunto: "[BUG] Descripción breve"
    - Adjunta logs y capturas
 
@@ -668,10 +668,10 @@ Si ninguna solución funciona:
 
 - [Manual de Usuario](./USER_GUIDE.md)
 - [Documentación de Arquitectura](./ARCHITECTURE.md)
-- [Centro de Ayuda](https://help.onyxsuite.com)
-- [Estado del Servicio](https://status.onyxsuite.com)
-- [Comunidad Discord](https://discord.gg/onyxsuite)
+- [Centro de Ayuda](https://help.aliseus.com)
+- [Estado del Servicio](https://status.aliseus.com)
+- [Comunidad Discord](https://discord.gg/aliseus)
 
 ---
 
-*¿Encontraste un bug? [Repórtalo aquí](https://github.com/onyxsuite/issues)*
+*¿Encontraste un bug? [Repórtalo aquí](https://github.com/aliseus/issues)*

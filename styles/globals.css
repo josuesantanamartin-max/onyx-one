@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  /* Onyx Scale (Grays/Blacks) - Default Light Mode */
+  /* Aliseus Scale (Grays/Blacks) - Default Light Mode */
   --color-onyx-50: 248 250 252;
   /* #F8FAFC */
   --color-onyx-100: 241 245 249;
@@ -27,11 +27,11 @@
   --color-onyx-950: 2 6 23;
   /* #020617 */
 
-  /* Indigo Primary */
-  --color-indigo-primary: 79 70 229;
-  /* #4F46E5 */
-  --color-indigo-soft: 238 242 255;
-  /* #EEF2FF */
+  /* Cyan Primary (Aliseus — Canarian ocean blue) */
+  --color-indigo-primary: 6 182 212;
+  /* #06B6D4 cyan-500 */
+  --color-indigo-soft: 236 254 255;
+  /* #ECFEFF cyan-50 */
 
   /* Base Backgrounds & Text */
   --bg-primary: 248 250 252;
@@ -48,12 +48,12 @@
 
 [data-theme='dark'] {
   /* Adjusted Brand Colors for Dark Mode */
-  /* Lighter Indigo for visibility on dark bg */
-  --color-indigo-primary: 99 102 241;
-  /* #6366F1 */
-  /* Dark Indigo for backgrounds/soft states */
-  --color-indigo-soft: 49 46 129;
-  /* #312E81 */
+  /* Lighter Cyan for visibility on dark bg */
+  --color-indigo-primary: 34 211 238;
+  /* #22D3EE cyan-400 */
+  /* Dark Cyan for backgrounds/soft states */
+  --color-indigo-soft: 22 78 99;
+  /* #164E63 cyan-900 */
 
   /* Base Backgrounds Mapping */
   --bg-primary: 2 6 23;
@@ -203,12 +203,12 @@ html {
 }
 
 .react-grid-item.react-grid-placeholder {
-  background: linear-gradient(135deg, rgb(99 102 241 / 0.1) 0%, rgb(99 102 241 / 0.2) 100%);
+  background: linear-gradient(135deg, rgb(6 182 212 / 0.1) 0%, rgb(6 182 212 / 0.2) 100%);
   opacity: 1;
   transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 2;
   border-radius: 1rem;
-  border: 2px dashed rgb(99 102 241);
+  border: 2px dashed rgb(6 182 212);
   animation: pulse-placeholder 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
@@ -217,12 +217,12 @@ html {
   0%,
   100% {
     opacity: 1;
-    border-color: rgb(99 102 241);
+    border-color: rgb(6 182 212);
   }
 
   50% {
     opacity: 0.6;
-    border-color: rgb(129 140 248);
+    border-color: rgb(103 232 249);
   }
 }
 

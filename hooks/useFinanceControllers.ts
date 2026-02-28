@@ -46,21 +46,46 @@ export const useFinanceControllers = () => {
         const selectedAccount = accounts.find(a => a.id === transaction.accountId);
         if (selectedAccount) {
             const amountImpact = transaction.type === 'INCOME' ? transaction.amount : -transaction.amount;
+
             setAccounts((prev) => prev.map(acc => {
-                if (selectedAccount.type === 'DEBIT' && selectedAccount.linkedAccountId && acc.id === selectedAccount.linkedAccountId) {
-                    return { ...acc, balance: acc.balance + amountImpact };
+                // ── DEBIT card ──────────────────────────────────────────────
+                // Debit cards are a "window" to a bank account: the real balance
+                // impact goes to the linked bank account, not the card itself.
+                if (selectedAccount.type === 'DEBIT' && selectedAccount.linkedAccountId) {
+                    if (acc.id === selectedAccount.linkedAccountId) {
+                        const updated = { ...acc, balance: acc.balance + amountImpact };
+                        syncService.saveAccount(updated).catch(e => console.error("Failed to sync account:", e));
+                        return updated;
+                    }
+                    return acc;
                 }
+
+                // ── CREDIT card ─────────────────────────────────────────────
+                // Credit cards accumulate debt on their own balance.
+                // The linked bank account is NOT touched here — settlement happens
+                // separately (via a transfer when the user pays the statement).
+                if (selectedAccount.type === 'CREDIT' && acc.id === transaction.accountId) {
+                    const newBalance = acc.balance + amountImpact; // gets more negative on expense
+                    // Also track the current billing cycle statement (positive accumulator)
+                    const cycleAccrued = (acc.statementBalance ?? 0) + (transaction.type === 'EXPENSE' ? transaction.amount : -transaction.amount);
+                    const updated = {
+                        ...acc,
+                        balance: newBalance,
+                        statementBalance: Math.max(0, cycleAccrued)
+                    };
+                    syncService.saveAccount(updated).catch(e => console.error("Failed to sync account:", e));
+                    return updated;
+                }
+
+                // ── All other account types (BANK, CASH, WALLET, ASSET…) ────
                 if (acc.id === transaction.accountId) {
-                    return { ...acc, balance: acc.balance + amountImpact };
+                    const updated = { ...acc, balance: acc.balance + amountImpact };
+                    syncService.saveAccount(updated).catch(e => console.error("Failed to sync account:", e));
+                    return updated;
                 }
+
                 return acc;
             }));
-
-            // Sync updated account balance
-            if (selectedAccount) {
-                const updatedAcc = { ...selectedAccount, balance: selectedAccount.balance + amountImpact };
-                syncService.saveAccount(updatedAcc).catch(e => console.error("Failed to sync account balance:", e));
-            }
         }
 
         if (isSync) addSyncLog({ message: `Gasto sincronizado: ${newTransaction.description} (${newTransaction.amount}€)`, timestamp: Date.now(), type: "FINANCE" });
@@ -69,6 +94,7 @@ export const useFinanceControllers = () => {
             addSyncLog({ message: `Nueva transacción registrada${recurrentMsg}`, timestamp: Date.now(), type: "FINANCE" });
         }
     };
+
 
     const transfer = async (fromAccountId: string, toAccountId: string, amount: number, date: string, goalId?: string, description?: string) => {
         const fromAccount = accounts.find(a => a.id === fromAccountId);
@@ -120,20 +146,52 @@ export const useFinanceControllers = () => {
         const oldTransaction = transactions.find(t => t.id === updatedTransaction.id);
         if (!oldTransaction) return;
 
-        // Revert old balance and apply new
+        const oldAccount = accounts.find(a => a.id === oldTransaction.accountId);
+        const newAccount = accounts.find(a => a.id === updatedTransaction.accountId);
+
+
+
         setAccounts((prev) => prev.map(acc => {
             let newBalance = acc.balance;
+            let newStatementBalance = acc.statementBalance;
             let changed = false;
-            if (acc.id === oldTransaction.accountId) {
+
+            // Revert old transaction
+            if (oldAccount?.type === 'DEBIT' && oldAccount.linkedAccountId) {
+                if (acc.id === oldAccount.linkedAccountId) {
+                    newBalance -= (oldTransaction.type === 'INCOME' ? oldTransaction.amount : -oldTransaction.amount);
+                    changed = true;
+                }
+            } else if (oldAccount?.type === 'CREDIT' && acc.id === oldTransaction.accountId) {
+                newBalance -= (oldTransaction.type === 'INCOME' ? oldTransaction.amount : -oldTransaction.amount);
+                if (oldTransaction.type === 'EXPENSE') {
+                    newStatementBalance = Math.max(0, (acc.statementBalance ?? 0) - oldTransaction.amount);
+                }
+                changed = true;
+            } else if (acc.id === oldTransaction.accountId) {
                 newBalance -= (oldTransaction.type === 'INCOME' ? oldTransaction.amount : -oldTransaction.amount);
                 changed = true;
             }
-            if (acc.id === updatedTransaction.accountId) {
+
+            // Apply new transaction
+            if (newAccount?.type === 'DEBIT' && newAccount.linkedAccountId) {
+                if (acc.id === newAccount.linkedAccountId) {
+                    newBalance += (updatedTransaction.type === 'INCOME' ? updatedTransaction.amount : -updatedTransaction.amount);
+                    changed = true;
+                }
+            } else if (newAccount?.type === 'CREDIT' && acc.id === updatedTransaction.accountId) {
+                newBalance += (updatedTransaction.type === 'INCOME' ? updatedTransaction.amount : -updatedTransaction.amount);
+                if (updatedTransaction.type === 'EXPENSE') {
+                    newStatementBalance = Math.max(0, (newStatementBalance ?? acc.statementBalance ?? 0) + updatedTransaction.amount);
+                }
+                changed = true;
+            } else if (acc.id === updatedTransaction.accountId && newAccount?.type !== 'DEBIT') {
                 newBalance += (updatedTransaction.type === 'INCOME' ? updatedTransaction.amount : -updatedTransaction.amount);
                 changed = true;
             }
+
             if (changed) {
-                const updatedAcc = { ...acc, balance: newBalance };
+                const updatedAcc = { ...acc, balance: newBalance, statementBalance: newStatementBalance };
                 syncService.saveAccount(updatedAcc).catch(err => console.error("Failed to sync account:", err));
                 return updatedAcc;
             }
@@ -150,7 +208,29 @@ export const useFinanceControllers = () => {
         const transaction = transactions.find(t => t.id === id);
         if (!transaction) return;
 
+        const account = accounts.find(a => a.id === transaction.accountId);
+
         setAccounts((prev) => prev.map(acc => {
+            // DEBIT: revert on linked bank account
+            if (account?.type === 'DEBIT' && account.linkedAccountId) {
+                if (acc.id === account.linkedAccountId) {
+                    const updated = { ...acc, balance: acc.balance - (transaction.type === 'INCOME' ? transaction.amount : -transaction.amount) };
+                    syncService.saveAccount(updated).catch((err: any) => console.error("Failed to sync account:", err));
+                    return updated;
+                }
+                return acc;
+            }
+            // CREDIT: revert on card + statementBalance
+            if (account?.type === 'CREDIT' && acc.id === transaction.accountId) {
+                const newBalance = acc.balance - (transaction.type === 'INCOME' ? transaction.amount : -transaction.amount);
+                const newStatement = transaction.type === 'EXPENSE'
+                    ? Math.max(0, (acc.statementBalance ?? 0) - transaction.amount)
+                    : (acc.statementBalance ?? 0);
+                const updated = { ...acc, balance: newBalance, statementBalance: newStatement };
+                syncService.saveAccount(updated).catch((err: any) => console.error("Failed to sync account:", err));
+                return updated;
+            }
+            // Other accounts
             if (acc.id === transaction.accountId) {
                 const updated = { ...acc, balance: acc.balance - (transaction.type === 'INCOME' ? transaction.amount : -transaction.amount) };
                 syncService.saveAccount(updated).catch((err: any) => console.error("Failed to sync account:", err));
@@ -158,6 +238,7 @@ export const useFinanceControllers = () => {
             }
             return acc;
         }));
+
         setTransactions((prev) => prev.filter(t => t.id !== id));
         syncService.deleteTransaction(id).catch((err: any) => console.error("Failed to sync deletion:", err));
 

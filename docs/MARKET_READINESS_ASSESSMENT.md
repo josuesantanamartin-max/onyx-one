@@ -1,4 +1,4 @@
-# Onyx One - Market Readiness Assessment
+# Aliseus - Market Readiness Assessment
 
 **Fecha de Evaluación:** 18 de Febrero, 2026  
 **Versión Evaluada:** 1.0.1  
@@ -18,7 +18,7 @@
 ██████████████████████████████████████████████████░ 98%
 ```
 
-Onyx One ha superado la fase de preparación técnica y ahora se encuentra en estado **lanzamiento inminente**. Se ha implementado con éxito el **Sistema de Invitaciones Beta**, se ha auditado y refinado la **Integración con Stripe** (incluyendo guía de pruebas), y se han pulido los flujos de **Autenticación**. La documentación técnica y de usuario es del 100%. El producto es extremadamente sólido y profesional.
+Aliseus ha superado la fase de preparación técnica y ahora se encuentra en estado **lanzamiento inminente**. Se ha implementado con éxito el **Sistema de Invitaciones Beta**, se ha auditado y refinado la **Integración con Stripe** (incluyendo guía de pruebas), y se han pulido los flujos de **Autenticación**. La documentación técnica y de usuario es del 100%. El producto es extremadamente sólido y profesional.
 
 ### 📊 Desglose de Puntuación
 
@@ -127,7 +127,7 @@ Onyx One ha superado la fase de preparación técnica y ahora se encuentra en es
 ## 🎓 Conclusión Final
 
 > [!TIP]
-> **Onyx One ESTÁ LISTO PARA SU PRIMER USUARIO REAL.**
+> **Aliseus ESTÁ LISTO PARA SU PRIMER USUARIO REAL.**
 > 
 > La implementación del sistema de invitaciones era el último gran requisito para una Beta controlada. La solidez técnica actual es de nivel producción.
 

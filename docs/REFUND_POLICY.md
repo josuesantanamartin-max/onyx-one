@@ -1,4 +1,4 @@
-# 📜 Política de Reembolsos - Onyx One
+# 📜 Política de Reembolsos - Aliseus
 
 **Última actualización:** 6 de febrero de 2026
 
@@ -6,7 +6,7 @@
 
 ## Nuestra Garantía
 
-En Onyx One nos comprometemos a tu satisfacción. Si no estás completamente satisfecho con tu suscripción, ofrecemos una política de reembolso justa y transparente.
+En Aliseus nos comprometemos a tu satisfacción. Si no estás completamente satisfecho con tu suscripción, ofrecemos una política de reembolso justa y transparente.
 
 ---
 
@@ -20,7 +20,7 @@ En Onyx One nos comprometemos a tu satisfacción. Si no estás completamente sat
 
 ### Cómo Solicitar
 
-1. Envía un email a refunds@onyxsuite.com
+1. Envía un email a refunds@aliseus.com
 2. Incluye tu email de cuenta
 3. Recibirás confirmación en 24 horas
 4. Reembolso procesado en 5-10 días hábiles
@@ -51,7 +51,7 @@ Si cancelas tu suscripción antes de que termine el período de facturación:
 
 Si experimentas problemas técnicos que impiden el uso del servicio:
 
-1. **Contacta soporte primero**: support@onyxsuite.com
+1. **Contacta soporte primero**: support@aliseus.com
 2. **Intentaremos resolver**: Nuestro equipo trabajará para solucionar el problema
 3. **Si no se resuelve**: Ofrecemos reembolso completo del período afectado
 4. **Plazo**: Debes reportar el problema dentro de 7 días
@@ -60,7 +60,7 @@ Si experimentas problemas técnicos que impiden el uso del servicio:
 
 - **Reembolso inmediato**: Si detectamos un cargo duplicado
 - **Automático**: El sistema lo detecta y reembolsa automáticamente
-- **Manual**: Si lo detectas tú, contacta a billing@onyxsuite.com
+- **Manual**: Si lo detectas tú, contacta a billing@aliseus.com
 - **Procesado en**: 3-5 días hábiles
 
 ### Cambios de Precio
@@ -92,7 +92,7 @@ Los siguientes casos **NO** son elegibles para reembolso:
 ### Paso a Paso
 
 1. **Solicitud**
-   - Email a: refunds@onyxsuite.com
+   - Email a: refunds@aliseus.com
    - Asunto: "Solicitud de Reembolso - [Tu Email]"
    - Incluye: Razón (opcional), ID de transacción
 
@@ -137,7 +137,7 @@ Los siguientes casos **NO** son elegibles para reembolso:
    - Gestiona tu suscripción directamente
 
 3. **Por email**:
-   - Envía a: billing@onyxsuite.com
+   - Envía a: billing@aliseus.com
    - Incluye tu email de cuenta
 
 ### Qué Sucede al Cancelar
@@ -196,7 +196,7 @@ Si inicias un chargeback (contracargo) con tu banco:
 
 ### Cómo Evitar Chargebacks
 
-- Contacta a support@onyxsuite.com primero
+- Contacta a support@aliseus.com primero
 - Explica tu situación
 - Trabajaremos contigo para una solución justa
 - Evita cargos adicionales de tu banco
@@ -250,19 +250,19 @@ Si inicias un chargeback (contracargo) con tu banco:
 
 ### Para Reembolsos
 
-- **Email**: refunds@onyxsuite.com
+- **Email**: refunds@aliseus.com
 - **Asunto**: "Solicitud de Reembolso"
 - **Tiempo de respuesta**: 24-48 horas
 
 ### Para Facturación
 
-- **Email**: billing@onyxsuite.com
+- **Email**: billing@aliseus.com
 - **Asunto**: "Consulta de Facturación"
 - **Tiempo de respuesta**: 24 horas
 
 ### Soporte General
 
-- **Email**: support@onyxsuite.com
+- **Email**: support@aliseus.com
 - **Chat**: Disponible en la app
 - **Horario**: Lunes a Viernes, 9:00-18:00 CET
 
@@ -308,7 +308,7 @@ Si no estás satisfecho con nuestra respuesta:
 
 ---
 
-**Onyx One se compromete a un trato justo y transparente. Tu satisfacción es nuestra prioridad.**
+**Aliseus se compromete a un trato justo y transparente. Tu satisfacción es nuestra prioridad.**
 
 *Última revisión: 6 de febrero de 2026*
 
@@ -327,4 +327,4 @@ Si no estás satisfecho con nuestra respuesta:
 
 ---
 
-*¿Preguntas? Contacta a refunds@onyxsuite.com*
+*¿Preguntas? Contacta a refunds@aliseus.com*

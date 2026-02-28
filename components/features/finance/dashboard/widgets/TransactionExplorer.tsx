@@ -110,7 +110,7 @@ const TransactionExplorer: React.FC<TransactionExplorerProps> = ({ transactions,
         return (
             <div className="bg-white p-8 rounded-onyx border border-onyx-100 shadow-sm hover:shadow-md transition-all">
                 <div className="flex justify-between items-center mb-6">
-                    <h4 className="text-sm font-bold text-onyx-950 uppercase tracking-widest">Movimientos Recientes</h4>
+                    <h4 className="text-sm font-bold text-cyan-900 uppercase tracking-widest">Movimientos Recientes</h4>
                     <span className="text-[10px] font-semibold text-onyx-400 uppercase tracking-widest">{recentTransactions.length} últimos</span>
                 </div>
                 <div className="space-y-3">
@@ -142,7 +142,7 @@ const TransactionExplorer: React.FC<TransactionExplorerProps> = ({ transactions,
                         </div>
                     )}
                 </div>
-                <button onClick={() => onNavigate('finance', 'transactions')} className="w-full mt-6 text-[10px] font-bold text-onyx-600 bg-onyx-50 border border-onyx-100 rounded-xl uppercase tracking-widest hover:bg-onyx-950 hover:text-white hover:border-onyx-950 py-3 transition-all">
+                <button onClick={() => onNavigate('finance', 'transactions')} className="w-full mt-6 text-[10px] font-bold text-onyx-600 bg-onyx-50 border border-onyx-100 rounded-xl uppercase tracking-widest hover:bg-cyan-900 hover:text-white hover:border-cyan-900 py-3 transition-all">
                     Ver todos los movimientos
                 </button>
             </div>
@@ -153,8 +153,8 @@ const TransactionExplorer: React.FC<TransactionExplorerProps> = ({ transactions,
         <div className="bg-white p-10 rounded-onyx border border-onyx-100 shadow-sm relative overflow-hidden group">
             <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end gap-6 mb-10 relative z-10">
                 <div>
-                    <h3 className="text-xl font-bold text-onyx-950 tracking-tight flex items-center gap-3">
-                        <div className="p-2 bg-indigo-50 text-indigo-primary rounded-lg"><Search className="w-5 h-5" /></div>
+                    <h3 className="text-xl font-bold text-cyan-900 tracking-tight flex items-center gap-3">
+                        <div className="p-2 bg-cyan-50 text-cyan-primary rounded-lg"><Search className="w-5 h-5" /></div>
                         Explorador de Movimientos
                     </h3>
                     <p className="text-xs font-semibold text-onyx-400 mt-2 uppercase tracking-[0.15em]">Analítica detallada por categoría y fecha</p>
@@ -193,8 +193,8 @@ const TransactionExplorer: React.FC<TransactionExplorerProps> = ({ transactions,
 
                     {/* Scope Selector */}
                     <div className="flex bg-onyx-50 p-1 rounded-xl border border-onyx-100">
-                        <button onClick={() => setExploreScope('MONTH')} className={`px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${exploreScope === 'MONTH' ? 'bg-white shadow-sm text-onyx-950' : 'text-onyx-400 hover:text-onyx-600'}`}>Mes</button>
-                        <button onClick={() => setExploreScope('YEAR')} className={`px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${exploreScope === 'YEAR' ? 'bg-white shadow-sm text-onyx-950' : 'text-onyx-400 hover:text-onyx-600'}`}>Año</button>
+                        <button onClick={() => setExploreScope('MONTH')} className={`px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${exploreScope === 'MONTH' ? 'bg-white shadow-sm text-cyan-900' : 'text-onyx-400 hover:text-onyx-600'}`}>Mes</button>
+                        <button onClick={() => setExploreScope('YEAR')} className={`px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${exploreScope === 'YEAR' ? 'bg-white shadow-sm text-cyan-900' : 'text-onyx-400 hover:text-onyx-600'}`}>Año</button>
                     </div>
 
                     {/* Type Selector */}
@@ -212,7 +212,7 @@ const TransactionExplorer: React.FC<TransactionExplorerProps> = ({ transactions,
                             <select
                                 value={exploreCategory}
                                 onChange={(e) => { setExploreCategory(e.target.value); setExploreSubCategory(''); }}
-                                className="w-full p-4 pl-12 bg-onyx-50/50 border border-onyx-100 rounded-2xl font-semibold text-[13px] text-onyx-700 appearance-none outline-none focus:ring-2 focus:ring-indigo-primary/10 hover:bg-onyx-50 transition-all"
+                                className="w-full p-4 pl-12 bg-onyx-50/50 border border-onyx-100 rounded-2xl font-semibold text-[13px] text-onyx-700 appearance-none outline-none focus:ring-2 focus:ring-cyan-primary/10 hover:bg-onyx-50 transition-all"
                             >
                                 <option value="">Todas las categorías</option>
                                 {availableCategories.map(c => <option key={c.name} value={c.name}>{c.name}</option>)}
@@ -225,7 +225,7 @@ const TransactionExplorer: React.FC<TransactionExplorerProps> = ({ transactions,
                                 <select
                                     value={exploreSubCategory}
                                     onChange={(e) => setExploreSubCategory(e.target.value)}
-                                    className="w-full p-4 pl-12 bg-white border border-onyx-100 rounded-2xl font-semibold text-[13px] text-onyx-700 appearance-none outline-none focus:ring-2 focus:ring-indigo-primary/10 transition-all shadow-sm"
+                                    className="w-full p-4 pl-12 bg-white border border-onyx-100 rounded-2xl font-semibold text-[13px] text-onyx-700 appearance-none outline-none focus:ring-2 focus:ring-cyan-primary/10 transition-all shadow-sm"
                                 >
                                     <option value="">Todas las subcategorías</option>
                                     {availableSubCategories.map(sub => <option key={sub} value={sub}>{sub}</option>)}
@@ -281,8 +281,8 @@ const TransactionExplorer: React.FC<TransactionExplorerProps> = ({ transactions,
 
                 <div className="lg:col-span-8 bg-onyx-50/50 rounded-3xl p-8 border border-onyx-100 flex flex-col">
                     <div className="flex justify-between items-center mb-8 px-2">
-                        <h4 className="text-[11px] font-bold text-onyx-950 uppercase tracking-[0.2em] flex items-center gap-3">
-                            <TrendingUp className="w-4 h-4 text-indigo-primary" /> Movimientos Destacados
+                        <h4 className="text-[11px] font-bold text-cyan-900 uppercase tracking-[0.2em] flex items-center gap-3">
+                            <TrendingUp className="w-4 h-4 text-cyan-primary" /> Movimientos Destacados
                         </h4>
                         <span className="text-[10px] font-semibold text-onyx-400 uppercase tracking-widest">{explorerData.topSpecific.length} registros</span>
                     </div>
@@ -290,7 +290,7 @@ const TransactionExplorer: React.FC<TransactionExplorerProps> = ({ transactions,
                     <div className="flex-1 space-y-3">
                         {explorerData.topSpecific.length > 0 ? (
                             explorerData.topSpecific.map(t => (
-                                <div key={t.id} className="flex items-center justify-between p-4 bg-white rounded-2xl border border-onyx-100 shadow-sm hover:shadow-md hover:border-indigo-primary/20 transition-all cursor-pointer group/item" onClick={() => onNavigate('finance', 'transactions')}>
+                                <div key={t.id} className="flex items-center justify-between p-4 bg-white rounded-2xl border border-onyx-100 shadow-sm hover:shadow-md hover:border-cyan-primary/20 transition-all cursor-pointer group/item" onClick={() => onNavigate('finance', 'transactions')}>
                                     <div className="flex items-center gap-4">
                                         <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-lg font-bold shrink-0 transition-transform group-hover/item:scale-110 ${t.type === 'INCOME' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'}`}>
                                             {t.type === 'INCOME' ? <ArrowUpRight className="w-5 h-5" /> : <ArrowDownRight className="w-5 h-5" />}
@@ -321,14 +321,14 @@ const TransactionExplorer: React.FC<TransactionExplorerProps> = ({ transactions,
                     </div>
 
                     {explorerData.topSpecific.length > 0 && (
-                        <button onClick={() => onNavigate('finance', 'transactions')} className="w-full mt-8 text-[11px] font-bold text-onyx-600 bg-white border border-onyx-200 rounded-xl uppercase tracking-widest hover:bg-onyx-950 hover:text-white hover:border-onyx-950 py-4 transition-all shadow-sm">
+                        <button onClick={() => onNavigate('finance', 'transactions')} className="w-full mt-8 text-[11px] font-bold text-onyx-600 bg-white border border-onyx-200 rounded-xl uppercase tracking-widest hover:bg-cyan-900 hover:text-white hover:border-cyan-900 py-4 transition-all shadow-sm">
                             Ver historial completo
                         </button>
                     )}
                 </div>
             </div>
 
-            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-soft/20 rounded-full blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-soft/20 rounded-full blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
         </div>
     );
 };

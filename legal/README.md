@@ -1,6 +1,6 @@
 # Legal Documentation
 
-This directory contains all legal documents for Onyx One.
+This directory contains all legal documents for Aliseus.
 
 ## Documents
 
@@ -20,7 +20,7 @@ This directory contains all legal documents for Onyx One.
 
 ### 2. Terms of Service
 **File:** `TERMS_OF_SERVICE.md`  
-**Purpose:** Legal agreement governing use of Onyx One.
+**Purpose:** Legal agreement governing use of Aliseus.
 
 **Key Sections:**
 - Service description and availability
@@ -48,12 +48,12 @@ This directory contains all legal documents for Onyx One.
 Before deploying to production, update the following:
 
 1. **Email Addresses:**
-   - `privacy@onyxsuite.com`
-   - `dpo@onyxsuite.com`
-   - `legal@onyxsuite.com`
-   - `support@onyxsuite.com`
-   - `security@onyxsuite.com`
-   - `accessibility@onyxsuite.com`
+   - `privacy@aliseus.com`
+   - `dpo@aliseus.com`
+   - `legal@aliseus.com`
+   - `support@aliseus.com`
+   - `security@aliseus.com`
+   - `accessibility@aliseus.com`
 
 2. **Mailing Address:**
    - Replace `[Your Business Address]`, `[City, Postal Code]`, `[Country]`

@@ -226,7 +226,7 @@ const TravelModule: React.FC<TravelModuleProps> = () => {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                <div>
                   <h2 className="text-4xl font-black text-gray-900 tracking-tighter flex items-center gap-3">
-                     Onyx Experiencias <span className="bg-gradient-to-r from-rose-500 to-orange-500 text-white text-[10px] px-3 py-1 rounded-full tracking-widest uppercase shadow-md">Pro</span>
+                     Aliseus Experiencias <span className="bg-gradient-to-r from-cyan-500 to-teal-600 text-white text-[10px] px-3 py-1 rounded-full tracking-widest uppercase shadow-md">Pro</span>
                   </h2>
                   <p className="text-gray-400 font-bold text-sm uppercase tracking-widest mt-1">Tu pasaporte inteligente al mundo</p>
                </div>
@@ -267,7 +267,7 @@ const TravelModule: React.FC<TravelModuleProps> = () => {
                      <Sparkles className="w-6 h-6" />
                   </div>
                   <div>
-                     <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Millas Onyx</p>
+                     <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Millas Aliseus</p>
                      <p className="text-3xl font-black text-gray-900 tracking-tighter">12,450</p>
                      <p className="text-xs font-bold text-emerald-500 mt-1">Nivel Oro</p>
                   </div>
@@ -593,15 +593,15 @@ const TravelModule: React.FC<TravelModuleProps> = () => {
                   <div className="px-8 pt-6 pb-2">
                      <div className="flex bg-gray-50 p-1 rounded-2xl border border-gray-100">
                         <button onClick={() => setCreateMode('MANUAL')} className={`flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${createMode === 'MANUAL' ? 'bg-white shadow-md text-gray-900' : 'text-gray-400 hover:text-gray-600'}`}>Manual</button>
-                        <button onClick={() => setCreateMode('AI')} className={`flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${createMode === 'AI' ? 'bg-white shadow-md text-purple-600' : 'text-gray-400 hover:text-gray-600'}`}><Wand2 className="w-3 h-3" /> Onyx Insights</button>
+                        <button onClick={() => setCreateMode('AI')} className={`flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${createMode === 'AI' ? 'bg-white shadow-md text-cyan-600' : 'text-gray-400 hover:text-gray-600'}`}><Wand2 className="w-3 h-3" /> Aliseus Insights</button>
                      </div>
                   </div>
 
                   {createMode === 'AI' ? (
                      <div className="p-8 space-y-6">
                         <div className="text-center mb-4">
-                           <div className="w-16 h-16 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-4"><Sparkles className="w-8 h-8 text-purple-600" /></div>
-                           <h4 className="text-lg font-black text-gray-900">Onyx Insights: Diseñador de Experiencias</h4>
+                           <div className="w-16 h-16 bg-cyan-50 rounded-full flex items-center justify-center mx-auto mb-4"><Sparkles className="w-8 h-8 text-cyan-600" /></div>
+                           <h4 className="text-lg font-black text-gray-900">Aliseus Insights: Diseñador de Experiencias</h4>
                            <p className="text-sm text-gray-500 mt-2">Describe tu viaje ideal y la IA se encargará de buscar vuelos reales, hoteles y crear tu agenda.</p>
                         </div>
                         <div>
@@ -609,13 +609,13 @@ const TravelModule: React.FC<TravelModuleProps> = () => {
                               value={aiPrompt}
                               onChange={(e) => setAiPrompt(e.target.value)}
                               placeholder="Ej: Quiero ir a la costa amalfitana en mayo, 5 días, con un presupuesto de 2000€. Me gusta la comida italiana y los paseos en barco."
-                              className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl font-medium text-sm focus:bg-white focus:ring-4 focus:ring-purple-500/10 outline-none transition-all h-32 resize-none"
+                              className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl font-medium text-sm focus:bg-white focus:ring-4 focus:ring-cyan-500/10 outline-none transition-all h-32 resize-none"
                            />
                         </div>
                         <button
                            onClick={handleAiPlan}
                            disabled={isAiPlanning || !aiPrompt}
-                           className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-5 rounded-[2rem] font-black text-xs uppercase tracking-widest shadow-xl flex items-center justify-center gap-3 active:scale-95 transition-all disabled:opacity-50"
+                           className="w-full bg-gradient-to-r from-cyan-600 to-teal-600 text-white py-5 rounded-[2rem] font-black text-xs uppercase tracking-widest shadow-xl flex items-center justify-center gap-3 active:scale-95 transition-all disabled:opacity-50"
                         >
                            {isAiPlanning ? <Loader2 className="w-5 h-5 animate-spin" /> : <Wand2 className="w-5 h-5" />}
                            {isAiPlanning ? 'Buscando opciones reales...' : 'Generar Viaje Completo'}
@@ -642,7 +642,7 @@ const TravelModule: React.FC<TravelModuleProps> = () => {
                               disabled={isGeneratingImg || !newDestination}
                               className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md hover:bg-white text-gray-900 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg flex items-center gap-2 transition-all disabled:opacity-50 active:scale-95"
                            >
-                              {isGeneratingImg ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3 text-purple-600" />}
+                              {isGeneratingImg ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3 text-cyan-600" />}
                               {isGeneratingImg ? 'Generando...' : 'Autogenerar Foto'}
                            </button>
                         </div>
@@ -672,8 +672,8 @@ const TravelModule: React.FC<TravelModuleProps> = () => {
                               <input type="number" value={newBudget} onChange={(e) => setNewBudget(e.target.value)} className="w-full pl-10 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl font-bold text-lg" placeholder="0.00" />
                            </div>
                            {(generatedFlights.length > 0 || generatedAccommodations.length > 0) && (
-                              <div className="mt-4 bg-purple-50 p-4 rounded-2xl border border-purple-100">
-                                 <p className="text-[10px] font-black text-purple-600 uppercase tracking-widest mb-2 flex items-center gap-2"><Wand2 className="w-3 h-3" /> Contenido Generado por IA</p>
+                              <div className="mt-4 bg-cyan-50 p-4 rounded-2xl border border-cyan-100">
+                                 <p className="text-[10px] font-black text-cyan-600 uppercase tracking-widest mb-2 flex items-center gap-2"><Wand2 className="w-3 h-3" /> Contenido Generado por IA</p>
                                  <div className="flex gap-2">
                                     {generatedFlights.length > 0 && <span className="bg-white px-2 py-1 rounded-lg text-xs font-bold text-gray-600 shadow-sm border border-gray-100">{generatedFlights.length} Vuelos</span>}
                                     {generatedAccommodations.length > 0 && <span className="bg-white px-2 py-1 rounded-lg text-xs font-bold text-gray-600 shadow-sm border border-gray-100">{generatedAccommodations.length} Alojamientos</span>}

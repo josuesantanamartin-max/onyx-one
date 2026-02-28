@@ -1,121 +1,172 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Zap, ScanLine, ShoppingCart, ArrowUpCircle, ArrowDownCircle, ArrowRightLeft, Carrot } from 'lucide-react';
+import {
+    Plus, ArrowDownCircle, ArrowUpCircle, ArrowRightLeft,
+    ShoppingCart, ScanLine, X
+} from 'lucide-react';
 import { useUserStore } from '../../../store/useUserStore';
 import { QuickActionType } from '../../../types';
 
-const FloatingActionButton: React.FC = () => {
-    const {
-        isFabOpen, setFabOpen,
-        setQuickAction,
-        activeApp, setActiveApp,
-        setFinanceActiveTab, setLifeActiveTab,
-    } = useUserStore();
+/* ─── Action definitions ──────────────────────────────────────────── */
+const FINANCE_ACTIONS: { type: QuickActionType; label: string; sub: string; icon: React.ElementType; color: string; bg: string }[] = [
+    { type: 'ADD_EXPENSE', label: 'Gasto', sub: 'Registrar un pago', icon: ArrowDownCircle, color: 'text-rose-500', bg: 'bg-rose-50 dark:bg-rose-950/40' },
+    { type: 'ADD_INCOME', label: 'Ingreso', sub: 'Anotar un cobro', icon: ArrowUpCircle, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-950/40' },
+    { type: 'ADD_TRANSFER', label: 'Transferencia', sub: 'Entre mis cuentas', icon: ArrowRightLeft, color: 'text-cyan-500', bg: 'bg-cyan-50 dark:bg-cyan-950/40' },
+];
 
-    // FAB Actions Logic
+const LIFE_ACTIONS: { type: QuickActionType; label: string; sub: string; icon: React.ElementType; color: string; bg: string }[] = [
+    { type: 'ADD_SHOPPING_ITEM', label: 'Lista de compra', sub: 'Añadir producto', icon: ShoppingCart, color: 'text-teal-500', bg: 'bg-teal-50 dark:bg-teal-950/40' },
+    { type: 'SCAN_RECEIPT', label: 'Escanear ticket', sub: 'Con IA de Aliseus', icon: ScanLine, color: 'text-cyan-500', bg: 'bg-cyan-50 dark:bg-cyan-950/40' },
+];
+
+/* ─── Single action row ───────────────────────────────────────────── */
+const ActionRow: React.FC<{
+    icon: React.ElementType;
+    label: string;
+    sub: string;
+    color: string;
+    bg: string;
+    onClick: () => void;
+    delay: number;
+}> = ({ icon: Icon, label, sub, color, bg, onClick, delay }) => (
+    <motion.button
+        initial={{ opacity: 0, x: 16 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: 16 }}
+        transition={{ delay, duration: 0.2 }}
+        whileHover={{ x: -2 }}
+        whileTap={{ scale: 0.97 }}
+        onClick={onClick}
+        className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors text-left group"
+    >
+        <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${bg} transition-transform group-hover:scale-110`}>
+            <Icon className={`w-5 h-5 ${color}`} />
+        </div>
+        <div>
+            <p className="text-sm font-semibold text-gray-900 dark:text-white leading-none mb-0.5">{label}</p>
+            <p className="text-[11px] text-gray-400 dark:text-gray-500">{sub}</p>
+        </div>
+    </motion.button>
+);
+
+/* ─── Main component ──────────────────────────────────────────────── */
+const FloatingActionButton: React.FC = () => {
+    const { isFabOpen, setFabOpen, setQuickAction, activeApp, setActiveApp, setFinanceActiveTab, setLifeActiveTab } = useUserStore();
+
     const triggerAction = (type: QuickActionType) => {
         setQuickAction({ type, timestamp: Date.now() });
         setFabOpen(false);
 
-        // Navigation Logic based on Action
         if (type === 'ADD_EXPENSE' || type === 'ADD_INCOME' || type === 'ADD_TRANSFER') {
             setActiveApp('finance');
             setFinanceActiveTab('transactions');
-        } else if (type === 'ADD_INGREDIENT' || type === 'SCAN_RECEIPT') {
+        } else if (type === 'SCAN_RECEIPT') {
             setActiveApp('life');
-            setLifeActiveTab('kitchen-pantry'); // Corrected to match App.tsx logic
+            setLifeActiveTab('kitchen-pantry');
         } else if (type === 'ADD_SHOPPING_ITEM') {
             setActiveApp('life');
             setLifeActiveTab('kitchen-list');
-        } else if (type === 'ADD_TASK') {
-            setActiveApp('life');
-            setLifeActiveTab('family');
         }
     };
 
-    // FAB Contextual Logic
-    const getTooltipLabel = () => {
-        if (activeApp === 'finance') return 'Nueva Transacción';
-        if (activeApp === 'life') return 'Nueva Nota / Entrada';
-        return 'Acciones Rápidas';
-    };
-
-    const isFinanceMenu = activeApp === 'finance' || activeApp === 'dashboard' || activeApp === 'settings';
-    const isLifeMenu = activeApp === 'life' || activeApp === 'dashboard' || activeApp === 'settings';
+    const showFinance = activeApp === 'finance' || activeApp === 'dashboard' || activeApp === 'settings';
+    const showLife = activeApp === 'life' || activeApp === 'dashboard' || activeApp === 'settings';
 
     return (
         <>
+            {/* Backdrop */}
             <AnimatePresence>
                 {isFabOpen && (
                     <motion.div
+                        key="fab-backdrop"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 bg-onyx-950/10 backdrop-blur-md z-40"
+                        className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
                         onClick={() => setFabOpen(false)}
                     />
                 )}
             </AnimatePresence>
 
-            <div className="fixed bottom-8 right-8 z-50 flex flex-col items-end gap-3 pointer-events-none">
+            {/* Floating panel + button */}
+            <div className="fixed bottom-8 right-8 z-50 flex flex-col items-end gap-3">
+
+                {/* Action panel */}
                 <AnimatePresence>
                     {isFabOpen && (
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                            key="fab-panel"
+                            initial={{ opacity: 0, scale: 0.92, y: 12 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.9, y: 10 }}
-                            className="flex flex-col items-end gap-3 mb-4 pointer-events-auto pb-2 pr-1"
+                            exit={{ opacity: 0, scale: 0.92, y: 12 }}
+                            transition={{ type: 'spring', stiffness: 400, damping: 28 }}
+                            className="w-72 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl shadow-black/10 border border-gray-100 dark:border-white/10 overflow-hidden"
+                            style={{ transformOrigin: 'bottom right' }}
                         >
-                            {isFinanceMenu && (
-                                <>
-                                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => triggerAction('ADD_EXPENSE')} className="group flex items-center gap-4">
-                                        <span className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-onyx-100 shadow-sm text-[11px] font-bold text-onyx-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-1 group-hover:translate-x-0 whitespace-nowrap">Registrar Gasto</span>
-                                        <div className="w-12 h-12 bg-white rounded-xl shadow-lg border border-onyx-100 flex items-center justify-center text-onyx-400 group-hover:text-red-500 group-hover:border-red-100 transition-colors duration-300"><ArrowDownCircle className="w-5 h-5" /></div>
-                                    </motion.button>
-                                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => triggerAction('ADD_INCOME')} className="group flex items-center gap-4">
-                                        <span className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-onyx-100 shadow-sm text-[11px] font-bold text-onyx-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-1 group-hover:translate-x-0 whitespace-nowrap">Nuevo Ingreso</span>
-                                        <div className="w-12 h-12 bg-white rounded-xl shadow-lg border border-onyx-100 flex items-center justify-center text-onyx-400 group-hover:text-emerald-500 group-hover:border-emerald-100 transition-colors duration-300"><ArrowUpCircle className="w-5 h-5" /></div>
-                                    </motion.button>
-                                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => triggerAction('ADD_TRANSFER')} className="group flex items-center gap-4">
-                                        <span className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-onyx-100 shadow-sm text-[11px] font-bold text-onyx-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-1 group-hover:translate-x-0 whitespace-nowrap">Transferencia</span>
-                                        <div className="w-12 h-12 bg-white rounded-xl shadow-lg border border-onyx-100 flex items-center justify-center text-onyx-400 group-hover:text-indigo-primary group-hover:border-indigo-50 transition-colors duration-300"><ArrowRightLeft className="w-5 h-5" /></div>
-                                    </motion.button>
-                                </>
-                            )}
+                            {/* Header */}
+                            <div className="px-5 pt-5 pb-3 flex flex-col items-center justify-center border-b border-gray-50 dark:border-white/5 relative bg-gradient-to-br from-cyan-50/50 to-white dark:from-cyan-950/20 dark:to-gray-900">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none"></div>
+                                <p className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-600 dark:text-cyan-400 relative z-10">Accionador</p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400 font-medium mt-1 relative z-10">¿Qué quieres registrar?</p>
+                            </div>
 
-                            {isFinanceMenu && isLifeMenu && (
-                                <div className="h-px w-20 bg-onyx-200/50 my-1 mr-4"></div>
-                            )}
+                            <div className="p-2">
+                                {/* Finance section */}
+                                {showFinance && (
+                                    <>
+                                        <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-gray-300 dark:text-gray-600 px-3 pt-2 pb-1">Finanzas</p>
+                                        {FINANCE_ACTIONS.map((a, i) => (
+                                            <ActionRow key={a.type} {...a} onClick={() => triggerAction(a.type)} delay={i * 0.04} />
+                                        ))}
+                                    </>
+                                )}
 
-                            {isLifeMenu && (
-                                <>
-                                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => triggerAction('ADD_SHOPPING_ITEM')} className="group flex items-center gap-4">
-                                        <span className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-onyx-100 shadow-sm text-[11px] font-bold text-onyx-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-1 group-hover:translate-x-0 whitespace-nowrap">Lista de Compra</span>
-                                        <div className="w-12 h-12 bg-white rounded-xl shadow-lg border border-onyx-100 flex items-center justify-center text-onyx-400 group-hover:text-emerald-500 transition-colors duration-300"><ShoppingCart className="w-5 h-5" /></div>
-                                    </motion.button>
-                                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => triggerAction('SCAN_RECEIPT')} className="group flex items-center gap-4">
-                                        <span className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-onyx-100 shadow-sm text-[11px] font-bold text-onyx-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-1 group-hover:translate-x-0 whitespace-nowrap">Escanear Ticket</span>
-                                        <div className="w-12 h-12 bg-white rounded-xl shadow-lg border border-onyx-100 flex items-center justify-center text-onyx-400 group-hover:text-purple-500 transition-colors duration-300"><ScanLine className="w-5 h-5" /></div>
-                                    </motion.button>
-                                </>
-                            )}
+                                {/* Divider */}
+                                {showFinance && showLife && (
+                                    <div className="mx-3 my-1 border-t border-gray-100 dark:border-white/5" />
+                                )}
+
+                                {/* Life section */}
+                                {showLife && (
+                                    <>
+                                        <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-gray-300 dark:text-gray-600 px-3 pt-2 pb-1">Vida</p>
+                                        {LIFE_ACTIONS.map((a, i) => (
+                                            <ActionRow key={a.type} {...a} onClick={() => triggerAction(a.type)} delay={(FINANCE_ACTIONS.length + i) * 0.04} />
+                                        ))}
+                                    </>
+                                )}
+                            </div>
                         </motion.div>
                     )}
                 </AnimatePresence>
+
+                {/* Main FAB button */}
                 <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setFabOpen(!isFabOpen)}
-                    className={`w-14 h-14 rounded-2xl shadow-xl flex items-center justify-center transition-colors duration-500 pointer-events-auto z-50 relative group/fab ${isFabOpen ? 'bg-onyx-950 text-white rotate-45' : 'bg-onyx-950 text-white hover:bg-black'}`}
+                    className={`
+                        w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 relative z-50
+                        ${isFabOpen
+                            ? 'bg-white dark:bg-gray-800 shadow-2xl'
+                            : 'bg-gradient-to-br from-cyan-500 to-teal-500 shadow-custom shadow-cyan-500/20 hover:shadow-cyan-500/40'}
+                    `}
                 >
-                    <Plus className="w-7 h-7" />
+                    <motion.div
+                        animate={{ rotate: isFabOpen ? 90 : 0 }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                        className="flex items-center justify-center"
+                    >
+                        {isFabOpen ? (
+                            <X className="w-6 h-6 text-gray-400" />
+                        ) : (
+                            <Plus className="w-6 h-6 text-white" />
+                        )}
+                    </motion.div>
 
-                    {/* Tooltip that appears on hover when closed */}
+                    {/* Glow ring when closed */}
                     {!isFabOpen && (
-                        <div className="absolute right-full mr-4 w-max opacity-0 group-hover/fab:opacity-100 transition-opacity bg-onyx-900 text-white text-xs py-1.5 px-3 rounded-lg font-medium pointer-events-none flex items-center shadow-lg">
-                            {getTooltipLabel()}
-                            <div className="absolute top-1/2 -right-1.5 -translate-y-1/2 border-[4px] border-transparent border-l-onyx-900"></div>
-                        </div>
+                        <span className="absolute inset-0 rounded-2xl ring-2 ring-cyan-500/20 animate-pulse pointer-events-none" />
                     )}
                 </motion.button>
             </div>

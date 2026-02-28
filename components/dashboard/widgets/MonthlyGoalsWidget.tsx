@@ -63,7 +63,7 @@ const MonthlyGoalsWidget: React.FC<DashboardDataProps> = ({
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                    <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
                         <Target className="w-5 h-5 text-white" />
                     </div>
                     <div>
@@ -77,7 +77,7 @@ const MonthlyGoalsWidget: React.FC<DashboardDataProps> = ({
                 </div>
                 {totalGoals > 0 && (
                     <div className="text-right">
-                        <p className="text-2xl font-black text-indigo-600 dark:text-indigo-400">
+                        <p className="text-2xl font-black text-cyan-600 dark:text-cyan-400">
                             {Math.round((completedGoals / totalGoals) * 100)}%
                         </p>
                     </div>
@@ -115,7 +115,7 @@ const MonthlyGoalsWidget: React.FC<DashboardDataProps> = ({
                                     ) : goal.isAtRisk ? (
                                         <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 mt-0.5 flex-shrink-0" />
                                     ) : (
-                                        <Target className="w-5 h-5 text-indigo-600 dark:text-indigo-400 mt-0.5 flex-shrink-0" />
+                                        <Target className="w-5 h-5 text-cyan-600 dark:text-cyan-400 mt-0.5 flex-shrink-0" />
                                     )}
                                     <div className="flex-1 min-w-0">
                                         <h4 className="text-sm font-bold text-gray-900 dark:text-white truncate">
@@ -153,7 +153,7 @@ const MonthlyGoalsWidget: React.FC<DashboardDataProps> = ({
                                             : goal.isAtRisk
                                                 ? 'bg-red-500'
                                                 : goal.isOnTrack
-                                                    ? 'bg-indigo-500'
+                                                    ? 'bg-cyan-500'
                                                     : 'bg-orange-500'
                                             }`}
                                         style={{ width: `${Math.min(100, goal.progress)}%` }}
@@ -168,7 +168,7 @@ const MonthlyGoalsWidget: React.FC<DashboardDataProps> = ({
                                     : goal.isAtRisk
                                         ? 'text-red-600 dark:text-red-400'
                                         : goal.isOnTrack
-                                            ? 'text-indigo-600 dark:text-indigo-400'
+                                            ? 'text-cyan-600 dark:text-cyan-400'
                                             : 'text-orange-600 dark:text-orange-400'
                                     }`}>
                                     {goal.isCompleted

@@ -26,7 +26,7 @@ const BentoSection: React.FC<BentoSectionProps> = ({ id, title, icon, children, 
             {/* Cabecera / Header del Acordeón */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full flex items-center justify-between px-6 py-4 hover:bg-onyx-100/50 dark:hover:bg-onyx-800/50 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                className="w-full flex items-center justify-between px-6 py-4 hover:bg-onyx-100/50 dark:hover:bg-onyx-800/50 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
             >
                 <div className="flex items-center gap-3">
                     {icon && (
@@ -61,3 +61,4 @@ const BentoSection: React.FC<BentoSectionProps> = ({ id, title, icon, children, 
 };
 
 export default BentoSection;
+

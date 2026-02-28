@@ -1,4 +1,4 @@
-# 🏗️ Onyx One - Documentación de Arquitectura
+# 🏗️ Aliseus - Documentación de Arquitectura
 
 **Versión 1.0** | Última actualización: Febrero 2026
 
@@ -22,7 +22,7 @@
 
 ## 🎯 Visión General del Sistema
 
-Onyx One es una aplicación web progresiva (PWA) construida con React y TypeScript que integra gestión financiera personal y gestión del hogar en una plataforma unificada.
+Aliseus es una aplicación web progresiva (PWA) construida con React y TypeScript que integra gestión financiera personal y gestión del hogar en una plataforma unificada.
 
 ### Objetivos Arquitectónicos
 
@@ -223,7 +223,7 @@ export const Component: React.FC<ComponentProps> = ({ prop1, prop2 }) => {
 
 ### Supabase como BaaS
 
-Onyx One utiliza Supabase como backend completo:
+Aliseus utiliza Supabase como backend completo:
 
 ```mermaid
 graph LR
@@ -965,4 +965,4 @@ VITE_STRIPE_PUBLISHABLE_KEY=xxx
 
 ---
 
-*Onyx One - Arquitectura robusta para tu vida organizada.*
+*Aliseus - Arquitectura robusta para tu vida organizada.*

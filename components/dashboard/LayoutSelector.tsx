@@ -45,7 +45,7 @@ const LayoutSelector: React.FC = () => {
                         {dashboardLayouts.map((layout) => (
                             <div
                                 key={layout.id}
-                                className={`group relative w-full flex items-center justify-between px-4 py-3 hover:bg-onyx-50 dark:hover:bg-onyx-800 transition-colors ${layout.id === activeLayoutId ? 'bg-indigo-primary/5 dark:bg-indigo-900/10' : ''}`}
+                                className={`group relative w-full flex items-center justify-between px-4 py-3 hover:bg-onyx-50 dark:hover:bg-onyx-800 transition-colors ${layout.id === activeLayoutId ? 'bg-cyan-primary/5 dark:bg-cyan-900/10' : ''}`}
                             >
                                 <div className="flex-1 mr-4 overflow-hidden">
                                     {editingId === layout.id ? (
@@ -54,7 +54,7 @@ const LayoutSelector: React.FC = () => {
                                                 autoFocus
                                                 value={editName}
                                                 onChange={(e) => setEditName(e.target.value)}
-                                                className="w-full bg-white dark:bg-onyx-700 border border-indigo-primary rounded-lg px-2 py-1 text-sm outline-none"
+                                                className="w-full bg-white dark:bg-onyx-700 border border-cyan-primary rounded-lg px-2 py-1 text-sm outline-none"
                                                 onBlur={(e) => handleRename(layout.id, e as any)}
                                             />
                                         </form>
@@ -80,14 +80,14 @@ const LayoutSelector: React.FC = () => {
 
                                 <div className="flex items-center gap-1">
                                     {layout.id === activeLayoutId && (
-                                        <Check className="w-4 h-4 text-indigo-primary mr-1" />
+                                        <Check className="w-4 h-4 text-cyan-primary mr-1" />
                                     )}
 
                                     {!layout.isDefault && editingId !== layout.id && (
                                         <div className="flex opacity-0 group-hover:opacity-100 transition-opacity gap-1">
                                             <button
                                                 onClick={() => duplicateLayout(layout.id)}
-                                                className="p-1.5 hover:bg-indigo-soft dark:hover:bg-indigo-900/30 rounded-lg text-onyx-400 hover:text-indigo-primary"
+                                                className="p-1.5 hover:bg-cyan-soft dark:hover:bg-cyan-900/30 rounded-lg text-onyx-400 hover:text-cyan-primary"
                                                 title="Duplicar"
                                             >
                                                 <Copy className="w-3.5 h-3.5" />
@@ -97,7 +97,7 @@ const LayoutSelector: React.FC = () => {
                                                     setEditingId(layout.id);
                                                     setEditName(layout.name);
                                                 }}
-                                                className="p-1.5 hover:bg-indigo-soft dark:hover:bg-indigo-900/30 rounded-lg text-onyx-400 hover:text-indigo-primary"
+                                                className="p-1.5 hover:bg-cyan-soft dark:hover:bg-cyan-900/30 rounded-lg text-onyx-400 hover:text-cyan-primary"
                                                 title="Renombrar"
                                             >
                                                 <Edit2 className="w-3.5 h-3.5" />
@@ -126,3 +126,4 @@ const LayoutSelector: React.FC = () => {
 };
 
 export default LayoutSelector;
+

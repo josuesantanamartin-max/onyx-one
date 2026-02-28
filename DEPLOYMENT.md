@@ -1,6 +1,6 @@
-# 🚀 Guía de Deployment - Onyx One
+# 🚀 Guía de Deployment - Aliseus
 
-Esta guía te muestra cómo desplegar Onyx One en diferentes plataformas.
+Esta guía te muestra cómo desplegar Aliseus en diferentes plataformas.
 
 ---
 

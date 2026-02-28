@@ -17,7 +17,7 @@ export const ModuleLoader: React.FC = () => {
 
                     <div className="flex items-center gap-2 mb-2">
                         <Sparkles className="w-4 h-4 text-emerald-500" />
-                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">Onyx Intelligence</span>
+                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">Aliseus</span>
                     </div>
 
                     <div className="h-1 w-32 bg-gray-100 rounded-full overflow-hidden">

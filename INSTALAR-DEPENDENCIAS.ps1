@@ -1,8 +1,8 @@
-# Script para Instalar Dependencias de Onyx One
+# Script para Instalar Dependencias de Aliseus
 # Resuelve conflictos de dependencias automaticamente
 
 Write-Host "================================================" -ForegroundColor Cyan
-Write-Host "  Instalando Dependencias de Onyx One" -ForegroundColor Cyan
+Write-Host "  Instalando Dependencias de Aliseus" -ForegroundColor Cyan
 Write-Host "================================================" -ForegroundColor Cyan
 Write-Host ""
 

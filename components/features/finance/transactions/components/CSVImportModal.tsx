@@ -1,11 +1,12 @@
 import React, { useState, useCallback } from 'react';
 import Papa from 'papaparse';
 import { read, utils } from 'xlsx';
-import { Upload, X, ArrowRight, Check, AlertCircle, FileText, Settings, Database, Building2, AlertTriangle } from 'lucide-react';
+import { Upload, X, ArrowRight, Check, AlertCircle, FileText, Settings, Database, Building2, AlertTriangle, CreditCard, ArrowRightLeft } from 'lucide-react';
 import { Transaction } from '../../../../../types';
 import { parseDate, normalizeAmount, detectDuplicates, validateTransactions, getTransactionStats, ValidationError, cleanDescription, mapCategory, detectSubCategory, calculateBalanceImpact, detectCategoryFromDescription } from '../../../../../utils/csvUtils';
 import { getAllBankTemplates, getBankTemplate, BankTemplate } from '../../../../../config/bankTemplates';
 import { useFinanceStore } from '../../../../../store/useFinanceStore';
+import { useFinanceControllers } from '../../../../../hooks/useFinanceControllers';
 
 interface CSVImportModalProps {
     isOpen: boolean;
@@ -30,14 +31,31 @@ const STEPS = {
     PREVIEW: 4,
 };
 
+
+// Keywords that identify a credit card statement payment in a bank CSV
+const CREDIT_CARD_PAYMENT_KEYWORDS = [
+    'pago tarjeta', 'liquidacion tarjeta', 'liquidaci\u00f3n tarjeta',
+    'recibo tarjeta', 'cargo tarjeta', 'pago visa', 'pago mastercard',
+    'pago amex', 'domiciliacion tarjeta', 'liq. tarjeta',
+    'abono tarjeta', 'tarjeta credito', 'tarjeta cr\u00e9dito',
+];
+
+const isCreditCardPaymentRow = (description: string): boolean => {
+    const lower = description.toLowerCase();
+    return CREDIT_CARD_PAYMENT_KEYWORDS.some(kw => lower.includes(kw));
+};
+
 const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImport }) => {
     const { transactions: existingTransactions, accounts, categories } = useFinanceStore();
+    const { transfer } = useFinanceControllers();
     const [step, setStep] = useState(STEPS.UPLOAD);
     const [file, setFile] = useState<File | null>(null);
     const [rawData, setRawData] = useState<any[]>([]);
     const [headers, setHeaders] = useState<string[]>([]);
     const [selectedBank, setSelectedBank] = useState<string | null>(null);
     const [selectedAccount, setSelectedAccount] = useState<string | null>(null);
+    // For credit card payment rows: which credit account to settle against
+    const [creditCardPaymentAccount, setCreditCardPaymentAccount] = useState<string>('');
     const [mapping, setMapping] = useState<ColumnMapping>({
         date: '',
         amount: '',
@@ -257,9 +275,9 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                 type: amountVal >= 0 ? 'INCOME' : 'EXPENSE',
                 accountId: selectedAccount || undefined,
                 isRecurring: false,
-                // Add a temporary flag for UI rendering
-                _autoDetected: autoDetected
-            } as any; // Using any here to allow the temporary flag
+                _autoDetected: autoDetected,
+                _isCreditCardPayment: isCreditCardPaymentRow(descriptionVal),
+            } as any;
         });
 
         // Validate
@@ -301,13 +319,33 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
             toImport = toImport.filter((_, index) => !errorRows.has(index));
         }
 
-        // Import transactions
-        onImport(toImport);
+        // Separate credit card payment rows from regular transactions
+        const creditCardRows = toImport.filter((r: any) => r._isCreditCardPayment);
+        const regularRows = toImport.filter((r: any) => !r._isCreditCardPayment);
+
+        // Import regular transactions
+        onImport(regularRows);
+
+        // Convert credit card payment rows into transfers: bank account → credit card account
+        if (creditCardRows.length > 0 && selectedAccount && creditCardPaymentAccount) {
+            creditCardRows.forEach((row: any) => {
+                transfer(
+                    selectedAccount,          // from: bank account
+                    creditCardPaymentAccount, // to: credit card account (reduces debt)
+                    row.amount,
+                    row.date,
+                    undefined,
+                    row.description
+                );
+            });
+        } else if (creditCardRows.length > 0) {
+            // No CC account selected — import as regular expenses (fallback)
+            onImport(creditCardRows);
+        }
 
         // Update account balance if account was selected
         if (selectedAccount && balanceInfo) {
             const { updateAccountBalance } = useFinanceStore.getState();
-            // Use impact instead of finalBalance because updateAccountBalance adds the value
             updateAccountBalance(selectedAccount, balanceInfo.impact);
         }
 
@@ -321,6 +359,7 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
         setRawData([]);
         setSelectedBank(null);
         setSelectedAccount(null);
+        setCreditCardPaymentAccount('');
         setPreviewData([]);
         setValidationErrors([]);
         setDuplicates([]);
@@ -332,18 +371,20 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
     const stats = getTransactionStats(previewData);
     const validCount = previewData.length - validationErrors.length;
     const duplicateCount = duplicates.length;
+    const creditCardPaymentRows = previewData.filter((r: any) => r._isCreditCardPayment);
+    const creditAccounts = accounts.filter(a => a.type === 'CREDIT');
 
     return (
-        <div className="fixed inset-0 bg-onyx-950/40 backdrop-blur-sm z-[70] flex items-center justify-center p-4 animate-fade-in">
+        <div className="fixed inset-0 bg-cyan-900/40 backdrop-blur-sm z-[70] flex items-center justify-center p-4 animate-fade-in">
             <div className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col max-h-[90vh]">
                 {/* Header */}
                 <div className="px-8 py-6 border-b border-onyx-100 flex justify-between items-center bg-white sticky top-0 z-10">
                     <div className="flex items-center gap-4">
-                        <div className={`p-3 rounded-xl bg-indigo-50 text-indigo-primary`}>
+                        <div className={`p-3 rounded-xl bg-cyan-50 text-cyan-600`}>
                             <Upload className="w-6 h-6" />
                         </div>
                         <div>
-                            <h2 className="text-xl font-bold text-onyx-950">Importar Transacciones</h2>
+                            <h2 className="text-xl font-bold text-cyan-900">Importar Transacciones</h2>
                             <p className="text-xs font-medium text-onyx-400 mt-1 uppercase tracking-wider">
                                 {step === STEPS.UPLOAD && '1. Sube tu archivo CSV o Excel'}
                                 {step === STEPS.BANK_SELECT && '2. Selecciona tu banco'}
@@ -353,7 +394,7 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                             </p>
                         </div>
                     </div>
-                    <button onClick={onClose} className="p-2 hover:bg-onyx-50 rounded-full transition-colors text-onyx-400 hover:text-onyx-950">
+                    <button onClick={onClose} className="p-2 hover:bg-onyx-50 rounded-full transition-colors text-onyx-400 hover:text-cyan-900">
                         <X className="w-6 h-6" />
                     </button>
                 </div>
@@ -363,17 +404,17 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                     {/* STEP 1: UPLOAD */}
                     {step === STEPS.UPLOAD && (
                         <div
-                            className="border-2 border-dashed border-onyx-200 rounded-3xl p-12 flex flex-col items-center justify-center text-center hover:border-indigo-primary/50 hover:bg-indigo-50/10 transition-all cursor-pointer group"
+                            className="border-2 border-dashed border-onyx-200 rounded-3xl p-12 flex flex-col items-center justify-center text-center hover:border-cyan-500/50 hover:bg-cyan-50/10 transition-all cursor-pointer group"
                             onDragOver={handleDragOver}
                             onDrop={handleDrop}
                         >
                             <div className="w-20 h-20 bg-onyx-50 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-sm">
-                                <FileText className="w-10 h-10 text-onyx-300 group-hover:text-indigo-primary transition-colors" />
+                                <FileText className="w-10 h-10 text-onyx-300 group-hover:text-cyan-600 transition-colors" />
                             </div>
-                            <h3 className="text-lg font-bold text-onyx-950 mb-2">Arrastra tu archivo CSV o Excel aquí</h3>
+                            <h3 className="text-lg font-bold text-cyan-900 mb-2">Arrastra tu archivo CSV o Excel aquí</h3>
                             <p className="text-onyx-500 mb-8 max-w-sm">O haz clic para seleccionar un archivo desde tu ordenador. Asegúrate de que tenga encabezados.</p>
 
-                            <label className="bg-onyx-950 hover:bg-onyx-800 text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest cursor-pointer transition-all shadow-lg shadow-onyx-950/20 active:scale-95">
+                            <label className="bg-cyan-900 hover:bg-onyx-800 text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest cursor-pointer transition-all shadow-lg shadow-cyan-900/20 active:scale-95">
                                 Seleccionar Archivo
                                 <input type="file" onChange={handleFileUpload} accept=".csv, .xlsx, .xls" className="hidden" />
                             </label>
@@ -383,8 +424,8 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                     {/* STEP 2: BANK SELECT */}
                     {step === STEPS.BANK_SELECT && (
                         <div className="space-y-6 animate-fade-in">
-                            <div className="bg-indigo-50/50 p-6 rounded-2xl border border-indigo-100 flex items-start gap-4">
-                                <Building2 className="w-5 h-5 text-indigo-primary mt-0.5" />
+                            <div className="bg-cyan-50/50 p-6 rounded-2xl border border-cyan-100 flex items-start gap-4">
+                                <Building2 className="w-5 h-5 text-cyan-600 mt-0.5" />
                                 <div>
                                     <h4 className="font-bold text-onyx-900 text-sm">¿Tu banco está en la lista?</h4>
                                     <p className="text-xs text-onyx-500 mt-1">Selecciona tu banco para mapear automáticamente las columnas, o continúa manualmente.</p>
@@ -396,7 +437,7 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                                     <button
                                         key={bank.id}
                                         onClick={() => handleBankSelect(bank.id)}
-                                        className="p-6 border-2 border-onyx-200 rounded-2xl hover:border-indigo-primary hover:bg-indigo-50/30 transition-all text-center font-bold text-sm text-onyx-900 hover:text-indigo-primary"
+                                        className="p-6 border-2 border-onyx-200 rounded-2xl hover:border-cyan-500 hover:bg-cyan-50/30 transition-all text-center font-bold text-sm text-onyx-900 hover:text-cyan-600"
                                     >
                                         {bank.name}
                                     </button>
@@ -415,8 +456,8 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                     {/* STEP 3: ACCOUNT SELECT */}
                     {step === STEPS.ACCOUNT_SELECT && (
                         <div className="space-y-6 animate-fade-in">
-                            <div className="bg-indigo-50/50 p-6 rounded-2xl border border-indigo-100 flex items-start gap-4">
-                                <Database className="w-5 h-5 text-indigo-primary mt-0.5" />
+                            <div className="bg-cyan-50/50 p-6 rounded-2xl border border-cyan-100 flex items-start gap-4">
+                                <Database className="w-5 h-5 text-cyan-600 mt-0.5" />
                                 <div>
                                     <h4 className="font-bold text-onyx-900 text-sm">Selecciona la cuenta bancaria</h4>
                                     <p className="text-xs text-onyx-500 mt-1">Las transacciones se vincularán a esta cuenta y su saldo se actualizará automáticamente.</p>
@@ -428,11 +469,11 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                                     <button
                                         key={account.id}
                                         onClick={() => handleAccountSelect(account.id)}
-                                        className="p-6 border-2 border-onyx-200 rounded-2xl hover:border-indigo-primary hover:bg-indigo-50/30 transition-all text-left group"
+                                        className="p-6 border-2 border-onyx-200 rounded-2xl hover:border-cyan-500 hover:bg-cyan-50/30 transition-all text-left group"
                                     >
                                         <div className="flex justify-between items-start">
                                             <div>
-                                                <h5 className="font-bold text-onyx-900 group-hover:text-indigo-primary transition-colors">{account.name}</h5>
+                                                <h5 className="font-bold text-onyx-900 group-hover:text-cyan-600 transition-colors">{account.name}</h5>
                                                 {account.bankName && (
                                                     <p className="text-xs text-onyx-500 mt-1">{account.bankName}</p>
                                                 )}
@@ -457,8 +498,8 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                     {/* STEP 4: MAPPING */}
                     {step === STEPS.MAPPING && (
                         <div className="space-y-8 animate-fade-in">
-                            <div className="bg-indigo-50/50 p-6 rounded-2xl border border-indigo-100 flex items-start gap-4">
-                                <Database className="w-5 h-5 text-indigo-primary mt-0.5" />
+                            <div className="bg-cyan-50/50 p-6 rounded-2xl border border-cyan-100 flex items-start gap-4">
+                                <Database className="w-5 h-5 text-cyan-600 mt-0.5" />
                                 <div>
                                     <h4 className="font-bold text-onyx-900 text-sm">Archivo detectado: {file?.name}</h4>
                                     <p className="text-xs text-onyx-500 mt-1">{rawData.length} filas encontradas. {selectedBank ? `Plantilla ${getBankTemplate(selectedBank)?.name} aplicada.` : 'Asigna las columnas correspondientes.'}</p>
@@ -477,7 +518,7 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                                         <select
                                             value={mapping[field.key as keyof ColumnMapping]}
                                             onChange={(e) => setMapping({ ...mapping, [field.key]: e.target.value })}
-                                            className="w-full p-4 bg-onyx-50 border border-onyx-200 rounded-xl font-medium text-onyx-900 focus:ring-2 focus:ring-indigo-primary/20 outline-none transition-all"
+                                            className="w-full p-4 bg-onyx-50 border border-onyx-200 rounded-xl font-medium text-onyx-900 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all"
                                         >
                                             <option value="">-- Seleccionar Columna --</option>
                                             {headers.map(h => (
@@ -495,7 +536,7 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                         <div className="space-y-6 animate-fade-in">
                             {/* Balance Info */}
                             {balanceInfo && selectedAccount && (
-                                <div className="bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-2xl border border-indigo-200">
+                                <div className="bg-gradient-to-r from-cyan-50 to-teal-50 p-6 rounded-2xl border border-cyan-200">
                                     <h4 className="font-bold text-onyx-900 text-sm mb-4">Impacto en el Saldo</h4>
                                     <div className="grid grid-cols-3 gap-4">
                                         <div>
@@ -513,7 +554,7 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                                         </div>
                                         <div>
                                             <p className="text-xs font-bold text-onyx-500 uppercase tracking-wider">Saldo Final</p>
-                                            <p className="text-xl font-black text-indigo-600 mt-1">{balanceInfo.finalBalance.toFixed(2)} €</p>
+                                            <p className="text-xl font-black text-cyan-600 mt-1">{balanceInfo.finalBalance.toFixed(2)} €</p>
                                         </div>
                                     </div>
                                 </div>
@@ -538,6 +579,43 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                                     </div>
                                 )}
                             </div>
+
+                            {/* Credit Card Payment Banner */}
+                            {creditCardPaymentRows.length > 0 && (
+                                <div className="bg-violet-50 border border-violet-200 rounded-2xl p-5 flex items-start gap-4">
+                                    <div className="p-2 bg-violet-100 rounded-xl flex-shrink-0">
+                                        <CreditCard className="w-5 h-5 text-violet-600" />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <h4 className="font-bold text-violet-900 text-sm flex items-center gap-2">
+                                            {creditCardPaymentRows.length} pago{creditCardPaymentRows.length > 1 ? 's' : ''} de tarjeta detectado{creditCardPaymentRows.length > 1 ? 's' : ''}
+                                            <span className="text-[10px] font-black bg-violet-200 text-violet-700 px-2 py-0.5 rounded-full uppercase tracking-wider">Auto</span>
+                                        </h4>
+                                        <p className="text-xs text-violet-700 mt-1">
+                                            Estos movimientos son liquidaciones de tarjeta. Se importarán como <strong>transferencias</strong> del banco a la tarjeta (no como gastos), evitando duplicar los cargos ya registrados en la tarjeta.
+                                        </p>
+                                        {creditAccounts.length > 0 ? (
+                                            <div className="mt-3 flex items-center gap-3">
+                                                <ArrowRightLeft className="w-4 h-4 text-violet-500 flex-shrink-0" />
+                                                <select
+                                                    value={creditCardPaymentAccount}
+                                                    onChange={e => setCreditCardPaymentAccount(e.target.value)}
+                                                    className="flex-1 p-2.5 bg-white border border-violet-200 rounded-xl text-sm font-bold text-onyx-900 focus:ring-2 focus:ring-violet-300 outline-none"
+                                                >
+                                                    <option value="">Seleccionar tarjeta de crédito que se liquida...</option>
+                                                    {creditAccounts.map(a => (
+                                                        <option key={a.id} value={a.id}>
+                                                            {a.name} (deuda: {Math.abs(a.balance).toFixed(2)}€)
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        ) : (
+                                            <p className="text-xs text-violet-600 mt-2 italic">No tienes tarjetas de crédito registradas. Los pagos se importarán como gastos.</p>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Warnings */}
                             {(validationErrors.length > 0 || duplicateCount > 0) && (
@@ -583,18 +661,31 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                                         {previewData.slice(0, 10).map((row, idx) => {
                                             const hasError = validationErrors.some(e => e.row === idx + 1);
                                             const isDuplicate = duplicates.some(d => d.index === idx);
+                                            const isCCPayment = (row as any)._isCreditCardPayment;
 
                                             return (
-                                                <tr key={idx} className={`hover:bg-onyx-50/50 transition-colors ${hasError ? 'bg-red-50' : isDuplicate ? 'bg-amber-50' : ''}`}>
+                                                <tr key={idx} className={`hover:bg-onyx-50/50 transition-colors ${hasError ? 'bg-red-50' :
+                                                    isDuplicate ? 'bg-amber-50' :
+                                                        isCCPayment ? 'bg-violet-50' : ''
+                                                    }`}>
                                                     <td className="px-6 py-4 text-onyx-900">{row.date}</td>
-                                                    <td className="px-6 py-4 text-onyx-700">{row.description}</td>
+                                                    <td className="px-6 py-4 text-onyx-700">
+                                                        <span className="flex items-center gap-2">
+                                                            {isCCPayment && <CreditCard className="w-3.5 h-3.5 text-violet-500 flex-shrink-0" />}
+                                                            {row.description}
+                                                        </span>
+                                                    </td>
                                                     <td className="px-6 py-4 text-onyx-600">
                                                         <span className="flex items-center gap-1.5">
-                                                            <span className={`px-2 py-1 rounded-lg text-xs font-medium ${(row as any)._autoDetected ? 'bg-indigo-100 text-indigo-700' : 'bg-onyx-100'}`}>
-                                                                {row.category}
-                                                            </span>
-                                                            {(row as any)._autoDetected && (
-                                                                <span className="text-[10px] text-indigo-500 font-medium" title="Categorizado automáticamente">✨ IA</span>
+                                                            {isCCPayment ? (
+                                                                <span className="px-2 py-1 rounded-lg text-xs font-bold bg-violet-100 text-violet-700">Pago Tarjeta</span>
+                                                            ) : (
+                                                                <span className={`px-2 py-1 rounded-lg text-xs font-medium ${(row as any)._autoDetected ? 'bg-cyan-100 text-cyan-700' : 'bg-onyx-100'}`}>
+                                                                    {row.category}
+                                                                </span>
+                                                            )}
+                                                            {(row as any)._autoDetected && !isCCPayment && (
+                                                                <span className="text-[10px] text-cyan-500 font-medium" title="Categorizado automáticamente">✨ IA</span>
                                                             )}
                                                         </span>
                                                     </td>
@@ -602,9 +693,13 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                                                         {row.amount?.toFixed(2)} €
                                                     </td>
                                                     <td className="px-6 py-4">
-                                                        <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${row.type === 'INCOME' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
-                                                            {row.type === 'INCOME' ? 'Ingreso' : 'Gasto'}
-                                                        </span>
+                                                        {isCCPayment ? (
+                                                            <span className="px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-violet-100 text-violet-700">Transferencia</span>
+                                                        ) : (
+                                                            <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${row.type === 'INCOME' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
+                                                                {row.type === 'INCOME' ? 'Ingreso' : 'Gasto'}
+                                                            </span>
+                                                        )}
                                                     </td>
                                                 </tr>
                                             );
@@ -640,7 +735,7 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                         <button
                             onClick={processData}
                             disabled={!mapping.date || !mapping.amount}
-                            className="bg-onyx-950 text-white px-8 py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-onyx-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 shadow-lg shadow-onyx-950/10"
+                            className="bg-cyan-900 text-white px-8 py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-onyx-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 shadow-lg shadow-cyan-900/10"
                         >
                             Continuar <ArrowRight className="w-4 h-4" />
                         </button>
@@ -650,9 +745,11 @@ const CSVImportModal: React.FC<CSVImportModalProps> = ({ isOpen, onClose, onImpo
                         <button
                             onClick={handleFinalImport}
                             disabled={validCount === 0}
-                            className="bg-indigo-600 text-white px-8 py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 shadow-lg shadow-indigo-600/20"
+                            className="bg-cyan-600 text-white px-8 py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 shadow-lg shadow-cyan-600/20"
                         >
-                            Importar {validCount} Transacciones <Check className="w-4 h-4" />
+                            Importar {validCount - creditCardPaymentRows.length} Transacciones
+                            {creditCardPaymentRows.length > 0 && ` + ${creditCardPaymentRows.length} Transferencias`}
+                            <Check className="w-4 h-4" />
                         </button>
                     )}
                 </div>

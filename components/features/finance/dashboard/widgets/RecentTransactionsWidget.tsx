@@ -16,11 +16,11 @@ const RecentTransactionsWidget: React.FC<RecentTransactionsWidgetProps> = ({ tra
     return (
         <div className="flex flex-col h-full bg-white dark:bg-onyx-900 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 p-6 shadow-sm relative overflow-hidden group/widget hover:shadow-md transition-shadow">
             <div className="flex justify-between items-center mb-6 relative z-10">
-                <h3 className="text-xl font-black text-onyx-950 dark:text-white tracking-tight flex items-center gap-3">
-                    <div className="p-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-lg shadow-inner group-hover/widget:scale-110 transition-transform"><Clock className="w-5 h-5" /></div>
+                <h3 className="text-xl font-black text-cyan-900 dark:text-white tracking-tight flex items-center gap-3">
+                    <div className="p-2 bg-cyan-50 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400 rounded-lg shadow-inner group-hover/widget:scale-110 transition-transform"><Clock className="w-5 h-5" /></div>
                     Actividad Reciente
                 </h3>
-                <button onClick={() => onNavigate('finance', 'transactions')} className="text-xs font-bold text-onyx-400 hover:text-indigo-600 flex items-center gap-2 transition-colors group">
+                <button onClick={() => onNavigate('finance', 'transactions')} className="text-xs font-bold text-onyx-400 hover:text-cyan-600 flex items-center gap-2 transition-colors group">
                     Ver todas <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </button>
             </div>

@@ -2,7 +2,7 @@
 
 ## Descripción General
 
-Onyx One incluye un sistema completo de monitoreo y observabilidad que permite:
+Aliseus incluye un sistema completo de monitoreo y observabilidad que permite:
 - **Error Tracking** con Sentry
 - **Analytics** con Vercel Analytics  
 - **Performance Monitoring** con Web Vitals

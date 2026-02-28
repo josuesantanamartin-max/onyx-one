@@ -16,7 +16,7 @@ export const LandingLife: React.FC<LandingLifeProps> = ({ setShowLoginModal }) =
     const kitchenFeatures = [
         { icon: Sparkles, title: 'Planificador IA de Menús', desc: 'Genera menús semanales completos basados en tus preferencias, restricciones dietéticas y presupuesto. En segundos.' },
         { icon: BookOpen, title: 'Biblioteca de Recetas', desc: 'Miles de recetas con búsqueda avanzada por ingredientes, tiempo de preparación, dificultad y tipo de cocina.' },
-        { icon: Package, title: 'Inventario de Despensa', desc: 'Registra lo que tienes en casa. Onyx te sugiere recetas basadas en ingredientes disponibles para reducir desperdicio.' },
+        { icon: Package, title: 'Inventario de Despensa', desc: 'Registra lo que tienes en casa. Aliseus te sugiere recetas basadas en ingredientes disponibles para reducir desperdicio.' },
         { icon: ShoppingCart, title: 'Lista de Compra Automática', desc: 'Añade una receta al menú y los ingredientes que no tienes se agregan automáticamente a tu lista de compra.' },
         { icon: AlertTriangle, title: 'Alertas de Caducidad', desc: 'Notificaciones cuando los productos están próximos a caducar. Sugerencias de recetas para aprovecharlos.' },
         { icon: Apple, title: 'Información Nutricional', desc: 'Calorías, macros y micronutrientes calculados automáticamente para cada receta y comida del día.' },
@@ -37,7 +37,7 @@ export const LandingLife: React.FC<LandingLifeProps> = ({ setShowLoginModal }) =
         {
             title: 'Eliminar el Estrés de "¿Qué Comemos Hoy?"',
             scenario: 'Ana pasaba 30 minutos diarios decidiendo qué cocinar, a menudo recurriendo a comida rápida por falta de planificación.',
-            solution: 'Con el planificador IA de Onyx, genera menús semanales en 2 minutos cada domingo. La lista de compra se crea automáticamente.',
+            solution: 'Con el planificador IA de Aliseus, genera menús semanales en 2 minutos cada domingo. La lista de compra se crea automáticamente.',
             result: 'Ahorra 3.5 horas semanales, redujo gastos en comida rápida en €200/mes y come más saludable.',
             savings: '€200/mes',
             time: '3.5h/semana'
@@ -45,7 +45,7 @@ export const LandingLife: React.FC<LandingLifeProps> = ({ setShowLoginModal }) =
         {
             title: 'Reducir Desperdicio de Comida en 40%',
             scenario: 'La familia Martínez tiraba €120/mes en comida caducada o sobras olvidadas en el frigorífico.',
-            solution: 'Onyx les alertó de productos próximos a caducar y sugirió recetas para aprovecharlos. El sistema de sobras les ayudó a reutilizar todo.',
+            solution: 'Aliseus les alertó de productos próximos a caducar y sugirió recetas para aprovecharlos. El sistema de sobras les ayudó a reutilizar todo.',
             result: 'Redujeron el desperdicio de €120 a €70 mensuales. Ahorro anual de €600 y menor impacto ambiental.',
             savings: '€600/año',
             time: '40% menos desperdicio'
@@ -53,7 +53,7 @@ export const LandingLife: React.FC<LandingLifeProps> = ({ setShowLoginModal }) =
         {
             title: 'Planificar Viaje Europeo de 2 Semanas',
             scenario: 'Pedro quería visitar 5 ciudades europeas pero la planificación era abrumadora: vuelos, hoteles, itinerarios, documentos.',
-            solution: 'Con la búsqueda de vuelos reales en Onyx, planificó todas las rutas sin salir de la app. El sistema centralizó sus reservas, itinerarios y calculó el presupuesto previsto.',
+            solution: 'Con la búsqueda de vuelos reales en Aliseus, planificó todas las rutas sin salir de la app. El sistema centralizó sus reservas, itinerarios y calculó el presupuesto previsto.',
             result: 'Planificó el viaje completo en 4 horas vs. 2 semanas de investigación. Viaje sin estrés con todo organizado.',
             savings: 'Sin estrés',
             time: '4 horas de planificación'
@@ -68,12 +68,12 @@ export const LandingLife: React.FC<LandingLifeProps> = ({ setShowLoginModal }) =
                     <div className="inline-flex items-center justify-center p-4 bg-purple-50 rounded-3xl mb-6 shadow-inner">
                         <Heart className="w-12 h-12 text-purple-600" />
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-gray-900 mb-6">Onyx Vida</h1>
+                    <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-gray-900 mb-6">Aliseus Vida</h1>
                     <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-4">
                         Automatiza tu hogar y diseña experiencias memorables
                     </p>
                     <p className="text-lg text-gray-500 max-w-3xl mx-auto leading-relaxed">
-                        Porque la vida es para vivirla, no para gestionarla. Onyx se encarga de la logística para que tú disfrutes de los momentos.
+                        Porque la vida es para vivirla, no para gestionarla. Aliseus se encarga de la logística para que tú disfrutes de los momentos.
                     </p>
                 </div>
 
@@ -153,7 +153,7 @@ export const LandingLife: React.FC<LandingLifeProps> = ({ setShowLoginModal }) =
                     <div className="text-center mb-12">
                         <h2 className="text-4xl font-bold text-gray-900 mb-4">Historias de Transformación</h2>
                         <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-                            Descubre cómo Onyx Vida ha simplificado la rutina diaria de personas como tú.
+                            Descubre cómo Aliseus ha simplificado la rutina diaria de personas como tú.
                         </p>
                     </div>
                     <div className="space-y-8">
@@ -173,7 +173,7 @@ export const LandingLife: React.FC<LandingLifeProps> = ({ setShowLoginModal }) =
                                             <div>
                                                 <div className="flex items-center gap-2 mb-2">
                                                     <Zap className="w-4 h-4 text-purple-500" />
-                                                    <span className="text-xs font-bold text-purple-600 uppercase tracking-wider">Solución Onyx</span>
+                                                    <span className="text-xs font-bold text-purple-600 uppercase tracking-wider">Solución Aliseus</span>
                                                 </div>
                                                 <p className="text-gray-600">{useCase.solution}</p>
                                             </div>
@@ -202,30 +202,30 @@ export const LandingLife: React.FC<LandingLifeProps> = ({ setShowLoginModal }) =
                     </div>
 
                     <div className="mt-12 text-center">
-                        <button onClick={() => setShowLoginModal(true)} className="bg-gradient-to-r from-purple-500 to-pink-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:-translate-y-1 transition-all shadow-xl shadow-purple-500/20 inline-flex items-center gap-2">
+                        <button onClick={() => setShowLoginModal(true)} className="bg-gradient-to-r from-cyan-500 to-teal-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:-translate-y-1 transition-all shadow-xl shadow-cyan-500/20 inline-flex items-center gap-2">
                             Quiero Más Tiempo Libre <ArrowRight className="w-5 h-5" />
                         </button>
                     </div>
                 </div>
 
                 {/* Workflow Visualization */}
-                <div className="mb-24 bg-gradient-to-br from-purple-50 to-pink-50 rounded-[3rem] p-12 border border-purple-100">
+                <div className="mb-24 bg-gradient-to-br from-cyan-50 to-teal-50 rounded-[3rem] p-12 border border-cyan-100">
                     <div className="text-center mb-12">
                         <h2 className="text-4xl font-bold text-gray-900 mb-4">De Nevera Vacía a Menú Completo en 3 Clics</h2>
                         <p className="text-lg text-gray-600">El flujo de trabajo más simple que hayas visto</p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
                         {[
-                            { step: '1', title: 'Genera Menú con IA', desc: 'Dile a Onyx tus preferencias: "Menú saludable para 4 personas, presupuesto €80"', icon: Sparkles },
-                            { step: '2', title: 'Revisa y Ajusta', desc: 'Onyx genera 7 días de comidas. Arrastra y suelta para personalizar a tu gusto.', icon: Calendar },
+                            { step: '1', title: 'Genera Menú con IA', desc: 'Dile a Aliseus tus preferencias: "Menú saludable para 4 personas, presupuesto €80"', icon: Sparkles },
+                            { step: '2', title: 'Revisa y Ajusta', desc: 'Aliseus genera 7 días de comidas. Arrastra y suelta para personalizar a tu gusto.', icon: Calendar },
                             { step: '3', title: 'Lista Automática', desc: 'Todos los ingredientes que no tienes en despensa se añaden a tu lista de compra.', icon: ShoppingCart }
                         ].map((item, i) => (
                             <div key={i} className="bg-white rounded-2xl p-8 text-center relative">
-                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-10 h-10 bg-purple-600 text-white rounded-full flex items-center justify-center font-black text-lg shadow-lg">
+                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-10 h-10 bg-cyan-600 text-white rounded-full flex items-center justify-center font-black text-lg shadow-lg">
                                     {item.step}
                                 </div>
-                                <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4 mt-4">
-                                    <item.icon className="w-8 h-8 text-purple-600" />
+                                <div className="w-16 h-16 bg-cyan-100 rounded-2xl flex items-center justify-center mx-auto mb-4 mt-4">
+                                    <item.icon className="w-8 h-8 text-cyan-600" />
                                 </div>
                                 <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
                                 <p className="text-sm text-gray-600 leading-relaxed">{item.desc}</p>
@@ -235,18 +235,18 @@ export const LandingLife: React.FC<LandingLifeProps> = ({ setShowLoginModal }) =
                 </div>
 
                 {/* CTA Section */}
-                <div className="bg-gradient-to-br from-violet-900 to-indigo-950 text-white rounded-[3rem] p-12 text-center relative overflow-hidden shadow-2xl shadow-violet-500/20">
-                    <div className="absolute top-0 left-1/4 w-[300px] h-[200px] bg-violet-500/20 rounded-full blur-[80px] pointer-events-none" />
-                    <div className="absolute bottom-0 right-1/4 w-[300px] h-[200px] bg-indigo-500/20 rounded-full blur-[80px] pointer-events-none" />
+                <div className="bg-gradient-to-br from-cyan-800 to-teal-900 text-white rounded-[3rem] p-12 text-center relative overflow-hidden shadow-2xl shadow-cyan-500/20">
+                    <div className="absolute top-0 left-1/4 w-[300px] h-[200px] bg-cyan-500/20 rounded-full blur-[80px] pointer-events-none" />
+                    <div className="absolute bottom-0 right-1/4 w-[300px] h-[200px] bg-teal-500/20 rounded-full blur-[80px] pointer-events-none" />
                     <div className="relative z-10">
                         <h2 className="text-4xl md:text-5xl font-bold mb-6">Diseña la vida que quieres vivir</h2>
-                        <p className="text-violet-200 max-w-2xl mx-auto mb-10 text-lg">
-                            Onyx Vida se encarga del caos logístico para que tú disfrutes de los momentos que realmente importan.
+                        <p className="text-cyan-200 max-w-2xl mx-auto mb-10 text-lg">
+                            Aliseus se encarga del caos logístico para que tú disfrutes de los momentos que realmente importan.
                         </p>
-                        <button onClick={() => setShowLoginModal(true)} className="bg-white text-violet-900 px-10 py-5 rounded-2xl font-bold text-lg hover:bg-violet-50 hover:-translate-y-1 transition-all shadow-xl inline-flex items-center gap-3">
+                        <button onClick={() => setShowLoginModal(true)} className="bg-white text-cyan-900 px-10 py-5 rounded-2xl font-bold text-lg hover:bg-cyan-50 hover:-translate-y-1 transition-all shadow-xl inline-flex items-center gap-3">
                             Empezar 14 días gratis <ArrowRight className="w-5 h-5" />
                         </button>
-                        <p className="text-sm text-violet-400 mt-6">Después, desde 2,99€/mes • Cancela cuando quieras</p>
+                        <p className="text-sm text-cyan-300 mt-6">Después, desde 2,99€/mes • Cancela cuando quieras</p>
                     </div>
                 </div>
             </div>

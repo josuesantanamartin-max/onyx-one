@@ -55,6 +55,10 @@ export interface Account {
     creditLimit?: number;
     cutoffDay?: number;
     paymentDay?: number;
+    /** Only for CREDIT cards: how the monthly balance is settled */
+    paymentMode?: 'END_OF_MONTH' | 'REVOLVING';
+    /** For CREDIT: accrued charges in the current billing cycle (positive number) */
+    statementBalance?: number;
     linkedAccountId?: string;
     cadastralReference?: string;
     cadastralData?: CadastralData;

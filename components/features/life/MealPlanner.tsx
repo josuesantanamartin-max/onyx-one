@@ -185,33 +185,58 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
     const [quickAddSearch, setQuickAddSearch] = useState('');
     const [dragOverSlot, setDragOverSlot] = useState<{ date: string; meal: MealTime } | null>(null);
 
-    // Shopping List Integration
-    const [itemsToBuy, setItemsToBuy] = useState<any[]>([]);
-    const [isListGenerated, setIsListGenerated] = useState(false);
-
     const days = generatePlanDates(plannerDate, viewMode);
 
-    // Helper to categorize ingredients for shopping list
-    const getIngredientCategory = (ingredientName: string): string => {
-        const name = ingredientName.toLowerCase();
-        if (name.includes('pollo') || name.includes('ternera') || name.includes('cerdo') || name.includes('pescado') || name.includes('gambas') || name.includes('salmón') || name.includes('carne') || name.includes('marisco')) return 'Carnes y Pescados';
-        if (name.includes('leche') || name.includes('queso') || name.includes('yogur') || name.includes('mantequilla') || name.includes('nata') || name.includes('lácteo')) return 'Lácteos';
-        if (name.includes('huevo')) return 'Huevos';
-        if (name.includes('arroz') || name.includes('pasta') || name.includes('pan') || name.includes('harina') || name.includes('patata') || name.includes('quinoa') || name.includes('legumbre') || name.includes('lentejas') || name.includes('garbanzos')) return 'Cereales y Legumbres';
-        if (name.includes('tomate') || name.includes('cebolla') || name.includes('zanahoria') || name.includes('lechuga') || name.includes('pimiento') || name.includes('brócoli') || name.includes('espinacas') || name.includes('verdura') || name.includes('hortaliza')) return 'Verduras';
-        if (name.includes('manzana') || name.includes('plátano') || name.includes('naranja') || name.includes('fresa') || name.includes('uva') || name.includes('fruta')) return 'Frutas';
-        if (name.includes('aceite') || name.includes('sal') || name.includes('pimienta') || name.includes('especias') || name.includes('vinagre') || name.includes('salsa') || name.includes('azúcar') || name.includes('miel')) return 'Condimentos y Salsas';
-        if (name.includes('agua') || name.includes('zumo') || name.includes('refresco') || name.includes('vino') || name.includes('cerveza')) return 'Bebidas';
-        if (name.includes('galletas') || name.includes('chocolate') || name.includes('dulces') || name.includes('postre')) return 'Dulces y Snacks';
-        if (name.includes('limpieza') || name.includes('jabón') || name.includes('papel') || name.includes('detergente')) return 'Hogar y Limpieza';
-        if (name.includes('cuidado personal') || name.includes('champú') || name.includes('gel') || name.includes('pasta de dientes')) return 'Cuidado Personal';
-        return 'Otros';
-    };
+    // --- AUTO-SYNC SHOPPING LIST ---
+    React.useEffect(() => {
+        // Automatically sync shopping list whenever plan or pantry changes
+        // Filter the plan to only include days currently in view (or entire plan?)
+        // User said: "al añadir cualquier receta al Plan... al quitar la receta"
+        // It's probably safer to sync ONLY the visible range if we want it to feel snappy,
+        // but if they plan ahead, they want those things in the list too.
+        // However, standard use case is usually the visible week. 
+        // Let's use the visible days to stay focused.
+
+        const visiblePlan: WeeklyPlanState = {};
+        days.forEach(date => {
+            const dateKey = date.toISOString().split('T')[0];
+            if (weeklyPlan[dateKey]) {
+                visiblePlan[dateKey] = weeklyPlan[dateKey];
+            }
+        });
+
+        const neededItems = recalculateShoppingList(visiblePlan);
+
+        setShoppingList((prev: any[]) => {
+            const manualItems = prev.filter(item => item.source?.type !== 'SMART_PLAN');
+            const oldSmartItems = prev.filter(item => item.source?.type === 'SMART_PLAN');
+
+            const finalSmartItems = neededItems.map(newItem => {
+                const existing = oldSmartItems.find(old =>
+                    old.name.toLowerCase().trim() === newItem.name.toLowerCase().trim() &&
+                    old.unit === newItem.unit
+                );
+                // Preserve checked status and ID if item still exists
+                return existing ? { ...newItem, checked: existing.checked, id: existing.id } : newItem;
+            });
+
+            // Basic optimization: if the combined list is identical to prev, don't update
+            const nextList = [...manualItems, ...finalSmartItems];
+            if (JSON.stringify(prev) === JSON.stringify(nextList)) return prev;
+
+            return nextList;
+        });
+    }, [weeklyPlans, pantryItems, plannerDate, viewMode]);
+
 
     // --- SMART SHOPPING LIST LOGIC ---
     const recalculateShoppingList = (currentPlan: WeeklyPlanState) => {
-        // 1. Calculate TOTAL needed in the entire plan, tracking source recipes
-        const planTotals: Record<string, { quantity: number; unit: string; recipes: Set<string> }> = {};
+        // 1. Calculate TOTAL needed in the entire plan, tracking source recipes and their individual amounts
+        const planTotals: Record<string, {
+            quantity: number;
+            unit: string;
+            recipeBreakdown: Record<string, number>
+        }> = {};
 
         // Helper to normalize to grams/ml
         const getNormalizedQuantity = (q: number, u: string) => {
@@ -238,12 +263,15 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
                         const normQty = getNormalizedQuantity(ing.quantity, ing.unit);
 
                         if (!planTotals[normName]) {
-                            planTotals[normName] = { quantity: 0, unit: normUnit, recipes: new Set() };
+                            planTotals[normName] = { quantity: 0, unit: normUnit, recipeBreakdown: {} };
                         }
+
                         // Only add if units are compatible (basic check)
                         if (planTotals[normName].unit === normUnit) {
                             planTotals[normName].quantity += normQty;
-                            planTotals[normName].recipes.add(r.name);
+                            // Add to breakdown for this specific recipe
+                            const currentRecipeQty = planTotals[normName].recipeBreakdown[r.name] || 0;
+                            planTotals[normName].recipeBreakdown[r.name] = currentRecipeQty + normQty;
                         }
                     });
                 });
@@ -256,34 +284,53 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
         Object.entries(planTotals).forEach(([name, data]) => {
             // Check Pantry
             const pantryItem = pantryItems.find(p => p.name.toLowerCase().trim() === name);
-            let pantryStock = 0;
+            let stock = 0;
             if (pantryItem && getNormalizedUnit(pantryItem.unit) === data.unit) {
-                pantryStock = getNormalizedQuantity(pantryItem.quantity, pantryItem.unit);
+                stock = getNormalizedQuantity(pantryItem.quantity, pantryItem.unit);
             }
 
-            const missing = data.quantity - pantryStock;
+            // Distribute stock across recipes to see what's really missing per recipe
+            const activeBreakdown: Record<string, number> = {};
+            let totalMissing = 0;
 
-            if (missing > 0) {
-                const recipeNames = Array.from(data.recipes).join(', ');
+            // Sort recipes to have a deterministic order (could be by date later)
+            const sortedRecipeNames = Object.keys(data.recipeBreakdown).sort();
+
+            sortedRecipeNames.forEach(recipeName => {
+                const neededForRecipe = data.recipeBreakdown[recipeName];
+                if (stock >= neededForRecipe) {
+                    // Fully covered by pantry
+                    stock -= neededForRecipe;
+                } else {
+                    // Partially or not covered
+                    const stillNeeded = neededForRecipe - stock;
+                    activeBreakdown[recipeName] = parseFloat(stillNeeded.toFixed(2));
+                    totalMissing += stillNeeded;
+                    stock = 0;
+                }
+            });
+
+            if (totalMissing > 0) {
+                const recipeNames = Object.keys(activeBreakdown).join(', ');
                 const category = getIngredientCategory(name);
 
                 newSmartItems.push({
                     id: Math.random().toString(36).substr(2, 9),
                     name: name.charAt(0).toUpperCase() + name.slice(1), // Capitalize
-                    quantity: parseFloat(missing.toFixed(2)),
+                    quantity: parseFloat(totalMissing.toFixed(2)),
                     unit: data.unit,
                     checked: false,
                     category: category,
                     source: {
                         type: 'SMART_PLAN',
-                        recipeName: recipeNames
+                        recipeName: recipeNames,
+                        recipeBreakdown: activeBreakdown // Use the reduced breakdown
                     }
                 });
             }
         });
 
-        // 3. Update Store - We won't auto-update here anymore to allow user validation
-        // Instead, we return the candidate list
+        // 3. Update Store
         return newSmartItems;
     };
 
@@ -293,6 +340,23 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
     };
 
     // --- UX HELPERS ---
+    const handleClearPlan = () => {
+        const confirmMsg = language === 'ES'
+            ? '¿Estás seguro de que quieres limpiar todas las recetas de los días visibles?'
+            : 'Are you sure you want to clear all recipes from the visible days?';
+
+        if (!window.confirm(confirmMsg)) return;
+
+        setWeeklyPlan((prev: WeeklyPlanState) => {
+            const nextPlan = { ...prev };
+            days.forEach(date => {
+                const dateKey = date.toISOString().split('T')[0];
+                nextPlan[dateKey] = { breakfast: [], lunch: [], dinner: [] };
+            });
+            return nextPlan;
+        });
+    };
+
     const handleCopyDay = (dateKey: string) => {
         const dayPlan = weeklyPlan[dateKey];
         if (dayPlan) {
@@ -308,9 +372,6 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
                 ...prev,
                 [targetDateKey]: JSON.parse(JSON.stringify(copiedDay.plan)) // Deep copy
             };
-            const items = recalculateShoppingList(newPlan);
-            setItemsToBuy(items);
-            setIsListGenerated(true);
             return newPlan;
         });
         setCopiedDay(null);
@@ -322,9 +383,6 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
             setWeeklyPlan((prev: WeeklyPlanState) => {
                 const newPlan = { ...prev };
                 delete newPlan[dateKey];
-                const items = recalculateShoppingList(newPlan);
-                setItemsToBuy(items);
-                setIsListGenerated(true);
                 return newPlan;
             });
         }
@@ -353,11 +411,6 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
                 ...newPlan[date],
                 [meal]: [...(newPlan[date][meal] || []), newRecipe]
             };
-
-            // Trigger Smart Shopping List with the NEW plan
-            const items = recalculateShoppingList(newPlan);
-            setItemsToBuy(items);
-            setIsListGenerated(true);
 
             return newPlan;
         });
@@ -455,10 +508,6 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
                 targetDay[targetMeal] = [...(targetDay[targetMeal] || []), recipeToAdd];
                 newPlan[targetDateKey] = targetDay;
 
-                const items = recalculateShoppingList(newPlan);
-                setItemsToBuy(items);
-                setIsListGenerated(true);
-
                 return newPlan;
             });
 
@@ -514,83 +563,113 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
                 // Better approach: Assign them async or just construct since it's fast now.
 
                 const processRecipes = async () => {
-                    const newRecipesList: Recipe[] = [];
                     const dates = Object.keys(result);
-                    const tempPlanUpdate: WeeklyPlanState = {};
+                    const initialPlanUpdate: WeeklyPlanState = {};
+                    const allNewRecipes: Recipe[] = [];
 
+                    // 1. Create immediate plan with ingredients (for shopping list) but no instructions
                     for (const date of dates) {
                         const dayPlan = result[date];
                         if (!dayPlan) continue;
 
-                        const processList = async (list: any[]) => {
-                            return await Promise.all((Array.isArray(list) ? list : []).map(async (r: any) => {
-                                let imgUrl = undefined;
-                                try {
-                                    const imgRes = await generateImage(r.name, "4:3", 'food');
-                                    imgUrl = imgRes.imageUrl;
-                                } catch (e) { }
-
-                                const newRecipe: Recipe = {
+                        const createSkeletonList = (list: any[]) => {
+                            return (Array.isArray(list) ? list : []).map((r: any) => {
+                                const recipe: Recipe = {
                                     id: Math.random().toString(36).substr(2, 9),
                                     name: r.name,
                                     calories: r.calories || 0,
                                     prepTime: r.prepTime || 30,
                                     baseServings: 2,
-                                    ingredients: r.ingredients || [], // Use the full data
-                                    instructions: r.instructions || [], // Use the full data
-                                    tags: ['AI Generated'],
-                                    image: imgUrl,
+                                    ingredients: r.ingredients || [],
+                                    instructions: [], // Empty for now
+                                    tags: ['Generado por IA'],
+                                    image: undefined,
                                     rating: 0,
                                     courseType: r.courseType || 'MAIN'
                                 };
-                                newRecipesList.push(newRecipe);
-                                return newRecipe;
-                            }));
+                                allNewRecipes.push(recipe);
+                                return recipe;
+                            });
                         };
 
-                        tempPlanUpdate[date] = {
-                            breakfast: await processList(dayPlan.breakfast),
-                            lunch: await processList(dayPlan.lunch),
-                            dinner: await processList(dayPlan.dinner),
+                        initialPlanUpdate[date] = {
+                            breakfast: createSkeletonList(dayPlan.breakfast),
+                            lunch: createSkeletonList(dayPlan.lunch),
+                            dinner: createSkeletonList(dayPlan.dinner),
                         };
                     }
 
-                    setRecipes((prev: Recipe[]) => [...prev, ...newRecipesList]);
-                    setWeeklyPlan((prev: WeeklyPlanState) => {
-                        const finalPlan = { ...prev, ...tempPlanUpdate };
-                        // Calculate shopping list candidates immediately
-                        const needed = recalculateShoppingList(finalPlan);
-                        setItemsToBuy(needed || []);
-                        setIsListGenerated(false);
-                        return finalPlan;
-                    });
+                    // 2. Update state immediately
+                    setRecipes((prev: Recipe[]) => [...prev, ...allNewRecipes]);
+                    setWeeklyPlan((prev: WeeklyPlanState) => ({ ...prev, ...initialPlanUpdate }));
+
                     setIsAiMenuOpen(false);
-                    setIsListGenerated(true);
+                    setAiGenerating(false);
+                    setAiStatus('');
+
+                    // 3. Background Image & Instruction Hydration
+                    const CHUNK_SIZE = 4;
+                    for (let i = 0; i < allNewRecipes.length; i += CHUNK_SIZE) {
+                        const chunk = allNewRecipes.slice(i, i + CHUNK_SIZE);
+                        await Promise.all(chunk.map(async (recipe) => {
+                            try {
+                                const [imgRes, detailsRes] = await Promise.all([
+                                    generateImage(recipe.name, "4:3", 'food'),
+                                    getRecipeDetails(recipe.name, language as any)
+                                ]);
+
+                                const updates = {
+                                    image: imgRes.imageUrl || undefined,
+                                    instructions: detailsRes?.instructions || [],
+                                    ingredients: detailsRes?.ingredients?.length ? detailsRes.ingredients : recipe.ingredients
+                                };
+
+                                // Update global recipes list
+                                setRecipes((prev: Recipe[]) =>
+                                    prev.map(r => r.id === recipe.id ? { ...r, ...updates } : r)
+                                );
+
+                                // Update weekly plan
+                                setWeeklyPlan((prev: WeeklyPlanState) => {
+                                    const nextPlan = { ...prev };
+                                    let found = false;
+                                    Object.keys(nextPlan).forEach(d => {
+                                        (['breakfast', 'lunch', 'dinner'] as const).forEach(m => {
+                                            if (nextPlan[d] && nextPlan[d][m]) {
+                                                const idx = nextPlan[d][m].findIndex(r => r.id === recipe.id);
+                                                if (idx !== -1) {
+                                                    const newList = [...nextPlan[d][m]];
+                                                    newList[idx] = { ...newList[idx], ...updates };
+                                                    nextPlan[d] = { ...nextPlan[d], [m]: newList };
+                                                    found = true;
+                                                }
+                                            }
+                                        });
+                                    });
+                                    return found ? { ...nextPlan } : prev;
+                                });
+                            } catch (e) {
+                                console.error(`Failed to hydrate ${recipe.name}:`, e);
+                            }
+                        }));
+                    }
                 };
 
                 processRecipes();
 
             } else {
                 alert("Error generando el plan.");
+                setAiGenerating(false);
+                setAiStatus('');
             }
         } catch (err) {
-            console.error(err);
+            console.error("Meal Generation Error:", err);
             alert("Error generando el plan.");
+            setAiGenerating(false);
+            setAiStatus('');
         }
-        setAiGenerating(false);
-        setAiStatus('');
     };
 
-    const handleConfirmShoppingList = () => {
-        setShoppingList((prev: any[]) => {
-            // Basic merge: add unique items
-            const currentNames = new Set(prev.map(i => i.name.toLowerCase().trim()));
-            const toAdd = itemsToBuy.filter(i => !currentNames.has(i.name.toLowerCase().trim()));
-            return [...prev, ...toAdd];
-        });
-        setIsListGenerated(false);
-        alert(`¡Añadidos ${itemsToBuy.length} productos a la lista de compra!`);
-    };
 
     const handleRecipeClick = async (recipe: Recipe) => {
         let updatedRecipe = { ...recipe };
@@ -640,63 +719,9 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
         setWeeklyPlan((prev: WeeklyPlanState) => {
             const day = prev[dateKey];
             if (!day) return prev;
-
-            // Get the recipe being removed
-            const removedRecipe = day[mealTime][index];
-
-            // Remove from plan
             const newList = [...day[mealTime]];
             newList.splice(index, 1);
-            const newPlan = { ...prev, [dateKey]: { ...day, [mealTime]: newList } };
-
-            // Update shopping list quantities
-            if (removedRecipe && removedRecipe.ingredients) {
-                const { shoppingList, setShoppingList } = useLifeStore.getState();
-
-                // Calculate total quantities needed from remaining recipes
-                const remainingQuantities = new Map<string, number>();
-                Object.values(newPlan).forEach(dayPlan => {
-                    ['breakfast', 'lunch', 'dinner'].forEach(meal => {
-                        dayPlan[meal as MealTime]?.forEach(recipe => {
-                            recipe.ingredients?.forEach(ing => {
-                                const key = ing.name.toLowerCase();
-                                const current = remainingQuantities.get(key) || 0;
-                                remainingQuantities.set(key, current + (parseFloat(String(ing.quantity)) || 0));
-                            });
-                        });
-                    });
-                });
-
-                // Update shopping list: subtract quantities or remove if no longer needed
-                const updatedShoppingList = shoppingList.map(item => {
-                    const key = item.name.toLowerCase();
-                    const removedIngredient = removedRecipe.ingredients.find(
-                        ing => ing.name.toLowerCase() === key
-                    );
-
-                    if (removedIngredient) {
-                        const removedQty = parseFloat(String(removedIngredient.quantity)) || 0;
-                        const remainingQty = remainingQuantities.get(key) || 0;
-
-                        if (remainingQty > 0) {
-                            // Other recipes still need this ingredient, subtract the removed quantity
-                            return {
-                                ...item,
-                                quantity: Math.max(0, item.quantity - removedQty)
-                            };
-                        } else {
-                            // No other recipe needs this ingredient, mark for removal
-                            return null;
-                        }
-                    }
-
-                    return item;
-                }).filter(item => item !== null && item.quantity > 0);
-
-                setShoppingList(updatedShoppingList as typeof shoppingList);
-            }
-
-            return newPlan;
+            return { ...prev, [dateKey]: { ...day, [mealTime]: newList } };
         });
     };
 
@@ -774,18 +799,19 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
                     </button>
                 </div>
 
-                <button onClick={() => setIsRecipeDrawerOpen(!isRecipeDrawerOpen)} className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] transition-all active:scale-95 ${isRecipeDrawerOpen ? 'bg-emerald-600 text-white shadow-[0_8px_20px_rgba(16,185,129,0.25)]' : 'bg-white border border-gray-100 text-gray-500 hover:bg-gray-50 shadow-sm'}`}>
-                    <BookOpen className="w-3.5 h-3.5" /> {isRecipeDrawerOpen ? 'Cerrar' : 'Recetario'}
-                </button>
-
-                {isListGenerated && itemsToBuy.length > 0 && (
-                    <button
-                        onClick={handleConfirmShoppingList}
-                        className="flex items-center gap-2 bg-emerald-500 text-white px-5 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-emerald-600 hover:shadow-lg transition-all active:scale-95 animate-bounce-slow shadow-md"
-                    >
-                        <ShoppingCart className="w-3.5 h-3.5" /> Sincronizar Lista ({itemsToBuy.length})
+                <div className="flex items-center gap-2">
+                    <button onClick={() => setIsRecipeDrawerOpen(!isRecipeDrawerOpen)} className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] transition-all active:scale-95 ${isRecipeDrawerOpen ? 'bg-emerald-600 text-white shadow-[0_8px_20px_rgba(16,185,129,0.25)]' : 'bg-white border border-gray-100 text-gray-500 hover:bg-gray-50 shadow-sm'}`}>
+                        <BookOpen className="w-3.5 h-3.5" /> {isRecipeDrawerOpen ? 'Cerrar' : 'Recetario'}
                     </button>
-                )}
+
+                    <button
+                        onClick={handleClearPlan}
+                        title={language === 'ES' ? 'Limpiar semana' : 'Clear week'}
+                        className="flex items-center gap-2 bg-white border border-red-100 text-red-500 px-4 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-red-50 transition-all active:scale-95 shadow-sm"
+                    >
+                        <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                </div>
             </div>
 
             {aiGenerating && (
@@ -903,6 +929,7 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({ onOpenRecipe }) => {
                                                             onDragEnd={handleDragEnd}
                                                             className={`bg-white rounded-xl border border-gray-100 group relative cursor-grab active:cursor-grabbing hover:shadow-md hover:scale-[1.02] transition-all select-none
                                                                 ${draggingItem?.date === dateKey && draggingItem?.meal === meal && draggingItem?.index === originalIndex ? 'opacity-20 grayscale border-dashed border-emerald-300 scale-95' : ''}
+                                                                ${openMenuId === `${dateKey}-${meal}-${originalIndex}` ? 'z-[60] shadow-lg ring-1 ring-emerald-100' : 'z-10'}
                                                                 ${viewMode === 'month' ? 'p-1' : 'p-2'}
                                                             `}
                                                         >

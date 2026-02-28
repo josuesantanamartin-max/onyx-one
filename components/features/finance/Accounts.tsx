@@ -233,11 +233,11 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
         key={card.id}
         onClick={() => onViewTransactions(card.id)}
         className={`relative overflow-hidden rounded-onyx shadow-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-xl cursor-pointer group h-40 flex flex-col justify-between p-6 ${isCredit
-          ? 'bg-onyx-950 text-white border border-onyx-800'
+          ? 'bg-cyan-900 text-white border border-onyx-800'
           : 'bg-emerald-950 text-white border border-emerald-900'
           } ${isIndented ? 'scale-[0.98] origin-left' : ''}`}
       >
-        <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-20 -mr-12 -mt-12 transition-all duration-700 group-hover:scale-150 ${isCredit ? 'bg-indigo-500' : 'bg-emerald-400'}`}></div>
+        <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-20 -mr-12 -mt-12 transition-all duration-700 group-hover:scale-150 ${isCredit ? 'bg-cyan-500' : 'bg-emerald-400'}`}></div>
 
         <div className="relative z-10 flex justify-between items-start">
           <div className="flex items-center gap-4">
@@ -265,15 +265,15 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
           <div className="flex items-center gap-3 -mb-1 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
             <button onClick={(e) => handleEditClick(e, card)} className="p-2.5 bg-white/10 hover:bg-white/20 rounded-xl text-white transition-colors backdrop-blur-md border border-white/10"><Pencil className="w-4 h-4" /></button>
             {isCredit && currentDebt > 0 && (
-              <button onClick={(e) => handleSettleClick(e, card)} className="p-2.5 bg-indigo-primary hover:bg-indigo-600 text-white rounded-xl transition-colors border border-indigo-400 shadow-lg shadow-indigo-500/20"><ArrowRightLeft className="w-4 h-4" /></button>
+              <button onClick={(e) => handleSettleClick(e, card)} className="p-2.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl transition-colors border border-cyan-400 shadow-lg shadow-cyan-500/20"><ArrowRightLeft className="w-4 h-4" /></button>
             )}
             <button onClick={(e) => handleDeleteClick(e, card.id)} className="p-2.5 bg-red-500/20 hover:bg-red-500 text-white rounded-xl transition-colors border border-red-500/20"><Trash2 className="w-4 h-4" /></button>
           </div>
         </div>
 
         {isCredit && (
-          <div className="absolute bottom-0 left-0 w-full h-1.5 bg-black/20">
-            <div className={`h-full transition-all duration-1000 ${utilization > 80 ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]' : 'bg-indigo-400 shadow-[0_0_8px_rgba(129,140,248,0.5)]'}`} style={{ width: `${Math.min(utilization, 100)}%` }}></div>
+          <div className="absolute bottom-0 left-0 w-full h-1.5 bg-cyan-950/20">
+            <div className={`h-full transition-all duration-1000 ${utilization > 80 ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]' : 'bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.5)]'}`} style={{ width: `${Math.min(utilization, 100)}%` }}></div>
           </div>
         )}
       </div>
@@ -319,11 +319,11 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
     <div className="space-y-10 animate-fade-in pb-10" key="accounts-container">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
-          <h2 className="text-3xl font-bold text-onyx-950 tracking-tight">Cuentas y Activos</h2>
+          <h2 className="text-3xl font-bold text-cyan-900 tracking-tight">Cuentas y Activos</h2>
           <p className="text-xs font-semibold text-onyx-400 mt-2 uppercase tracking-[0.2em]">Gestión integral de tu patrimonio</p>
         </div>
         {!isModalOpen && (
-          <button onClick={() => { resetForm(); setIsModalOpen(true); }} className="flex items-center gap-2.5 bg-onyx-950 hover:bg-onyx-800 text-white px-8 py-3.5 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all duration-300 shadow-lg shadow-onyx-950/20 active:scale-95">
+          <button onClick={() => { resetForm(); setIsModalOpen(true); }} className="flex items-center gap-2.5 bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 text-white px-8 py-3.5 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all duration-300 shadow-lg shadow-cyan-900/20 active:scale-95">
             <Plus className="w-5 h-5" /> Nueva Cuenta
           </button>
         )}
@@ -332,11 +332,11 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
       {/* GLOBAL STATS (Small Version) */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white p-6 rounded-onyx shadow-sm border border-onyx-100 flex flex-col justify-between h-32 overflow-hidden group hover:shadow-lg transition-all relative">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50/50 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-50/50 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity"></div>
           <p className="text-onyx-400 font-bold text-[10px] uppercase tracking-[0.2em] relative z-10">Patrimonio Neto</p>
-          <h3 className="text-4xl font-bold text-onyx-950 tracking-tight relative z-10">{formatEUR(netWorth)}</h3>
+          <h3 className="text-4xl font-bold text-cyan-900 tracking-tight relative z-10">{formatEUR(netWorth)}</h3>
           <div className="w-full bg-onyx-50 h-2 mt-2 rounded-full overflow-hidden relative z-10 border border-onyx-100/50">
-            <div className="bg-indigo-primary h-full rounded-full transition-all duration-1000 shadow-[0_0_8px_rgba(79,70,229,0.3)]" style={{ width: '100%' }}></div>
+            <div className="bg-gradient-to-r from-cyan-500 to-teal-500 h-full rounded-full transition-all duration-1000 shadow-[0_0_8px_rgba(6,182,212,0.3)]" style={{ width: '100%' }}></div>
           </div>
         </div>
         <div className="bg-white p-6 rounded-onyx shadow-sm border border-onyx-100 flex flex-col justify-between h-32 hover:shadow-lg transition-all group relative overflow-hidden">
@@ -345,7 +345,7 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
             <p className="text-onyx-400 font-bold text-[10px] uppercase tracking-[0.2em]">Activos Totales</p>
             <div className="p-2 bg-emerald-50 text-emerald-600 rounded-xl"><TrendingUp className="w-4 h-4" /></div>
           </div>
-          <h3 className="text-4xl font-bold text-onyx-950 tracking-tight relative z-10">{formatEUR(totalAssets)}</h3>
+          <h3 className="text-4xl font-bold text-cyan-900 tracking-tight relative z-10">{formatEUR(totalAssets)}</h3>
         </div>
         <div className="bg-white p-6 rounded-onyx shadow-sm border border-onyx-100 flex flex-col justify-between h-32 hover:shadow-lg transition-all group relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-red-50/50 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -353,7 +353,7 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
             <p className="text-onyx-400 font-bold text-[10px] uppercase tracking-[0.2em]">Pasivos</p>
             <div className="p-2 bg-red-50 text-red-600 rounded-xl"><TrendingUp className="w-4 h-4 transform rotate-180" /></div>
           </div>
-          <h3 className="text-4xl font-bold text-onyx-950 tracking-tight relative z-10">{formatEUR(totalLiabilities)}</h3>
+          <h3 className="text-4xl font-bold text-cyan-900 tracking-tight relative z-10">{formatEUR(totalLiabilities)}</h3>
         </div>
       </div>
 
@@ -362,7 +362,7 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
         {/* SIDEBAR LIST */}
         <div className="md:col-span-4 space-y-6">
           <div className="flex items-center justify-between pb-4 border-b border-onyx-100">
-            <h3 className="font-bold text-onyx-950 text-lg">Tus Cuentas</h3>
+            <h3 className="font-bold text-cyan-900 text-lg">Tus Cuentas</h3>
             <span className="text-xs font-bold bg-onyx-100 px-2 py-1 rounded-lg text-onyx-500">{accounts.filter(a => a.type !== 'CREDIT' && a.type !== 'DEBIT').length} Activas</span>
           </div>
 
@@ -382,8 +382,8 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
                   onDragEnd={handleDragEnd}
                   onClick={() => setSelectedAccountId(account.id)}
                   className={`p-5 rounded-2xl border cursor-pointer transition-all duration-300 group relative overflow-hidden select-none
-                    ${isSelected ? 'bg-onyx-950 text-white border-onyx-950 shadow-xl scale-[1.02]' : 'bg-white text-onyx-950 border-onyx-100 hover:border-indigo-200 hover:bg-slate-50'}
-                    ${isDraggedOver ? 'border-indigo-400 border-2 scale-[1.01] shadow-md shadow-indigo-200' : ''}
+                    ${isSelected ? 'bg-gradient-to-br from-cyan-600 to-teal-600 text-white border-transparent shadow-xl scale-[1.02]' : 'bg-white text-cyan-900 border-onyx-100 hover:border-cyan-200 hover:bg-slate-50'}
+                    ${isDraggedOver ? 'border-cyan-400 border-2 scale-[1.01] shadow-md shadow-cyan-200' : ''}
                     ${dragIndex === index ? 'opacity-50' : ''}`}
                 >
                   <div className={`absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing ${isSelected ? 'text-white/30' : 'text-onyx-300'}`}>
@@ -391,7 +391,7 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
                   </div>
                   <div className="flex justify-between items-center mb-1 pl-3">
                     <div className="flex items-center gap-3">
-                      <div className={`p-2 rounded-xl ${isSelected ? 'bg-white/10' : 'bg-onyx-50 text-onyx-500'}`}>{getIcon(account.type)}</div>
+                      <div className={`p-2 rounded-xl ${isSelected ? 'bg-white/20 text-white' : 'bg-cyan-50 text-cyan-600'}`}>{getIcon(account.type)}</div>
                       <div>
                         {account.bankName && <p className={`text-[10px] font-bold uppercase tracking-widest ${isSelected ? 'text-white/50' : 'text-onyx-400'}`}>{account.bankName}</p>}
                         <p className="font-semibold text-sm leading-tight line-clamp-1">{account.name}</p>
@@ -402,7 +402,7 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
                     <p className={`font-bold text-lg leading-none`}>{formatEUR(account.balance)}</p>
                     {isRemuneratedAcc && account.tae && <p className={`text-[9px] font-bold uppercase tracking-widest mt-1 ${isSelected ? 'text-emerald-300' : 'text-emerald-600'}`}>{account.tae}% TAE</p>}
                   </div>
-                  {isSelected && <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>}
+                  {isSelected && <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-400/20 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>}
                 </div>
               );
             })}
@@ -415,7 +415,7 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
             <div className="bg-white p-10 rounded-onyx shadow-xl border border-onyx-100 animate-fade-in relative overflow-hidden w-full">
               <div className="flex justify-between items-center mb-8 pb-8 border-b border-onyx-50">
                 <div>
-                  <h4 className="text-2xl font-bold tracking-tight text-onyx-950">{editingId ? 'Editar Cuenta' : 'Nueva Cuenta'}</h4>
+                  <h4 className="text-2xl font-bold tracking-tight text-cyan-900">{editingId ? 'Editar Cuenta' : 'Nueva Cuenta'}</h4>
                   <p className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mt-1">INFORMACIÓN DE LA CUENTA</p>
                 </div>
                 <button onClick={resetForm} className="p-2 hover:bg-onyx-50 rounded-full transition-colors"><X className="w-5 h-5 text-onyx-400" /></button>
@@ -425,15 +425,15 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="col-span-2">
                     <label className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3 block">Nombre</label>
-                    <input required type="text" value={name} onChange={e => setName(e.target.value)} className="w-full p-4 bg-onyx-50 border border-onyx-100 rounded-xl font-bold text-onyx-950 focus:bg-white focus:ring-2 focus:ring-indigo-primary/20 outline-none" placeholder="Ej: Cuenta Principal" />
+                    <input required type="text" value={name} onChange={e => setName(e.target.value)} className="w-full p-4 bg-onyx-50 border border-onyx-100 rounded-xl font-bold text-cyan-900 focus:bg-white focus:ring-2 focus:ring-cyan-500/20 outline-none" placeholder="Ej: Cuenta Principal" />
                   </div>
                   <div>
                     <label className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3 block">Banco</label>
-                    <input type="text" value={bankName} onChange={e => setBankName(e.target.value)} className="w-full p-4 bg-onyx-50 border border-onyx-100 rounded-xl font-bold text-onyx-950 outline-none" placeholder="Ej: BBVA" />
+                    <input type="text" value={bankName} onChange={e => setBankName(e.target.value)} className="w-full p-4 bg-onyx-50 border border-onyx-100 rounded-xl font-bold text-cyan-900 outline-none" placeholder="Ej: BBVA" />
                   </div>
                   <div>
                     <label className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3 block">Tipo</label>
-                    <select value={type} onChange={e => setType(e.target.value as any)} className="w-full p-4 bg-onyx-50 border border-onyx-100 rounded-xl font-bold text-onyx-950 outline-none cursor-pointer">
+                    <select value={type} onChange={e => setType(e.target.value as any)} className="w-full p-4 bg-onyx-50 border border-onyx-100 rounded-xl font-bold text-cyan-900 outline-none cursor-pointer">
                       <option value="BANK">Bancaria</option>
                       <option value="CASH">Efectivo</option>
                       <option value="ASSET">Activo</option>
@@ -444,21 +444,21 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
                   </div>
                   <div className="col-span-2">
                     <label className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3 block">Saldo / Valor</label>
-                    <input required type="number" step="0.01" value={balance} onChange={e => setBalance(e.target.value)} className="w-full p-4 bg-onyx-50 border border-onyx-100 rounded-xl font-bold text-3xl text-onyx-950 outline-none" />
+                    <input required type="number" step="0.01" value={balance} onChange={e => setBalance(e.target.value)} className="w-full p-4 bg-onyx-50 border border-onyx-100 rounded-xl font-bold text-3xl text-cyan-900 outline-none" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t border-onyx-50">
                   <div className="col-span-2">
                     <label className="flex items-center gap-3 cursor-pointer">
-                      <input type="checkbox" checked={isRemunerated} onChange={e => setIsRemunerated(e.target.checked)} className="w-5 h-5 rounded-lg text-indigo-primary border-onyx-200 focus:ring-indigo-primary" />
+                      <input type="checkbox" checked={isRemunerated} onChange={e => setIsRemunerated(e.target.checked)} className="w-5 h-5 rounded-lg text-cyan-600 border-onyx-200 focus:ring-cyan-500" />
                       <span className="font-bold text-sm text-onyx-700">Cuenta Remunerada / Inversión con Retorno</span>
                     </label>
                   </div>
                   {isRemunerated && (
                     <div>
                       <label className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3 block">TAE / Interés Anual (%)</label>
-                      <input type="number" step="0.01" value={tae} onChange={e => setTae(e.target.value)} className="w-full p-4 bg-onyx-50 border border-onyx-100 rounded-xl font-bold text-onyx-950 outline-none" placeholder="2.5" />
+                      <input type="number" step="0.01" value={tae} onChange={e => setTae(e.target.value)} className="w-full p-4 bg-onyx-50 border border-onyx-100 rounded-xl font-bold text-cyan-900 outline-none" placeholder="2.5" />
                     </div>
                   )}
                 </div>
@@ -468,9 +468,9 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
                     <label className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-3 block">Ref. Catastral</label>
                     <div className="flex gap-2">
                       <input type="text" value={cadastralReference} onChange={e => setCadastralReference(e.target.value)} className="flex-1 p-3 bg-white border border-onyx-200 rounded-xl" />
-                      <button type="button" onClick={handleFetchCadastralData} className="px-4 bg-indigo-primary text-white rounded-xl text-xs font-bold uppercase tracking-widest">Consultar</button>
+                      <button type="button" onClick={handleFetchCadastralData} className="px-4 bg-cyan-600 text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-cyan-700 transition">Consultar</button>
                     </div>
-                    {cadastralData && <div className="mt-4 p-4 bg-white rounded-xl text-xs text-indigo-900 border border-indigo-100">{cadastralData.uso} - {cadastralData.superficie} m²</div>}
+                    {cadastralData && <div className="mt-4 p-4 bg-white rounded-xl text-xs text-cyan-900 border border-cyan-100">{cadastralData.uso} - {cadastralData.superficie} m²</div>}
                   </div>
                 )}
 
@@ -488,7 +488,7 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
 
                 <div className="flex gap-4 pt-4">
                   <button type="button" onClick={resetForm} className="flex-1 py-4 rounded-xl font-bold text-xs uppercase tracking-widest text-onyx-500 hover:bg-onyx-50 transition-colors">Cancelar</button>
-                  <button type="submit" className="flex-[2] bg-onyx-950 hover:bg-onyx-800 text-white py-4 rounded-xl font-bold text-xs uppercase tracking-widest shadow-xl shadow-onyx-950/20 transition-all active:scale-95">Guardar</button>
+                  <button type="submit" className="flex-[2] bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 text-white py-4 rounded-xl font-bold text-xs uppercase tracking-widest shadow-xl shadow-cyan-900/20 transition-all active:scale-95">Guardar</button>
                 </div>
               </form>
             </div>
@@ -499,7 +499,7 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
                 <div className="flex justify-between items-start mb-6 md:mb-8 relative z-10">
                   <div>
                     <p className="text-xs font-bold text-onyx-400 uppercase tracking-[0.2em] mb-1">{selectedAccount.bankName || getAccountTypeLabel(selectedAccount.type)}</p>
-                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-onyx-950 tracking-tight mb-2">{selectedAccount.name}</h3>
+                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-cyan-900 tracking-tight mb-2">{selectedAccount.name}</h3>
                     {selectedAccount.isRemunerated && selectedAccount.tae && (
                       <div className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
                         <TrendingUp className="w-3 h-3" />
@@ -508,7 +508,7 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
                     )}
                   </div>
                   <div className="flex gap-3">
-                    <button onClick={(e) => handleEditClick(e, selectedAccount)} className="p-3 bg-onyx-50 hover:bg-onyx-100 rounded-xl text-onyx-500 hover:text-onyx-950 transition-colors"><Pencil className="w-5 h-5" /></button>
+                    <button onClick={(e) => handleEditClick(e, selectedAccount)} className="p-3 bg-onyx-50 hover:bg-onyx-100 rounded-xl text-onyx-500 hover:text-cyan-900 transition-colors"><Pencil className="w-5 h-5" /></button>
                     <button onClick={(e) => handleDeleteClick(e, selectedAccount.id)} className="p-3 bg-red-50 hover:bg-red-100 rounded-xl text-red-500 hover:text-red-600 transition-colors"><Trash2 className="w-5 h-5" /></button>
                   </div>
                 </div>
@@ -578,16 +578,16 @@ const Accounts: React.FC<AccountsProps> = ({ onViewTransactions }) => {
                 <div className="flex justify-between items-end mt-6 md:mt-8 pt-6 md:pt-8 border-t border-onyx-100 relative z-10">
                   <div>
                     <p className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest mb-2">Saldo Actual</p>
-                    <h2 className={`text-3xl md:text-4xl lg:text-6xl font-black tracking-tighter ${selectedAccount.type === 'CREDIT' && selectedAccount.balance < 0 ? 'text-red-500' : 'text-onyx-950'}`}>{formatEUR(selectedAccount.balance)}</h2>
+                    <h2 className={`text-3xl md:text-4xl lg:text-6xl font-black tracking-tighter ${selectedAccount.type === 'CREDIT' && selectedAccount.balance < 0 ? 'text-red-500' : 'text-cyan-900'}`}>{formatEUR(selectedAccount.balance)}</h2>
                   </div>
                   <div>
-                    <button onClick={() => onViewTransactions(selectedAccount.id)} className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-indigo-primary hover:text-indigo-700 transition-colors">
+                    <button onClick={() => onViewTransactions(selectedAccount.id)} className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-cyan-primary hover:text-cyan-700 transition-colors">
                       Ver Movimientos <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
 
-                <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-50/30 rounded-full blur-[80px] -mr-32 -mt-32 pointer-events-none"></div>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-50/30 rounded-full blur-[80px] -mr-32 -mt-32 pointer-events-none"></div>
               </div>
 
               {/* ASSOCIATED CARDS */}

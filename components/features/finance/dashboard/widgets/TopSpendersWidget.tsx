@@ -29,7 +29,7 @@ const TopSpendersWidget: React.FC<TopSpendersWidgetProps> = ({ transactions, onN
             <div className="absolute top-0 right-0 w-48 h-full bg-gradient-to-l from-rose-50/20 dark:from-rose-900/10 to-transparent opacity-0 group-hover/widget:opacity-100 transition-opacity"></div>
 
             <div className="flex justify-between items-center mb-6 relative z-10">
-                <h3 className="text-xl font-black text-onyx-950 dark:text-white tracking-tight flex items-center gap-3">
+                <h3 className="text-xl font-black text-cyan-900 dark:text-white tracking-tight flex items-center gap-3">
                     <div className="p-2 bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 rounded-lg shadow-inner group-hover/widget:scale-110 transition-transform"><BarChart3 className="w-5 h-5" /></div>
                     Top Gastos
                 </h3>
@@ -47,7 +47,7 @@ const TopSpendersWidget: React.FC<TopSpendersWidgetProps> = ({ transactions, onN
                                 <div className="flex justify-between items-end">
                                     <span className="text-sm font-bold text-onyx-900 dark:text-white truncate pr-4">{c.category}</span>
                                     <div className="text-right shrink-0">
-                                        <span className="text-lg font-black text-onyx-950 dark:text-white tracking-tight">{formatEUR(c.amount)}</span>
+                                        <span className="text-lg font-black text-cyan-900 dark:text-white tracking-tight">{formatEUR(c.amount)}</span>
                                         <span className="text-[10px] text-onyx-400 font-bold ml-1.5 uppercase tracking-widest w-9 inline-block text-right">{percentage.toFixed(0)}%</span>
                                     </div>
                                 </div>

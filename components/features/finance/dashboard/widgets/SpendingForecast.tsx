@@ -54,7 +54,7 @@ const SpendingForecast: React.FC<SpendingForecastProps> = ({ transactions }) => 
         <div className="bg-white p-10 rounded-onyx border border-onyx-100 shadow-sm relative overflow-hidden group">
             <div className="flex justify-between items-center mb-10 relative z-10">
                 <div>
-                    <h3 className="text-xl font-bold text-onyx-950 tracking-tight flex items-center gap-3">
+                    <h3 className="text-xl font-bold text-cyan-900 tracking-tight flex items-center gap-3">
                         <div className="p-2 bg-amber-50 text-amber-600 rounded-lg"><TrendingDown className="w-5 h-5" /></div>
                         Proyección de Gastos
                     </h3>
@@ -74,8 +74,8 @@ const SpendingForecast: React.FC<SpendingForecastProps> = ({ transactions }) => 
                         <p className="text-2xl font-bold text-onyx-900 tracking-tight">{formatEUR(forecastData.projectedTotal)}</p>
                         <p className="text-[10px] font-semibold text-onyx-400 mt-1 uppercase tracking-widest">{formatEUR(forecastData.dailyAverage)}/día</p>
                     </div>
-                    <div className="p-6 bg-onyx-50/50 rounded-2xl border border-onyx-100 group-hover:bg-indigo-50/30 group-hover:border-indigo-100 transition-all">
-                        <p className="text-[10px] font-bold text-onyx-400 uppercase tracking-[0.2em] mb-2 group-hover:text-indigo-700">Media 3 meses</p>
+                    <div className="p-6 bg-onyx-50/50 rounded-2xl border border-onyx-100 group-hover:bg-cyan-50/30 group-hover:border-cyan-100 transition-all">
+                        <p className="text-[10px] font-bold text-onyx-400 uppercase tracking-[0.2em] mb-2 group-hover:text-cyan-700">Media 3 meses</p>
                         <p className="text-2xl font-bold text-onyx-900 tracking-tight">{formatEUR(forecastData.avgLast3Months)}</p>
                         <div className={`flex items-center gap-1.5 text-[10px] font-bold mt-1.5 ${forecastData.projectedTotal > forecastData.avgLast3Months ? 'text-red-600' : 'text-emerald-600'}`}>
                             {forecastData.projectedTotal > forecastData.avgLast3Months ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}

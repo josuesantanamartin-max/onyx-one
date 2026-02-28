@@ -125,7 +125,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
                     <Button
                         variant="ghost"
                         onClick={startListening}
-                        className={`p-2 rounded-lg transition-colors ${isListening ? 'bg-red-100 text-red-600 animate-pulse' : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-onyx-800'
+                        className={`p-2 rounded-lg transition-colors ${isListening ? 'bg-cyan-100 text-cyan-600 dark:bg-cyan-900/30 dark:text-cyan-400 animate-pulse' : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-onyx-800'
                             }`}
                         title="Búsqueda por voz"
                     >
@@ -199,7 +199,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
                         <span className="flex items-center gap-1"><span>↵</span> <span>Seleccionar</span></span>
                     </div>
                     <div>
-                        Onyx One
+                        Aliseus
                     </div>
                 </div>
             </div>

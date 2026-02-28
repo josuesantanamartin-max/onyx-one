@@ -78,8 +78,8 @@ const CategoryDistributionChart: React.FC<CategoryDistributionChartProps> = ({
         <div className="bg-white dark:bg-onyx-900 p-8 rounded-3xl border border-onyx-100 dark:border-onyx-800 shadow-sm relative overflow-hidden group h-full flex flex-col">
             <div className="flex justify-between items-center mb-6 relative z-10 shrink-0">
                 <div>
-                    <h3 className="text-xl font-bold text-onyx-950 dark:text-white tracking-tight flex items-center gap-3">
-                        <div className="p-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-primary dark:text-indigo-400 rounded-lg"><PieChartIcon className="w-5 h-5" /></div>
+                    <h3 className="text-xl font-bold text-cyan-900 dark:text-white tracking-tight flex items-center gap-3">
+                        <div className="p-2 bg-cyan-50 dark:bg-cyan-900/30 text-cyan-primary dark:text-cyan-400 rounded-lg"><PieChartIcon className="w-5 h-5" /></div>
                         Distribución de Gastos
                     </h3>
                     <p className="text-xs font-semibold text-onyx-400 dark:text-onyx-500 mt-2 uppercase tracking-[0.15em] flex items-center gap-2">
@@ -87,7 +87,7 @@ const CategoryDistributionChart: React.FC<CategoryDistributionChartProps> = ({
                         {periodLabel}
                     </p>
                 </div>
-                <button onClick={() => onNavigate('finance', 'transactions')} className="text-xs font-bold text-onyx-400 hover:text-onyx-950 flex items-center gap-2 transition-colors group">
+                <button onClick={() => onNavigate('finance', 'transactions')} className="text-xs font-bold text-onyx-400 hover:text-cyan-900 flex items-center gap-2 transition-colors group">
                     Ver detalles <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </button>
             </div>
@@ -128,7 +128,7 @@ const CategoryDistributionChart: React.FC<CategoryDistributionChartProps> = ({
                         </ResponsiveContainer>
                         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                             <span className="text-xs font-bold text-onyx-400 dark:text-onyx-500 uppercase tracking-widest">Total</span>
-                            <span className="text-3xl font-black text-onyx-950 dark:text-white tracking-tight mt-1">{formatEUR(total)}</span>
+                            <span className="text-3xl font-black text-cyan-900 dark:text-white tracking-tight mt-1">{formatEUR(total)}</span>
                         </div>
                     </div>
 
@@ -150,10 +150,10 @@ const CategoryDistributionChart: React.FC<CategoryDistributionChartProps> = ({
                                     >
                                         <div className="flex items-center gap-4">
                                             <div className="w-4 h-4 rounded-full shadow-sm ring-2 ring-white dark:ring-onyx-800" style={{ backgroundColor: color }}></div>
-                                            <span className="text-base font-bold text-onyx-900 dark:text-white group-hover/item:text-indigo-primary transition-colors">{item.name}</span>
+                                            <span className="text-base font-bold text-onyx-900 dark:text-white group-hover/item:text-cyan-primary transition-colors">{item.name}</span>
                                         </div>
                                         <div className="text-right">
-                                            <p className="text-base font-black text-onyx-950 dark:text-white tracking-tight">{formatEUR(item.value)}</p>
+                                            <p className="text-base font-black text-cyan-900 dark:text-white tracking-tight">{formatEUR(item.value)}</p>
                                             <div className="flex items-center justify-end gap-2">
                                                 <div className="w-16 h-1.5 bg-onyx-200 dark:bg-onyx-700 rounded-full overflow-hidden">
                                                     <div className="h-full rounded-full" style={{ width: `${percentage}%`, backgroundColor: color }}></div>
@@ -174,7 +174,7 @@ const CategoryDistributionChart: React.FC<CategoryDistributionChartProps> = ({
                                                 }}
                                                 className="flex justify-between items-center text-xs group/sub cursor-pointer hover:bg-onyx-100/50 dark:hover:bg-onyx-700/50 p-1.5 rounded-lg -mx-1.5 transition-colors relative z-20"
                                             >
-                                                <span className="text-onyx-500 dark:text-onyx-400 font-medium group-hover/sub:text-indigo-primary transition-colors pointer-events-none">{sub.name}</span>
+                                                <span className="text-onyx-500 dark:text-onyx-400 font-medium group-hover/sub:text-cyan-primary transition-colors pointer-events-none">{sub.name}</span>
                                                 <span className="text-onyx-700 dark:text-onyx-300 font-bold pointer-events-none">{formatEUR(sub.value)}</span>
                                             </div>
                                         ))}
@@ -189,7 +189,7 @@ const CategoryDistributionChart: React.FC<CategoryDistributionChartProps> = ({
                 </div>
             )}
 
-            <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-soft/10 rounded-full blur-[120px] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-soft/10 rounded-full blur-[120px] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
         </div>
     );
 };

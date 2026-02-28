@@ -46,6 +46,7 @@ export interface ShoppingItem {
     source?: {
         type: 'MANUAL' | 'RECIPE' | 'SMART_PLAN';
         recipeName?: string;
+        recipeBreakdown?: Record<string, number>;
     };
     estimatedPrice?: number; // Precio estimado por unidad en EUR
 }
