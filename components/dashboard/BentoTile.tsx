@@ -71,9 +71,9 @@ const BentoTile: React.FC<BentoTileProps> = ({
         return (
             <div className={`
                 relative flex flex-col w-full min-h-[400px] 
-                bg-white dark:bg-onyx-900 border border-cyan-200 dark:border-cyan-800/50 
+                bg-white/60 dark:bg-onyx-900/40 border border-white/50 dark:border-onyx-800/50 
                 rounded-[2.5rem] shadow-2xl transition-all duration-500
-                backdrop-blur-xl
+                backdrop-blur-2xl
                 ${colSpanClass} ${className}
             `}>
                 {/* Header for expanded view - Entire header is clickable to contract */}
@@ -102,8 +102,9 @@ const BentoTile: React.FC<BentoTileProps> = ({
     return (
         <div
             className={`
-                bg-white dark:bg-onyx-900 border border-onyx-100 dark:border-onyx-800/50 
-                rounded-[2rem] p-6 text-left transition-all duration-500
+                bg-white/40 dark:bg-onyx-900/30 border border-white/40 dark:border-onyx-800/40 
+                backdrop-blur-xl rounded-[2.5rem] p-6 text-left transition-all duration-500 group
+                shadow-sm hover:shadow-xl hover:bg-white/60 dark:hover:bg-onyx-900/50
                 ${isEditMode ? 'hover:border-cyan-400 dark:hover:border-cyan-500 border-dashed border-2 cursor-grab active:cursor-grabbing' : 'hover:shadow-2xl hover:-translate-y-2 hover:border-cyan-300 dark:hover:border-cyan-500/50 cursor-pointer'}
                 ${isDragOver ? 'border-4 border-cyan-500 bg-cyan-50/50 dark:bg-cyan-500/20 scale-[0.98]' : ''}
                 ${colSpanClass} ${className}

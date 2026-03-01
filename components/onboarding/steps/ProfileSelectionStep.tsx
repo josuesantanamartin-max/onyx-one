@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { UserPersona } from '../../../types';
 import { useUserStore } from '../../../store/useUserStore';
-import { GraduationCap, Briefcase, Users2, Rocket, Laptop, CheckCircle2 } from 'lucide-react';
+import { GraduationCap, Briefcase, Users2, Rocket, Laptop, CheckCircle2, Heart, Coffee } from 'lucide-react';
 
 const PROFILES: { id: UserPersona; title: string; desc: string; icon: any; color: string }[] = [
     {
@@ -26,11 +26,18 @@ const PROFILES: { id: UserPersona; title: string; desc: string; icon: any; color
         color: 'from-slate-700 to-slate-900'
     },
     {
+        id: 'COUPLE',
+        title: 'Pareja',
+        desc: 'Finanzas compartidas, división de gastos y objetivos comunes.',
+        icon: Heart,
+        color: 'from-rose-500 to-red-500'
+    },
+    {
         id: 'FAMILY',
         title: 'Familia',
         desc: 'Presupuesto hogar, gastos compartidos e hijos.',
         icon: Users2,
-        color: 'from-indigo-500 to-violet-500'
+        color: 'from-emerald-500 to-teal-500'
     },
     {
         id: 'ENTREPRENEUR',
@@ -38,12 +45,19 @@ const PROFILES: { id: UserPersona; title: string; desc: string; icon: any; color
         desc: 'Flujo de caja, separación personal/negocio y métricas.',
         icon: Rocket,
         color: 'from-orange-500 to-red-500'
+    },
+    {
+        id: 'RETIREE',
+        title: 'Jubilado',
+        desc: 'Control de pensiones, presupuestos fijos y ahorro a largo plazo.',
+        icon: Coffee,
+        color: 'from-amber-500 to-orange-500'
     }
 ];
 
 const ProfileSelectionStep: React.FC = () => {
     const { setOnboardingStep, setUserProfile, userProfile } = useUserStore();
-    const [selected, setSelected] = useState<UserPersona[]>(userProfile?.persona_type || []);
+    const [selected, setSelected] = useState<UserPersona[]>([]);
 
     const handleSelect = (id: UserPersona) => {
         if (selected.includes(id)) {
@@ -60,8 +74,8 @@ const ProfileSelectionStep: React.FC = () => {
                 persona_type: selected
             });
 
-            // If 'FAMILY' is selected, go to Family Setup (Step 2), otherwise skip to Currency (Step 3)
-            if (selected.includes('FAMILY')) {
+            // If 'FAMILY' or 'COUPLE' is selected, go to Family Setup (Step 2), otherwise skip to Currency (Step 3)
+            if (selected.includes('FAMILY') || selected.includes('COUPLE')) {
                 setOnboardingStep(2);
             } else {
                 setOnboardingStep(3);
@@ -75,7 +89,7 @@ const ProfileSelectionStep: React.FC = () => {
                 ¿Cuál te describe mejor?
             </h2>
             <p className="text-gray-500 dark:text-gray-400 mb-8 text-center">
-                Puedes seleccionar varias opciones. Personalizaremos Onyx según tu perfil.
+                Puedes seleccionar varias opciones. Personalizaremos Aliseus según tu perfil.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full mb-10">
@@ -86,12 +100,12 @@ const ProfileSelectionStep: React.FC = () => {
                             key={profile.id}
                             onClick={() => handleSelect(profile.id)}
                             className={`relative p-5 rounded-2xl border-2 transition-all cursor-pointer hover:scale-[1.02] ${isSelected
-                                ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 dark:border-indigo-500 shadow-md transform scale-[1.02]'
-                                : 'border-gray-100 dark:border-onyx-700 bg-white dark:bg-onyx-800 hover:border-indigo-200 dark:hover:border-indigo-800'
+                                ? 'border-cyan-600 bg-cyan-50 dark:bg-cyan-900/20 dark:border-cyan-500 shadow-md transform scale-[1.02]'
+                                : 'border-gray-100 dark:border-onyx-700 bg-white dark:bg-onyx-800 hover:border-cyan-200 dark:hover:border-cyan-800'
                                 }`}
                         >
-                            <div className="absolute top-4 right-4 text-indigo-600 dark:text-indigo-400">
-                                <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors ${isSelected ? 'bg-indigo-600 border-indigo-600 dark:border-indigo-500' : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-onyx-800'}`}>
+                            <div className="absolute top-4 right-4 text-cyan-600 dark:text-cyan-400">
+                                <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors ${isSelected ? 'bg-cyan-600 border-cyan-600 dark:border-cyan-500' : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-onyx-800'}`}>
                                     {isSelected && <CheckCircle2 className="w-4 h-4 text-white" />}
                                 </div>
                             </div>
@@ -122,7 +136,7 @@ const ProfileSelectionStep: React.FC = () => {
                         onClick={handleContinue}
                         disabled={selected.length === 0}
                         className={`px-8 py-3 rounded-xl font-bold shadow-lg transition-all ${selected.length > 0
-                            ? 'bg-indigo-600 text-white hover:bg-indigo-700 hover:scale-105'
+                            ? 'bg-cyan-600 text-white hover:bg-cyan-700 hover:scale-105'
                             : 'bg-gray-200 text-gray-400 cursor-not-allowed dark:bg-onyx-700 dark:text-gray-500'
                             }`}
                     >

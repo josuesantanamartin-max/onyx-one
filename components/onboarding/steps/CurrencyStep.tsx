@@ -18,12 +18,12 @@ const CurrencyOption = ({
     <div
         onClick={onSelect}
         className={`p-6 rounded-2xl border-2 cursor-pointer transition-all flex items-center justify-between ${selected
-            ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20'
-            : 'border-gray-100 dark:border-onyx-800 bg-white dark:bg-onyx-800 hover:border-indigo-200 dark:hover:border-indigo-800'
+            ? 'border-cyan-600 bg-cyan-50 dark:bg-cyan-900/20'
+            : 'border-gray-100 dark:border-onyx-800 bg-white dark:bg-onyx-800 hover:border-cyan-200 dark:hover:border-cyan-800'
             }`}
     >
         <div className="flex items-center gap-4">
-            <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold ${selected ? 'bg-indigo-600 text-white' : 'bg-gray-100 dark:bg-onyx-700 text-gray-500'
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold ${selected ? 'bg-cyan-600 text-white' : 'bg-gray-100 dark:bg-onyx-700 text-gray-500'
                 }`}>
                 {symbol}
             </div>
@@ -34,7 +34,7 @@ const CurrencyOption = ({
         </div>
 
         {selected && (
-            <div className="w-6 h-6 rounded-full bg-indigo-600 flex items-center justify-center">
+            <div className="w-6 h-6 rounded-full bg-cyan-600 flex items-center justify-center">
                 <Check className="w-4 h-4 text-white" />
             </div>
         )}
@@ -93,7 +93,7 @@ const CurrencyStep: React.FC = () => {
 
                 <button
                     onClick={() => setOnboardingStep(4)} // Next is Accounts (Step 4)
-                    className="px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold shadow-lg hover:bg-indigo-700 hover:scale-105 transition-all"
+                    className="px-8 py-3 bg-cyan-600 text-white rounded-xl font-bold shadow-lg hover:bg-cyan-700 hover:scale-105 transition-all"
                 >
                     Continuar
                 </button>

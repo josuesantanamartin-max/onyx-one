@@ -16,12 +16,12 @@ const SavingsRateWidget: React.FC<SavingsRateWidgetProps> = ({ monthlyIncome, mo
     const isNegative = savingsRate < 0;
 
     return (
-        <div className="bg-white dark:bg-onyx-900 p-6 rounded-3xl border border-onyx-100 dark:border-onyx-800 shadow-sm relative overflow-hidden h-full flex flex-col justify-between group">
-            <div className={`absolute -right-6 -top-6 w-32 h-32 rounded-full blur-2xl transition-colors ${isNegative ? 'bg-rose-500/5 group-hover:bg-rose-500/10' : isHealthy ? 'bg-emerald-500/5 group-hover:bg-emerald-500/10' : 'bg-amber-500/5 group-hover:bg-amber-500/10'}`}></div>
+        <div className="bg-white dark:bg-onyx-900 p-5 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm relative overflow-hidden h-full flex flex-col justify-between group/widget hover:shadow-lg transition-all">
+            <div className={`absolute -right-6 -top-6 w-32 h-32 rounded-full blur-2xl transition-colors ${isNegative ? 'bg-rose-500/5 group-hover/widget:bg-rose-500/10' : isHealthy ? 'bg-emerald-500/5 group-hover/widget:bg-emerald-500/10' : 'bg-amber-500/5 group-hover/widget:bg-amber-500/10'}`}></div>
 
             <div className="flex justify-between items-start relative z-10">
-                <div className={`p-3 rounded-2xl shadow-inner ${isNegative ? 'bg-rose-50 dark:bg-rose-900/30 text-rose-600' : isHealthy ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600' : 'bg-amber-50 dark:bg-amber-900/30 text-amber-600'}`}>
-                    <PiggyBank className="w-6 h-6" />
+                <div className={`p-2.5 rounded-2xl shadow-inner group-hover/widget:scale-110 transition-transform ${isNegative ? 'bg-rose-50 dark:bg-rose-900/30 text-rose-600' : isHealthy ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600' : 'bg-amber-50 dark:bg-amber-900/30 text-amber-600'}`}>
+                    <PiggyBank className="w-5 h-5" />
                 </div>
                 {savingsRate !== 0 && (
                     <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest ${isNegative ? 'bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-800' : isHealthy ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800' : 'bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-800'}`}>

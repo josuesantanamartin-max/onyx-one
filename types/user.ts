@@ -1,4 +1,4 @@
-export type UserPersona = 'STUDENT' | 'FREELANCER' | 'PROFESSIONAL' | 'FAMILY' | 'ENTREPRENEUR';
+export type UserPersona = 'STUDENT' | 'FREELANCER' | 'PROFESSIONAL' | 'COUPLE' | 'FAMILY' | 'ENTREPRENEUR' | 'RETIREE';
 
 export interface GrowthRecord {
     date: string;

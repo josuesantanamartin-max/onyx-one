@@ -36,18 +36,18 @@ const UpcomingPaymentsWidget: React.FC<DashboardDataProps> = ({
     };
 
     return (
-        <div className="bg-white dark:bg-onyx-900 rounded-[2rem] p-8 shadow-sm border border-gray-100 dark:border-onyx-800 hover:shadow-lg transition-all h-full flex flex-col">
+        <div className="bg-white dark:bg-onyx-900 rounded-[2rem] p-6 shadow-sm border border-onyx-100 dark:border-onyx-800 hover:shadow-lg transition-all h-full flex flex-col relative overflow-hidden group/widget">
             {/* Header */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-4 relative z-10 shrink-0">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl flex items-center justify-center shadow-lg">
+                    <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl flex items-center justify-center shadow-lg group-hover/widget:scale-110 transition-transform">
                         <Calendar className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                        <h3 className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-wide">
+                        <h3 className="text-sm font-black text-onyx-900 dark:text-white uppercase tracking-wide">
                             Próximos Pagos
                         </h3>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                        <p className="text-xs text-onyx-500 dark:text-onyx-400 font-bold">
                             {upcomingPayments.length} pagos pendientes
                         </p>
                     </div>
@@ -63,24 +63,24 @@ const UpcomingPaymentsWidget: React.FC<DashboardDataProps> = ({
             </div>
 
             {/* Total Amount */}
-            <div className="bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl p-4 mb-6 border border-orange-100 dark:border-orange-900/50">
-                <p className="text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wide mb-1">
+            <div className="bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl p-4 mb-4 border border-orange-100 dark:border-orange-900/50 shrink-0">
+                <p className="text-[10px] font-bold text-orange-600 dark:text-orange-400 uppercase tracking-widest mb-1">
                     Total a Pagar (30 días)
                 </p>
-                <p className="text-2xl font-black text-gray-900 dark:text-white">
+                <p className="text-2xl font-black text-onyx-900 dark:text-white tracking-tight">
                     {totalAmount.toFixed(2)}€
                 </p>
             </div>
 
             {/* Payments List */}
-            <div className="space-y-3 flex-1 overflow-y-auto">
+            <div className="space-y-2 flex-1 overflow-y-auto custom-scrollbar pr-2 relative z-10">
                 {displayPayments.length === 0 ? (
                     <div className="text-center py-8">
-                        <Calendar className="w-12 h-12 text-gray-300 dark:text-gray-700 mx-auto mb-3" />
-                        <p className="text-sm font-bold text-gray-500 dark:text-gray-400">
+                        <Calendar className="w-10 h-10 text-onyx-300 dark:text-onyx-700 mx-auto mb-3" />
+                        <p className="text-sm font-bold text-onyx-500 dark:text-onyx-400">
                             No hay pagos próximos
                         </p>
-                        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                        <p className="text-xs text-onyx-400 dark:text-onyx-500 mt-1 font-bold">
                             ¡Todo al día!
                         </p>
                     </div>
@@ -93,49 +93,49 @@ const UpcomingPaymentsWidget: React.FC<DashboardDataProps> = ({
                         return (
                             <div
                                 key={payment.id}
-                                className={`p-4 rounded-xl border transition-all hover:shadow-md ${isOverdue
+                                className={`p-3 rounded-xl border transition-all hover:shadow-md ${isOverdue
                                     ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-900/50'
                                     : isUrgent
                                         ? 'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-900/50'
-                                        : 'bg-gray-50 dark:bg-onyx-800 border-gray-200 dark:border-onyx-700'
+                                        : 'bg-onyx-50 dark:bg-onyx-800 border-onyx-200 dark:border-onyx-700 hover:bg-white dark:hover:bg-onyx-900'
                                     }`}
                             >
                                 <div className="flex items-start justify-between mb-2">
-                                    <div className="flex items-start gap-3 flex-1">
-                                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${getSourceColor(payment.source)}`}>
+                                    <div className="flex items-start gap-3 flex-1 min-w-0">
+                                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${getSourceColor(payment.source)}`}>
                                             <SourceIcon className="w-4 h-4" />
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <h4 className="text-sm font-bold text-gray-900 dark:text-white truncate">
+                                            <h4 className="text-sm font-bold text-onyx-900 dark:text-white truncate">
                                                 {payment.name}
                                             </h4>
-                                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                                            <p className="text-[10px] font-bold text-onyx-500 dark:text-onyx-400 uppercase tracking-widest truncate">
                                                 {payment.category}
                                             </p>
                                         </div>
                                     </div>
-                                    <div className="text-right ml-3">
-                                        <p className="text-sm font-black text-gray-900 dark:text-white">
+                                    <div className="text-right ml-3 shrink-0">
+                                        <p className="text-sm font-black text-onyx-900 dark:text-white">
                                             {payment.amount.toFixed(2)}€
                                         </p>
                                     </div>
                                 </div>
 
-                                <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
-                                    <div className="flex items-center gap-2">
-                                        <Calendar className="w-3 h-3 text-gray-400" />
-                                        <span className="text-xs text-gray-600 dark:text-gray-400">
+                                <div className="flex items-center justify-between mt-2 pt-2 border-t border-onyx-200 dark:border-onyx-700/50">
+                                    <div className="flex items-center gap-1.5">
+                                        <Calendar className="w-3 h-3 text-onyx-400" />
+                                        <span className="text-[10px] font-bold text-onyx-600 dark:text-onyx-400 uppercase">
                                             {new Date(payment.dueDate).toLocaleDateString('es-ES', {
                                                 day: 'numeric',
                                                 month: 'short'
                                             })}
                                         </span>
                                     </div>
-                                    <span className={`text-xs font-bold ${isOverdue
+                                    <span className={`text-[10px] font-bold tracking-wide uppercase ${isOverdue
                                         ? 'text-red-600 dark:text-red-400'
                                         : isUrgent
                                             ? 'text-orange-600 dark:text-orange-400'
-                                            : 'text-gray-500 dark:text-gray-400'
+                                            : 'text-onyx-500 dark:text-onyx-400'
                                         }`}>
                                         {isOverdue
                                             ? `Vencido hace ${Math.abs(payment.daysUntilDue)} días`
@@ -155,7 +155,7 @@ const UpcomingPaymentsWidget: React.FC<DashboardDataProps> = ({
 
             {/* Ver más */}
             {upcomingPayments.length > 5 && (
-                <button className="w-full mt-4 py-2 text-xs font-bold text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
+                <button className="w-full mt-3 py-1.5 text-xs font-bold text-onyx-400 hover:text-cyan-600 transition-colors shrink-0">
                     Ver todos ({upcomingPayments.length} pagos)
                 </button>
             )}

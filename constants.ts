@@ -54,6 +54,8 @@ export const DEFAULT_WIDGETS: DashboardWidget[] = [
   { id: 'TOP_SPENDERS', visible: true, order: 25 },
   { id: 'LOW_STOCK_PANTRY', visible: true, order: 26 },
   { id: 'UPCOMING_BIRTHDAYS', visible: true, order: 27 },
+  { id: 'ALISEUS_INSIGHTS', visible: true, order: 28 },
+  { id: 'INTELLIGENT_TOMORROW', visible: true, order: 29 },
 ];
 
 export const DEFAULT_RULES: AutomationRule[] = [
@@ -70,12 +72,25 @@ export const DEFAULT_LAYOUTS: DashboardLayout[] = [
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     widgets: [
-      { i: 'NET_WORTH', x: 0, y: 0, w: 8, h: 2, visible: true },
-      { i: 'MONTHLY_FLOW', x: 8, y: 0, w: 4, h: 2, visible: true },
-      { i: 'FINANCIAL_HEALTH', x: 0, y: 2, w: 6, h: 2, visible: true },
-      { i: 'SAVINGS_RATE', x: 6, y: 2, w: 6, h: 2, visible: true },
-      { i: 'BUDGET_STATUS', x: 0, y: 4, w: 12, h: 3, visible: true },
-      { i: 'UPCOMING_PAYMENTS', x: 0, y: 7, w: 12, h: 2, visible: true },
+      // ROW 1: The Core 3-Column Layout (25% - 50% - 25%)
+      { i: 'NET_WORTH', x: 0, y: 0, w: 3, h: 2, visible: true, sizeOverride: 'kpi' as any }, // 25% Left
+      { i: 'CASHFLOW_WIDGET', x: 3, y: 0, w: 6, h: 2, visible: true, sizeOverride: 'half' as any }, // 50% Center
+      { i: 'INTELLIGENT_TOMORROW', x: 9, y: 0, w: 3, h: 2, visible: true, sizeOverride: 'sidebar' as any }, // 25% Right
+
+      // ROW 2: Contextual Data
+      { i: 'SAVINGS_RATE', x: 0, y: 2, w: 3, h: 2, visible: true, sizeOverride: 'kpi' as any }, // 25% Left
+      { i: 'UPCOMING_PAYMENTS', x: 3, y: 2, w: 6, h: 2, visible: true, sizeOverride: 'half' as any }, // 50% Center
+      { i: 'CATEGORY_DONUT_WIDGET', x: 9, y: 2, w: 3, h: 2, visible: true, sizeOverride: 'sidebar' as any }, // 25% Right
+
+      // ROW 3: Secondary KPIs
+      { i: 'ACTIVE_DEBTS', x: 0, y: 4, w: 3, h: 2, visible: true, sizeOverride: 'kpi' as any }, // 25% Left
+      { i: 'BUDGET_STATUS', x: 3, y: 4, w: 6, h: 2, visible: true, sizeOverride: 'half' as any }, // 50% Center
+      { i: 'ALISEUS_BRAIN_WIDGET', x: 9, y: 4, w: 3, h: 2, visible: true, sizeOverride: 'sidebar' as any }, // 25% Right
+
+      // ROW 4: Footer metrics
+      { i: 'RECENT_TRANSACTIONS', x: 0, y: 6, w: 3, h: 2, visible: true, sizeOverride: 'sidebar' as any }, // 25% Left
+      { i: 'MONTHLY_GOALS', x: 3, y: 6, w: 6, h: 2, visible: true, sizeOverride: 'half' as any }, // 50% Center
+      { i: 'ALISEUS_INSIGHTS', x: 9, y: 6, w: 3, h: 2, visible: true, sizeOverride: 'sidebar' as any }, // 25% Right
     ],
   },
   {
@@ -101,10 +116,11 @@ export const DEFAULT_LAYOUTS: DashboardLayout[] = [
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     widgets: [
-      { i: 'FAMILY_AGENDA', x: 0, y: 0, w: 12, h: 3, visible: true },
-      { i: 'FAMILY_TASKS', x: 0, y: 3, w: 6, h: 4, visible: true },
-      { i: 'UPCOMING_BIRTHDAYS', x: 6, y: 3, w: 6, h: 2, visible: true },
-      { i: 'UPCOMING_TRIPS', x: 6, y: 5, w: 6, h: 2, visible: true },
+      { i: 'INTELLIGENT_TOMORROW', x: 0, y: 0, w: 12, h: 2, visible: true },
+      { i: 'FAMILY_AGENDA', x: 0, y: 2, w: 12, h: 3, visible: true },
+      { i: 'FAMILY_TASKS', x: 0, y: 5, w: 6, h: 4, visible: true },
+      { i: 'UPCOMING_BIRTHDAYS', x: 6, y: 5, w: 6, h: 2, visible: true },
+      { i: 'UPCOMING_TRIPS', x: 6, y: 7, w: 6, h: 2, visible: true },
     ],
   },
   {
@@ -126,7 +142,8 @@ export const DEFAULT_LAYOUTS: DashboardLayout[] = [
       { i: 'ACTIVE_DEBTS', x: 6, y: 10, w: 6, h: 2, visible: true },
       { i: 'PROJECTION_WIDGET', x: 0, y: 12, w: 8, h: 3, visible: true },
       { i: 'ACCOUNTS_SUMMARY', x: 8, y: 12, w: 4, h: 3, visible: true },
-      { i: 'BUDGET_STATUS', x: 0, y: 15, w: 12, h: 3, visible: true },
+      { i: 'ALISEUS_INSIGHTS', x: 0, y: 15, w: 6, h: 3, visible: true },
+      { i: 'BUDGET_STATUS', x: 6, y: 15, w: 6, h: 3, visible: true },
       { i: 'EXPLORER', x: 0, y: 18, w: 12, h: 3, visible: true },
       { i: 'RECENT_TRANSACTIONS', x: 0, y: 21, w: 6, h: 3, visible: true },
       { i: 'TOP_SPENDERS', x: 6, y: 21, w: 6, h: 3, visible: true },

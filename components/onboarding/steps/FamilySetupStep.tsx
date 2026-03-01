@@ -68,7 +68,7 @@ const FamilySetupStep: React.FC = () => {
                 {members.map((member) => (
                     <div key={member.id} className="flex items-center justify-between p-4 bg-white dark:bg-onyx-800 rounded-xl border border-gray-100 dark:border-onyx-700 shadow-sm animate-fade-in-up">
                         <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                            <div className="w-10 h-10 rounded-full bg-cyan-100 dark:bg-cyan-900/30 flex items-center justify-center text-cyan-600 dark:text-cyan-400">
                                 <User className="w-5 h-5" />
                             </div>
                             <div>
@@ -103,19 +103,19 @@ const FamilySetupStep: React.FC = () => {
                         placeholder="Nombre"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="p-3 rounded-lg border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 focus:ring-2 focus:ring-indigo-500 outline-none"
+                        className="p-3 rounded-lg border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 focus:ring-2 focus:ring-cyan-500 outline-none"
                     />
                     <select
                         value={relationship}
                         onChange={(e) => setRelationship(e.target.value)}
-                        className="p-3 rounded-lg border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 focus:ring-2 focus:ring-indigo-500 outline-none"
+                        className="p-3 rounded-lg border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 focus:ring-2 focus:ring-cyan-500 outline-none"
                     >
                         {RELATIONSHIPS.map(r => <option key={r} value={r}>{r}</option>)}
                     </select>
                     <select
                         value={role}
                         onChange={(e) => setRole(e.target.value as any)}
-                        className="p-3 rounded-lg border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 focus:ring-2 focus:ring-indigo-500 outline-none"
+                        className="p-3 rounded-lg border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 focus:ring-2 focus:ring-cyan-500 outline-none"
                     >
                         {ROLES.map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
                     </select>
@@ -123,7 +123,7 @@ const FamilySetupStep: React.FC = () => {
                 <button
                     onClick={handleAddMember}
                     disabled={!name.trim()}
-                    className="w-full py-3 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-bold rounded-xl hover:bg-indigo-200 dark:hover:bg-indigo-900/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full py-3 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400 font-bold rounded-xl hover:bg-cyan-200 dark:hover:bg-cyan-900/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     Añadir a la Familia
                 </button>
@@ -139,7 +139,7 @@ const FamilySetupStep: React.FC = () => {
 
                 <button
                     onClick={handleContinue}
-                    className="px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold shadow-lg hover:bg-indigo-700 hover:scale-105 transition-all flex items-center gap-2"
+                    className="px-8 py-3 bg-cyan-600 text-white rounded-xl font-bold shadow-lg hover:bg-cyan-700 hover:scale-105 transition-all flex items-center gap-2"
                 >
                     Continuar <ArrowRight className="w-4 h-4" />
                 </button>

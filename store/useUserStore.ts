@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { Language, QuickAction, AutomationRule, DashboardWidget, SyncLog, DashboardLayout, UserPersona, FamilyMember } from '../types';
 import { DEFAULT_RULES, DEFAULT_WIDGETS, DEFAULT_LAYOUTS } from '../constants';
+import { getWidgetCategory } from '../components/dashboard/widgetCategories';
 
 export interface CookiePreferences {
     essential: boolean;
@@ -250,8 +251,6 @@ export const useUserStore = create<UserState & UserActions>()(
 
             addWidgetToLayout: (widgetId) => set((state) => {
                 // Determine target layout based on widget category
-                // Import getWidgetCategory locally to avoid potential circular dependencies if any
-                const { getWidgetCategory } = require('../components/dashboard/widgetCategories');
                 const category = getWidgetCategory(widgetId);
 
                 let targetLayoutId = state.activeLayoutId;

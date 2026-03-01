@@ -59,25 +59,25 @@ const MonthlyGoalsWidget: React.FC<DashboardDataProps> = ({
     const totalGoals = monthlyGoalsData.length;
 
     return (
-        <div className="bg-white dark:bg-onyx-900 rounded-[2rem] p-8 shadow-sm border border-gray-100 dark:border-onyx-800 hover:shadow-lg transition-all h-full flex flex-col">
+        <div className="bg-white dark:bg-onyx-900 rounded-[2rem] p-6 shadow-sm border border-onyx-100 dark:border-onyx-800 hover:shadow-lg transition-all h-full flex flex-col relative overflow-hidden group/widget">
             {/* Header */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-4 relative z-10 shrink-0">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
+                    <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg group-hover/widget:scale-110 transition-transform">
                         <Target className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                        <h3 className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-wide">
+                        <h3 className="text-sm font-black text-onyx-900 dark:text-white uppercase tracking-wide">
                             Objetivos del Mes
                         </h3>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                        <p className="text-xs text-onyx-500 dark:text-onyx-400 font-bold">
                             {completedGoals} de {totalGoals} completados
                         </p>
                     </div>
                 </div>
                 {totalGoals > 0 && (
                     <div className="text-right">
-                        <p className="text-2xl font-black text-cyan-600 dark:text-cyan-400">
+                        <p className="text-2xl font-black text-cyan-600 dark:text-cyan-400 tracking-tight">
                             {Math.round((completedGoals / totalGoals) * 100)}%
                         </p>
                     </div>
@@ -85,47 +85,47 @@ const MonthlyGoalsWidget: React.FC<DashboardDataProps> = ({
             </div>
 
             {/* Goals List */}
-            <div className="space-y-4 flex-1 overflow-y-auto">
+            <div className="space-y-3 flex-1 overflow-y-auto custom-scrollbar pr-2 relative z-10">
                 {monthlyGoalsData.length === 0 ? (
                     <div className="text-center py-8">
-                        <Target className="w-12 h-12 text-gray-300 dark:text-gray-700 mx-auto mb-3" />
-                        <p className="text-sm font-bold text-gray-500 dark:text-gray-400">
+                        <Target className="w-10 h-10 text-onyx-300 dark:text-onyx-700 mx-auto mb-3" />
+                        <p className="text-sm font-bold text-onyx-500 dark:text-onyx-400">
                             No hay metas para este mes
                         </p>
-                        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                            Crea metas con deadline en el mes actual
+                        <p className="text-[10px] uppercase tracking-widest text-onyx-400 dark:text-onyx-500 mt-1 font-bold">
+                            Crea metas con deadline actual
                         </p>
                     </div>
                 ) : (
                     monthlyGoalsData.map((goal) => (
                         <div
                             key={goal.id}
-                            className={`p-4 rounded-xl border transition-all ${goal.isCompleted
-                                ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-900/50'
+                            className={`p-3 rounded-xl border transition-all hover:shadow-md ${goal.isCompleted
+                                ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-900/50'
                                 : goal.isAtRisk
-                                    ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-900/50'
-                                    : 'bg-gray-50 dark:bg-onyx-800 border-gray-200 dark:border-onyx-700'
+                                    ? 'bg-rose-50 dark:bg-rose-900/20 border-rose-200 dark:border-rose-900/50'
+                                    : 'bg-onyx-50 dark:bg-onyx-800 border-onyx-200 dark:border-onyx-700 hover:bg-white dark:hover:bg-onyx-900'
                                 }`}
                         >
                             {/* Goal Header */}
                             <div className="flex items-start justify-between mb-3">
-                                <div className="flex items-start gap-2 flex-1">
+                                <div className="flex items-start gap-2 flex-1 min-w-0">
                                     {goal.isCompleted ? (
-                                        <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                                        <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 mt-0.5 shrink-0" />
                                     ) : goal.isAtRisk ? (
-                                        <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 mt-0.5 flex-shrink-0" />
+                                        <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 mt-0.5 shrink-0" />
                                     ) : (
-                                        <Target className="w-5 h-5 text-cyan-600 dark:text-cyan-400 mt-0.5 flex-shrink-0" />
+                                        <Target className="w-4 h-4 text-cyan-600 dark:text-cyan-400 mt-0.5 shrink-0" />
                                     )}
                                     <div className="flex-1 min-w-0">
-                                        <h4 className="text-sm font-bold text-gray-900 dark:text-white truncate">
+                                        <h4 className="text-sm font-bold text-onyx-900 dark:text-white truncate">
                                             {goal.name}
                                         </h4>
-                                        <div className="flex items-center gap-2 mt-1">
-                                            <Clock className="w-3 h-3 text-gray-400" />
-                                            <span className="text-xs text-gray-600 dark:text-gray-400">
+                                        <div className="flex items-center gap-1.5 mt-0.5">
+                                            <Clock className="w-3 h-3 text-onyx-400" />
+                                            <span className="text-[10px] font-bold uppercase tracking-widest text-onyx-500 dark:text-onyx-400">
                                                 {goal.daysRemaining > 0
-                                                    ? `${goal.daysRemaining} días restantes`
+                                                    ? `${goal.daysRemaining} d restantes`
                                                     : goal.daysRemaining === 0
                                                         ? 'Último día'
                                                         : 'Vencido'
@@ -134,11 +134,11 @@ const MonthlyGoalsWidget: React.FC<DashboardDataProps> = ({
                                         </div>
                                     </div>
                                 </div>
-                                <div className="text-right ml-3">
-                                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                                <div className="text-right ml-2 shrink-0">
+                                    <p className="text-xs font-black text-onyx-900 dark:text-white">
                                         {goal.currentAmount.toFixed(0)}€
                                     </p>
-                                    <p className="text-xs text-gray-500 dark:text-gray-500">
+                                    <p className="text-[10px] font-bold text-onyx-500 dark:text-onyx-400">
                                         / {goal.targetAmount.toFixed(0)}€
                                     </p>
                                 </div>
@@ -146,15 +146,15 @@ const MonthlyGoalsWidget: React.FC<DashboardDataProps> = ({
 
                             {/* Progress Bar */}
                             <div className="mb-2">
-                                <div className="h-2 bg-gray-200 dark:bg-onyx-700 rounded-full overflow-hidden">
+                                <div className="h-1.5 bg-onyx-200 dark:bg-onyx-700 rounded-full overflow-hidden">
                                     <div
                                         className={`h-full rounded-full transition-all duration-500 ${goal.isCompleted
-                                            ? 'bg-green-500'
+                                            ? 'bg-emerald-500'
                                             : goal.isAtRisk
-                                                ? 'bg-red-500'
+                                                ? 'bg-rose-500'
                                                 : goal.isOnTrack
                                                     ? 'bg-cyan-500'
-                                                    : 'bg-orange-500'
+                                                    : 'bg-amber-500'
                                             }`}
                                         style={{ width: `${Math.min(100, goal.progress)}%` }}
                                     />
@@ -162,14 +162,14 @@ const MonthlyGoalsWidget: React.FC<DashboardDataProps> = ({
                             </div>
 
                             {/* Status */}
-                            <div className="flex items-center justify-between text-xs">
-                                <span className={`font-bold ${goal.isCompleted
-                                    ? 'text-green-600 dark:text-green-400'
+                            <div className="flex items-center justify-between text-[10px]">
+                                <span className={`font-bold uppercase tracking-widest ${goal.isCompleted
+                                    ? 'text-emerald-600 dark:text-emerald-400'
                                     : goal.isAtRisk
-                                        ? 'text-red-600 dark:text-red-400'
+                                        ? 'text-rose-600 dark:text-rose-400'
                                         : goal.isOnTrack
                                             ? 'text-cyan-600 dark:text-cyan-400'
-                                            : 'text-orange-600 dark:text-orange-400'
+                                            : 'text-amber-600 dark:text-amber-400'
                                     }`}>
                                     {goal.isCompleted
                                         ? '¡Completado!'
@@ -180,21 +180,21 @@ const MonthlyGoalsWidget: React.FC<DashboardDataProps> = ({
                                                 : 'Necesita impulso'
                                     }
                                 </span>
-                                <span className="text-gray-500 dark:text-gray-400">
+                                <span className="text-onyx-500 dark:text-onyx-400 font-bold">
                                     {goal.progress.toFixed(0)}%
                                 </span>
                             </div>
 
                             {/* Projection */}
                             {!goal.isCompleted && (
-                                <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
-                                    <p className="text-xs text-gray-600 dark:text-gray-400">
-                                        Proyección: {goal.projectedAmount.toFixed(0)}€
+                                <div className="mt-2 pt-2 border-t border-onyx-200 dark:border-onyx-700/50">
+                                    <p className="text-[10px] font-bold text-onyx-600 dark:text-onyx-400 uppercase tracking-widest flex items-center justify-between">
+                                        <span>Proyección: {goal.projectedAmount.toFixed(0)}€</span>
                                         {goal.willComplete ? (
-                                            <span className="text-green-600 dark:text-green-400 ml-1">✓ Se cumplirá</span>
+                                            <span className="text-emerald-600 dark:text-emerald-400">✓ Cumplirá</span>
                                         ) : (
-                                            <span className="text-orange-600 dark:text-orange-400 ml-1">
-                                                ⚠ Falta {(goal.targetAmount - goal.projectedAmount).toFixed(0)}€
+                                            <span className="text-amber-600 dark:text-amber-400">
+                                                ⚠ -{(goal.targetAmount - goal.projectedAmount).toFixed(0)}€
                                             </span>
                                         )}
                                     </p>

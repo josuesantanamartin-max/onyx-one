@@ -110,7 +110,7 @@ const AccountsStep: React.FC = () => {
                     return (
                         <div key={idx} className="flex items-center justify-between p-4 bg-white dark:bg-onyx-800 rounded-xl border border-gray-100 dark:border-onyx-700 shadow-sm animate-fade-in-up">
                             <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-full bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                                <div className="w-10 h-10 rounded-full bg-cyan-50 dark:bg-cyan-900/20 flex items-center justify-center text-cyan-600 dark:text-cyan-400">
                                     <TypeIcon className="w-5 h-5" />
                                 </div>
                                 <div>
@@ -131,7 +131,7 @@ const AccountsStep: React.FC = () => {
 
             {/* Add Custom Account inline */}
             {isAdding ? (
-                <div className="w-full bg-gray-50 dark:bg-onyx-800/50 p-6 rounded-2xl mb-6 animate-scale-in border border-indigo-100 dark:border-indigo-900/30">
+                <div className="w-full bg-gray-50 dark:bg-onyx-800/50 p-6 rounded-2xl mb-6 animate-scale-in border border-cyan-100 dark:border-cyan-900/30">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div className="space-y-1">
                             <label className="text-xs font-bold text-gray-500 ml-1 uppercase">Nombre Personalizado</label>
@@ -139,7 +139,7 @@ const AccountsStep: React.FC = () => {
                                 value={newAccountName}
                                 onChange={e => setNewAccountName(e.target.value)}
                                 placeholder="Ej: Mi Cuenta Ahorro"
-                                className="w-full p-3 rounded-xl border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+                                className="w-full p-3 rounded-xl border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 focus:ring-2 focus:ring-cyan-500 outline-none transition-all"
                                 autoFocus
                             />
                         </div>
@@ -148,7 +148,7 @@ const AccountsStep: React.FC = () => {
                             <select
                                 value={newAccountType}
                                 onChange={(e) => setNewAccountType(e.target.value)}
-                                className="w-full p-3 rounded-xl border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="w-full p-3 rounded-xl border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 outline-none focus:ring-2 focus:ring-cyan-500"
                             >
                                 {ACCOUNT_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
                             </select>
@@ -162,7 +162,7 @@ const AccountsStep: React.FC = () => {
                                 value={newBankName}
                                 onChange={e => setNewBankName(e.target.value)}
                                 placeholder="Ej: Santander, BBVA..."
-                                className="w-full p-3 rounded-xl border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+                                className="w-full p-3 rounded-xl border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 focus:ring-2 focus:ring-cyan-500 outline-none transition-all"
                             />
                         </div>
                         <div className="space-y-1">
@@ -173,7 +173,7 @@ const AccountsStep: React.FC = () => {
                                     value={newAccountBalance}
                                     onChange={e => setNewAccountBalance(e.target.value)}
                                     placeholder="0.00"
-                                    className="w-full p-3 pr-10 rounded-xl border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+                                    className="w-full p-3 pr-10 rounded-xl border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 focus:ring-2 focus:ring-cyan-500 outline-none transition-all"
                                 />
                                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">€</span>
                             </div>
@@ -181,11 +181,11 @@ const AccountsStep: React.FC = () => {
                     </div>
 
                     {newAccountType === 'BANK' && (
-                        <div className="space-y-4 mb-6 p-4 bg-indigo-50/50 dark:bg-indigo-900/10 rounded-xl border border-indigo-100 dark:border-indigo-900/20">
+                        <div className="space-y-4 mb-6 p-4 bg-cyan-50/50 dark:bg-cyan-900/10 rounded-xl border border-cyan-100 dark:border-cyan-900/20">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
-                                    <Settings2 className="w-4 h-4 text-indigo-600" />
-                                    <span className="text-sm font-bold text-indigo-900 dark:text-indigo-100">Opciones Extra</span>
+                                    <Settings2 className="w-4 h-4 text-cyan-600" />
+                                    <span className="text-sm font-bold text-cyan-900 dark:text-cyan-100">Opciones Extra</span>
                                 </div>
                             </div>
 
@@ -195,9 +195,9 @@ const AccountsStep: React.FC = () => {
                                         type="checkbox"
                                         checked={isRemunerated}
                                         onChange={e => setIsRemunerated(e.target.checked)}
-                                        className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                        className="w-4 h-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500"
                                     />
-                                    <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-indigo-600 transition-colors">¿Cuenta remunerada?</span>
+                                    <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-cyan-600 transition-colors">¿Cuenta remunerada?</span>
                                 </label>
 
                                 <label className="flex items-center gap-2 cursor-pointer group">
@@ -205,9 +205,9 @@ const AccountsStep: React.FC = () => {
                                         type="checkbox"
                                         checked={addLinkedCard}
                                         onChange={e => setAddLinkedCard(e.target.checked)}
-                                        className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                        className="w-4 h-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500"
                                     />
-                                    <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-indigo-600 transition-colors">¿Añadir tarjeta asociada?</span>
+                                    <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-cyan-600 transition-colors">¿Añadir tarjeta asociada?</span>
                                 </label>
                             </div>
 
@@ -219,7 +219,7 @@ const AccountsStep: React.FC = () => {
                                         step="0.01"
                                         value={tae}
                                         onChange={e => setTae(e.target.value)}
-                                        className="w-20 p-2 rounded-lg border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 outline-none focus:ring-2 focus:ring-indigo-500"
+                                        className="w-20 p-2 rounded-lg border border-gray-200 dark:border-onyx-600 bg-white dark:bg-onyx-900 outline-none focus:ring-2 focus:ring-cyan-500"
                                     />
                                 </div>
                             )}
@@ -235,7 +235,7 @@ const AccountsStep: React.FC = () => {
                         </button>
                         <button
                             onClick={handleAddToList}
-                            className="px-8 py-2.5 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 shadow-lg shadow-indigo-200 dark:shadow-none transition-all"
+                            className="px-8 py-2.5 bg-cyan-600 text-white rounded-xl font-bold hover:bg-cyan-700 shadow-lg shadow-cyan-200 dark:shadow-none transition-all"
                         >
                             Añadir a la lista
                         </button>
@@ -244,7 +244,7 @@ const AccountsStep: React.FC = () => {
             ) : (
                 <button
                     onClick={() => setIsAdding(true)}
-                    className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold text-sm mb-10 hover:underline"
+                    className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400 font-bold text-sm mb-10 hover:underline"
                 >
                     <Plus className="w-4 h-4" /> Añadir otra cuenta
                 </button>
@@ -260,7 +260,7 @@ const AccountsStep: React.FC = () => {
 
                 <button
                     onClick={handleContinue}
-                    className="px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold shadow-lg hover:bg-indigo-700 hover:scale-105 transition-all flex items-center gap-2"
+                    className="px-8 py-3 bg-cyan-600 text-white rounded-xl font-bold shadow-lg hover:bg-cyan-700 hover:scale-105 transition-all flex items-center gap-2"
                 >
                     {accountsToCreate.length > 0 ? 'Crear Cuentas' : 'Saltar paso'} <ArrowRight className="w-5 h-5" />
                 </button>

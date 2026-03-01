@@ -101,16 +101,16 @@ const BudgetStatusWidget: React.FC<BudgetStatusWidgetProps> = ({ budgets, transa
     }
 
     return (
-        <div className="bg-white dark:bg-onyx-900 p-8 rounded-onyx border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-md transition-all">
-            <div className="flex justify-between items-center mb-8">
+        <div className="bg-white dark:bg-onyx-900 p-6 rounded-[2rem] border border-onyx-100 dark:border-onyx-800 shadow-sm hover:shadow-lg transition-all h-full flex flex-col relative overflow-hidden group/widget">
+            <div className="flex justify-between items-center mb-4 shrink-0 relative z-10">
                 <div>
                     <div className="flex items-center gap-3 mb-2">
-                        <div className="p-2 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-xl">
+                        <div className="p-2 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-xl shadow-inner group-hover/widget:scale-110 transition-transform">
                             <Activity className="w-5 h-5" />
                         </div>
-                        <h3 className="text-xl font-black text-cyan-900 dark:text-white tracking-tight">Control de Presupuestos</h3>
+                        <h3 className="text-lg font-black text-cyan-900 dark:text-white tracking-tight">Control de Presupuestos</h3>
                     </div>
-                    <p className="text-xs font-semibold text-onyx-400 uppercase tracking-widest">
+                    <p className="text-[10px] font-bold text-onyx-400 uppercase tracking-widest">
                         {timeMode === 'MONTH'
                             ? selectedDate.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })
                             : selectedDate.getFullYear()}
@@ -118,22 +118,22 @@ const BudgetStatusWidget: React.FC<BudgetStatusWidgetProps> = ({ budgets, transa
                 </div>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-3 flex-1 overflow-y-auto custom-scrollbar pr-2 relative z-10">
                 {sortedCategories.map(([category, data]) => {
                     const categoryPercentage = data.totalLimit > 0 ? (data.totalSpent / data.totalLimit) * 100 : 0;
                     const hasSubcategories = data.subcategories.length > 0;
 
                     return (
-                        <div key={category} className="p-6 bg-onyx-50/50 dark:bg-onyx-800/50 rounded-2xl border border-onyx-100 dark:border-onyx-700 hover:bg-white dark:hover:bg-onyx-800 hover:shadow-sm transition-all">
+                        <div key={category} className="p-4 bg-onyx-50/50 dark:bg-onyx-800/50 rounded-2xl border border-onyx-100 dark:border-onyx-700 hover:bg-white dark:hover:bg-onyx-800 hover:shadow-sm transition-all">
                             {/* Category Row */}
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                                 {/* Left: Category Summary */}
-                                <div className="space-y-3">
+                                <div className="space-y-2">
                                     <div className="flex items-center justify-between">
-                                        <span className="block text-xs font-black text-onyx-400 dark:text-onyx-500 uppercase tracking-[0.15em]">
+                                        <span className="block text-[10px] font-black text-onyx-400 dark:text-onyx-500 uppercase tracking-[0.15em] truncate pr-2">
                                             {category}
                                         </span>
-                                        <span className={`text-2xl font-black ${categoryPercentage > 100 ? 'text-red-500' :
+                                        <span className={`text-xl font-black shrink-0 ${categoryPercentage > 100 ? 'text-red-500' :
                                             categoryPercentage > 80 ? 'text-amber-500' : 'text-emerald-500'
                                             }`}>
                                             {categoryPercentage.toFixed(0)}%
@@ -141,15 +141,15 @@ const BudgetStatusWidget: React.FC<BudgetStatusWidgetProps> = ({ budgets, transa
                                     </div>
 
                                     <div className="flex items-baseline gap-2">
-                                        <span className="text-xl font-bold text-cyan-900 dark:text-white">
+                                        <span className="text-xl font-black text-cyan-900 dark:text-white tracking-tight">
                                             {formatMoney(data.totalSpent)}
                                         </span>
-                                        <span className="text-sm font-bold text-onyx-400 dark:text-onyx-500">
-                                            de {formatMoney(data.totalLimit)}
+                                        <span className="text-[10px] font-bold text-onyx-400 dark:text-onyx-500 truncate">
+                                            / {formatMoney(data.totalLimit)}
                                         </span>
                                     </div>
 
-                                    <div className="w-full bg-onyx-100 dark:bg-onyx-700 h-3 rounded-full overflow-hidden">
+                                    <div className="w-full bg-onyx-100 dark:bg-onyx-700 h-2 rounded-full overflow-hidden">
                                         <div
                                             className={`h-full rounded-full transition-all duration-1000 ${categoryPercentage > 100 ? 'bg-gradient-to-r from-red-500 to-red-600' :
                                                 categoryPercentage > 80 ? 'bg-gradient-to-r from-amber-400 to-amber-500' :
@@ -160,9 +160,9 @@ const BudgetStatusWidget: React.FC<BudgetStatusWidgetProps> = ({ budgets, transa
                                     </div>
 
                                     {categoryPercentage > 100 && (
-                                        <div className="flex items-center gap-2 text-red-500 bg-red-50 dark:bg-red-900/20 px-3 py-2 rounded-xl border border-red-100 dark:border-red-900/30">
-                                            <AlertCircle className="w-4 h-4 shrink-0" />
-                                            <p className="text-xs font-bold">
+                                        <div className="flex items-center gap-1.5 text-red-500 bg-red-50 dark:bg-red-900/20 px-2.5 py-1.5 rounded-lg border border-red-100 dark:border-red-900/30 mt-2">
+                                            <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                                            <p className="text-[10px] font-bold uppercase tracking-widest">
                                                 Excedido en {formatMoney(data.totalSpent - data.totalLimit)}
                                             </p>
                                         </div>
@@ -170,22 +170,19 @@ const BudgetStatusWidget: React.FC<BudgetStatusWidgetProps> = ({ budgets, transa
                                 </div>
 
                                 {/* Right: Subcategories */}
-                                <div className="space-y-3">
+                                <div className="space-y-2">
                                     {hasSubcategories ? (
-                                        <>
-                                            <span className="block text-[10px] font-black text-onyx-400 uppercase tracking-[0.15em] mb-2">
-                                                Subcategorías
-                                            </span>
+                                        <div className="space-y-1.5">
                                             {data.subcategories.sort((a, b) => b.percentage - a.percentage).map((sub, idx) => (
-                                                <div key={idx} className="flex items-center justify-between p-3 bg-white dark:bg-onyx-900 rounded-xl border border-onyx-100 dark:border-onyx-700">
-                                                    <div className="flex-1">
-                                                        <p className="text-xs font-bold text-onyx-600 dark:text-onyx-300">{sub.name}</p>
-                                                        <p className="text-[10px] text-onyx-400 dark:text-onyx-500 mt-0.5">
+                                                <div key={idx} className="flex items-center justify-between p-2.5 bg-white dark:bg-onyx-900 rounded-xl border border-onyx-100 dark:border-onyx-700">
+                                                    <div className="flex-1 min-w-0 pr-2">
+                                                        <p className="text-xs font-bold text-onyx-800 dark:text-onyx-200 truncate">{sub.name}</p>
+                                                        <p className="text-[10px] font-bold text-onyx-400 dark:text-onyx-500 truncate mt-0.5">
                                                             {formatMoney(sub.spent)} / {formatMoney(sub.limit)}
                                                         </p>
                                                     </div>
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="w-20 bg-onyx-100 dark:bg-onyx-800 h-2 rounded-full overflow-hidden">
+                                                    <div className="flex items-center gap-3 shrink-0">
+                                                        <div className="w-16 bg-onyx-100 dark:bg-onyx-800 h-1.5 rounded-full overflow-hidden hidden sm:block">
                                                             <div
                                                                 className={`h-full rounded-full ${sub.percentage > 100 ? 'bg-red-500' :
                                                                     sub.percentage > 80 ? 'bg-amber-500' : 'bg-emerald-500'
@@ -193,7 +190,7 @@ const BudgetStatusWidget: React.FC<BudgetStatusWidgetProps> = ({ budgets, transa
                                                                 style={{ width: `${Math.min(sub.percentage, 100)}%` }}
                                                             ></div>
                                                         </div>
-                                                        <span className={`text-sm font-black min-w-[45px] text-right ${sub.percentage > 100 ? 'text-red-500' :
+                                                        <span className={`text-[10px] font-black tracking-widest min-w-[35px] text-right ${sub.percentage > 100 ? 'text-red-500' :
                                                             sub.percentage > 80 ? 'text-amber-500' : 'text-emerald-500'
                                                             }`}>
                                                             {sub.percentage.toFixed(0)}%
@@ -201,10 +198,10 @@ const BudgetStatusWidget: React.FC<BudgetStatusWidgetProps> = ({ budgets, transa
                                                     </div>
                                                 </div>
                                             ))}
-                                        </>
+                                        </div>
                                     ) : (
-                                        <div className="flex flex-col items-center justify-center h-full opacity-40">
-                                            <p className="text-xs font-semibold text-onyx-400">Sin subcategorías definidas</p>
+                                        <div className="flex flex-col items-center justify-center h-full opacity-40 py-2">
+                                            <p className="text-[10px] font-bold uppercase tracking-widest text-onyx-400">Sin subcategorías</p>
                                         </div>
                                     )}
                                 </div>

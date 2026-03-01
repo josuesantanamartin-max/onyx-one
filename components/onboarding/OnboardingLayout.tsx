@@ -10,9 +10,17 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({ children }) => {
             <div className="w-full max-w-4xl bg-white dark:bg-onyx-900 rounded-3xl shadow-xl overflow-hidden border border-gray-100 dark:border-onyx-800">
                 {/* Logo Header */}
                 <div className="p-8 border-b border-gray-100 dark:border-onyx-800 flex justify-center">
-                    <h1 className="text-2xl font-black text-onyx-900 dark:text-white tracking-tight">
-                        Onyx<span className="text-indigo-600 dark:text-indigo-400">Suite</span>
-                    </h1>
+                    <div className="flex items-center gap-3">
+                        <img
+                            src="/logo.png"
+                            alt="Aliseus"
+                            className="h-10 w-auto object-contain drop-shadow-sm"
+                        />
+                        <div className="flex flex-col">
+                            <span className="text-xl font-bold tracking-tight text-cyan-600 uppercase leading-none">Aliseus</span>
+                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">La tranquilidad de tu familia.</span>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Content Area */}

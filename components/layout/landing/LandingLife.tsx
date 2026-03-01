@@ -61,21 +61,33 @@ export const LandingLife: React.FC<LandingLifeProps> = ({ setShowLoginModal }) =
     ];
 
     return (
-        <div className="animate-fade-in pt-32 pb-24">
-            <div className="max-w-7xl mx-auto px-6">
-                {/* Hero Section */}
-                <div className="text-center mb-20">
-                    <div className="inline-flex items-center justify-center p-4 bg-purple-50 rounded-3xl mb-6 shadow-inner">
-                        <Heart className="w-12 h-12 text-purple-600" />
+        <div className="animate-fade-in">
+            {/* ── Hero Section — Dark Premium ── */}
+            <section className="relative pt-32 pb-28 px-6 overflow-hidden bg-gradient-to-br from-slate-950 via-purple-950 to-indigo-950">
+                {/* Ambient orbs */}
+                <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[120px] pointer-events-none" />
+                <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-orange-600/10 rounded-full blur-[100px] pointer-events-none" />
+
+                <div className="max-w-5xl mx-auto text-center relative z-10">
+                    <div className="inline-flex items-center justify-center p-4 bg-white/5 border border-white/10 rounded-3xl mb-6 shadow-inner backdrop-blur-sm">
+                        <Heart className="w-12 h-12 text-purple-400" />
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-gray-900 mb-6">Aliseus Vida</h1>
-                    <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-4">
+
+                    <h1 className="flex justify-center items-end gap-3 mb-6">
+                        <img src="/logo-aliseus.png" alt="Aliseus" className="h-24 md:h-32 lg:h-36 object-contain" />
+                        <span className="text-3xl md:text-5xl font-light text-purple-200 mb-2 md:mb-4">Vida</span>
+                    </h1>
+
+                    <p className="text-2xl text-purple-100 max-w-4xl mx-auto leading-relaxed mb-4 font-light">
                         Automatiza tu hogar y diseña experiencias memorables
                     </p>
-                    <p className="text-lg text-gray-500 max-w-3xl mx-auto leading-relaxed">
+                    <p className="text-lg text-white/60 max-w-3xl mx-auto leading-relaxed">
                         Porque la vida es para vivirla, no para gestionarla. Aliseus se encarga de la logística para que tú disfrutes de los momentos.
                     </p>
                 </div>
+            </section>
+
+            <div className="max-w-7xl mx-auto px-6 -mt-8 relative z-20">
 
                 {/* Stats Bar */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-24 max-w-5xl mx-auto">

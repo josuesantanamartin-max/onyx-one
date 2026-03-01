@@ -23,13 +23,13 @@ const ImportDataStep: React.FC = () => {
                 Puedes importar tus transacciones desde un Excel o CSV ahora, o hacerlo más tarde desde la configuración.
             </p>
 
-            <div className="w-full bg-gray-50 dark:bg-onyx-800/50 border-2 border-dashed border-gray-200 dark:border-onyx-700 rounded-2xl p-10 flex flex-col items-center justify-center mb-10 cursor-pointer hover:border-indigo-400 transition-colors group">
+            <div className="w-full bg-gray-50 dark:bg-onyx-800/50 border-2 border-dashed border-gray-200 dark:border-onyx-700 rounded-2xl p-10 flex flex-col items-center justify-center mb-10 cursor-pointer hover:border-cyan-400 transition-colors group">
                 <div className="w-16 h-16 bg-white dark:bg-onyx-800 rounded-full shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <UploadCloud className="w-8 h-8 text-indigo-500" />
+                    <UploadCloud className="w-8 h-8 text-cyan-500" />
                 </div>
                 <h3 className="font-bold text-gray-900 dark:text-white mb-1">Arrastra tu archivo aquí</h3>
                 <p className="text-sm text-gray-500 mb-4">Soporta .csv y .xslx</p>
-                <button className="text-xs font-bold text-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 px-4 py-2 rounded-lg">
+                <button className="text-xs font-bold text-cyan-600 bg-cyan-50 dark:bg-cyan-900/20 px-4 py-2 rounded-lg">
                     Explorar archivos
                 </button>
             </div>

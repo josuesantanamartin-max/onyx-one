@@ -21,6 +21,13 @@ import FinancialHealthWidget from './widgets/FinancialHealthWidget';
 import UpcomingPaymentsWidget from './widgets/UpcomingPaymentsWidget';
 import AnnualComparisonWidget from './widgets/AnnualComparisonWidget';
 import MonthlyGoalsWidget from './widgets/MonthlyGoalsWidget';
+import IntelligentTomorrowWidget from './widgets/IntelligentTomorrowWidget';
+import AliseusInsightsWidget from './widgets/AliseusInsightsWidget';
+import AliseusBrainFeed from './widgets/AliseusBrainFeed';
+
+// Chart Wrappers
+import CashflowWidget from '../features/finance/dashboard/widgets/CashflowWidget';
+import CategoryDonutWidget from '../features/finance/dashboard/widgets/CategoryDonutWidget';
 
 // Life Widgets
 import DailyMenuWidget from '../features/life/dashboard/widgets/DailyMenuWidget';
@@ -57,6 +64,11 @@ export const WIDGET_REGISTRY: Record<string, React.ComponentType<any>> = {
     'UPCOMING_PAYMENTS': UpcomingPaymentsWidget,
     'ANNUAL_COMPARISON': AnnualComparisonWidget,
     'MONTHLY_GOALS': MonthlyGoalsWidget,
+    'ALISEUS_INSIGHTS': AliseusInsightsWidget,
+    'ALISEUS_BRAIN_WIDGET': AliseusBrainFeed,
+    'INTELLIGENT_TOMORROW': IntelligentTomorrowWidget,
+    'CASHFLOW_WIDGET': CashflowWidget,
+    'CATEGORY_DONUT_WIDGET': CategoryDonutWidget,
     'RECIPE_FAVORITES': RecipeFavoritesWidget,
     'WEEKLY_PLAN': WeeklyPlanWidget,
     'UPCOMING_TRIPS': UpcomingTripsWidget,
@@ -82,13 +94,13 @@ export type WidgetSize = 'kpi' | 'half' | 'wide' | 'sidebar' | 'full';
 
 export function getColSpanClass(size: WidgetSize): string {
     switch (size) {
-        // Bento grid is grid-cols-2 md:grid-cols-4
-        case 'kpi': return 'col-span-1 md:col-span-1';          // 1/2 mobile, 1/4 desktop
-        case 'half': return 'col-span-2 md:col-span-2';         // Full mobile, 1/2 desktop
-        case 'sidebar': return 'col-span-2 md:col-span-2';      // Full mobile, 1/2 desktop
-        case 'wide': return 'col-span-2 md:col-span-3';         // Full mobile, 3/4 desktop
-        case 'full': return 'col-span-2 md:col-span-4';         // Full mobile, Full desktop
-        default: return 'col-span-2 md:col-span-2';
+        // Bento grid is grid-cols-4 lg:grid-cols-12
+        case 'kpi': return 'col-span-4 sm:col-span-2 lg:col-span-3';          // 25% desktop
+        case 'sidebar': return 'col-span-4 sm:col-span-2 lg:col-span-3';      // 25% desktop
+        case 'half': return 'col-span-4 lg:col-span-6';         // 50% desktop
+        case 'wide': return 'col-span-4 lg:col-span-9';         // 75% desktop
+        case 'full': return 'col-span-4 lg:col-span-12';        // 100% desktop
+        default: return 'col-span-4 lg:col-span-6';
     }
 }
 
@@ -108,6 +120,10 @@ export const WIDGET_CONFIG: Record<string, { size: WidgetSize; label: string; ca
     'UPCOMING_PAYMENTS': { size: 'half', label: 'Próximos Pagos', category: 'FINANCE' },
     'ANNUAL_COMPARISON': { size: 'half', label: 'Comparativa Anual', category: 'FINANCE' },
     'MONTHLY_GOALS': { size: 'half', label: 'Objetivos del Mes', category: 'FINANCE' },
+    'ALISEUS_INSIGHTS': { size: 'half', label: 'Aliseus Insights', category: 'FINANCE' },
+    'ALISEUS_BRAIN_WIDGET': { size: 'sidebar', label: 'Aliseus Brain Feed', category: 'FINANCE' },
+    'CASHFLOW_WIDGET': { size: 'half', label: 'Flujo de Caja Mensual', category: 'FINANCE' },
+    'CATEGORY_DONUT_WIDGET': { size: 'sidebar', label: 'Distribución Top 5', category: 'FINANCE' },
     'ACCOUNTS_SUMMARY': { size: 'sidebar', label: 'Resumen Cuentas', category: 'FINANCE' },
     'RECENT_TRANSACTIONS': { size: 'half', label: 'Transacciones Recientes', category: 'FINANCE' },
     'SAVINGS_RATE': { size: 'kpi', label: 'Tasa de Ahorro', category: 'FINANCE' },
@@ -125,6 +141,7 @@ export const WIDGET_CONFIG: Record<string, { size: WidgetSize; label: string; ca
     'UPCOMING_TRIPS': { size: 'half', label: 'Próximos Viajes', category: 'LIFE' },
     'FAMILY_TASKS': { size: 'half', label: 'Tareas Familiares', category: 'LIFE' },
     'UPCOMING_BIRTHDAYS': { size: 'kpi', label: 'Próximos Cumpleaños', category: 'LIFE' },
+    'INTELLIGENT_TOMORROW': { size: 'wide', label: 'Mañana Inteligente', category: 'LIFE' },
 };
 
 // Helper type for props passed to dynamic widgets
@@ -147,5 +164,8 @@ export interface DashboardDataProps {
 
     // Handlers
     onFilter?: (category: string, subCategory?: string) => void;
+
+    // Dynamic State
+    isExpanded?: boolean;
 }
 

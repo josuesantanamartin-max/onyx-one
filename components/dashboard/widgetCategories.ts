@@ -21,6 +21,10 @@ export const WIDGET_CATEGORIES: Record<string, WidgetCategory> = {
     'RECENT_TRANSACTIONS': 'FINANCE',
     'SAVINGS_RATE': 'FINANCE',
     'TOP_SPENDERS': 'FINANCE',
+    'ALISEUS_INSIGHTS': 'FINANCE',
+    'ALISEUS_BRAIN_WIDGET': 'FINANCE',
+    'CASHFLOW_WIDGET': 'FINANCE',
+    'CATEGORY_DONUT_WIDGET': 'FINANCE',
 
     // Life Widgets - Kitchen Dashboard
     'TODAY_MENU': 'KITCHEN',
@@ -36,6 +40,7 @@ export const WIDGET_CATEGORIES: Record<string, WidgetCategory> = {
     'UPCOMING_TRIPS': 'LIFE',
     'FAMILY_TASKS': 'LIFE',
     'UPCOMING_BIRTHDAYS': 'LIFE',
+    'INTELLIGENT_TOMORROW': 'LIFE',
 };
 
 export const getWidgetCategory = (widgetId: string): WidgetCategory => {

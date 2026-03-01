@@ -107,7 +107,9 @@ export const LandingHome: React.FC<LandingHomeProps> = ({
                         <span className="text-[11px] font-bold text-white/80 tracking-widest uppercase">{t.heroBadge}</span>
                     </div>
 
-                    <h1 className="text-6xl md:text-8xl font-bold tracking-tighter text-white mb-8 leading-[0.95] whitespace-pre-line">{t.heroTitle}</h1>
+                    <h1 className="flex justify-center mb-8">
+                        <img src="/logo-aliseus.png" alt="Aliseus" className="h-24 md:h-32 lg:h-40 object-contain" />
+                    </h1>
                     <p className="text-xl md:text-2xl text-cyan-200 max-w-4xl mx-auto mb-6 leading-relaxed font-light whitespace-pre-line">{t.heroSubtitle}</p>
                     <p className="text-lg text-white/60 max-w-3xl mx-auto mb-12">
                         La única plataforma que conecta tus <strong className="text-white">finanzas</strong> con tu <strong className="text-white">vida real</strong>. Gestiona presupuestos, elimina deudas, planifica menús y organiza viajes, todo desde un mismo lugar.
